@@ -1,0 +1,147 @@
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ * 
+ */
+
+//writer functions (apply changes to mouse)
+
+int mouse_m908::write_profile(){
+	
+	//prepare data
+	uint8_t buffer[6][16];
+	for( int i = 0; i < 6; i++ ){
+		std::copy(std::begin(_data_profile[i]), std::end(_data_profile[i]), std::begin(buffer[i]));
+	}
+	
+	//modify buffer from default to include specified profile
+	buffer[0][8] = _profile;
+	
+	//send data
+	for( int i = 0; i < 6; i++ ){
+		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer[i], 16, 1000 );
+	}
+	
+	return 0;
+}
+
+int mouse_m908::write_settings(){
+	
+	//prepare data 1
+	int rows1 = sizeof(_data_settings_1) / sizeof(_data_settings_1[0]);
+	uint8_t buffer1[rows1][16];
+	for( int i = 0; i < rows1; i++ ){
+		std::copy(std::begin(_data_settings_1[i]), std::end(_data_settings_1[i]), std::begin(buffer1[i]));
+	}
+	
+	//prepare data 2
+	uint8_t buffer2[64];
+	std::copy(std::begin(_data_settings_2), std::end(_data_settings_2), std::begin(buffer2));
+	
+	//prepare data 3
+	int rows3 = sizeof(_data_settings_3) / sizeof(_data_settings_3[0]);
+	uint8_t buffer3[rows3][16];
+	for( int i = 0; i < rows3; i++ ){
+		std::copy(std::begin(_data_settings_3[i]), std::end(_data_settings_3[i]), std::begin(buffer3[i]));
+	}
+	
+	//modify buffers to include settings
+	//scrollspeed
+	for( int i = 0; i < 5; i++ ){
+		buffer2[8+(2*i)] = _scrollspeeds[i];
+	}
+	//lightmode
+	for( int i = 0; i < 5; i++ ){
+		switch( _lightmodes[i] ){
+			case lightmode_breathing:
+				buffer1[3+(2*i)][11] = 0x01;
+				buffer1[3+(2*i)][13] = 0x04;
+				break;
+			case lightmode_rainbow:
+				buffer1[3+(2*i)][11] = 0x01;
+				buffer1[3+(2*i)][13] = 0x08;
+				break;
+			case lightmode_static:
+			default:
+				buffer1[3+(2*i)][11] = 0x01;
+				buffer1[3+(2*i)][13] = 0x02;
+				break;
+			case lightmode_wave:
+				buffer1[3+(2*i)][11] = 0x02;
+				buffer1[3+(2*i)][13] = 0x00;
+				break;
+			case lightmode_alternating:
+				buffer1[3+(2*i)][11] = 0x06;
+				buffer1[3+(2*i)][13] = 0x00;
+				break;
+			case lightmode_reactive:
+				buffer1[3+(2*i)][11] = 0x07;
+				buffer1[3+(2*i)][13] = 0x00;
+				break;
+			case lightmode_flashing:
+				buffer1[3+(2*i)][11] = 0x01;
+				buffer1[3+(2*i)][13] = 0x10;
+				break;
+			case lightmode_off:
+				buffer1[3+(2*i)][11] = 0x00;
+				buffer1[3+(2*i)][13] = 0x00;
+				break;
+		}
+	}
+	//color
+	for( int i = 0; i < 5; i++ ){
+		buffer1[3+(2*i)][8] = _colors[i].at(0);
+		buffer1[3+(2*i)][9] = _colors[i].at(1);
+		buffer1[3+(2*i)][10] = _colors[i].at(2);
+	}
+	//brightness
+	for( int i = 0; i < 5; i++ ){
+		buffer1[4+(2*i)][8] = _brightness_levels[i];
+	}
+	//speed
+	for( int i = 0; i < 5; i++ ){
+		buffer1[3+(2*i)][12] = _speed_levels[i];
+	}
+	//dpi
+	for( int i = 0; i < 5; i++ ){
+		for( int j = 0; j < 5; j++ ){
+			buffer3[7+(5*i)+j][8] = _dpi_enabled[j][i];
+			buffer3[7+(5*i)+j][9] = _dpi_levels[j][i];
+		}
+	}
+	//key mapping
+	for( int i = 0; i < 5; i++ ){
+		for( int j = 0; j < 20; j++ ){
+			buffer3[35+(20*i)+j][8] = _keymap_data[i][j][0];
+			buffer3[35+(20*i)+j][9] = _keymap_data[i][j][1];
+			buffer3[35+(20*i)+j][10] = _keymap_data[i][j][2];
+		}
+	}
+	
+	//send data 1
+	for( int i = 0; i < rows1; i++ ){
+		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
+	}
+	
+	//send data 2
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer2, 64, 1000 );
+	
+	//send data 3
+	for( int i = 0; i < rows3; i++ ){
+		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
+	}
+	
+	return 0;
+}
