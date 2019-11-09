@@ -1,7 +1,7 @@
 # mouse_m908
 Control the Redragon M908 Impact gaming mouse from Linux
 
-# Installing
+## Installing
 - Install the dependencies:
   - libusb
   - boost
@@ -11,7 +11,7 @@ sudo make install
 ``
 - Restart to get userspace access to the mouse via the installed udev rule
 
-# Usage
+## Usage
 The settings are store in a file and applied alla at once. See example.ini
 
 - Apply the example confiuration:
@@ -27,5 +27,5 @@ mouse_m908 -p 3
 mouse_m908 -h
 ``
 
-# TODO
+## TODO
 Button remapping is not (yet) fully supported: macros and keyboard keys aren't implemented.
