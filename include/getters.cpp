@@ -47,3 +47,7 @@ bool mouse_m908::get_dpi_enable( m908_profile profile, int level ){
 uint8_t mouse_m908::get_dpi( m908_profile profile, int level ){
 	return _dpi_levels[profile][level];
 }
+
+mouse_m908::m908_report_rate mouse_m908::get_report_rate( m908_profile profile ){
+	return _report_rates[profile];
+}

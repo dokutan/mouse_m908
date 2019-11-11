@@ -107,3 +107,8 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapp
 	}
 	return 0;
 }
+
+int mouse_m908::set_report_rate( m908_profile profile, m908_report_rate report_rate ){
+	_report_rates[profile] = report_rate;
+	return 0;
+}

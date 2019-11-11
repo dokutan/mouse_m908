@@ -50,6 +50,7 @@ mouse_m908::mouse_m908(){
 			_keymap_data[i][j][2] = _data_settings_3[35+(20*i)+j][10];
 		}
 	}
+	_report_rates.fill( r_125Hz );
 	
 	//name → keycode
 	_keycodes = {

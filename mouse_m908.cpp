@@ -131,6 +131,10 @@ int main( int argc, char **argv ){
 			if( pt.get("profile1.button_12", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_1, 17, pt.get("profile1.button_12", "") );	}
 			if( pt.get("profile1.scroll_up", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_1, 18, pt.get("profile1.scroll_up", "") );	}
 			if( pt.get("profile1.scroll_down", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_1, 19, pt.get("profile1.scroll_down", "") );	}
+			if( pt.get("profile1.report_rate", "") == "125" ){ m.set_report_rate( mouse_m908::profile_1, mouse_m908::r_125Hz ); }
+			if( pt.get("profile1.report_rate", "") == "250" ){ m.set_report_rate( mouse_m908::profile_1, mouse_m908::r_250Hz ); }
+			if( pt.get("profile1.report_rate", "") == "500" ){ m.set_report_rate( mouse_m908::profile_1, mouse_m908::r_500Hz ); }
+			if( pt.get("profile1.report_rate", "") == "1000" ){ m.set_report_rate( mouse_m908::profile_1, mouse_m908::r_1000Hz ); }
 			//profile 2
 			if( pt.get("profile2.lightmode", "") == "breathing" ){ m.set_lightmode( mouse_m908::profile_2, mouse_m908::lightmode_breathing ); }
 			if( pt.get("profile2.lightmode", "") == "rainbow" ){ m.set_lightmode( mouse_m908::profile_2, mouse_m908::lightmode_rainbow ); }
@@ -185,6 +189,10 @@ int main( int argc, char **argv ){
 			if( pt.get("profile2.button_12", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_2, 17, pt.get("profile2.button_12", "") );	}
 			if( pt.get("profile2.scroll_up", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_2, 18, pt.get("profile2.scroll_up", "") );	}
 			if( pt.get("profile2.scroll_down", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_2, 19, pt.get("profile2.scroll_down", "") );	}
+			if( pt.get("profile2.report_rate", "") == "125" ){ m.set_report_rate( mouse_m908::profile_2, mouse_m908::r_125Hz ); }
+			if( pt.get("profile2.report_rate", "") == "250" ){ m.set_report_rate( mouse_m908::profile_2, mouse_m908::r_250Hz ); }
+			if( pt.get("profile2.report_rate", "") == "500" ){ m.set_report_rate( mouse_m908::profile_2, mouse_m908::r_500Hz ); }
+			if( pt.get("profile2.report_rate", "") == "1000" ){ m.set_report_rate( mouse_m908::profile_2, mouse_m908::r_1000Hz ); }
 			//profile 3
 			if( pt.get("profile3.lightmode", "") == "breathing" ){ m.set_lightmode( mouse_m908::profile_3, mouse_m908::lightmode_breathing ); }
 			if( pt.get("profile3.lightmode", "") == "rainbow" ){ m.set_lightmode( mouse_m908::profile_3, mouse_m908::lightmode_rainbow ); }
@@ -239,6 +247,10 @@ int main( int argc, char **argv ){
 			if( pt.get("profile3.button_12", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_3, 17, pt.get("profile3.button_12", "") );	}
 			if( pt.get("profile3.scroll_up", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_3, 18, pt.get("profile3.scroll_up", "") );	}
 			if( pt.get("profile3.scroll_down", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_3, 19, pt.get("profile3.scroll_down", "") );	}
+			if( pt.get("profile3.report_rate", "") == "125" ){ m.set_report_rate( mouse_m908::profile_3, mouse_m908::r_125Hz ); }
+			if( pt.get("profile3.report_rate", "") == "250" ){ m.set_report_rate( mouse_m908::profile_3, mouse_m908::r_250Hz ); }
+			if( pt.get("profile3.report_rate", "") == "500" ){ m.set_report_rate( mouse_m908::profile_3, mouse_m908::r_500Hz ); }
+			if( pt.get("profile3.report_rate", "") == "1000" ){ m.set_report_rate( mouse_m908::profile_3, mouse_m908::r_1000Hz ); }
 			//profile 4
 			if( pt.get("profile4.lightmode", "") == "breathing" ){ m.set_lightmode( mouse_m908::profile_4, mouse_m908::lightmode_breathing ); }
 			if( pt.get("profile4.lightmode", "") == "rainbow" ){ m.set_lightmode( mouse_m908::profile_4, mouse_m908::lightmode_rainbow ); }
@@ -293,6 +305,10 @@ int main( int argc, char **argv ){
 			if( pt.get("profile4.button_12", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_4, 17, pt.get("profile4.button_12", "") );	}
 			if( pt.get("profile4.scroll_up", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_4, 18, pt.get("profile4.scroll_up", "") );	}
 			if( pt.get("profile4.scroll_down", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_4, 19, pt.get("profile4.scroll_down", "") );	}
+			if( pt.get("profile4.report_rate", "") == "125" ){ m.set_report_rate( mouse_m908::profile_4, mouse_m908::r_125Hz ); }
+			if( pt.get("profile4.report_rate", "") == "250" ){ m.set_report_rate( mouse_m908::profile_4, mouse_m908::r_250Hz ); }
+			if( pt.get("profile4.report_rate", "") == "500" ){ m.set_report_rate( mouse_m908::profile_4, mouse_m908::r_500Hz ); }
+			if( pt.get("profile4.report_rate", "") == "1000" ){ m.set_report_rate( mouse_m908::profile_4, mouse_m908::r_1000Hz ); }
 			//profile 5
 			if( pt.get("profile5.lightmode", "") == "breathing" ){ m.set_lightmode( mouse_m908::profile_5, mouse_m908::lightmode_breathing ); }
 			if( pt.get("profile5.lightmode", "") == "rainbow" ){ m.set_lightmode( mouse_m908::profile_5, mouse_m908::lightmode_rainbow ); }
@@ -347,6 +363,10 @@ int main( int argc, char **argv ){
 			if( pt.get("profile5.button_12", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_5, 17, pt.get("profile5.button_12", "") );	}
 			if( pt.get("profile5.scroll_up", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_5, 18, pt.get("profile5.scroll_up", "") );	}
 			if( pt.get("profile5.scroll_down", "").length() != 0 ){ m.set_key_mapping( mouse_m908::profile_5, 19, pt.get("profile5.scroll_down", "") );	}
+			if( pt.get("profile5.report_rate", "") == "125" ){ m.set_report_rate( mouse_m908::profile_5, mouse_m908::r_125Hz ); }
+			if( pt.get("profile5.report_rate", "") == "250" ){ m.set_report_rate( mouse_m908::profile_5, mouse_m908::r_250Hz ); }
+			if( pt.get("profile5.report_rate", "") == "500" ){ m.set_report_rate( mouse_m908::profile_5, mouse_m908::r_500Hz ); }
+			if( pt.get("profile5.report_rate", "") == "1000" ){ m.set_report_rate( mouse_m908::profile_5, mouse_m908::r_1000Hz ); }
 			
 			int r;
 			r = m.open_mouse();

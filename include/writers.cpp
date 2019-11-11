@@ -129,6 +129,34 @@ int mouse_m908::write_settings(){
 			buffer3[35+(20*i)+j][10] = _keymap_data[i][j][2];
 		}
 	}
+	//usb report rate
+	for( int i = 0; i < 3; i++ ){
+		switch( _report_rates[i] ){
+			default:
+			case r_125Hz:
+				buffer1[13][8+(2*i)] = 0x08; break;
+			case r_250Hz:
+				buffer1[13][8+(2*i)] = 0x04; break;
+			case r_500Hz:
+				buffer1[13][8+(2*i)] = 0x02; break;
+			case r_1000Hz:
+				buffer1[13][8+(2*i)] = 0x01; break;
+		}
+	}
+	for( int i = 3; i < 4; i++ ){
+		switch( _report_rates[i] ){
+			default:
+			case r_125Hz:
+				buffer1[14][8+(2*i)] = 0x08; break;
+			case r_250Hz:
+				buffer1[14][8+(2*i)] = 0x04; break;
+			case r_500Hz:
+				buffer1[14][8+(2*i)] = 0x02; break;
+			case r_1000Hz:
+				buffer1[14][8+(2*i)] = 0x01; break;
+		}
+	}
+	
 	
 	//send data 1
 	for( int i = 0; i < rows1; i++ ){
