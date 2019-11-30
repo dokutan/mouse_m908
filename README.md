@@ -10,6 +10,14 @@ Control the Redragon M908 Impact gaming mouse from Linux
 sudo make install
 ``
 - Restart to get userspace access to the mouse via the installed udev rule
+- Upgrade an existing installation with
+``
+sudo make upgrade
+``
+- Uninstall with
+``
+sudo make uninstall
+``
 
 ## Usage
 The settings are stored in a file and applied all at once. See example.ini and keymap.md
@@ -28,4 +36,4 @@ mouse_m908 -h
 ``
 
 ## TODO
-Button remapping is not (yet) fully supported: macros --and keyboard keys-- aren't implemented.
+Button remapping is not (yet) fully supported: macros ~~and keyboard keys~~ aren't implemented.
