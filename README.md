@@ -22,7 +22,7 @@ sudo make uninstall
 ## Usage
 The settings are stored in a file and applied all at once. See example.ini and keymap.md
 
-- Apply the example confiuration:
+- Apply the example configuration:
 ``
 mouse_m908 -c example.ini
 ``
