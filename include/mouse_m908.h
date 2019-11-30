@@ -26,6 +26,7 @@
 #include <string>
 #include <algorithm>
 #include <exception>
+#include <regex>
 
 class mouse_m908{
 	
@@ -122,6 +123,8 @@ class mouse_m908{
 		
 		//mapping of button names to values
 		std::map< std::string, std::array<uint8_t, 3> > _keycodes;
+		std::map< std::string, uint8_t > _keyboard_modifier_values;
+		std::map< std::string, uint8_t > _keyboard_key_values;
 		
 		//usb data packets
 		static uint8_t _data_profile[][16];

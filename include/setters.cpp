@@ -98,13 +98,37 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::array<uint8
 
 int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapping ){
 	
-	try{
+	// is string in _keycodes? mousebuttons/special functions
+	if( _keycodes.find(mapping) != _keycodes.end() ){
 		_keymap_data[profile][key][0] = _keycodes[mapping][0];
 		_keymap_data[profile][key][1] = _keycodes[mapping][1];
 		_keymap_data[profile][key][2] = _keycodes[mapping][2];
-	} catch( std::exception& e ){
-		return 1;
+	} else{
+		// string is not a key in _keycodes: keyboard key?
+		
+		// search for modifiers and change values accordingly: ctrl, shift ...
+		uint8_t first_value = 0x90;
+		uint8_t modifier_value = 0x00;
+		for( auto i : _keyboard_modifier_values ){
+			if( mapping.find( i.first ) != std::string::npos ){
+				modifier_value += i.second;
+				first_value = 0x8f;
+			}
+		}
+		
+		// get key value and store everything
+		try{
+			std::regex modifier_regex ("[a-z_]*\\+");
+			// store values
+			_keymap_data[profile][key][0] = first_value;
+			_keymap_data[profile][key][1] = modifier_value;
+			_keymap_data[profile][key][2] = _keyboard_key_values[std::regex_replace( mapping, modifier_regex, "" )];
+			//std::cout << std::regex_replace( mapping, modifier_regex, "" ) << "\n";
+		} catch( std::exception& f ){
+			return 1;
+		}
 	}
+	
 	return 0;
 }
 

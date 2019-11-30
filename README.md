@@ -12,7 +12,7 @@ sudo make install
 - Restart to get userspace access to the mouse via the installed udev rule
 
 ## Usage
-The settings are store in a file and applied alla at once. See example.ini
+The settings are stored in a file and applied all at once. See example.ini and keymap.md
 
 - Apply the example confiuration:
 ``
@@ -28,4 +28,4 @@ mouse_m908 -h
 ``
 
 ## TODO
-Button remapping is not (yet) fully supported: macros and keyboard keys aren't implemented.
+Button remapping is not (yet) fully supported: macros --and keyboard keys-- aren't implemented.
