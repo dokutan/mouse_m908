@@ -17,6 +17,23 @@ middle
 profile_switch
 none
 
+## Macros (see README.md)
+macro1
+macro2
+macro3
+macro4
+macro5
+macro6
+macro7
+macro8
+macro9
+macro10
+macro11
+macro12
+macro13
+macro14
+macro15
+
 ## Keyboard keys
 ### Modifers
 ctrl_l+

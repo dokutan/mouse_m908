@@ -51,6 +51,13 @@ mouse_m908::mouse_m908(){
 		}
 	}
 	_report_rates.fill( r_125Hz );
+	int count = 0;
+	for( auto &i : _macro_data ){
+		std::copy(std::begin(_data_macros_2), std::end(_data_macros_2), std::begin(i));
+		i[2] = _data_macros_codes[count][0];
+		i[3] = _data_macros_codes[count][1];
+		count++;
+	}
 	
 	//name → keycode
 	_keycodes = {
@@ -67,6 +74,21 @@ mouse_m908::mouse_m908(){
 		{ "right", { 0x82, 0x00, 0x00 } },
 		{ "middle", { 0x83, 0x00, 0x00 } },
 		{ "profile_switch", { 0x8d, 0x00, 0x00 } },
+		{ "macro1", { 0x91, 0x00, 0x01 } },
+		{ "macro2", { 0x91, 0x01, 0x01 } },
+		{ "macro3", { 0x91, 0x02, 0x01 } },
+		{ "macro4", { 0x91, 0x03, 0x01 } },
+		{ "macro5", { 0x91, 0x04, 0x01 } },
+		{ "macro6", { 0x91, 0x05, 0x01 } },
+		{ "macro7", { 0x91, 0x06, 0x01 } },
+		{ "macro8", { 0x91, 0x07, 0x01 } },
+		{ "macro9", { 0x91, 0x08, 0x01 } },
+		{ "macro10", { 0x91, 0x09, 0x01 } },
+		{ "macro11", { 0x91, 0x0a, 0x01 } },
+		{ "macro12", { 0x91, 0x0b, 0x01 } },
+		{ "macro13", { 0x91, 0x0c, 0x01 } },
+		{ "macro14", { 0x91, 0x0d, 0x01 } },
+		{ "macro15", { 0x91, 0x0e, 0x01 } },
 		{ "none", { 0x00, 0x00, 0x00 } } };
 	
 	//modifier name → value

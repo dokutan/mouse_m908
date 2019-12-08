@@ -20,7 +20,7 @@ sudo make uninstall
 ``
 
 ## Usage
-The settings are stored in a file and applied all at once. See example.ini and keymap.md
+The settings are stored in a file and applied all at once (except macros, see below). See example.ini and keymap.md
 
 - Apply the example configuration:
 ``
@@ -34,6 +34,26 @@ mouse_m908 -p 3
 ``
 mouse_m908 -h
 ``
+- Send macro example.macro to slot 1:
+``
+mouse_m908 -m example.macro -n 1
+``
+
+### Macros
+
+There is space for 15 macros on the mouse, these are shared over all profiles. Each macro can hold up to 34 actions. To set a macro to a specific button:
+1. Create a file containing the macro actions
+2. Add macro⟨N⟩ to the button mapping configuration to set a button to the ⟨N⟩th macro
+3. Apply the configuration: mouse_m908 -c ⟨config.ini⟩
+4. Apply the specific macro: mouse_m908 -m ⟨macrofile⟩ -n ⟨N⟩
+
+#### Macro file
+Each line contains an action and a parameter separated by a tab. Supported actions are:
+- down	⟨key⟩
+- up	⟨key⟩
+example.macro for an example, keymap.md section Keyboard keys/Keys for a list of recognized Keys.
 
 ## TODO
-Button remapping is not (yet) fully supported: macros ~~and keyboard keys~~ aren't implemented.
+~~Button remapping is not (yet) fully supported: macros and keyboard keys aren't implemented.~~ Macros are currently missing some features:
+- [ ] delay between keys
+- [ ] mousebuttons

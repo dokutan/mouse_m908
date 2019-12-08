@@ -173,3 +173,34 @@ int mouse_m908::write_settings(){
 	
 	return 0;
 }
+
+int mouse_m908::write_macro( int macro_number ){
+	
+	//check if macro_number is valid
+	if( macro_number < 1 || macro_number > 15 ){
+		return 1;
+	}
+	
+	//prepare data 1
+	uint8_t buffer1[16];
+	std::copy(std::begin(_data_macros_1), std::end(_data_macros_1), std::begin(buffer1));
+	
+	//prepare data 2
+	uint8_t buffer2[265];
+	std::copy(std::begin(_macro_data[macro_number-1]), std::end(_macro_data[macro_number-1]), std::begin(buffer2));
+	
+	//prepare data 3
+	uint8_t buffer3[16];
+	std::copy(std::begin(_data_macros_3), std::end(_data_macros_3), std::begin(buffer3));
+	
+	//send data 1
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1, 16, 1000 );
+	
+	//send data 2
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer2, 256, 1000 );
+	
+	//send data 3
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3, 16, 1000 );
+	
+	return 0;
+}

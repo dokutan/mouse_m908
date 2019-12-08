@@ -24,4 +24,6 @@ void print_help(){
 	std::cout << "-h --help\n\tDisplays this message.\n";
 	std::cout << "-c --config\n\tLoads and applies settings from specified file.\n";
 	std::cout << "-p --profile\n\tSets currently active profile (1-5).\n";
+	std::cout << "-m --macro\n\tSeSelects macro file for sending.\n";
+	std::cout << "-p --profile\n\tSelects macro slot for sending (1-15).\n";
 }

@@ -39,15 +39,19 @@ int main( int argc, char **argv ){
 		{"help", no_argument, 0, 'h'},
 		{"config", required_argument, 0, 'c'},
 		{"profile", required_argument, 0, 'p'},
+		{"macro", required_argument, 0, 'm'},
+		{"number", required_argument, 0, 'n'},
 		{0, 0, 0, 0}
 	};
 	
 	bool flag_config = false, flag_profile = false;
+	bool flag_macro = false, flag_number = false;
 	std::string string_config, string_profile;
+	std::string string_macro, string_number;
 	
 	//parse command line options
 	int c, option_index = 0;
-	while( (c = getopt_long( argc, argv, "hc:p:",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -62,6 +66,14 @@ int main( int argc, char **argv ){
 			case 'p':
 				flag_profile = true;
 				string_profile = optarg;
+				break;
+			case 'm':
+				flag_macro = true;
+				string_macro = optarg;
+				break;
+			case 'n':
+				flag_number = true;
+				string_number = optarg;
 				break;
 			case '?':
 				break;
@@ -404,6 +416,32 @@ int main( int argc, char **argv ){
 		
 		m.close_mouse();
 		
+	}
+	
+	if( flag_macro && flag_number ){
+		
+		int r;
+		
+		int number = (int)stoi(string_number);
+		
+		r = m.set_macro( number, string_macro );
+		if( r != 0 ){
+			std::cout << "Couldn't load macro\n";
+			return 1;
+		}
+		
+		r = m.open_mouse();
+		if( r != 0 ){
+			std::cout << "Couldn't open mouse\n";
+			return 1;
+		}
+		
+		m.write_macro(number);
+		
+		m.close_mouse();
+		
+	} else if( flag_macro || flag_number ){
+		std::cout << "Misssing option\n";
 	}
 	
 	return 0;

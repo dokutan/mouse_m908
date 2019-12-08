@@ -136,3 +136,52 @@ int mouse_m908::set_report_rate( m908_profile profile, m908_report_rate report_r
 	_report_rates[profile] = report_rate;
 	return 0;
 }
+
+
+int mouse_m908::set_macro( int macro_number, std::string file ){
+	
+	//check if macro_number is valid
+	if( macro_number < 1 || macro_number > 15 ){
+		return 1;
+	}
+	
+	//open file
+	std::ifstream config_in( file );
+	if( !config_in.is_open() ){
+		return 1;
+	}
+	
+	//process file
+	std::string value1 = "";
+	std::string value2 = "";
+	std::size_t position = 0;
+	int data_offset = 8;
+	
+	for( std::string line; std::getline(config_in, line); ){
+		//process individual line
+		if( line.length() != 0 ){
+
+			position = 0;
+			position = line.find("\t", position);
+			value1 = line.substr(0, position);
+			value2 = line.substr(position+1);
+			
+			if( value1 == "down" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				_macro_data[macro_number-1][data_offset] = 0x84;
+				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
+				data_offset += 3;
+			} else if( value1 == "up" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				_macro_data[macro_number-1][data_offset] = 0x04;
+				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
+				data_offset += 3;
+			}
+			
+			if(data_offset > 212){
+				return 0;
+			}
+			
+		}
+	}
+	
+	return 0;
+}

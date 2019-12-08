@@ -27,6 +27,8 @@
 #include <algorithm>
 #include <exception>
 #include <regex>
+#include <fstream>
+#include <utility>
 
 class mouse_m908{
 	
@@ -72,6 +74,7 @@ class mouse_m908{
 		int set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 3> mapping );
 		int set_key_mapping( m908_profile profile, int key, std::string mapping );
 		int set_report_rate( m908_profile profile, m908_report_rate report_rate );
+		int set_macro( int macro_number, std::string file );
 		
 		//getter functions
 		m908_profile get_profile();
@@ -87,6 +90,7 @@ class mouse_m908{
 		//writer functions (apply settings to mouse)
 		int write_profile();
 		int write_settings();
+		int write_macro( int macro_number );
 		
 		//helper functions
 		int open_mouse();
@@ -113,6 +117,7 @@ class mouse_m908{
 		std::array<std::array<uint8_t, 5>, 5> _dpi_levels;
 		std::array<std::array<std::array<uint8_t, 3>, 20>, 5> _keymap_data;
 		std::array<m908_report_rate, 5> _report_rates;
+		std::array<std::array<uint8_t, 256>, 15> _macro_data;
 		
 		//setting min and max values
 		uint8_t _scrollspeed_min, _scrollspeed_max;
@@ -131,6 +136,10 @@ class mouse_m908{
 		static uint8_t _data_settings_1[][16];
 		static uint8_t _data_settings_2[64];
 		static uint8_t _data_settings_3[][16];
+		static uint8_t _data_macros_1[16];
+		static uint8_t _data_macros_2[256];
+		static uint8_t _data_macros_3[16];
+		static uint8_t _data_macros_codes[15][2];
 };
 
 #include "data.cpp"
