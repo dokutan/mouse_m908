@@ -51,6 +51,7 @@ There is space for 15 macros on the mouse, these are shared over all profiles. E
 Each line contains an action and a parameter separated by a tab. Supported actions are:
 - down	⟨key⟩
 - up	⟨key⟩
+
 example.macro for an example, keymap.md section Keyboard keys/Keys for a list of recognized Keys.
 
 ## TODO
