@@ -62,3 +62,4 @@ example.macro for an example, keymap.md section Keyboard keys/Keys for a list of
 ~~Button remapping is not (yet) fully supported: macros and keyboard keys aren't implemented.~~ Macros are currently missing some features:
 - [x] delay between keys
 - [x] mousebuttons
+- [ ] repeat
