@@ -51,10 +51,14 @@ There is space for 15 macros on the mouse, these are shared over all profiles. E
 Each line contains an action and a parameter separated by a tab. Supported actions are:
 - down	⟨key⟩
 - up	⟨key⟩
+- delay ⟨1-255⟩
 
-example.macro for an example, keymap.md section Keyboard keys/Keys for a list of recognized Keys.
+example.macro for an example, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
+- mouse_left
+- mouse_right
+- mouse_middle
 
 ## TODO
 ~~Button remapping is not (yet) fully supported: macros and keyboard keys aren't implemented.~~ Macros are currently missing some features:
-- [ ] delay between keys
-- [ ] mousebuttons
+- [x] delay between keys
+- [x] mousebuttons

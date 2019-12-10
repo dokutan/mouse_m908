@@ -167,13 +167,58 @@ int mouse_m908::set_macro( int macro_number, std::string file ){
 			value2 = line.substr(position+1);
 			
 			if( value1 == "down" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				// keyboard key down
+				//std::cout << "down\n";
 				_macro_data[macro_number-1][data_offset] = 0x84;
 				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
 				data_offset += 3;
 			} else if( value1 == "up" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				// keyboard key up
+				//std::cout << "up\n";
 				_macro_data[macro_number-1][data_offset] = 0x04;
 				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
 				data_offset += 3;
+			} else if( value1 == "down" && _keyboard_key_values.find(value2) == _keyboard_key_values.end() ){
+				// mouse button down
+				//std::cout << "mouse down\n";
+				if( value2 == "mouse_left" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x01;
+					data_offset += 3;
+				} else if( value2 == "mouse_right" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x02;
+					data_offset += 3;
+				} else if( value2 == "mouse_middle" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x04;
+					data_offset += 3;
+				}
+			} else if( value1 == "up" && _keyboard_key_values.find(value2) == _keyboard_key_values.end() ){
+				// mouse button up
+				//std::cout << "mouse up\n";
+				if( value2 == "mouse_left" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x01;
+					data_offset += 3;
+				} else if( value2 == "mouse_right" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x02;
+					data_offset += 3;
+				} else if( value2 == "mouse_middle" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x04;
+					data_offset += 3;
+				}
+			} else if( value1 == "delay" ){
+				// delay
+				//std::cout << "delay\n";
+				int duration = (uint8_t)stoi( value2, 0, 10);
+				if( duration >= 1 && duration <= 255 ){
+					_macro_data[macro_number-1][data_offset] = 0x06;
+					_macro_data[macro_number-1][data_offset+1] = duration;
+					data_offset += 3;
+				}
 			}
 			
 			if(data_offset > 212){
