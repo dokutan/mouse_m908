@@ -89,10 +89,11 @@ int mouse_m908::set_dpi( m908_profile profile, int level, uint8_t dpi ){
 	return 0;
 }
 
-int mouse_m908::set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 3> mapping ){
+int mouse_m908::set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 4> mapping ){
 	_keymap_data[profile][key][0] = mapping[0];
 	_keymap_data[profile][key][1] = mapping[1];
 	_keymap_data[profile][key][2] = mapping[2];
+	_keymap_data[profile][key][3] = mapping[3];
 	return 0;
 }
 
@@ -103,6 +104,40 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapp
 		_keymap_data[profile][key][0] = _keycodes[mapping][0];
 		_keymap_data[profile][key][1] = _keycodes[mapping][1];
 		_keymap_data[profile][key][2] = _keycodes[mapping][2];
+		_keymap_data[profile][key][3] = 0x00;
+	} else if( mapping.find("fire") == 0 ){
+		// fire button (multiple keypresses)
+		
+		std::stringstream mapping_stream(mapping);
+		std::string value1 = "", value2 = "", value3 = "";
+		uint8_t keycode, repeats = 1, delay = 0;
+		
+		std::getline( mapping_stream, value1, ':' );
+		std::getline( mapping_stream, value1, ':' );
+		std::getline( mapping_stream, value2, ':' );
+		std::getline( mapping_stream, value3, ':' );
+		
+		if( value1 == "mouse_left" ){
+			keycode = 0x81;
+		} else if( value1 == "mouse_right" ){
+			keycode = 0x82;
+		} else if( value1 == "mouse_middle" ){
+			keycode = 0x84;
+		} else if( _keyboard_key_values.find(value1) != _keyboard_key_values.end() ){
+			keycode = _keyboard_key_values[value1];
+		} else{
+			return 1;
+		}
+		
+		repeats = (uint8_t)stoi(value2);
+		delay = (uint8_t)stoi(value3);
+		
+		// store values
+		_keymap_data[profile][key][0] = 0x99;
+		_keymap_data[profile][key][1] = keycode;
+		_keymap_data[profile][key][2] = repeats;
+		_keymap_data[profile][key][3] = delay;
+		
 	} else{
 		// string is not a key in _keycodes: keyboard key?
 		
@@ -123,6 +158,7 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapp
 			_keymap_data[profile][key][0] = first_value;
 			_keymap_data[profile][key][1] = modifier_value;
 			_keymap_data[profile][key][2] = _keyboard_key_values[std::regex_replace( mapping, modifier_regex, "" )];
+			_keymap_data[profile][key][3] = 0x00;
 			//std::cout << std::regex_replace( mapping, modifier_regex, "" ) << "\n";
 		} catch( std::exception& f ){
 			return 1;
@@ -228,5 +264,16 @@ int mouse_m908::set_macro( int macro_number, std::string file ){
 		}
 	}
 	
+	return 0;
+}
+
+int mouse_m908::set_macro_repeat( int macro_number, uint8_t repeat ){
+	
+	//check if macro_number is valid
+	if( macro_number < 1 || macro_number > 15 ){
+		return 1;
+	}
+	
+	_macro_repeat[macro_number] = repeat;
 	return 0;
 }

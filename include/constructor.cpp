@@ -48,6 +48,7 @@ mouse_m908::mouse_m908(){
 			_keymap_data[i][j][0] = _data_settings_3[35+(20*i)+j][8];
 			_keymap_data[i][j][1] = _data_settings_3[35+(20*i)+j][9];
 			_keymap_data[i][j][2] = _data_settings_3[35+(20*i)+j][10];
+			_keymap_data[i][j][3] = _data_settings_3[35+(20*i)+j][11];
 		}
 	}
 	_report_rates.fill( r_125Hz );
@@ -58,6 +59,7 @@ mouse_m908::mouse_m908(){
 		i[3] = _data_macros_codes[count][1];
 		count++;
 	}
+	_macro_repeat.fill( 0x01 );
 	
 	//name → keycode
 	_keycodes = {

@@ -71,10 +71,11 @@ class mouse_m908{
 		int set_speed( m908_profile profile, uint8_t speed );
 		int set_dpi_enable( m908_profile profile, int level, bool enabled );
 		int set_dpi( m908_profile profile, int level, uint8_t dpi );
-		int set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 3> mapping );
+		int set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 4> mapping );
 		int set_key_mapping( m908_profile profile, int key, std::string mapping );
 		int set_report_rate( m908_profile profile, m908_report_rate report_rate );
 		int set_macro( int macro_number, std::string file );
+		int set_macro_repeat( int macro_number, uint8_t repeat );
 		
 		//getter functions
 		m908_profile get_profile();
@@ -86,11 +87,13 @@ class mouse_m908{
 		bool get_dpi_enable( m908_profile profile, int level );
 		uint8_t get_dpi( m908_profile profile, int level );
 		m908_report_rate get_report_rate( m908_profile profile );
+		uint8_t get_macro_repeat( int macro_number );
 		
 		//writer functions (apply settings to mouse)
 		int write_profile();
 		int write_settings();
 		int write_macro( int macro_number );
+		int write_macro_repeat( int macro_number );
 		
 		//helper functions
 		int open_mouse();
@@ -115,9 +118,10 @@ class mouse_m908{
 		std::array<uint8_t, 5> _speed_levels;
 		std::array<std::array<bool, 5>, 5> _dpi_enabled;
 		std::array<std::array<uint8_t, 5>, 5> _dpi_levels;
-		std::array<std::array<std::array<uint8_t, 3>, 20>, 5> _keymap_data;
+		std::array<std::array<std::array<uint8_t, 4>, 20>, 5> _keymap_data;
 		std::array<m908_report_rate, 5> _report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _macro_data;
+		std::array<uint8_t, 15> _macro_repeat;
 		
 		//setting min and max values
 		uint8_t _scrollspeed_min, _scrollspeed_max;
@@ -140,6 +144,7 @@ class mouse_m908{
 		static uint8_t _data_macros_2[256];
 		static uint8_t _data_macros_3[16];
 		static uint8_t _data_macros_codes[15][2];
+		static uint8_t _data_macros_repeat[16];
 };
 
 #include "data.cpp"

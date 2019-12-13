@@ -41,16 +41,20 @@ int main( int argc, char **argv ){
 		{"profile", required_argument, 0, 'p'},
 		{"macro", required_argument, 0, 'm'},
 		{"number", required_argument, 0, 'n'},
+		//{"repeat", required_argument, 0, 'r'},
 		{0, 0, 0, 0}
 	};
 	
 	bool flag_config = false, flag_profile = false;
 	bool flag_macro = false, flag_number = false;
+	//bool flag_repeat;
 	std::string string_config, string_profile;
 	std::string string_macro, string_number;
+	//std::string string_repeat;
 	
 	//parse command line options
 	int c, option_index = 0;
+	//while( (c = getopt_long( argc, argv, "hc:p:m:n:r:",
 	while( (c = getopt_long( argc, argv, "hc:p:m:n:",
 	long_options, &option_index ) ) != -1 ){
 		
@@ -75,6 +79,10 @@ int main( int argc, char **argv ){
 				flag_number = true;
 				string_number = optarg;
 				break;
+			//case 'r':
+			//	flag_repeat = true;
+			//	string_repeat = optarg;
+			//	break;
 			case '?':
 				break;
 			default:
@@ -437,6 +445,16 @@ int main( int argc, char **argv ){
 		}
 		
 		m.write_macro(number);
+		
+		/*if( flag_repeat ){
+			int repeat = (int)stoi(string_repeat);
+			r = m.set_macro_repeat( number, repeat );
+			if( r != 0 ){
+				std::cout << "Invalid repeats\n";
+				return 1;
+			}
+			m.write_macro_repeat( number );
+		}*/
 		
 		m.close_mouse();
 		

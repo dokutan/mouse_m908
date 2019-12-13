@@ -26,4 +26,5 @@ void print_help(){
 	std::cout << "-p --profile\n\tSets currently active profile (1-5).\n";
 	std::cout << "-m --macro\n\tSelects macro file for sending.\n";
 	std::cout << "-n --number\n\tSelects macro slot for sending (1-15).\n";
+	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }

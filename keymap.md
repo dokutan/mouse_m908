@@ -1,6 +1,18 @@
 # keymap.md
 This documents all options for button mapping.
 
+## Fire button (simulates multiple nutton presses)
+fire:⟨button⟩:⟨repeats⟩:⟨delay⟩
+
+⟨button⟩ can be:
+- mouse_left
+- mouse_right
+- mouse_middle
+- a keyboard key
+
+⟨repeats⟩ can be 1-255
+⟨delay⟩ can be 1-255
+
 ## Mousebuttons and special functions
 forward
 backward

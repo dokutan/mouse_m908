@@ -127,6 +127,8 @@ int mouse_m908::write_settings(){
 			buffer3[35+(20*i)+j][8] = _keymap_data[i][j][0];
 			buffer3[35+(20*i)+j][9] = _keymap_data[i][j][1];
 			buffer3[35+(20*i)+j][10] = _keymap_data[i][j][2];
+			buffer3[35+(20*i)+j][11] = _keymap_data[i][j][3];
+			//std::cout << (int)_keymap_data[i][j][0] << " " << (int)_keymap_data[i][j][1] << " " << (int)_keymap_data[i][j][2] << " " << (int)_keymap_data[i][j][3] << "\n";
 		}
 	}
 	//usb report rate
@@ -201,6 +203,25 @@ int mouse_m908::write_macro( int macro_number ){
 	
 	//send data 3
 	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3, 16, 1000 );
+	
+	return 0;
+}
+
+int mouse_m908::write_macro_repeat( int macro_number ){
+	
+	//check if macro_number is valid
+	if( macro_number < 1 || macro_number > 15 ){
+		return 1;
+	}
+	
+	//prepare data
+	uint8_t buffer[16];
+	std::copy(std::begin(_data_macros_repeat), std::end(_data_macros_repeat), std::begin(buffer));
+	
+	buffer[10] = _macro_repeat[macro_number];
+	
+	//send data
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer, 16, 1000 );
 	
 	return 0;
 }

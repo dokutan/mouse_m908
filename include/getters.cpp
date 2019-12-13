@@ -51,3 +51,13 @@ uint8_t mouse_m908::get_dpi( m908_profile profile, int level ){
 mouse_m908::m908_report_rate mouse_m908::get_report_rate( m908_profile profile ){
 	return _report_rates[profile];
 }
+
+uint8_t mouse_m908::get_macro_repeat( int macro_number ){
+	
+	//check if macro_number is valid
+	if( macro_number < 1 || macro_number > 15 ){
+		return 1;
+	}
+	
+	return _macro_repeat[macro_number];
+}

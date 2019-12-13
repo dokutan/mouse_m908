@@ -1,6 +1,10 @@
 # mouse_m908
 Control the Redragon M908 Impact gaming mouse from Linux
 
+## Status
+All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
+As a result there will be no changes to this program, unless I overlooked some features or find a bug.
+
 ## Installing
 - Install the dependencies:
   - libusb
@@ -46,7 +50,6 @@ There is space for 15 macros on the mouse, these are shared over all profiles. E
 2. Add macro⟨N⟩ to the button mapping configuration to set a button to the ⟨N⟩th macro
 3. Apply the configuration: mouse_m908 -c ⟨config.ini⟩
 4. Apply the specific macro: mouse_m908 -m ⟨macrofile⟩ -n ⟨N⟩
-
 #### Macro file
 Each line contains an action and a parameter separated by a tab. Supported actions are:
 - down	⟨key⟩
@@ -58,8 +61,3 @@ example.macro for an example, keymap.md section Keyboard keys/Keys for a list of
 - mouse_right
 - mouse_middle
 
-## TODO
-~~Button remapping is not (yet) fully supported: macros and keyboard keys aren't implemented.~~ Macros are currently missing some features:
-- [x] delay between keys
-- [x] mousebuttons
-- [ ] repeat
