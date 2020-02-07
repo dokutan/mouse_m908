@@ -1,7 +1,7 @@
 # keymap.md
 This documents all options for button mapping.
 
-## Fire button (simulates multiple nutton presses)
+## Fire button (simulates multiple button presses)
 fire:⟨button⟩:⟨repeats⟩:⟨delay⟩
 
 ⟨button⟩ can be:
