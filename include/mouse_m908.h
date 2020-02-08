@@ -76,6 +76,7 @@ class mouse_m908{
 		int set_report_rate( m908_profile profile, m908_report_rate report_rate );
 		int set_macro( int macro_number, std::string file );
 		int set_macro_repeat( int macro_number, uint8_t repeat );
+		int set_detach_kernel_driver( bool detach_kernel_driver );
 		
 		//getter functions
 		m908_profile get_profile();
@@ -101,6 +102,9 @@ class mouse_m908{
 		int close_mouse();
 		
 	private:
+		
+		// whether to detach kernel driver
+		bool _detach_kernel_driver = true;
 		
 		//usb device vars
 		uint16_t _mouse_vid;

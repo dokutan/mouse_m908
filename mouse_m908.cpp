@@ -45,12 +45,14 @@ int main( int argc, char **argv ){
 		//{"repeat", required_argument, 0, 'r'},
 		{"bus", required_argument, 0, 'b'},
 		{"device", required_argument, 0, 'd'},
+		{"kernel-driver", no_argument, 0, 'k'},
 		{0, 0, 0, 0}
 	};
 	
 	bool flag_config = false, flag_profile = false;
 	bool flag_macro = false, flag_number = false;
 	bool flag_bus = false, flag_device = false;
+	bool flag_kernel_driver = false;
 	//bool flag_repeat;
 	std::string string_config, string_profile;
 	std::string string_macro, string_number;
@@ -60,7 +62,7 @@ int main( int argc, char **argv ){
 	//parse command line options
 	int c, option_index = 0;
 	//while( (c = getopt_long( argc, argv, "hc:p:m:n:r:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:k",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -96,12 +98,18 @@ int main( int argc, char **argv ){
 			//	flag_repeat = true;
 			//	string_repeat = optarg;
 			//	break;
+			case 'k':
+				flag_kernel_driver = true;
+				break;
 			case '?':
 				break;
 			default:
 				break;
 		}
 	}
+	
+	// set wether to detach kernel driver
+	m.set_detach_kernel_driver( !flag_kernel_driver );
 	
 	//load and write config
 	if( flag_config ){

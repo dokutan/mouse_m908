@@ -37,33 +37,35 @@ int mouse_m908::open_mouse(){
 		return 1;
 	}
 	
-	//detach kernel driver on interface 0 if active 
-	if( libusb_kernel_driver_active( _handle, 0 ) ){
-		res += libusb_detach_kernel_driver( _handle, 0 );
-		if( res == 0 ){
-			_detached_driver_0 = true;
-		} else{
-			return res;
+	if( _detach_kernel_driver ){
+		//detach kernel driver on interface 0 if active 
+		if( libusb_kernel_driver_active( _handle, 0 ) ){
+			res += libusb_detach_kernel_driver( _handle, 0 );
+			if( res == 0 ){
+				_detached_driver_0 = true;
+			} else{
+				return res;
+			}
 		}
-	}
-	
-	//detach kernel driver on interface 1 if active 
-	if( libusb_kernel_driver_active( _handle, 1 ) ){
-		res += libusb_detach_kernel_driver( _handle, 1 );
-		if( res == 0 ){
-			_detached_driver_1 = true;
-		} else{
-			return res;
+		
+		//detach kernel driver on interface 1 if active 
+		if( libusb_kernel_driver_active( _handle, 1 ) ){
+			res += libusb_detach_kernel_driver( _handle, 1 );
+			if( res == 0 ){
+				_detached_driver_1 = true;
+			} else{
+				return res;
+			}
 		}
-	}
-	
-	//detach kernel driver on interface 2 if active 
-	if( libusb_kernel_driver_active( _handle, 2 ) ){
-		res += libusb_detach_kernel_driver( _handle, 2 );
-		if( res == 0 ){
-			_detached_driver_2 = true;
-		} else{
-			return res;
+		
+		//detach kernel driver on interface 2 if active 
+		if( libusb_kernel_driver_active( _handle, 2 ) ){
+			res += libusb_detach_kernel_driver( _handle, 2 );
+			if( res == 0 ){
+				_detached_driver_2 = true;
+			} else{
+				return res;
+			}
 		}
 	}
 	
@@ -127,36 +129,39 @@ int mouse_m908::open_mouse_bus_device( uint8_t bus, uint8_t device ){
 	//free device list, unreference devices
 	libusb_free_device_list( dev_list, 1 );
 	
-	//detach kernel driver on interface 0 if active 
-	if( libusb_kernel_driver_active( _handle, 0 ) ){
-		res += libusb_detach_kernel_driver( _handle, 0 );
-		if( res == 0 ){
-			_detached_driver_0 = true;
-		} else{
-			return res;
+	
+	if( _detach_kernel_driver ){
+		//detach kernel driver on interface 0 if active 
+		if( libusb_kernel_driver_active( _handle, 0 ) ){
+			res += libusb_detach_kernel_driver( _handle, 0 );
+			if( res == 0 ){
+				_detached_driver_0 = true;
+			} else{
+				return res;
+			}
+		}
+		
+		//detach kernel driver on interface 1 if active 
+		if( libusb_kernel_driver_active( _handle, 1 ) ){
+			res += libusb_detach_kernel_driver( _handle, 1 );
+			if( res == 0 ){
+				_detached_driver_1 = true;
+			} else{
+				return res;
+			}
+		}
+		
+		//detach kernel driver on interface 2 if active 
+		if( libusb_kernel_driver_active( _handle, 2 ) ){
+			res += libusb_detach_kernel_driver( _handle, 2 );
+			if( res == 0 ){
+				_detached_driver_2 = true;
+			} else{
+				return res;
+			}
 		}
 	}
-	
-	//detach kernel driver on interface 1 if active 
-	if( libusb_kernel_driver_active( _handle, 1 ) ){
-		res += libusb_detach_kernel_driver( _handle, 1 );
-		if( res == 0 ){
-			_detached_driver_1 = true;
-		} else{
-			return res;
-		}
-	}
-	
-	//detach kernel driver on interface 2 if active 
-	if( libusb_kernel_driver_active( _handle, 2 ) ){
-		res += libusb_detach_kernel_driver( _handle, 2 );
-		if( res == 0 ){
-			_detached_driver_2 = true;
-		} else{
-			return res;
-		}
-	}
-	
+		
 	//claim interface 0
 	res += libusb_claim_interface( _handle, 0 );
 	if( res != 0 ){
