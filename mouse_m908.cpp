@@ -23,6 +23,7 @@
 #include <string>
 #include <iostream>
 #include <exception>
+#include <regex>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/ini_parser.hpp>
 #include <getopt.h>
@@ -42,20 +43,24 @@ int main( int argc, char **argv ){
 		{"macro", required_argument, 0, 'm'},
 		{"number", required_argument, 0, 'n'},
 		//{"repeat", required_argument, 0, 'r'},
+		{"bus", required_argument, 0, 'b'},
+		{"device", required_argument, 0, 'd'},
 		{0, 0, 0, 0}
 	};
 	
 	bool flag_config = false, flag_profile = false;
 	bool flag_macro = false, flag_number = false;
+	bool flag_bus = false, flag_device = false;
 	//bool flag_repeat;
 	std::string string_config, string_profile;
 	std::string string_macro, string_number;
 	//std::string string_repeat;
+	std::string string_bus, string_device;
 	
 	//parse command line options
 	int c, option_index = 0;
 	//while( (c = getopt_long( argc, argv, "hc:p:m:n:r:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -78,6 +83,14 @@ int main( int argc, char **argv ){
 			case 'n':
 				flag_number = true;
 				string_number = optarg;
+				break;
+			case 'b':
+				flag_bus = true;
+				string_bus = optarg;
+				break;
+			case 'd':
+				flag_device = true;
+				string_device = optarg;
 				break;
 			//case 'r':
 			//	flag_repeat = true;
@@ -388,13 +401,40 @@ int main( int argc, char **argv ){
 			if( pt.get("profile5.report_rate", "") == "500" ){ m.set_report_rate( mouse_m908::profile_5, mouse_m908::r_500Hz ); }
 			if( pt.get("profile5.report_rate", "") == "1000" ){ m.set_report_rate( mouse_m908::profile_5, mouse_m908::r_1000Hz ); }
 			
-			int r;
-			r = m.open_mouse();
-			if( r != 0 ){
-				std::cout << "Couldn't open mouse\n";
+			// open mouse
+			if( flag_bus != flag_device ){ // improper arguments
+				
+				std::cout << "Missing argument, --bus and --device must be used together.\n";
 				return 1;
+				
+			} else if( flag_bus && flag_device ){ // open with bus and device
+				
+				if( !std::regex_match( string_bus, std::regex("[0-9]+") ) ||
+					!std::regex_match( string_device, std::regex("[0-9]+") ) ){
+					
+					std::cout << "Wrong argument, expected number.\n";
+					return 1;
+				}
+				
+				int r;
+				r = m.open_mouse_bus_device( stoi(string_bus), stoi(string_device) );
+				if( r != 0 ){
+					std::cout << "Couldn't open mouse\n";
+					return 1;
+				}
+				
+			} else{ // open with vid and pid
+				
+				int r;
+				r = m.open_mouse();
+				if( r != 0 ){
+					std::cout << "Couldn't open mouse\n";
+					return 1;
+				}
+				
 			}
 			
+			// write settings
 			m.write_settings();
 			
 			m.close_mouse();
@@ -405,27 +445,59 @@ int main( int argc, char **argv ){
 		
 	}
 	
+	// change active profile
 	if( flag_profile ){
 		
+		
+		// set profile
 		if( string_profile == "1" ){ m.set_profile( mouse_m908::profile_1 ); }
 		if( string_profile == "2" ){ m.set_profile( mouse_m908::profile_2 ); }
 		if( string_profile == "3" ){ m.set_profile( mouse_m908::profile_3 ); }
 		if( string_profile == "4" ){ m.set_profile( mouse_m908::profile_4 ); }
 		if( string_profile == "5" ){ m.set_profile( mouse_m908::profile_5 ); }
 		
-		int r;
-		r = m.open_mouse();
-		if( r != 0 ){
-			std::cout << "Couldn't open mouse\n";
+		
+		// open mouse
+		if( flag_bus != flag_device ){ // improper arguments
+			
+			std::cout << "Missing argument, --bus and --device must be used together.\n";
 			return 1;
+			
+		} else if( flag_bus && flag_device ){ // open with bus and device
+			
+			if( !std::regex_match( string_bus, std::regex("[0-9]+") ) ||
+				!std::regex_match( string_device, std::regex("[0-9]+") ) ){
+				
+				std::cout << "Wrong argument, expected number.\n";
+				return 1;
+			}
+			
+			int r;
+			r = m.open_mouse_bus_device( stoi(string_bus), stoi(string_device) );
+			if( r != 0 ){
+				std::cout << "Couldn't open mouse\n";
+				return 1;
+			}
+			
+		} else{ // open with vid and pid
+			
+			int r;
+			r = m.open_mouse();
+			if( r != 0 ){
+				std::cout << "Couldn't open mouse\n";
+				return 1;
+			}
+			
 		}
 		
+		// write profile
 		m.write_profile();
 		
 		m.close_mouse();
 		
 	}
 	
+	// send macro
 	if( flag_macro && flag_number ){
 		
 		int r;
@@ -438,12 +510,40 @@ int main( int argc, char **argv ){
 			return 1;
 		}
 		
-		r = m.open_mouse();
-		if( r != 0 ){
-			std::cout << "Couldn't open mouse\n";
+		// open mouse
+		if( flag_bus != flag_device ){ // improper arguments
+			
+			std::cout << "Missing argument, --bus and --device must be used together.\n";
 			return 1;
+			
+		} else if( flag_bus && flag_device ){ // open with bus and device
+			
+			if( !std::regex_match( string_bus, std::regex("[0-9]+") ) ||
+				!std::regex_match( string_device, std::regex("[0-9]+") ) ){
+				
+				std::cout << "Wrong argument, expected number.\n";
+				return 1;
+			}
+			
+			int r;
+			r = m.open_mouse_bus_device( stoi(string_bus), stoi(string_device) );
+			if( r != 0 ){
+				std::cout << "Couldn't open mouse\n";
+				return 1;
+			}
+			
+		} else{ // open with vid and pid
+			
+			int r;
+			r = m.open_mouse();
+			if( r != 0 ){
+				std::cout << "Couldn't open mouse\n";
+				return 1;
+			}
+			
 		}
 		
+		// write macro
 		m.write_macro(number);
 		
 		/*if( flag_repeat ){
@@ -459,7 +559,7 @@ int main( int argc, char **argv ){
 		m.close_mouse();
 		
 	} else if( flag_macro || flag_number ){
-		std::cout << "Misssing option\n";
+		std::cout << "Misssing option, --macro and --number must be used together.\n";
 	}
 	
 	return 0;

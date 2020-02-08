@@ -61,3 +61,6 @@ example.macro for an example, keymap.md section Keyboard keys/Keys for a list of
 - mouse_right
 - mouse_middle
 
+## --bus and --device options
+
+With these options the USB bus id and device number can be specified. This is useful if there are multiple devices with the same vendor and product id, or if the particular device has a different vendor or product id that is not expected by this software.

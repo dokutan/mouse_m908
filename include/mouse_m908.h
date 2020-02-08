@@ -97,6 +97,7 @@ class mouse_m908{
 		
 		//helper functions
 		int open_mouse();
+		int open_mouse_bus_device( uint8_t bus, uint8_t device );
 		int close_mouse();
 		
 	private:

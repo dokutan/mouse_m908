@@ -20,11 +20,13 @@
 
 //prints a help message
 void print_help(){
-	std::cout << "Options:\n";
+	std::cout << "Options:\n\n";
 	std::cout << "-h --help\n\tDisplays this message.\n";
 	std::cout << "-c --config\n\tLoads and applies settings from specified file.\n";
 	std::cout << "-p --profile\n\tSets currently active profile (1-5).\n";
 	std::cout << "-m --macro\n\tSelects macro file for sending.\n";
 	std::cout << "-n --number\n\tSelects macro slot for sending (1-15).\n";
+	std::cout << "-b --bus\n\tUSB bus id, requires -d.\n";
+	std::cout << "-d --device\n\tUSB device number, requires -b.\n";
 	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }
