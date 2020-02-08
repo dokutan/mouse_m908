@@ -450,6 +450,12 @@ int main( int argc, char **argv ){
 		
 		
 		// set profile
+		if( !std::regex_match( string_profile, std::regex("[1-5]") ) ){
+			
+			std::cout << "Wrong argument, expected 1-5.\n";
+			return 1;
+		}
+		
 		if( string_profile == "1" ){ m.set_profile( mouse_m908::profile_1 ); }
 		if( string_profile == "2" ){ m.set_profile( mouse_m908::profile_2 ); }
 		if( string_profile == "3" ){ m.set_profile( mouse_m908::profile_3 ); }
@@ -500,15 +506,29 @@ int main( int argc, char **argv ){
 	// send macro
 	if( flag_macro && flag_number ){
 		
-		int r;
 		
-		int number = (int)stoi(string_number);
+		// set macro and macro slot (number)
+		int r;
+		int number;
+		
+		if( std::regex_match( string_number, std::regex("[0-9]+") ) ){
+			number = (int)stoi(string_number);
+		} else{
+			std::cout << "aWrong argument, expected 1-15.\n";
+			return 1;
+		}
+		
+		if( number < 1 || number > 15 ){
+			std::cout << "Wrong argument, expected 1-15.\n";
+			return 1;
+		}
 		
 		r = m.set_macro( number, string_macro );
 		if( r != 0 ){
 			std::cout << "Couldn't load macro\n";
 			return 1;
 		}
+		
 		
 		// open mouse
 		if( flag_bus != flag_device ){ // improper arguments
