@@ -20,7 +20,11 @@
 
 //prints a help message
 void print_help(){
+	std::cout << "mouse_m908: Control the Redragon M908 Impact gaming mouse.\n";
+	std::cout << "GPLv3 or later.\n\n";
+	
 	std::cout << "Options:\n\n";
+	
 	std::cout << "-h --help\n\tDisplays this message.\n";
 	std::cout << "-c --config\n\tLoads and applies settings from specified file.\n";
 	std::cout << "-p --profile\n\tSets currently active profile (1-5).\n";
