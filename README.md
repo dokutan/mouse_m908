@@ -9,7 +9,7 @@ As a result there will be no changes to this program, unless I overlooked some f
 - Install the dependencies:
   - libusb
   - boost
-- Clone this repo and run
+- Clone this repo or download a release and run
 ``
 sudo make install
 ``
