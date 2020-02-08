@@ -1,11 +1,13 @@
 # mouse_m908
-Control the Redragon M908 Impact gaming mouse from Linux
+Control the Redragon M908 Impact gaming mouse from Linux and BSD
 
 ## Status
 All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
 As a result there will be no changes to this program, unless I overlooked some features or find a bug.
 
 ## Installing
+
+### Linux
 - Install the dependencies:
   - libusb
   - boost
@@ -22,6 +24,19 @@ sudo make upgrade
 ``
 sudo make uninstall
 ``
+
+### OpenBSD
+
+- Install dependencies: libusb1 and boost
+- Clone this repo and compile with
+```
+c++ mouse_m908.cpp -o mouse_m908 -Wall -O2 -I/usr/local/include/libusb-1.0 -L/usr/local/lib -lusb-1.0 -I /usr/local/include/
+```
+- The --kernel-driver option is required
+
+### Other platforms
+
+Other platforms are not tested, however as long as the dependencies are available there is no special reason they should not be compatible.
 
 ## Usage
 The settings are stored in a file and applied all at once (except macros, see below). See example.ini and keymap.md
@@ -61,6 +76,10 @@ example.macro for an example, keymap.md section Keyboard keys/Keys for a list of
 - mouse_right
 - mouse_middle
 
-## --bus and --device options
+### --bus and --device options
 
 With these options the USB bus id and device number can be specified. This is useful if there are multiple devices with the same vendor and product id, or if the particular device has a different vendor or product id that is not expected by this software.
+
+### --kernel-driver option
+
+On some systems libusb might not be able to detect or detach kernel drivers, this results in a failure because the mouse can not be opened. This options skips this step.
