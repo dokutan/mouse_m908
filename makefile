@@ -15,3 +15,7 @@ uninstall:
 upgrade:
 	g++ mouse_m908.cpp -o mouse_m908 -lusb-1.0 && \
 	cp ./mouse_m908 $(BIN_DIR)/mouse_m908 
+
+build:
+	g++ mouse_m908.cpp -o mouse_m908 -lusb-1.0 
+
