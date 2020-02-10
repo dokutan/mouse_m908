@@ -10,7 +10,6 @@ As a result there will be no changes to this program, unless I overlooked some f
 ### Linux
 - Install the dependencies:
   - libusb
-  - boost
 - Clone this repo or download a release and run
 ``
 sudo make install
@@ -27,10 +26,10 @@ sudo make uninstall
 
 ### OpenBSD
 
-- Install dependencies: libusb1 and boost
+- Install dependencies: libusb1
 - Clone this repo and compile with
 ```
-c++ mouse_m908.cpp -o mouse_m908 -Wall -O2 -I/usr/local/include/libusb-1.0 -L/usr/local/lib -lusb-1.0 -I /usr/local/include/
+c++ mouse_m908.cpp -o mouse_m908 -Wall -O2 -I/usr/local/include/libusb-1.0 -L/usr/local/lib -lusb-1.0
 ```
 - The --kernel-driver option is required
 

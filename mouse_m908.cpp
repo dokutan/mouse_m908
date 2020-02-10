@@ -24,12 +24,11 @@
 #include <iostream>
 #include <exception>
 #include <regex>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/ini_parser.hpp>
 #include <getopt.h>
 
 #include "include/mouse_m908.h"
 #include "include/print_help.cpp"
+#include "include/load_config.cpp"
 
 int main( int argc, char **argv ){
 	
@@ -114,8 +113,12 @@ int main( int argc, char **argv ){
 	//load and write config
 	if( flag_config ){
 		try{
-			boost::property_tree::ptree pt;
-			boost::property_tree::ini_parser::read_ini(string_config, pt);
+			
+			simple_ini_parser pt;
+			if( pt.read_ini( string_config ) != 0 ){
+				std::cout << "Could not open configuration file.\n";
+				return 1;
+			}
 			
 			//parse config file
 			//profile 1
@@ -522,7 +525,7 @@ int main( int argc, char **argv ){
 		if( std::regex_match( string_number, std::regex("[0-9]+") ) ){
 			number = (int)stoi(string_number);
 		} else{
-			std::cout << "aWrong argument, expected 1-15.\n";
+			std::cout << "Wrong argument, expected 1-15.\n";
 			return 1;
 		}
 		
