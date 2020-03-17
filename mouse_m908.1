@@ -1,0 +1,61 @@
+.TH MOUSE_M908 1
+.SH NAME
+mouse_m908 \- control the Redragon M908 Impact gaming mouse
+.SH SYNOPSIS
+.B mouse_m908
+[\fIOPTIONS\fR]... \fB\-c\fR \fIFILE\fR
+.br
+.B mouse_m908
+[\fIOPTIONS\fR]... \fB\-m\fR \fIFILE\fR \fB\-n\fR \fINUMBER\fR
+.br
+.B mouse_m908
+[\fIOPTIONS\fR]... \fB\-p\fR \fINUMBER\fR
+.br
+.B mouse_m908
+\fB\-h\fR
+.SH DESCRIPTION
+Change the LED lighting, the button mapping and the active profile of the Redragon M908 Impact gaming mouse.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print a help message.
+.TP
+\fB\-c\fR, \fB\-\-config\fR=\fIFILE\fR
+Send the configuration from the specified .ini file to the mouse.
+.TP
+\fB\-m\fR, \fB\-\-macro\fR=\fIFILE\fR
+Send the macro from the specified file, requires \fB\-n\fR.
+.TP
+\fB\-n\fR, \fB\-\-number\fR=\fIFILE\fR
+Select the macro slot to send to (1-15), requires \fB\-m\fR.
+.TP
+\fB\-p\fR, \fB\-\-profile\fR=\fINUMBER\fR
+Set the currently active profile (1-5).
+.TP
+\fB\-b\fR, \fB\-\-bus\fR=\fINUMBER\fR
+USB bus id, with this option the mouse gets opened by its bus id and device address instead of the VID and PID. Requires \fB\-d\fR.
+.TP
+\fB\-d\fR, \fB\-\-device\fR=\fINUMBER\fR
+USB device address, with this option the mouse gets opened by its bus id and device address instead of the VID and PID. Requires \fB\-b\fR.
+.TP
+\fB\-k\fR, \fB\-\-kernel\-driver\fR
+Do not attempt to detach the kernel drivers. Useful for compatibility on some systems.
+.SH EXAMPLES
+To send the configuration from example.ini
+.PP
+.nf
+.RS
+mouse_m908 -c example.ini
+.RE
+.fi
+.PP
+To send the macro from example.macro to slot 1
+.PP
+.nf
+.RS
+mouse_m908 -m example.macro -n 1
+.RE
+.fi
+.PP
+.SH FILES
+Examples and the configuration file description can be found in \fI/usr/share/doc/mouse_m908\fR.
