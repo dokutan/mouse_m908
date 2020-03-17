@@ -11,20 +11,15 @@ As a result there will be no changes to this program, unless I overlooked some f
 - Install the dependencies:
   - libusb
 - Clone this repo or download a release and run
-``
+```
 make
 sudo make install
-``
+```
 - Restart to get userspace access to the mouse via the installed udev rule
-- Upgrade an existing installation with
-``
-make
-sudo make upgrade
-``
 - Uninstall with
-``
+```
 sudo make uninstall
-``
+```
 
 ### OpenBSD
 
@@ -33,6 +28,7 @@ sudo make uninstall
 ```
 c++ mouse_m908.cpp -o mouse_m908 -Wall -O2 -I/usr/local/include/libusb-1.0 -L/usr/local/lib -lusb-1.0
 ```
+- Optionally copy the files to the correct places (take a look at ``make install``)
 - The --kernel-driver option is required
 
 ### Other platforms
