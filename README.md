@@ -12,11 +12,13 @@ As a result there will be no changes to this program, unless I overlooked some f
   - libusb
 - Clone this repo or download a release and run
 ``
+make
 sudo make install
 ``
 - Restart to get userspace access to the mouse via the installed udev rule
 - Upgrade an existing installation with
 ``
+make
 sudo make upgrade
 ``
 - Uninstall with
