@@ -1,6 +1,8 @@
 # mouse_m908
 Control the Redragon M908 Impact gaming mouse from Linux and BSD
 
+**Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
+
 ## Status
 All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
 As a result there will be no changes to this program, unless I overlooked some features or find a bug.
@@ -80,3 +82,6 @@ With these options the USB bus id and device number can be specified. This is us
 ### --kernel-driver option
 
 On some systems libusb might not be able to detect or detach kernel drivers, this results in a failure because the mouse can not be opened. This options skips this step.
+
+# License
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
