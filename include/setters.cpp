@@ -75,6 +75,21 @@ int mouse_m908::set_dpi_enable( m908_profile profile, int level, bool enabled ){
 	}
 	
 	_dpi_enabled[profile][level] = enabled;
+	
+	// check if at least one level enabled
+	int sum = 0;
+	for( int i = _level_min; i <= _level_max; i++ ){
+		if( _dpi_enabled[profile][i] ){
+			sum++;
+		}
+	}
+	
+	// if no level enabled: reenable specified level
+	if( sum == 0 ){
+		_dpi_enabled[profile][level] = true;
+		return 1;
+	}
+	
 	return 0;
 }
 
