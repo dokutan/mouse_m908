@@ -7,6 +7,8 @@ Control the Redragon M908 Impact gaming mouse from Linux and BSD
 All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
 As a result there will be no changes to this program, unless I overlooked some features or find a bug.
 
+The mouse has a VID of 0x04d9 and PID of 0xfc4d, if you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
+
 ## Installing
 
 ### Linux
