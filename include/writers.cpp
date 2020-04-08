@@ -16,6 +16,8 @@
  * 
  */
 
+#include "mouse_m908.h"
+
 //writer functions (apply changes to mouse)
 
 int mouse_m908::write_profile(){

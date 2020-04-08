@@ -4,9 +4,14 @@ BIN_DIR = $(PREFIX)/bin
 DOC_DIR = $(PREFIX)/share/doc
 MAN_DIR = $(PREFIX)/share/man/man1
 
+# compiler options
+CC = g++
+CC_OPTIONS = -Wall -Wextra -O2
+LIBS = -lusb-1.0
+
 # compile
-build:
-	g++ mouse_m908.cpp -o mouse_m908 -lusb-1.0 -Wall -Wextra -O2
+build: constructor.o data.o getters.o helpers.o load_config.o setters.o writers.o mouse_m908.o
+	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
 install:
@@ -21,7 +26,7 @@ install:
 
 # remove binary
 clean:
-	rm ./mouse_m908
+	rm ./mouse_m908 *.o
 
 # remove all installed files
 uninstall:
@@ -33,3 +38,27 @@ uninstall:
 # this is an alias to install for backwards compatibility
 upgrade: install
 
+# individual files
+mouse_m908.o:
+	$(CC) -c mouse_m908.cpp $(CC_OPTIONS)
+
+constructor.o:
+	$(CC) -c include/constructor.cpp $(CC_OPTIONS)
+
+data.o:
+	$(CC) -c include/data.cpp $(CC_OPTIONS)
+
+getters.o:
+	$(CC) -c include/getters.cpp $(CC_OPTIONS)
+
+helpers.o:
+	$(CC) -c include/helpers.cpp $(CC_OPTIONS)
+
+load_config.o:
+	$(CC) -c include/load_config.cpp $(CC_OPTIONS)
+
+setters.o:
+	$(CC) -c include/setters.cpp $(CC_OPTIONS)
+
+writers.o:
+	$(CC) -c include/writers.cpp $(CC_OPTIONS)

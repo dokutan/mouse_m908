@@ -27,8 +27,8 @@
 #include <getopt.h>
 
 #include "include/mouse_m908.h"
+#include "include/load_config.h"
 #include "include/print_help.cpp"
-#include "include/load_config.cpp"
 
 
 // this function checks its arguments and opens the mouse accordingly

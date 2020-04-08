@@ -16,6 +16,8 @@
  * 
  */
 
+#include "mouse_m908.h"
+
 //constructor
 mouse_m908::mouse_m908(){
 	

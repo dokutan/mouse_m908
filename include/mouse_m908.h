@@ -141,10 +141,10 @@ class mouse_m908{
 		std::map< std::string, uint8_t > _keyboard_key_values;
 		
 		//usb data packets
-		static uint8_t _data_profile[][16];
-		static uint8_t _data_settings_1[][16];
+		static uint8_t _data_profile[6][16];
+		static uint8_t _data_settings_1[15][16];
 		static uint8_t _data_settings_2[64];
-		static uint8_t _data_settings_3[][16];
+		static uint8_t _data_settings_3[140][16];
 		static uint8_t _data_macros_1[16];
 		static uint8_t _data_macros_2[256];
 		static uint8_t _data_macros_3[16];
@@ -152,11 +152,13 @@ class mouse_m908{
 		static uint8_t _data_macros_repeat[16];
 };
 
+/* the files are now compiled individually
 #include "data.cpp"
 #include "constructor.cpp"
 #include "helpers.cpp"
 #include "getters.cpp"
 #include "setters.cpp"
 #include "writers.cpp"
+*/
 
 #endif

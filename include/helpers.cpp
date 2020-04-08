@@ -16,6 +16,8 @@
  * 
  */
 
+#include "mouse_m908.h"
+
 //helper functions
 
 //init libusb and open mouse

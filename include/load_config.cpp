@@ -16,37 +16,7 @@
  * 
  */
 
-
-/*
- * This is a standalone .ini parser, written to replace boost property
- * tree in the mouse_m908 project. It is not intended to be a general
- * purpose replacement.
- * 
- */
- 
-#include <iostream>
-#include <fstream>
-#include <regex>
-#include <string>
-#include <map>
-
-class simple_ini_parser{
-	
-	private:
-	
-	std::map< std::string, std::string > _ini_values;
-	
-	public:
-	
-	// read and parse ini file
-	int read_ini( std::string path );
-	
-	// get values
-	std::string get( std::string key, std::string default_value );
-	
-	// print all key-value pairs
-	int print_all();
-};
+#include "load_config.h"
 
 // read and parse ini file
 int simple_ini_parser::read_ini( std::string path ){

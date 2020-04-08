@@ -16,6 +16,8 @@
  * 
  */
 
+#include "mouse_m908.h"
+
 //setter functions
 
 int mouse_m908::set_profile( m908_profile profile ){
