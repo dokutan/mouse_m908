@@ -1,5 +1,5 @@
 # mouse_m908
-Control the Redragon M908 Impact gaming mouse from Linux and BSD
+Control the Redragon M908 Impact gaming mouse from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
@@ -33,6 +33,16 @@ sudo make uninstall
 make CC=clang++
 ```
 - Run with ``./mouse_m908`` or optionally copy the files to the correct places (take a look at ``make install``)
+- The --kernel-driver option is required
+
+### Haiku
+
+- Install dependencies: libusb and libusb_devel
+- Clone this repo and compile with
+```
+make
+```
+- Run with ``./mouse_m908``
 - The --kernel-driver option is required
 
 ### Other platforms
