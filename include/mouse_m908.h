@@ -28,6 +28,7 @@
 #include <exception>
 #include <regex>
 #include <fstream>
+#include <sstream>
 #include <utility>
 
 class mouse_m908{
