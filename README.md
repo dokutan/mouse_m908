@@ -30,9 +30,9 @@ sudo make uninstall
 - Install dependencies: libusb1
 - Clone this repo and compile with
 ```
-c++ mouse_m908.cpp -o mouse_m908 -Wall -O2 -I/usr/local/include/libusb-1.0 -L/usr/local/lib -lusb-1.0
+make CC=clang++
 ```
-- Optionally copy the files to the correct places (take a look at ``make install``)
+- Run with ``./mouse_m908`` or optionally copy the files to the correct places (take a look at ``make install``)
 - The --kernel-driver option is required
 
 ### Other platforms
