@@ -20,7 +20,7 @@
 #ifndef MOUSE_M908
 #define MOUSE_M908
 
-#include <libusb-1.0/libusb.h>
+#include <libusb.h>
 #include <map>
 #include <array>
 #include <string>

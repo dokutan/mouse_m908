@@ -6,8 +6,8 @@ MAN_DIR = $(PREFIX)/share/man/man1
 
 # compiler options
 CC = g++
-CC_OPTIONS = -Wall -Wextra -O2
-LIBS = -lusb-1.0
+CC_OPTIONS := -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
+LIBS != pkg-config --libs libusb-1.0
 
 # compile
 build: constructor.o data.o getters.o helpers.o load_config.o setters.o writers.o mouse_m908.o
