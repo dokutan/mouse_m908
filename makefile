@@ -9,6 +9,9 @@ CC = g++
 CC_OPTIONS := -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
 LIBS != pkg-config --libs libusb-1.0
 
+# version string
+VERSION_STRING = "1.7"
+
 # compile
 build: constructor.o data.o getters.o helpers.o load_config.o setters.o writers.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
@@ -22,6 +25,7 @@ install:
 	cp ./example.macro $(DOC_DIR)/mouse_m908/ && \
 	cp ./README.md $(DOC_DIR)/mouse_m908/ && \
 	cp ./keymap.md $(DOC_DIR)/mouse_m908/ && \
+	cp ./LICENSE $(DOC_DIR)/mouse_m908/ && \
 	cp ./mouse_m908.1 $(MAN_DIR)/
 
 # remove binary
@@ -40,7 +44,7 @@ upgrade: install
 
 # individual files
 mouse_m908.o:
-	$(CC) -c mouse_m908.cpp $(CC_OPTIONS)
+	$(CC) -c mouse_m908.cpp $(CC_OPTIONS) -D VERSION_STRING=$(VERSION_STRING)
 
 constructor.o:
 	$(CC) -c include/constructor.cpp $(CC_OPTIONS)

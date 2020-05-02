@@ -30,6 +30,11 @@
 #include "include/load_config.h"
 #include "include/print_help.cpp"
 
+// this is the default version string
+// the version string gets overwritten by the makefile
+#ifndef VERSION_STRING
+#define VERSION_STRING "no version defined during compilation"
+#endif
 
 // this function checks its arguments and opens the mouse accordingly
 // (with vid and pid or with bus and device)
@@ -75,6 +80,12 @@ int main( int argc, char **argv ){
 	
 	mouse_m908 m;
 	
+	// if no arguments: print help
+	if( argc == 1 ){
+		print_help();
+		return 0;
+	}
+	
 	//command line options
 	static struct option long_options[] = {
 		{"help", no_argument, 0, 'h'},
@@ -86,6 +97,7 @@ int main( int argc, char **argv ){
 		{"bus", required_argument, 0, 'b'},
 		{"device", required_argument, 0, 'd'},
 		{"kernel-driver", no_argument, 0, 'k'},
+		{"version", no_argument, 0, 'v'},
 		{0, 0, 0, 0}
 	};
 	
@@ -93,6 +105,7 @@ int main( int argc, char **argv ){
 	bool flag_macro = false, flag_number = false;
 	bool flag_bus = false, flag_device = false;
 	bool flag_kernel_driver = false;
+	bool flag_version = false;
 	//bool flag_repeat;
 	std::string string_config, string_profile;
 	std::string string_macro, string_number;
@@ -101,8 +114,8 @@ int main( int argc, char **argv ){
 	
 	//parse command line options
 	int c, option_index = 0;
-	//while( (c = getopt_long( argc, argv, "hc:p:m:n:r:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:k",
+	//while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvr:",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kv",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -141,6 +154,9 @@ int main( int argc, char **argv ){
 			case 'k':
 				flag_kernel_driver = true;
 				break;
+			case 'v':
+				flag_version = true;
+				break;
 			case '?':
 				break;
 			default:
@@ -151,7 +167,11 @@ int main( int argc, char **argv ){
 	// set wether to detach kernel driver
 	m.set_detach_kernel_driver( !flag_kernel_driver );
 	
-	//load and write config
+	// print version if requested
+	if( flag_version )
+		std::cout << "Version: " << VERSION_STRING << "\n";
+	
+	// load and write config
 	if( flag_config ){
 		try{
 			

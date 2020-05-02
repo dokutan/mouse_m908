@@ -33,5 +33,6 @@ void print_help(){
 	std::cout << "-b --bus\n\tUSB bus id, requires -d.\n";
 	std::cout << "-d --device\n\tUSB device number, requires -b.\n";
 	std::cout << "-k --kernel-driver\n\tDo not attempt to detach kernel driver.\n";
+	std::cout << "-v --version\n\tPrint version.\n";
 	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }
