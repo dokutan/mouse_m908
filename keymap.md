@@ -45,6 +45,7 @@ left
 right
 middle
 profile_switch
+led_mode_switch
 none
 
 ## Macros (see README.md)
