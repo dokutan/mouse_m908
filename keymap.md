@@ -1,5 +1,23 @@
 # keymap.md
 This documents all options for button mapping.
+A button on the mouse can be mapped to one function out of the following categories:
+- Mousebutton
+- Special function (these affect the mouse)
+- Macros
+- Keyboard key
+- Fire button (simulates multiple button presses)
+- Media controls
+
+The following sections list all valid button mappings.
+
+## Media controls
+media_play
+media_stop
+media_previous
+media_next
+media_volume_up
+media_volume_down
+media_mute
 
 ## Fire button (simulates multiple button presses)
 fire:⟨button⟩:⟨repeats⟩:⟨delay⟩
