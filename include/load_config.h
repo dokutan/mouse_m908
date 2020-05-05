@@ -16,14 +16,6 @@
  * 
  */
 
-
-/*
- * This is a standalone .ini parser, written to replace boost property
- * tree in the mouse_m908 project. It is not intended to be a general
- * purpose replacement.
- * 
- */
-
 #ifndef SIMPLE_INI_PARSER
 #define SIMPLE_INI_PARSER
 
@@ -33,6 +25,13 @@
 #include <string>
 #include <map>
 
+/**
+ * This is a standalone .ini parser, written to replace boost property
+ * tree in the mouse_m908 project. It is not intended to be a general
+ * purpose replacement, however there is nothing preventing that except
+ * the very limited amount of features. 
+ * 
+ */
 class simple_ini_parser{
 	
 	private:
@@ -41,13 +40,23 @@ class simple_ini_parser{
 	
 	public:
 	
-	// read and parse ini file
+	/** 
+	 * Read the specified .ini file. The already existing key-value
+	 * pairs do not get cleared, only overwritten.
+	 * \return 0 if succesful
+	 */
 	int read_ini( std::string path );
 	
-	// get values
+	/**
+	 * Get the value of the specified key.
+	 * \return The value of the specified key, or the specified default
+	 * value
+	 */
 	std::string get( std::string key, std::string default_value );
 	
-	// print all key-value pairs
+	/**
+	 * Print all key-value pairs to stdout.
+	 */
 	int print_all();
 };
 

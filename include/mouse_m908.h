@@ -31,14 +31,30 @@
 #include <sstream>
 #include <utility>
 
+/**
+ * The main class representing the M908 mouse.
+ * This class has member functions to open, close and apply settings to the mouse.
+ * 
+ * There are 3 main types of functions:
+ * - set_*: setters
+ * - get_*: getters
+ * - write_*: write the settings to the mouse
+ * 
+ * Therefore the general procedure when changing settings on the mouse is as follows:
+ * 1. open_mouse() or open_mouse_bus_device()
+ * 2. set_* (this step only changes the internal state of the class)
+ * 3. write_* (this step sends the internal state of the class to the mouse)
+ * 4. close_mouse()
+ */
 class mouse_m908{
 	
 	public:
 		
-		//constructor
+		// constructor
 		mouse_m908();
 		
-		//enums
+		// enums
+		/// The available profiles
 		enum m908_profile{
 			profile_1 = 0,
 			profile_2 = 1,
@@ -46,6 +62,8 @@ class mouse_m908{
 			profile_4 = 3,
 			profile_5 = 4,
 		};
+		
+		/// The available led modes
 		enum m908_lightmode{
 			lightmode_breathing,
 			lightmode_rainbow,
@@ -56,6 +74,8 @@ class mouse_m908{
 			lightmode_flashing,
 			lightmode_off,
 		};
+		
+		/// The available USB report rates (polling rates)
 		enum m908_report_rate{
 			r_125Hz,
 			r_250Hz,
@@ -92,14 +112,40 @@ class mouse_m908{
 		uint8_t get_macro_repeat( int macro_number );
 		
 		//writer functions (apply settings to mouse)
+		/** Write the currently active profile to the mouse
+		 * \return 0 if successful
+		 */
 		int write_profile();
+		
+		/** Write the settings (leds, button mapping, dpi, etc.) to the mouse
+		 * \return 0 if successful
+		 */
 		int write_settings();
+		
+		/** Write a macro to the mouse
+		 * \return 0 if successful
+		 */
 		int write_macro( int macro_number );
+		
+		/** Write the number of repeats for a macro to the mouse
+		 * \return 0 if successful
+		 */
 		int write_macro_repeat( int macro_number );
 		
 		//helper functions
+		/** Init libusb and open the mouse by its USB VID and PID
+		 * \return 0 if successful
+		 */
 		int open_mouse();
+		
+		/** Init libusb and open the mouse by the USB bus and device adress
+		 * \return 0 if successful
+		 */
 		int open_mouse_bus_device( uint8_t bus, uint8_t device );
+		
+		/** Close the mouse and libusb
+		 * \return 0 if successful (always at the moment)
+		 */
 		int close_mouse();
 		
 	private:
