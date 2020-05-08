@@ -53,6 +53,8 @@ class mouse_m908{
 		// constructor
 		mouse_m908();
 		
+		
+		
 		// enums
 		/// The available profiles
 		enum m908_profile{
@@ -83,21 +85,97 @@ class mouse_m908{
 			r_1000Hz
 		};
 		
+		
+		
 		//setter functions
+		/** Set the currently active profile
+		 */
 		int set_profile( m908_profile profile );
+		
+		/** Set the scrollspeed for the specified profile
+		 * \see _scrollspeed_min
+		 * \see _scrollspeed_max
+		 * \return 0 if successful, 1 if out of bounds
+		 */
 		int set_scrollspeed( m908_profile profile, uint8_t speed );
+		
+		/** Set the led mode for the specified profile
+		 * \see m908_lightmode
+		 * \return 0 if successful
+		 */
 		int set_lightmode( m908_profile profile, m908_lightmode lightmode );
+		
+		/** Set the led color for the specified profile
+		 * \param color color as {r, g, b}
+		 * \return 0 if successful
+		 */
 		int set_color( m908_profile profile, std::array<uint8_t, 3> color );
+		
+		/** Set the led brightness for the specified profile
+		 * \see _brightness_min
+		 * \see _brightness_max
+		 * \return 0 if successful, 1 if out of bounds
+		 */
 		int set_brightness( m908_profile profile, uint8_t brightness );
+		
+		/** Set the led animation speed for the specified profile
+		 * \see _speed_min
+		 * \see _speed_max
+		 * \return 0 if successful, 1 if out of bounds
+		 */
 		int set_speed( m908_profile profile, uint8_t speed );
+		
+		/** Enables/Disables a dpi level for the specified profile
+		 * \see _level_min
+		 * \see _level_max
+		 * \return 0 if successful, 1 if out of bounds
+		 */
 		int set_dpi_enable( m908_profile profile, int level, bool enabled );
+		
+		/** Set the value of a dpi level for the specified profile
+		 * \see _dpi_min
+		 * \see _dpi_max
+		 * \see _level_min
+		 * \see _level_max
+		 * \return 0 if successful, 1 if out of bounds
+		 */
 		int set_dpi( m908_profile profile, int level, uint8_t dpi );
+		
+		/** Set a mapping for a button for the specified profile
+		 * \param mapping 4 bytes for the usb data packets
+		 * \return 0 if successful
+		 */
 		int set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 4> mapping );
+		
+		/** Set a mapping for a button for the specified profile
+		 * \param mapping button name (see keymap.md)
+		 * \return 0 if successful, 1 if mapping is invalid
+		 */
 		int set_key_mapping( m908_profile profile, int key, std::string mapping );
+		
+		/** Set the USB poll rate for the specified profile
+		 * \see m908_report_rate
+		 * \return 0 if successful
+		 */
 		int set_report_rate( m908_profile profile, m908_report_rate report_rate );
+		
+		/** Load the macro from the specified file into the specified slot
+		 * \param macro_number macro slot (1-15)
+		 * \return 0 if successful
+		 */
 		int set_macro( int macro_number, std::string file );
+		
+		/** Set how many times the specified macro should be repeated
+		 * \param macro_number macro slot (1-15)
+		 * \return 0 if successful
+		 */
 		int set_macro_repeat( int macro_number, uint8_t repeat );
+		
+		/** Set whether to try to detach the kernel driver when opening the mouse
+		 */
 		int set_detach_kernel_driver( bool detach_kernel_driver );
+		
+		
 		
 		//getter functions
 		m908_profile get_profile();
@@ -110,6 +188,8 @@ class mouse_m908{
 		uint8_t get_dpi( m908_profile profile, int level );
 		m908_report_rate get_report_rate( m908_profile profile );
 		uint8_t get_macro_repeat( int macro_number );
+		
+		
 		
 		//writer functions (apply settings to mouse)
 		/** Write the currently active profile to the mouse
@@ -131,6 +211,8 @@ class mouse_m908{
 		 * \return 0 if successful
 		 */
 		int write_macro_repeat( int macro_number );
+		
+		
 		
 		//helper functions
 		/** Init libusb and open the mouse by its USB VID and PID
@@ -154,12 +236,19 @@ class mouse_m908{
 		bool _detach_kernel_driver = true;
 		
 		//usb device vars
-		uint16_t _mouse_vid;
-		uint16_t _mouse_pid;
+		static const uint16_t _mouse_vid;
+		static const uint16_t _mouse_pid;
 		libusb_device_handle* _handle;
 		bool _detached_driver_0 = false;
 		bool _detached_driver_1 = false;
 		bool _detached_driver_2 = false;
+		
+		//setting min and max values
+		static const uint8_t _scrollspeed_min, _scrollspeed_max;
+		static const uint8_t _brightness_min, _brightness_max;
+		static const uint8_t _speed_min, _speed_max;
+		static const uint8_t _level_min, _level_max;
+		static const uint8_t _dpi_min, _dpi_max;
 		
 		//setting vars
 		m908_profile _profile;
@@ -175,27 +264,32 @@ class mouse_m908{
 		std::array<std::array<uint8_t, 256>, 15> _macro_data;
 		std::array<uint8_t, 15> _macro_repeat;
 		
-		//setting min and max values
-		uint8_t _scrollspeed_min, _scrollspeed_max;
-		uint8_t _brightness_min, _brightness_max;
-		uint8_t _speed_min, _speed_max;
-		uint8_t _level_min, _level_max;
-		uint8_t _dpi_min, _dpi_max;
-		
 		//mapping of button names to values
-		std::map< std::string, std::array<uint8_t, 3> > _keycodes;
-		std::map< std::string, uint8_t > _keyboard_modifier_values;
-		std::map< std::string, uint8_t > _keyboard_key_values;
+		/// Values/keycodes of mouse buttons and special button functions
+		static std::map< std::string, std::array<uint8_t, 3> > _keycodes;
+		/// Values of keyboard modifiers
+		static const std::map< std::string, uint8_t > _keyboard_modifier_values;
+		/// Values/keycodes of keyboard keys
+		static std::map< std::string, uint8_t > _keyboard_key_values;
 		
 		//usb data packets
+		/// Used for changing the active profile
 		static uint8_t _data_profile[6][16];
+		/// Used for sending the settings, part 1/3
 		static uint8_t _data_settings_1[15][16];
+		/// Used for sending the settings, part 2/3
 		static uint8_t _data_settings_2[64];
+		/// Used for sending the settings, part 3/3
 		static uint8_t _data_settings_3[140][16];
+		/// Used for sending a macro, part 1/3
 		static uint8_t _data_macros_1[16];
+		/// Used for sending a macro, part 2/3
 		static uint8_t _data_macros_2[256];
+		/// Used for sending a macro, part 3/3
 		static uint8_t _data_macros_3[16];
+		/// Lookup table for used when specifying which slot to send a macro to
 		static uint8_t _data_macros_codes[15][2];
+		/// Used to send the number repeats for a macro 
 		static uint8_t _data_macros_repeat[16];
 };
 
