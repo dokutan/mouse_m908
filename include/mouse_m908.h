@@ -30,6 +30,7 @@
 #include <fstream>
 #include <sstream>
 #include <utility>
+#include <iostream>
 
 /**
  * The main class representing the M908 mouse.
@@ -230,6 +231,13 @@ class mouse_m908{
 		 */
 		int close_mouse();
 		
+		
+		//reader functions (get settings from the mouse)
+		/**
+		 * Read the settings and print the raw data
+		 */
+		int dump_settings();
+		
 	private:
 		
 		// whether to detach kernel driver
@@ -291,6 +299,12 @@ class mouse_m908{
 		static uint8_t _data_macros_codes[15][2];
 		/// Used to send the number repeats for a macro 
 		static uint8_t _data_macros_repeat[16];
+		/// Used to read the settings, part 1/3 
+		static uint8_t _data_read_1[9][16];
+		/// Used to read the settings, part 2/3 
+		static uint8_t _data_read_2[85][64];
+		/// Used to read the settings, part 3/3 
+		static uint8_t _data_read_3[101][16];
 };
 
 /* the files are now compiled individually

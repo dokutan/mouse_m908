@@ -98,6 +98,7 @@ int main( int argc, char **argv ){
 		{"device", required_argument, 0, 'd'},
 		{"kernel-driver", no_argument, 0, 'k'},
 		{"version", no_argument, 0, 'v'},
+		{"dump", no_argument, 0, 'D'},
 		{0, 0, 0, 0}
 	};
 	
@@ -106,7 +107,9 @@ int main( int argc, char **argv ){
 	bool flag_bus = false, flag_device = false;
 	bool flag_kernel_driver = false;
 	bool flag_version = false;
+	bool flag_dump_settings = false;
 	//bool flag_repeat;
+	
 	std::string string_config, string_profile;
 	std::string string_macro, string_number;
 	//std::string string_repeat;
@@ -115,7 +118,7 @@ int main( int argc, char **argv ){
 	//parse command line options
 	int c, option_index = 0;
 	//while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvr:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kv",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvD",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -157,6 +160,9 @@ int main( int argc, char **argv ){
 			case 'v':
 				flag_version = true;
 				break;
+			case 'D':
+				flag_dump_settings = true;
+				break;
 			case '?':
 				break;
 			default:
@@ -164,12 +170,27 @@ int main( int argc, char **argv ){
 		}
 	}
 	
-	// set wether to detach kernel driver
+	// set whether to detach kernel driver
 	m.set_detach_kernel_driver( !flag_kernel_driver );
 	
 	// print version if requested
 	if( flag_version )
 		std::cout << "Version: " << VERSION_STRING << "\n";
+	
+	// read settings and dump raw data
+	if( flag_dump_settings ){
+		
+		// open mouse
+		if( open_mouse_wrapper( m, flag_bus, flag_device, string_bus, string_device ) != 0 ){
+			return 1;
+		}
+		
+		// dump settings
+		m.dump_settings();
+		
+		m.close_mouse();
+		
+	}
 	
 	// load and write config
 	if( flag_config ){
@@ -318,7 +339,6 @@ int main( int argc, char **argv ){
 			std::cout << "Couldn't load macro\n";
 			return 1;
 		}
-		
 		
 		// open mouse
 		if( open_mouse_wrapper( m, flag_bus, flag_device, string_bus, string_device ) != 0 ){

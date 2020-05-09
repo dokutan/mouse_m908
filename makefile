@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "1.6"
 
 # compile
-build: constructor.o data.o getters.o helpers.o load_config.o setters.o writers.o mouse_m908.o
+build: constructor.o data.o getters.o helpers.o load_config.o setters.o writers.o readers.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -66,3 +66,6 @@ setters.o:
 
 writers.o:
 	$(CC) -c include/writers.cpp $(CC_OPTIONS)
+
+readers.o:
+	$(CC) -c include/readers.cpp $(CC_OPTIONS)
