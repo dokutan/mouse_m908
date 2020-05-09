@@ -56,6 +56,10 @@ The settings are stored in a file and applied all at once (except macros, see be
 ``
 mouse_m908 -c example.ini
 ``
+- Read the configuration from the mouse and store it in config.ini:
+``
+mouse_m908 -R > config.ini
+``
 - Set active profile to number 3:
 ``
 mouse_m908 -p 3

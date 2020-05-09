@@ -31,6 +31,7 @@
 #include <sstream>
 #include <utility>
 #include <iostream>
+#include <iomanip>
 
 /**
  * The main class representing the M908 mouse.
@@ -237,6 +238,10 @@ class mouse_m908{
 		 * Read the settings and print the raw data
 		 */
 		int dump_settings();
+		/**
+		 * Read the settings and print the configuration in .ini format
+		 */
+		int read_settings();
 		
 	private:
 		

@@ -34,6 +34,7 @@ void print_help(){
 	std::cout << "-d --device\n\tUSB device number, requires -b.\n";
 	std::cout << "-k --kernel-driver\n\tDo not attempt to detach kernel driver.\n";
 	std::cout << "-v --version\n\tPrint version.\n";
+	std::cout << "-R --read\n\tRead settings from the mouse and print configuration.\n";
 	std::cout << "-D --dump\n\tRead settings from the mouse and dump the raw data.\n";
 	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }

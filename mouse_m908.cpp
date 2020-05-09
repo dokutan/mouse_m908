@@ -99,6 +99,7 @@ int main( int argc, char **argv ){
 		{"kernel-driver", no_argument, 0, 'k'},
 		{"version", no_argument, 0, 'v'},
 		{"dump", no_argument, 0, 'D'},
+		{"read", no_argument, 0, 'R'},
 		{0, 0, 0, 0}
 	};
 	
@@ -108,6 +109,7 @@ int main( int argc, char **argv ){
 	bool flag_kernel_driver = false;
 	bool flag_version = false;
 	bool flag_dump_settings = false;
+	bool flag_read_settings = false;
 	//bool flag_repeat;
 	
 	std::string string_config, string_profile;
@@ -118,7 +120,7 @@ int main( int argc, char **argv ){
 	//parse command line options
 	int c, option_index = 0;
 	//while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvr:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvD",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvDR",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -163,6 +165,9 @@ int main( int argc, char **argv ){
 			case 'D':
 				flag_dump_settings = true;
 				break;
+			case 'R':
+				flag_read_settings = true;
+				break;
 			case '?':
 				break;
 			default:
@@ -187,6 +192,21 @@ int main( int argc, char **argv ){
 		
 		// dump settings
 		m.dump_settings();
+		
+		m.close_mouse();
+		
+	}
+	
+	// read settings and dump raw data
+	if( flag_read_settings ){
+		
+		// open mouse
+		if( open_mouse_wrapper( m, flag_bus, flag_device, string_bus, string_device ) != 0 ){
+			return 1;
+		}
+		
+		// dump settings
+		m.read_settings();
 		
 		m.close_mouse();
 		
