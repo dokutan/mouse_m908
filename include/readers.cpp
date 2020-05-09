@@ -238,7 +238,7 @@ int mouse_m908::read_settings(){
 			{ 14, "button_9" },
 			{ 15, "button_10" },
 			{ 16, "button_11" },
-			{ 17, "button_11" },
+			{ 17, "button_12" },
 			{ 18, "scroll_up" },
 			{ 19, "scroll_down" } };
 		
