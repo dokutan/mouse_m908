@@ -211,7 +211,153 @@ int mouse_m908::read_settings(){
 		else
 			std::cout << "unknown\n";
 		
+		// dpi
+		for( int j = 1; j < 6; j++ ){
+			std::cout << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
+			std::cout << std::setfill('0') << std::setw(2) << std::hex;
+			std::cout << "dpi" << j << "=" << (int)buffer_in2[i-1][5+(6*j)] << "\n";
+			std::cout << std::setfill(' ') << std::setw(0) << std::dec;
+		}
 		
+		// button mapping
+		std::map< int, std::string > button_names = {
+			{ 0, "button_left" },
+			{ 1, "button_right" },
+			{ 2, "button_middle" },
+			{ 3, "button_fire" },
+			{ 4, "button_dpi_up" },
+			{ 5, "button_dpi_down" },
+			{ 6, "button_1" },
+			{ 7, "button_2" },
+			{ 8, "button_3" },
+			{ 9, "button_4" },
+			{ 10, "button_5" },
+			{ 11, "button_6" },
+			{ 12, "button_7" },
+			{ 13, "button_8" },
+			{ 14, "button_9" },
+			{ 15, "button_10" },
+			{ 16, "button_11" },
+			{ 17, "button_11" },
+			{ 18, "scroll_up" },
+			{ 19, "scroll_down" } };
+		
+		for( int j = 0; j < 20; j++ ){
+			
+			uint8_t b1 = buffer_in3[j+(20*(i-1))][8];
+			uint8_t b2 = buffer_in3[j+(20*(i-1))][9];
+			uint8_t b3 = buffer_in3[j+(20*(i-1))][10];
+			uint8_t b4 = buffer_in3[j+(20*(i-1))][11];
+			bool found_name = false;
+			
+			std::cout << button_names[j] << "=";
+			
+			// fire button
+			if( b1 == 0x99 ){
+				
+				std::cout << "fire:";
+				
+				// button
+				if( b2 == 0x81 )
+					std::cout << "mouse_left:";
+				else if( b2 == 0x82 )
+					std::cout << "mouse_right:";
+				else if( b2 == 0x84 )
+					std::cout << "mouse_middle:";
+				else{
+					
+					// iterate over _keyboard_key_values
+					for( auto keycode : _keyboard_key_values ){
+						
+						if( keycode.second == b2 ){
+							
+							std::cout << keycode.first;
+							break;
+							
+						}
+						
+					}
+					std::cout << ":";
+				}
+				
+				// repeats
+				std::cout << (int)b3 << ":";
+				
+				// delay
+				std::cout << (int)b4 << "\n";
+				
+				found_name = true;
+				
+			// keyboard key
+			} else if( b1 == 0x90 ){
+				
+				// iterate over _keyboard_key_values
+				for( auto keycode : _keyboard_key_values ){
+					
+					if( keycode.second == b3 ){
+						
+						std::cout << keycode.first << "\n";
+						found_name = true;
+						break;
+						
+					}
+					
+				}
+				
+			// modifiers + keyboard key
+			} else if( b1 == 0x8f ){
+				
+				// iterate over _keyboard_modifier_values
+				for( auto modifier : _keyboard_modifier_values ){
+					
+					if( modifier.second & b2 ){
+						std::cout << modifier.first;
+					}
+					
+				}
+				
+				// iterate over _keyboard_key_values
+				for( auto keycode : _keyboard_key_values ){
+					
+					if( keycode.second == b3 ){
+						
+						std::cout << keycode.first << "\n";
+						found_name = true;
+						break;
+						
+					}
+					
+				}
+				
+			} else{ // mousebutton or special function ?
+				
+				// iterate over _keycodes
+				for( auto keycode : _keycodes ){
+					
+					if( keycode.second[0] == b1 &&
+						keycode.second[1] == b2 && 
+						keycode.second[2] == b3 ){
+						
+						std::cout << keycode.first << "\n";
+						found_name = true;
+						break;
+						
+					}
+					
+				}
+				
+			}
+			
+			if( !found_name ){
+				std::cout << "unknown, please report as bug:";
+				std::cout << " " << std::hex << (int)b1;
+				std::cout << " " << std::hex << (int)b2;
+				std::cout << " " << std::hex << (int)b3;
+				std::cout << " " << std::hex << (int)b4;
+				std::cout << std::dec << "\n";
+			}
+			
+		}
 	}
 	
 	return 0;
