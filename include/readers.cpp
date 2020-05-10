@@ -210,9 +210,11 @@ int mouse_m908::read_settings(){
 			std::cout << "reactive\n";
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x10 )
 			std::cout << "flashing\n";
-		else
-			std::cout << "unknown\n";
-		
+		else{
+			std::cout << "unknown, please report as bug: ";
+			std::cout << std::hex << buffer_in1[i][11] << " ";
+			std::cout << std::hex << buffer_in1[i][13] << std::dec << "\n";
+		}
 		
 		// polling rate (report rate)
 		if( i < 4 ){
@@ -246,7 +248,7 @@ int mouse_m908::read_settings(){
 				std::cout << "report_rate=1000\n";
 			else{
 				std::cout << "# report rate unknown, please report as bug: "
-					<< (int)buffer_in1[6][6+(2*i)] << "\n";
+					<< (int)buffer_in1[7][(2*i)] << "\n";
 			}
 			
 		}
@@ -393,15 +395,159 @@ int mouse_m908::read_settings(){
 			}
 			
 			if( !found_name ){
-				std::cout << "unknown, please report as bug:";
-				std::cout << " " << std::hex << (int)b1;
-				std::cout << " " << std::hex << (int)b2;
-				std::cout << " " << std::hex << (int)b3;
+				std::cout << "unknown, please report as bug: ";
+				std::cout << " " << std::hex << (int)b1 << " ";
+				std::cout << " " << std::hex << (int)b2 << " ";
+				std::cout << " " << std::hex << (int)b3 << " ";
 				std::cout << " " << std::hex << (int)b4;
 				std::cout << std::dec << "\n";
 			}
 			
 		}
+	}
+	
+	// macros
+	std::array< std::vector< uint8_t >, 15 > macro_bytes;
+	
+	// iterate over buffer_in2
+	for( int i = 5; i < 85; i++ ){
+		
+		int macronumber = buffer_in2[i][3] - 0x63;
+		
+		// valid macronumber?
+		if( macronumber >= 1 && macronumber <= 15 ){
+			
+			// extract bytes
+			for( int j = 8; j < 58; j++ ){
+				macro_bytes[macronumber-1].push_back( buffer_in2[i][j] );
+			}
+			
+		}
+		
+	}
+	
+	// decode macros
+	std::cout << "\n# Macros\n";
+	for( int i = 0; i < 15; i++ ){
+		
+		// macro undefined?
+		if( macro_bytes[i][0] == 0 && macro_bytes[i][1] == 0 && macro_bytes[i][2] == 0 )
+			continue;
+		
+		std::cout << "\n;## macro" << i+1 << "\n";
+		
+		for( long unsigned int j = 0; j < macro_bytes[i].size(); ){
+			
+			// failsafe
+			if( j >= macro_bytes[i].size() )
+				break;
+			
+			if( macro_bytes[i][j] == 0x81 ){ // mouse button down
+				
+				if( macro_bytes[i][j] == 0x01 )
+					std::cout << ";# down\tmouse_left\n";
+				else if( macro_bytes[i][j] == 0x02 )
+					std::cout << ";# down\tmouse_right\n";
+				else if( macro_bytes[i][j] == 0x04 )
+					std::cout << ";# down\tmouse_middle\n";
+				else{
+					std::cout << ";# unknown, please report as bug: ";
+					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+2];
+					std::cout << std::dec << "\n";
+				}
+				
+			} else if( macro_bytes[i][j] == 0x01 ){ // mouse button up
+				
+				if( macro_bytes[i][j] == 0x01 )
+					std::cout << ";# up\tmouse_left\n";
+				else if( macro_bytes[i][j] == 0x02 )
+					std::cout << ";# up\tmouse_right\n";
+				else if( macro_bytes[i][j] == 0x04 )
+					std::cout << ";# up\tmouse_middle\n";
+				else{
+					std::cout << ";# unknown, please report as bug: ";
+					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+2];
+					std::cout << std::dec << "\n";
+				}
+				
+			} else if( macro_bytes[i][j] == 0x84 ){ // keyboard key down
+				
+				bool found_name = false;
+				
+				// iterate over _keyboard_key_values
+				for( auto keycode : _keyboard_key_values ){
+					
+					if( keycode.second == macro_bytes[i][j+1] ){
+						
+						std::cout << ";# down\t" << keycode.first << "\n";
+						found_name = true;
+						break;
+						
+					}
+					
+				}
+				
+				if( !found_name ){
+					std::cout << ";# unknown, please report as bug: ";
+					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+2];
+					std::cout << std::dec << "\n";
+				}
+				
+			} else if( macro_bytes[i][j] == 0x04 ){ // keyboard key up
+				
+				bool found_name = false;
+				
+				// iterate over _keyboard_key_values
+				for( auto keycode : _keyboard_key_values ){
+					
+					if( keycode.second == macro_bytes[i][j+1] ){
+						
+						std::cout << ";# up\t" << keycode.first << "\n";
+						found_name = true;
+						break;
+						
+					}
+					
+				}
+				
+				if( !found_name ){
+					std::cout << ";# unknown, please report as bug: ";
+					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
+					std::cout << std::hex << (int)macro_bytes[i][j+2];
+					std::cout << std::dec << "\n";
+				}
+				
+			} else if( macro_bytes[i][j] == 0x06 ){ // delay
+				
+				std::cout << ";# delay\t" << (int)macro_bytes[i][j+1] << "\n";
+				
+			} else if( macro_bytes[i][j] == 0x00 ){ // padding
+				
+				if( macro_bytes[i][j+1] == 0x00 )
+					j+=2;
+				else
+					j++;
+				
+			} else{
+				std::cout << ";# unknown, please report as bug: ";
+				std::cout << std::hex << (int)macro_bytes[i][j] << " ";
+				std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
+				std::cout << std::hex << (int)macro_bytes[i][j+2];
+				std::cout << std::dec << "\n";
+			}
+			
+			// increment
+			j+=3;
+			
+		}
+		
 	}
 	
 	return 0;
