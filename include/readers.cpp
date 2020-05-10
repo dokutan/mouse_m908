@@ -107,7 +107,7 @@ int mouse_m908::dump_settings(){
 	return 0;
 }
 
-int mouse_m908::read_settings(){
+int mouse_m908::read_and_print_settings(){
 	
 	//prepare data 1
 	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
@@ -530,10 +530,7 @@ int mouse_m908::read_settings(){
 				
 			} else if( macro_bytes[i][j] == 0x00 ){ // padding
 				
-				if( macro_bytes[i][j+1] == 0x00 )
-					j+=2;
-				else
-					j++;
+				j++;
 				
 			} else{
 				std::cout << ";# unknown, please report as bug: ";

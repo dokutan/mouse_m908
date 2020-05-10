@@ -206,7 +206,7 @@ int main( int argc, char **argv ){
 		}
 		
 		// read settings
-		m.read_settings();
+		m.read_and_print_settings();
 		
 		m.close_mouse();
 		

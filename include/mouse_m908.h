@@ -241,7 +241,7 @@ class mouse_m908{
 		/**
 		 * Read the settings and print the configuration in .ini format
 		 */
-		int read_settings();
+		int read_and_print_settings();
 		
 	private:
 		
