@@ -147,17 +147,17 @@ int mouse_m908::write_settings(){
 				buffer1[13][8+(2*i)] = 0x01; break;
 		}
 	}
-	for( int i = 3; i < 4; i++ ){
+	for( int i = 3; i < 5; i++ ){
 		switch( _report_rates[i] ){
 			default:
 			case r_125Hz:
-				buffer1[14][8+(2*i)] = 0x08; break;
+				buffer1[14][2+(2*i)] = 0x08; break;
 			case r_250Hz:
-				buffer1[14][8+(2*i)] = 0x04; break;
+				buffer1[14][2+(2*i)] = 0x04; break;
 			case r_500Hz:
-				buffer1[14][8+(2*i)] = 0x02; break;
+				buffer1[14][2+(2*i)] = 0x02; break;
 			case r_1000Hz:
-				buffer1[14][8+(2*i)] = 0x01; break;
+				buffer1[14][2+(2*i)] = 0x01; break;
 		}
 	}
 	

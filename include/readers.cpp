@@ -177,6 +177,8 @@ int mouse_m908::read_settings(){
 		// section header
 		std::cout << "\n[profile" << i << "]\n";
 		
+		std::cout << "\n# LED settings\n";
+		
 		// color
 		std::cout << "color=";
 		std::cout << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][8];
@@ -211,7 +213,48 @@ int mouse_m908::read_settings(){
 		else
 			std::cout << "unknown\n";
 		
+		
+		// polling rate (report rate)
+		if( i < 4 ){
+			
+			std::cout << "\n";
+			
+			if( buffer_in1[6][6+(2*i)] == 8 )
+				std::cout << "report_rate=125\n";
+			else if( buffer_in1[6][6+(2*i)] == 4 )
+				std::cout << "report_rate=250\n";
+			else if( buffer_in1[6][6+(2*i)] == 2 )
+				std::cout << "report_rate=500\n";
+			else if( buffer_in1[6][6+(2*i)] == 1 )
+				std::cout << "report_rate=1000\n";
+			else{
+				std::cout << "# report rate unknown, please report as bug: "
+					<< (int)buffer_in1[6][6+(2*i)] << "\n";
+			}
+			
+		} else{
+			
+			std::cout << "\n";
+			
+			if( buffer_in1[7][(2*i)] == 8 )
+				std::cout << "report_rate=125\n";
+			else if( buffer_in1[7][(2*i)] == 4 )
+				std::cout << "report_rate=250\n";
+			else if( buffer_in1[7][(2*i)] == 2 )
+				std::cout << "report_rate=500\n";
+			else if( buffer_in1[7][(2*i)] == 1 )
+				std::cout << "report_rate=1000\n";
+			else{
+				std::cout << "# report rate unknown, please report as bug: "
+					<< (int)buffer_in1[6][6+(2*i)] << "\n";
+			}
+			
+		}
+		
+		
 		// dpi
+		std::cout << "\n# DPI settings\n";
+		std::cout << "# Active dpi level for this profile: " << (int)buffer_in2[i-1][8]+1 << "\n";
 		for( int j = 1; j < 6; j++ ){
 			std::cout << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
 			std::cout << std::setfill('0') << std::setw(2) << std::hex;
@@ -220,6 +263,7 @@ int mouse_m908::read_settings(){
 		}
 		
 		// button mapping
+		std::cout << "\n# Button mapping\n";
 		std::map< int, std::string > button_names = {
 			{ 0, "button_left" },
 			{ 1, "button_right" },
