@@ -6,5 +6,5 @@
 - [x] read scrollspeed? not supported by the official software/firmware
 - [ ] unify makefile
 - [x] check setters and getters
-	- [ ] add getter for macros
+	- [x] add getter for macros
 - [ ] release 2.0

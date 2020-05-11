@@ -193,6 +193,8 @@ class mouse_m908{
 		bool get_detach_kernel_driver();
 		int get_key_mapping( m908_profile profile, int key, std::string& mapping );
 		int get_key_mapping_raw( m908_profile profile, int key, std::array<uint8_t, 4>& mapping );
+		int get_macro( int number, std::string& macro );
+		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
 		
 		//writer functions (apply settings to mouse)
