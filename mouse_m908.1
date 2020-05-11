@@ -44,11 +44,11 @@ Do not attempt to detach the kernel drivers. Useful for compatibility on some sy
 \fB\-v\fR, \fB\-\-version\fR
 Print version.
 .TP
-\fB\-R\fR, \fB\-\-read\fR
-Read settings from the mouse and print the configuration.
+\fB\-R\fR, \fB\-\-read\fR=\fIFILE\fR
+Read settings from the mouse and print the configuration to the specfied file. Uses stdout when \fIFILE\fR is "-".
 .TP
-\fB\-D\fR, \fB\-\-dump\fR
-Read settings from the mouse and dump the raw data (only useful for debugging and development).
+\fB\-D\fR, \fB\-\-dump\fR=\fIFILE\fR
+Read settings from the mouse and dump the raw data to the specfied file. Uses stdout when \fIFILE\fR is "-". Only useful for debugging and development.
 .SH EXAMPLES
 To send the configuration from example.ini
 .PP
@@ -63,6 +63,14 @@ To send the macro from example.macro to slot 1
 .nf
 .RS
 mouse_m908 -m example.macro -n 1
+.RE
+.fi
+.PP
+To read and print the current config in .ini format
+.PP
+.nf
+.RS
+mouse_m908 -R -
 .RE
 .fi
 .PP

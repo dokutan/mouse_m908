@@ -20,7 +20,7 @@
 
 //reader functions (get settings from mouse)
 
-int mouse_m908::dump_settings(){
+int mouse_m908::dump_settings( std::ostream& output ){
 	
 	//prepare data 1
 	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
@@ -43,6 +43,7 @@ int mouse_m908::dump_settings(){
 		std::copy(std::begin(_data_read_3[i]), std::end(_data_read_3[i]), std::begin(buffer3[i]));
 	}
 	
+	output << "Part 1:\n\n";
 	
 	//send data 1
 	uint8_t buffer_in1[16];
@@ -57,13 +58,15 @@ int mouse_m908::dump_settings(){
 		
 		// hexdump
 		if ( num_bytes_in > 0 ){
-			std::cout << std::hex;
+			output << std::hex;
 			for( int j = 0; j < num_bytes_in;  j++ ){
-				std::cout << (int)buffer_in1[j] << " ";
+				output << std::setfill('0') << std::setw(2) << (int)buffer_in1[j] << " ";
 			}
-			std::cout << "\n\n" << std::dec;
+			output << "\n\n" << std::dec << std::setw(0) << std::setfill(' ');
 		}
 	}
+	
+	output << "Part 2:\n\n";
 	
 	//send data 2
 	uint8_t buffer_in2[64];
@@ -76,13 +79,15 @@ int mouse_m908::dump_settings(){
 		
 		// hexdump
 		if ( num_bytes_in > 0 ){
-			std::cout << std::hex;
+			output << std::hex;
 			for( int j = 0; j < num_bytes_in;  j++ ){
-				std::cout << (int)buffer_in2[j] << " ";
+				output << std::setfill('0') << std::setw(2) << (int)buffer_in2[j] << " ";
 			}
-			std::cout << "\n\n" << std::dec;
+			output << "\n\n" << std::dec << std::setw(0) << std::setfill(' ');
 		}
 	}
+	
+	output << "Part 3:\n\n";
 	
 	//send data 3
 	uint8_t buffer_in3[16];
@@ -95,11 +100,11 @@ int mouse_m908::dump_settings(){
 		
 		// hexdump
 		if ( num_bytes_in > 0 ){
-			std::cout << std::hex;
+			output << std::hex;
 			for( int j = 0; j < num_bytes_in;  j++ ){
-				std::cout << (int)buffer_in3[j] << " ";
+				output << std::setfill('0') << std::setw(2) << (int)buffer_in3[j] << " ";
 			}
-			std::cout << "\n\n" << std::dec;
+			output << "\n\n" << std::dec << std::setw(0) << std::setfill(' ');
 		}
 	}
 	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
@@ -107,7 +112,7 @@ int mouse_m908::dump_settings(){
 	return 0;
 }
 
-int mouse_m908::read_and_print_settings(){
+int mouse_m908::read_and_print_settings( std::ostream& output ){
 	
 	//prepare data 1
 	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
@@ -168,86 +173,86 @@ int mouse_m908::read_and_print_settings(){
 	
 	
 	// print configuration
-	std::cout << "# Configuration created with mouse_m908 -R.\n";
-	std::cout << "# This function is experimental, not all settings are read.\n";
-	std::cout << "# Currently active profile: " << (int)buffer_in1[0][8]+1 << "\n";
+	output << "# Configuration created with mouse_m908 -R.\n";
+	output << "# This function is experimental, not all settings are read.\n";
+	output << "# Currently active profile: " << (int)buffer_in1[0][8]+1 << "\n";
 	
 	for( int i = 1; i < 6; i++ ){
 		
 		// section header
-		std::cout << "\n[profile" << i << "]\n";
+		output << "\n[profile" << i << "]\n";
 		
-		std::cout << "\n# LED settings\n";
+		output << "\n# LED settings\n";
 		
 		// color
-		std::cout << "color=";
-		std::cout << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][8];
-		std::cout << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][9];
-		std::cout << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][10];
-		std::cout << std::setfill(' ') << std::setw(0) << std::dec << "\n";
+		output << "color=";
+		output << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][8];
+		output << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][9];
+		output << std::setfill('0') << std::setw(2) << std::hex << (int)buffer_in1[i][10];
+		output << std::setfill(' ') << std::setw(0) << std::dec << "\n";
 		
 		// brightness
-		std::cout << "brightness=" << (int)buffer_in1[i][14] << "\n";
+		output << "brightness=" << (int)buffer_in1[i][14] << "\n";
 		
 		// speed
-		std::cout << "speed=" << (int)buffer_in1[i][13] << "\n";
+		output << "speed=" << (int)buffer_in1[i][13] << "\n";
 		
 		// lightmode
-		std::cout << "lightmode=";
+		output << "lightmode=";
 		if( buffer_in1[i][11] == 0x00 && buffer_in1[i][13] == 0x00 )
-			std::cout << "off\n";
+			output << "off\n";
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x04 )
-			std::cout << "breathing\n";
+			output << "breathing\n";
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x08 )
-			std::cout << "rainbow\n";
+			output << "rainbow\n";
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x02 )
-			std::cout << "static\n";
+			output << "static\n";
 		else if( buffer_in1[i][11] == 0x02 && buffer_in1[i][13] == 0x00 )
-			std::cout << "wave\n";
+			output << "wave\n";
 		else if( buffer_in1[i][11] == 0x06 && buffer_in1[i][13] == 0x00 )
-			std::cout << "alternating\n";
+			output << "alternating\n";
 		else if( buffer_in1[i][11] == 0x07 && buffer_in1[i][13] == 0x00 )
-			std::cout << "reactive\n";
+			output << "reactive\n";
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x10 )
-			std::cout << "flashing\n";
+			output << "flashing\n";
 		else{
-			std::cout << "unknown, please report as bug: ";
-			std::cout << std::hex << buffer_in1[i][11] << " ";
-			std::cout << std::hex << buffer_in1[i][13] << std::dec << "\n";
+			output << "unknown, please report as bug: ";
+			output << std::hex << buffer_in1[i][11] << " ";
+			output << std::hex << buffer_in1[i][13] << std::dec << "\n";
 		}
 		
 		// polling rate (report rate)
 		if( i < 4 ){
 			
-			std::cout << "\n";
+			output << "\n";
 			
 			if( buffer_in1[6][6+(2*i)] == 8 )
-				std::cout << "report_rate=125\n";
+				output << "report_rate=125\n";
 			else if( buffer_in1[6][6+(2*i)] == 4 )
-				std::cout << "report_rate=250\n";
+				output << "report_rate=250\n";
 			else if( buffer_in1[6][6+(2*i)] == 2 )
-				std::cout << "report_rate=500\n";
+				output << "report_rate=500\n";
 			else if( buffer_in1[6][6+(2*i)] == 1 )
-				std::cout << "report_rate=1000\n";
+				output << "report_rate=1000\n";
 			else{
-				std::cout << "# report rate unknown, please report as bug: "
+				output << "# report rate unknown, please report as bug: "
 					<< (int)buffer_in1[6][6+(2*i)] << "\n";
 			}
 			
 		} else{
 			
-			std::cout << "\n";
+			output << "\n";
 			
 			if( buffer_in1[7][(2*i)] == 8 )
-				std::cout << "report_rate=125\n";
+				output << "report_rate=125\n";
 			else if( buffer_in1[7][(2*i)] == 4 )
-				std::cout << "report_rate=250\n";
+				output << "report_rate=250\n";
 			else if( buffer_in1[7][(2*i)] == 2 )
-				std::cout << "report_rate=500\n";
+				output << "report_rate=500\n";
 			else if( buffer_in1[7][(2*i)] == 1 )
-				std::cout << "report_rate=1000\n";
+				output << "report_rate=1000\n";
 			else{
-				std::cout << "# report rate unknown, please report as bug: "
+				output << "# report rate unknown, please report as bug: "
 					<< (int)buffer_in1[7][(2*i)] << "\n";
 			}
 			
@@ -255,17 +260,17 @@ int mouse_m908::read_and_print_settings(){
 		
 		
 		// dpi
-		std::cout << "\n# DPI settings\n";
-		std::cout << "# Active dpi level for this profile: " << (int)buffer_in2[i-1][8]+1 << "\n";
+		output << "\n# DPI settings\n";
+		output << "# Active dpi level for this profile: " << (int)buffer_in2[i-1][8]+1 << "\n";
 		for( int j = 1; j < 6; j++ ){
-			std::cout << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
-			std::cout << std::setfill('0') << std::setw(2) << std::hex;
-			std::cout << "dpi" << j << "=" << (int)buffer_in2[i-1][5+(6*j)] << "\n";
-			std::cout << std::setfill(' ') << std::setw(0) << std::dec;
+			output << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
+			output << std::setfill('0') << std::setw(2) << std::hex;
+			output << "dpi" << j << "=" << (int)buffer_in2[i-1][5+(6*j)] << "\n";
+			output << std::setfill(' ') << std::setw(0) << std::dec;
 		}
 		
 		// button mapping
-		std::cout << "\n# Button mapping\n";
+		output << "\n# Button mapping\n";
 		std::map< int, std::string > button_names = {
 			{ 0, "button_left" },
 			{ 1, "button_right" },
@@ -296,20 +301,20 @@ int mouse_m908::read_and_print_settings(){
 			uint8_t b4 = buffer_in3[j+(20*(i-1))][11];
 			bool found_name = false;
 			
-			std::cout << button_names[j] << "=";
+			output << button_names[j] << "=";
 			
 			// fire button
 			if( b1 == 0x99 ){
 				
-				std::cout << "fire:";
+				output << "fire:";
 				
 				// button
 				if( b2 == 0x81 )
-					std::cout << "mouse_left:";
+					output << "mouse_left:";
 				else if( b2 == 0x82 )
-					std::cout << "mouse_right:";
+					output << "mouse_right:";
 				else if( b2 == 0x84 )
-					std::cout << "mouse_middle:";
+					output << "mouse_middle:";
 				else{
 					
 					// iterate over _keyboard_key_values
@@ -317,20 +322,20 @@ int mouse_m908::read_and_print_settings(){
 						
 						if( keycode.second == b2 ){
 							
-							std::cout << keycode.first;
+							output << keycode.first;
 							break;
 							
 						}
 						
 					}
-					std::cout << ":";
+					output << ":";
 				}
 				
 				// repeats
-				std::cout << (int)b3 << ":";
+				output << (int)b3 << ":";
 				
 				// delay
-				std::cout << (int)b4 << "\n";
+				output << (int)b4 << "\n";
 				
 				found_name = true;
 				
@@ -342,7 +347,7 @@ int mouse_m908::read_and_print_settings(){
 					
 					if( keycode.second == b3 ){
 						
-						std::cout << keycode.first << "\n";
+						output << keycode.first << "\n";
 						found_name = true;
 						break;
 						
@@ -357,7 +362,7 @@ int mouse_m908::read_and_print_settings(){
 				for( auto modifier : _keyboard_modifier_values ){
 					
 					if( modifier.second & b2 ){
-						std::cout << modifier.first;
+						output << modifier.first;
 					}
 					
 				}
@@ -367,7 +372,7 @@ int mouse_m908::read_and_print_settings(){
 					
 					if( keycode.second == b3 ){
 						
-						std::cout << keycode.first << "\n";
+						output << keycode.first << "\n";
 						found_name = true;
 						break;
 						
@@ -384,7 +389,7 @@ int mouse_m908::read_and_print_settings(){
 						keycode.second[1] == b2 && 
 						keycode.second[2] == b3 ){
 						
-						std::cout << keycode.first << "\n";
+						output << keycode.first << "\n";
 						found_name = true;
 						break;
 						
@@ -395,12 +400,12 @@ int mouse_m908::read_and_print_settings(){
 			}
 			
 			if( !found_name ){
-				std::cout << "unknown, please report as bug: ";
-				std::cout << " " << std::hex << (int)b1 << " ";
-				std::cout << " " << std::hex << (int)b2 << " ";
-				std::cout << " " << std::hex << (int)b3 << " ";
-				std::cout << " " << std::hex << (int)b4;
-				std::cout << std::dec << "\n";
+				output << "unknown, please report as bug: ";
+				output << " " << std::hex << (int)b1 << " ";
+				output << " " << std::hex << (int)b2 << " ";
+				output << " " << std::hex << (int)b3 << " ";
+				output << " " << std::hex << (int)b4;
+				output << std::dec << "\n";
 			}
 			
 		}
@@ -427,14 +432,14 @@ int mouse_m908::read_and_print_settings(){
 	}
 	
 	// decode macros
-	std::cout << "\n# Macros\n";
+	output << "\n# Macros\n";
 	for( int i = 0; i < 15; i++ ){
 		
 		// macro undefined?
 		if( macro_bytes[i][0] == 0 && macro_bytes[i][1] == 0 && macro_bytes[i][2] == 0 )
 			continue;
 		
-		std::cout << "\n;## macro" << i+1 << "\n";
+		output << "\n;## macro" << i+1 << "\n";
 		
 		for( long unsigned int j = 0; j < macro_bytes[i].size(); ){
 			
@@ -445,33 +450,33 @@ int mouse_m908::read_and_print_settings(){
 			if( macro_bytes[i][j] == 0x81 ){ // mouse button down
 				
 				if( macro_bytes[i][j] == 0x01 )
-					std::cout << ";# down\tmouse_left\n";
+					output << ";# down\tmouse_left\n";
 				else if( macro_bytes[i][j] == 0x02 )
-					std::cout << ";# down\tmouse_right\n";
+					output << ";# down\tmouse_right\n";
 				else if( macro_bytes[i][j] == 0x04 )
-					std::cout << ";# down\tmouse_middle\n";
+					output << ";# down\tmouse_middle\n";
 				else{
-					std::cout << ";# unknown, please report as bug: ";
-					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+2];
-					std::cout << std::dec << "\n";
+					output << ";# unknown, please report as bug: ";
+					output << std::hex << (int)macro_bytes[i][j] << " ";
+					output << std::hex << (int)macro_bytes[i][j+1] << " ";
+					output << std::hex << (int)macro_bytes[i][j+2];
+					output << std::dec << "\n";
 				}
 				
 			} else if( macro_bytes[i][j] == 0x01 ){ // mouse button up
 				
 				if( macro_bytes[i][j] == 0x01 )
-					std::cout << ";# up\tmouse_left\n";
+					output << ";# up\tmouse_left\n";
 				else if( macro_bytes[i][j] == 0x02 )
-					std::cout << ";# up\tmouse_right\n";
+					output << ";# up\tmouse_right\n";
 				else if( macro_bytes[i][j] == 0x04 )
-					std::cout << ";# up\tmouse_middle\n";
+					output << ";# up\tmouse_middle\n";
 				else{
-					std::cout << ";# unknown, please report as bug: ";
-					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+2];
-					std::cout << std::dec << "\n";
+					output << ";# unknown, please report as bug: ";
+					output << std::hex << (int)macro_bytes[i][j] << " ";
+					output << std::hex << (int)macro_bytes[i][j+1] << " ";
+					output << std::hex << (int)macro_bytes[i][j+2];
+					output << std::dec << "\n";
 				}
 				
 			} else if( macro_bytes[i][j] == 0x84 ){ // keyboard key down
@@ -483,7 +488,7 @@ int mouse_m908::read_and_print_settings(){
 					
 					if( keycode.second == macro_bytes[i][j+1] ){
 						
-						std::cout << ";# down\t" << keycode.first << "\n";
+						output << ";# down\t" << keycode.first << "\n";
 						found_name = true;
 						break;
 						
@@ -492,11 +497,11 @@ int mouse_m908::read_and_print_settings(){
 				}
 				
 				if( !found_name ){
-					std::cout << ";# unknown, please report as bug: ";
-					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+2];
-					std::cout << std::dec << "\n";
+					output << ";# unknown, please report as bug: ";
+					output << std::hex << (int)macro_bytes[i][j] << " ";
+					output << std::hex << (int)macro_bytes[i][j+1] << " ";
+					output << std::hex << (int)macro_bytes[i][j+2];
+					output << std::dec << "\n";
 				}
 				
 			} else if( macro_bytes[i][j] == 0x04 ){ // keyboard key up
@@ -508,7 +513,7 @@ int mouse_m908::read_and_print_settings(){
 					
 					if( keycode.second == macro_bytes[i][j+1] ){
 						
-						std::cout << ";# up\t" << keycode.first << "\n";
+						output << ";# up\t" << keycode.first << "\n";
 						found_name = true;
 						break;
 						
@@ -517,27 +522,27 @@ int mouse_m908::read_and_print_settings(){
 				}
 				
 				if( !found_name ){
-					std::cout << ";# unknown, please report as bug: ";
-					std::cout << std::hex << (int)macro_bytes[i][j] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
-					std::cout << std::hex << (int)macro_bytes[i][j+2];
-					std::cout << std::dec << "\n";
+					output << ";# unknown, please report as bug: ";
+					output << std::hex << (int)macro_bytes[i][j] << " ";
+					output << std::hex << (int)macro_bytes[i][j+1] << " ";
+					output << std::hex << (int)macro_bytes[i][j+2];
+					output << std::dec << "\n";
 				}
 				
 			} else if( macro_bytes[i][j] == 0x06 ){ // delay
 				
-				std::cout << ";# delay\t" << (int)macro_bytes[i][j+1] << "\n";
+				output << ";# delay\t" << (int)macro_bytes[i][j+1] << "\n";
 				
 			} else if( macro_bytes[i][j] == 0x00 ){ // padding
 				
 				j++;
 				
 			} else{
-				std::cout << ";# unknown, please report as bug: ";
-				std::cout << std::hex << (int)macro_bytes[i][j] << " ";
-				std::cout << std::hex << (int)macro_bytes[i][j+1] << " ";
-				std::cout << std::hex << (int)macro_bytes[i][j+2];
-				std::cout << std::dec << "\n";
+				output << ";# unknown, please report as bug: ";
+				output << std::hex << (int)macro_bytes[i][j] << " ";
+				output << std::hex << (int)macro_bytes[i][j+1] << " ";
+				output << std::hex << (int)macro_bytes[i][j+2];
+				output << std::dec << "\n";
 			}
 			
 			// increment

@@ -22,6 +22,7 @@
 #include <array>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <exception>
 #include <regex>
 #include <getopt.h>
@@ -98,8 +99,8 @@ int main( int argc, char **argv ){
 		{"device", required_argument, 0, 'd'},
 		{"kernel-driver", no_argument, 0, 'k'},
 		{"version", no_argument, 0, 'v'},
-		{"dump", no_argument, 0, 'D'},
-		{"read", no_argument, 0, 'R'},
+		{"dump", required_argument, 0, 'D'},
+		{"read", required_argument, 0, 'R'},
 		{0, 0, 0, 0}
 	};
 	
@@ -116,11 +117,12 @@ int main( int argc, char **argv ){
 	std::string string_macro, string_number;
 	//std::string string_repeat;
 	std::string string_bus, string_device;
+	std::string string_dump, string_read;
 	
 	//parse command line options
 	int c, option_index = 0;
 	//while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvr:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvDR",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvD:R:",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -164,9 +166,11 @@ int main( int argc, char **argv ){
 				break;
 			case 'D':
 				flag_dump_settings = true;
+				string_dump = optarg;
 				break;
 			case 'R':
 				flag_read_settings = true;
+				string_read = optarg;
 				break;
 			case '?':
 				break;
@@ -190,14 +194,28 @@ int main( int argc, char **argv ){
 			return 1;
 		}
 		
-		// dump settings
-		m.dump_settings();
+		// dump to file or cout
+		if( string_dump != "-" ){
+			std::ofstream out( string_dump );
+			
+			if( out.is_open() ){				
+				// dump settings
+				m.dump_settings( out );
+			
+				out.close();
+			} else{
+				std::cout << "Couldn't open " << string_dump << "\n";
+			}
+		} else{
+			m.dump_settings( std::cout );
+		}
+			
 		
 		m.close_mouse();
 		
 	}
 	
-	// read settings and dump raw data
+	// read settings and print in .ini format
 	if( flag_read_settings ){
 		
 		// open mouse
@@ -205,8 +223,21 @@ int main( int argc, char **argv ){
 			return 1;
 		}
 		
-		// read settings
-		m.read_and_print_settings();
+		// dump to file or cout
+		if( string_read != "-" ){
+			std::ofstream out( string_read );
+			
+			if( out.is_open() ){				
+				// read settings
+				m.read_and_print_settings( out );
+			
+				out.close();
+			} else{
+				std::cout << "Couldn't open " << string_read << "\n";
+			}
+		} else{
+			m.read_and_print_settings( std::cout );
+		}
 		
 		m.close_mouse();
 		

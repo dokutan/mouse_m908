@@ -235,13 +235,13 @@ class mouse_m908{
 		
 		//reader functions (get settings from the mouse)
 		/**
-		 * Read the settings and print the raw data
+		 * Read the settings and print the raw data to output
 		 */
-		int dump_settings();
+		int dump_settings( std::ostream& output );
 		/**
-		 * Read the settings and print the configuration in .ini format
+		 * Read the settings and print the configuration in .ini format to output
 		 */
-		int read_and_print_settings();
+		int read_and_print_settings( std::ostream& output );
 		
 	private:
 		

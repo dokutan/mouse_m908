@@ -26,15 +26,15 @@ void print_help(){
 	std::cout << "Options:\n\n";
 	
 	std::cout << "-h --help\n\tDisplays this message.\n";
-	std::cout << "-c --config\n\tLoads and applies settings from specified file.\n";
-	std::cout << "-p --profile\n\tSets currently active profile (1-5).\n";
-	std::cout << "-m --macro\n\tSelects macro file for sending.\n";
-	std::cout << "-n --number\n\tSelects macro slot for sending (1-15).\n";
-	std::cout << "-b --bus\n\tUSB bus id, requires -d.\n";
-	std::cout << "-d --device\n\tUSB device number, requires -b.\n";
+	std::cout << "-c --config=arg\n\tLoads and applies settings from specified file.\n";
+	std::cout << "-p --profile=arg\n\tSets currently active profile (1-5).\n";
+	std::cout << "-m --macro=arg\n\tSelects macro file for sending.\n";
+	std::cout << "-n --number=arg\n\tSelects macro slot for sending (1-15).\n";
+	std::cout << "-b --bus=arg\n\tUSB bus id, requires -d.\n";
+	std::cout << "-d --device=arg\n\tUSB device number, requires -b.\n";
 	std::cout << "-k --kernel-driver\n\tDo not attempt to detach kernel driver.\n";
 	std::cout << "-v --version\n\tPrint version.\n";
-	std::cout << "-R --read\n\tRead settings from the mouse and print configuration.\n";
-	std::cout << "-D --dump\n\tRead settings from the mouse and dump the raw data.\n";
+	std::cout << "-R --read=arg\n\tRead settings from the mouse and print configuration to the specified file (\"-\" = stdout).\n";
+	std::cout << "-D --dump=arg\n\tRead settings from the mouse and dump the raw data to the specified file (\"-\" = stdout).\n";
 	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }
