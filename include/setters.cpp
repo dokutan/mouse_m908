@@ -129,6 +129,7 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapp
 		std::string value1 = "", value2 = "", value3 = "";
 		uint8_t keycode, repeats = 1, delay = 0;
 		
+		// the repeated value1 line is not a mistake, it skips the "fire:"
 		std::getline( mapping_stream, value1, ':' );
 		std::getline( mapping_stream, value1, ':' );
 		std::getline( mapping_stream, value2, ':' );

@@ -63,3 +63,140 @@ uint8_t mouse_m908::get_macro_repeat( int macro_number ){
 	
 	return _macro_repeat[macro_number];
 }
+
+bool mouse_m908::get_detach_kernel_driver(){
+	return _detach_kernel_driver;
+}
+
+int mouse_m908::get_key_mapping_raw( mouse_m908::m908_profile profile, int key, std::array<uint8_t, 4>& mapping ){
+	
+	if( key < 0 || key > 19 ) // valid key ?
+		return 1;
+	
+	mapping[0] = _keymap_data[profile][key][0];
+	mapping[1] = _keymap_data[profile][key][1];
+	mapping[2] = _keymap_data[profile][key][2];
+	mapping[3] = _keymap_data[profile][key][3];
+	
+	return 0;
+}
+
+int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std::string& mapping ){
+	
+	if( key < 0 || key > 19 ) // valid key ?
+		return 1;
+	
+	uint8_t b1 = _keymap_data[profile][key][0];
+	uint8_t b2 = _keymap_data[profile][key][1];
+	uint8_t b3 = _keymap_data[profile][key][2];
+	uint8_t b4 = _keymap_data[profile][key][3];
+	bool found_name = false;
+	
+	mapping = "";
+	
+	// fire button
+	if( b1 == 0x99 ){
+		
+		mapping += "fire:";
+		
+		// button
+		if( b2 == 0x81 )
+			mapping += "mouse_left:";
+		else if( b2 == 0x82 )
+			mapping += "mouse_right:";
+		else if( b2 == 0x84 )
+			mapping += "mouse_middle:";
+		else{
+			
+			// iterate over _keyboard_key_values
+			for( auto keycode : _keyboard_key_values ){
+				
+				if( keycode.second == b2 ){
+					
+					mapping += keycode.first;
+					break;
+					
+				}
+				
+			}
+			mapping += ":";
+		}
+		
+		// repeats
+		mapping += std::to_string( (int)b3 ) + ":";
+		
+		// delay
+		mapping += std::to_string( (int)b4 );
+		
+		found_name = true;
+		
+	// keyboard key
+	} else if( b1 == 0x90 ){
+		
+		// iterate over _keyboard_key_values
+		for( auto keycode : _keyboard_key_values ){
+			
+			if( keycode.second == b3 ){
+				
+				mapping += keycode.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	// modifiers + keyboard key
+	} else if( b1 == 0x8f ){
+		
+		// iterate over _keyboard_modifier_values
+		for( auto modifier : _keyboard_modifier_values ){
+			
+			if( modifier.second & b2 ){
+				mapping += modifier.first;
+			}
+			
+		}
+		
+		// iterate over _keyboard_key_values
+		for( auto keycode : _keyboard_key_values ){
+			
+			if( keycode.second == b3 ){
+				
+				mapping += keycode.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	} else{ // mousebutton or special function ?
+		
+		// iterate over _keycodes
+		for( auto keycode : _keycodes ){
+			
+			if( keycode.second[0] == b1 &&
+				keycode.second[1] == b2 && 
+				keycode.second[2] == b3 ){
+				
+				mapping += keycode.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	}
+	
+	if( !found_name ){
+		mapping += "unknown, please report as bug: ";
+		mapping += " " + std::to_string( (int)b1 ) + " ";
+		mapping += " " + std::to_string( (int)b2 ) + " ";
+		mapping += " " + std::to_string( (int)b3 ) + " ";
+		mapping += " " + std::to_string( (int)b4 );
+	}
+	
+	return 0;
+}

@@ -1,0 +1,10 @@
+- [ ] add support for reading macros from --read output
+	- [ ] update documentation
+- [x] add file option to -D and -R
+- [ ] read settings → memory
+- [x] print settings ← memory
+- [x] read scrollspeed? not supported by the official software/firmware
+- [ ] unify makefile
+- [x] check setters and getters
+	- [ ] add getter for macros
+- [ ] release 2.0

@@ -190,7 +190,9 @@ class mouse_m908{
 		uint8_t get_dpi( m908_profile profile, int level );
 		m908_report_rate get_report_rate( m908_profile profile );
 		uint8_t get_macro_repeat( int macro_number );
-		
+		bool get_detach_kernel_driver();
+		int get_key_mapping( m908_profile profile, int key, std::string& mapping );
+		int get_key_mapping_raw( m908_profile profile, int key, std::array<uint8_t, 4>& mapping );
 		
 		
 		//writer functions (apply settings to mouse)
@@ -231,6 +233,11 @@ class mouse_m908{
 		 * \return 0 if successful (always at the moment)
 		 */
 		int close_mouse();
+		
+		/**
+		 * Print the current configuration in .ini format to output
+		 */
+		int print_settings( std::ostream& output );
 		
 		
 		//reader functions (get settings from the mouse)
@@ -284,6 +291,8 @@ class mouse_m908{
 		static const std::map< std::string, uint8_t > _keyboard_modifier_values;
 		/// Values/keycodes of keyboard keys
 		static std::map< std::string, uint8_t > _keyboard_key_values;
+		/// Names of the physical buttons
+		static std::map< int, std::string > _button_names;
 		
 		//usb data packets
 		/// Used for changing the active profile

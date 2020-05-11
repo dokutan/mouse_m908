@@ -174,7 +174,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	
 	// print configuration
 	output << "# Configuration created with mouse_m908 -R.\n";
-	output << "# This function is experimental, not all settings are read.\n";
+	output << "# Reading the scrollspeed is not supported.\n";
 	output << "# Currently active profile: " << (int)buffer_in1[0][8]+1 << "\n";
 	
 	for( int i = 1; i < 6; i++ ){
@@ -271,27 +271,6 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 		
 		// button mapping
 		output << "\n# Button mapping\n";
-		std::map< int, std::string > button_names = {
-			{ 0, "button_left" },
-			{ 1, "button_right" },
-			{ 2, "button_middle" },
-			{ 3, "button_fire" },
-			{ 4, "button_dpi_up" },
-			{ 5, "button_dpi_down" },
-			{ 6, "button_1" },
-			{ 7, "button_2" },
-			{ 8, "button_3" },
-			{ 9, "button_4" },
-			{ 10, "button_5" },
-			{ 11, "button_6" },
-			{ 12, "button_7" },
-			{ 13, "button_8" },
-			{ 14, "button_9" },
-			{ 15, "button_10" },
-			{ 16, "button_11" },
-			{ 17, "button_12" },
-			{ 18, "scroll_up" },
-			{ 19, "scroll_down" } };
 		
 		for( int j = 0; j < 20; j++ ){
 			
@@ -301,7 +280,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 			uint8_t b4 = buffer_in3[j+(20*(i-1))][11];
 			bool found_name = false;
 			
-			output << button_names[j] << "=";
+			output << _button_names[j] << "=";
 			
 			// fire button
 			if( b1 == 0x99 ){

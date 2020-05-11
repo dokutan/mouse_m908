@@ -221,6 +221,29 @@ std::map< std::string, uint8_t > mouse_m908::_keyboard_key_values = {
 	{ "F23", 0x72 },
 	{ "F24", 0x73 } };
 
+// Names of the physical buttons
+std::map< int, std::string > mouse_m908::_button_names = {
+	{ 0, "button_left" },
+	{ 1, "button_right" },
+	{ 2, "button_middle" },
+	{ 3, "button_fire" },
+	{ 4, "button_dpi_up" },
+	{ 5, "button_dpi_down" },
+	{ 6, "button_1" },
+	{ 7, "button_2" },
+	{ 8, "button_3" },
+	{ 9, "button_4" },
+	{ 10, "button_5" },
+	{ 11, "button_6" },
+	{ 12, "button_7" },
+	{ 13, "button_8" },
+	{ 14, "button_9" },
+	{ 15, "button_10" },
+	{ 16, "button_11" },
+	{ 17, "button_12" },
+	{ 18, "scroll_up" },
+	{ 19, "scroll_down" } };
+
 //usb data packets
 uint8_t mouse_m908::_data_profile[6][16] = {
 	{0x02, 0xf3, 0x2c, 0x00, 0x02, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
