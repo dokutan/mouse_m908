@@ -180,20 +180,35 @@ class mouse_m908{
 		
 		
 		//getter functions
+		/// Get currently active profile
 		m908_profile get_profile();
+		/// Get scrollspeed of specified profile
 		uint8_t get_scrollspeed( m908_profile profile );
+		/// Get led mode of specified profile
 		m908_lightmode get_lightmode( m908_profile profile );
+		/// Get led color of specified profile
 		void get_color( m908_profile profile, std::array<uint8_t, 3> &color );
+		/// Get led brightness of specified profile
 		uint8_t get_brightness( m908_profile profile );
+		/// Get led animation speed of specified profile
 		uint8_t get_speed( m908_profile profile );
+		/// Get dpi level enabled/disabled status of specified profile
 		bool get_dpi_enable( m908_profile profile, int level );
+		/// Get dpi value of specified level and profile
 		uint8_t get_dpi( m908_profile profile, int level );
+		/// Get USB poll rate of specified profile
 		m908_report_rate get_report_rate( m908_profile profile );
+		/// Get macro repeat number of specified profile
 		uint8_t get_macro_repeat( int macro_number );
+		/// Get _detach_kernel_driver
 		bool get_detach_kernel_driver();
+		/// Get button mapping as a string
 		int get_key_mapping( m908_profile profile, int key, std::string& mapping );
+		/// Get button mapping as a 4-byte value
 		int get_key_mapping_raw( m908_profile profile, int key, std::array<uint8_t, 4>& mapping );
+		/// Get macro as a string
 		int get_macro( int number, std::string& macro );
+		/// Get raw macro bytecode
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
 		
@@ -248,21 +263,34 @@ class mouse_m908{
 		 */
 		int dump_settings( std::ostream& output );
 		/**
-		 * Read the settings and print the configuration in .ini format to output
+		 * Read the settings and print the configuration in .ini format to output.
+		 * This does not alter the internal settings of the mouse_m908 class.
 		 */
 		int read_and_print_settings( std::ostream& output );
+		/**
+		 * Read the settings and print the configuration in .ini format to output.
+		 * This updates the internal settings of the mouse_m908 class.
+		 */
+		int read_settings();
+		
 		
 	private:
 		
-		// whether to detach kernel driver
+		/// whether to detach kernel driver
 		bool _detach_kernel_driver = true;
 		
 		//usb device vars
+		/// USB vendor id
 		static const uint16_t _mouse_vid;
+		/// USB product id
 		static const uint16_t _mouse_pid;
+		/// libusb device handle
 		libusb_device_handle* _handle;
+		/// set by open_mouse for close_mouse
 		bool _detached_driver_0 = false;
+		/// set by open_mouse for close_mouse
 		bool _detached_driver_1 = false;
+		/// set by open_mouse for close_mouse
 		bool _detached_driver_2 = false;
 		
 		//setting min and max values

@@ -533,3 +533,177 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	
 	return 0;
 }
+
+int mouse_m908::read_settings(){
+	
+	//prepare data 1
+	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
+	uint8_t buffer1[rows1][16];
+	for( int i = 0; i < rows1; i++ ){
+		std::copy(std::begin(_data_read_1[i]), std::end(_data_read_1[i]), std::begin(buffer1[i]));
+	}
+	
+	//prepare data 2
+	int rows2 = sizeof(_data_read_2) / sizeof(_data_read_2[0]);
+	uint8_t buffer2[rows2][64];
+	for( int i = 0; i < rows2; i++ ){
+		std::copy(std::begin(_data_read_2[i]), std::end(_data_read_2[i]), std::begin(buffer2[i]));
+	}
+	
+	//prepare data 3
+	int rows3 = sizeof(_data_read_3) / sizeof(_data_read_3[0]);
+	uint8_t buffer3[rows3][16];
+	for( int i = 0; i < rows3; i++ ){
+		std::copy(std::begin(_data_read_3[i]), std::end(_data_read_3[i]), std::begin(buffer3[i]));
+	}
+	
+	
+	//send data 1
+	uint8_t buffer_in1[8][16] = {0};
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
+	for( int i = 1; i < rows1; i++ ){
+		// control out
+		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
+		
+		// control in
+		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1[i-1], 16, 1000 );
+		
+	}
+	
+	//send data 2
+	uint8_t buffer_in2[85][64] = {0};
+	for( int i = 0; i < rows2; i++ ){
+		// control out
+		libusb_control_transfer( _handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
+		
+		// control in
+		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2[i], 64, 1000 );
+		
+	}
+	
+	//send data 3
+	uint8_t buffer_in3[100][16] = {0};
+	for( int i = 0; i < rows3-1; i++ ){
+		// control out
+		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
+		
+		// control in
+		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
+		
+	}
+	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	
+	// parse received data
+	
+	if( buffer_in1[0][8]+1 == 1 )
+		_profile = profile_1;
+	if( buffer_in1[0][8]+1 == 2 )
+		_profile = profile_2;
+	if( buffer_in1[0][8]+1 == 3 )
+		_profile = profile_3;
+	if( buffer_in1[0][8]+1 == 4 )
+		_profile = profile_4;
+	if( buffer_in1[0][8]+1 == 5 )
+		_profile = profile_5;
+	
+	for( int i = 1; i < 6; i++ ){
+		
+		// color
+		_colors[i-1][0] = buffer_in1[i][8];
+		_colors[i-1][1] = buffer_in1[i][9];
+		_colors[i-1][2] = buffer_in1[i][10];
+		
+		// brightness
+		_brightness_levels[i-1] = buffer_in1[i][14];
+		
+		// speed
+		_speed_levels[i-1] = buffer_in1[i][13];
+		
+		// lightmode
+		if( buffer_in1[i][11] == 0x00 && buffer_in1[i][13] == 0x00 )
+			_lightmodes[i-1] = lightmode_off;
+		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x04 )
+			_lightmodes[i-1] = lightmode_breathing;
+		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x08 )
+			_lightmodes[i-1] = lightmode_rainbow;
+		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x02 )
+			_lightmodes[i-1] = lightmode_static;
+		else if( buffer_in1[i][11] == 0x02 && buffer_in1[i][13] == 0x00 )
+			_lightmodes[i-1] = lightmode_wave;
+		else if( buffer_in1[i][11] == 0x06 && buffer_in1[i][13] == 0x00 )
+			_lightmodes[i-1] = lightmode_alternating;
+		else if( buffer_in1[i][11] == 0x07 && buffer_in1[i][13] == 0x00 )
+			_lightmodes[i-1] = lightmode_reactive;
+		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x10 )
+			_lightmodes[i-1] = lightmode_flashing;
+		
+		// polling rate (report rate)
+		if( i < 4 ){
+			
+			if( buffer_in1[6][6+(2*i)] == 8 )
+				_report_rates[i-1] = r_125Hz;
+			else if( buffer_in1[6][6+(2*i)] == 4 )
+				_report_rates[i-1] = r_250Hz;
+			else if( buffer_in1[6][6+(2*i)] == 2 )
+				_report_rates[i-1] = r_500Hz;
+			else if( buffer_in1[6][6+(2*i)] == 1 )
+				_report_rates[i-1] = r_1000Hz;
+						
+		} else{
+			
+			if( buffer_in1[7][(2*i)] == 8 )
+				_report_rates[i-1] = r_125Hz;
+			else if( buffer_in1[7][(2*i)] == 4 )
+				_report_rates[i-1] = r_250Hz;
+			else if( buffer_in1[7][(2*i)] == 2 )
+				_report_rates[i-1] = r_500Hz;
+			else if( buffer_in1[7][(2*i)] == 1 )
+				_report_rates[i-1] = r_1000Hz;
+			
+		}
+		
+		
+		// dpi
+		for( int j = 1; j < 6; j++ ){
+			
+			if( buffer_in2[i-1][4+(6*j)] )
+				_dpi_enabled[i-1][j-1] = true;
+			else
+				_dpi_enabled[i-1][j-1] = false;
+			
+			_dpi_levels[i-1][j-1] = buffer_in2[i-1][5+(6*j)];
+			
+		}
+		
+		// button mapping
+		for( int j = 0; j < 20; j++ ){
+			
+			_keymap_data[i-1][j][0] = buffer_in3[j+(20*(i-1))][8];
+			_keymap_data[i-1][j][1] = buffer_in3[j+(20*(i-1))][9];
+			_keymap_data[i-1][j][2] = buffer_in3[j+(20*(i-1))][10];
+			_keymap_data[i-1][j][3] = buffer_in3[j+(20*(i-1))][11];
+			
+		}
+	}
+	
+	// macros
+	
+	// iterate over buffer_in2
+	for( int i = 5; i < 85; i++ ){
+		
+		int macronumber = buffer_in2[i][3] - 0x63;
+		
+		// valid macronumber?
+		if( macronumber >= 1 && macronumber <= 15 ){
+			
+			// extract bytes
+			for( int j = 8; j < 58; j++ ){ // iterate over single packet
+				_macro_data[macronumber-1][j] = buffer_in2[i][j];
+			}
+			
+		}
+		
+	}
+	
+	return 0;
+}
