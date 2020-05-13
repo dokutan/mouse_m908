@@ -88,7 +88,7 @@ To set a macro to a specific button:
 3. Apply the configuration: ``mouse_m908 -c ⟨config.ini⟩``
 4. Depending on the file format:
 	- older type: Apply the specific macro: ``mouse_m908 -m ⟨macrofile⟩ -n ⟨N⟩``
-	- newer type: Apply the specific macro: ``mouse_m908 -m ⟨config.ini⟩``
+	- newer type: Apply all macros: ``mouse_m908 -m ⟨config.ini⟩``
 
 #### Macro file
 Each line contains an action and a parameter separated by a tab. Supported actions are:
