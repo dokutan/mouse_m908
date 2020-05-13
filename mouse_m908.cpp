@@ -365,7 +365,31 @@ int main( int argc, char **argv ){
 		
 	}
 	
-	// send macro
+	// send all macros
+	if( flag_macro && !flag_number ){
+		
+		// load macros
+		int r = m.set_all_macros( string_macro );
+		if( r != 0 ){
+			std::cout << "Couldn't load macros\n";
+			return 1;
+		}
+		
+		// open mouse
+		if( open_mouse_wrapper( m, flag_bus, flag_device, string_bus, string_device ) != 0 ){
+			return 1;
+		}
+		
+		// write macros
+		for( int i = 1; i < 16; i++ )
+			m.write_macro(i);
+		
+		
+		m.close_mouse();
+		
+	}
+	
+	// send individual macro
 	if( flag_macro && flag_number ){
 		
 		
@@ -415,7 +439,7 @@ int main( int argc, char **argv ){
 		
 		m.close_mouse();
 		
-	} else if( flag_macro || flag_number ){
+	} else if( !flag_macro && flag_number ){
 		std::cout << "Misssing option, --macro and --number must be used together.\n";
 	}
 	

@@ -24,7 +24,7 @@ Print a help message.
 Send the configuration from the specified .ini file to the mouse.
 .TP
 \fB\-m\fR, \fB\-\-macro\fR=\fIFILE\fR
-Send the macro from the specified file, requires \fB\-n\fR.
+Send the macros from the specified file, requires \fB\-n\fR when old macro format.
 .TP
 \fB\-n\fR, \fB\-\-number\fR=\fIFILE\fR
 Select the macro slot to send to (1-15), requires \fB\-m\fR.
@@ -63,6 +63,14 @@ To send the macro from example.macro to slot 1
 .nf
 .RS
 mouse_m908 -m example.macro -n 1
+.RE
+.fi
+.PP
+To send all macros from example.ini
+.PP
+.nf
+.RS
+mouse_m908 -m example.ini
 .RE
 .fi
 .PP

@@ -392,11 +392,11 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	
 	// macros
 	std::array< std::vector< uint8_t >, 15 > macro_bytes;
+	int macronumber = 1;
+	int counter = 0;
 	
 	// iterate over buffer_in2
 	for( int i = 5; i < 85; i++ ){
-		
-		int macronumber = buffer_in2[i][3] - 0x63;
 		
 		// valid macronumber?
 		if( macronumber >= 1 && macronumber <= 15 ){
@@ -406,6 +406,13 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 				macro_bytes[macronumber-1].push_back( buffer_in2[i][j] );
 			}
 			
+		}
+		
+		// increment counter and macronumber
+		counter++;
+		if( counter == 4 ){
+			counter = 0;
+			macronumber++;
 		}
 		
 	}
@@ -688,18 +695,47 @@ int mouse_m908::read_settings(){
 	
 	// macros
 	
+	// macros
+	std::array< std::vector< uint8_t >, 15 > macro_bytes;
+	int macronumber = 1;
+	int counter = 0;
+	
 	// iterate over buffer_in2
 	for( int i = 5; i < 85; i++ ){
 		
-		int macronumber = buffer_in2[i][3] - 0x63;
+		// This appears to be wrong
+		//int macronumber = buffer_in2[i][3] - 0x63;
 		
 		// valid macronumber?
 		if( macronumber >= 1 && macronumber <= 15 ){
 			
 			// extract bytes
-			for( int j = 8; j < 58; j++ ){ // iterate over single packet
-				_macro_data[macronumber-1][j] = buffer_in2[i][j];
+			for( int j = 8; j < 58; j++ ){ // iterate over individual packet
+				macro_bytes[macronumber-1].push_back( buffer_in2[i][j] );
 			}
+			
+		}
+		
+		// increment counter and macronumber
+		counter++;
+		if( counter == 4 ){
+			counter = 0;
+			macronumber++;
+		}
+		
+	}
+	
+	// store extracted bytes in _macro_data
+	for( int i = 0; i < 15; i++ ){ // for each macro in macro_bytes
+		
+		// for each byte in the macro
+		for( unsigned int j = 0; j < macro_bytes[i].size(); j++ ){
+			
+			// failsafe
+			if( j >= (_macro_data[i].size()+8) )
+				break;
+			
+			_macro_data[i][j+8] = macro_bytes[i][j];
 			
 		}
 		

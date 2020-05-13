@@ -167,6 +167,11 @@ class mouse_m908{
 		 */
 		int set_macro( int macro_number, std::string file );
 		
+		/** Load all macros from the specified .ini file
+		 * \return 0 if successful
+		 */
+		int set_all_macros( std::string file );
+		
 		/** Set how many times the specified macro should be repeated
 		 * \param macro_number macro slot (1-15)
 		 * \return 0 if successful

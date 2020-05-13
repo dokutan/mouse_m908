@@ -71,21 +71,32 @@ mouse_m908 -h
 ``
 mouse_m908 -m example.macro -n 1
 ``
+- Send all macros from example.ini:
+``
+mouse_m908 -m example.ini
+``
 
 ### Macros
 
-There is space for 15 macros on the mouse, these are shared over all profiles. Each macro can hold up to 34 actions. To set a macro to a specific button:
+There is space for 15 macros on the mouse, these are shared over all profiles. Each macro can hold up to 67 actions, any further actions get ignored.
+
+There are two file formats in which macros can be specified, one macro per file (the older type) and multiple macros as comments in the config.ini file (as produced by ``mouse_m908 --read``).
+
+To set a macro to a specific button:
 1. Create a file containing the macro actions
 2. Add macro⟨N⟩ to the button mapping configuration to set a button to the ⟨N⟩th macro
-3. Apply the configuration: mouse_m908 -c ⟨config.ini⟩
-4. Apply the specific macro: mouse_m908 -m ⟨macrofile⟩ -n ⟨N⟩
+3. Apply the configuration: ``mouse_m908 -c ⟨config.ini⟩``
+4. Depending on the file format:
+	- older type: Apply the specific macro: ``mouse_m908 -m ⟨macrofile⟩ -n ⟨N⟩``
+	- newer type: Apply the specific macro: ``mouse_m908 -m ⟨config.ini⟩``
+
 #### Macro file
 Each line contains an action and a parameter separated by a tab. Supported actions are:
 - down	⟨key⟩
 - up	⟨key⟩
 - delay ⟨1-255⟩
 
-example.macro for an example, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
+example.macro for an example of the older file format, example.ini for an example of the newer format, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
 - mouse_left
 - mouse_right
 - mouse_middle

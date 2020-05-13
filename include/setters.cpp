@@ -301,3 +301,182 @@ int mouse_m908::set_detach_kernel_driver( bool detach_kernel_driver ){
 	_detach_kernel_driver = detach_kernel_driver;
 	return 0;
 }
+
+
+int mouse_m908::set_all_macros( std::string file ){
+	
+	//open file
+	std::ifstream config_in( file );
+	if( !config_in.is_open() ){
+		return 1;
+	}
+	
+	//process file
+	std::string value1 = "";
+	std::string value2 = "";
+	std::size_t position = 0;
+	int data_offset = 8;
+	int macro_number = 0; // initially invalid
+	
+	for( std::string line; std::getline(config_in, line); ){
+		
+		// empty line → skip
+		if( line.length() == 0 )
+			continue;
+		
+		// macro header → set macro_number, reset data_offset
+		if( std::regex_match( line, std::regex(";## macro[0-9]*") ) ){
+			macro_number = stoi( std::regex_replace( line, std::regex(";## macro"), "" ), 0, 10 );
+			data_offset = 8;
+		}
+		
+		// macro action
+		if( std::regex_match( line, std::regex(";# .*") ) ){
+			
+			// valid macronumber ?
+			if( macro_number < 1 || macro_number > 15 )
+				continue;
+			
+			// maximum size reached
+			if(data_offset > 212)
+				continue;
+			
+			// get action string
+			std::string action = std::regex_replace( line, std::regex(";# "), "" );
+			
+			// get value substrings
+			position = 0;
+			position = action.find("\t", position);
+			value1 = action.substr(0, position);
+			value2 = action.substr(position+1);
+			
+			// encode values
+			if( value1 == "down" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				// keyboard key down
+				//std::cout << "down\n";
+				_macro_data[macro_number-1][data_offset] = 0x84;
+				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
+				data_offset += 3;
+			} else if( value1 == "up" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				// keyboard key up
+				//std::cout << "up\n";
+				_macro_data[macro_number-1][data_offset] = 0x04;
+				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
+				data_offset += 3;
+			} else if( value1 == "down" && _keyboard_key_values.find(value2) == _keyboard_key_values.end() ){
+				// mouse button down
+				//std::cout << "mouse down\n";
+				if( value2 == "mouse_left" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x01;
+					data_offset += 3;
+				} else if( value2 == "mouse_right" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x02;
+					data_offset += 3;
+				} else if( value2 == "mouse_middle" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x04;
+					data_offset += 3;
+				}
+			} else if( value1 == "up" && _keyboard_key_values.find(value2) == _keyboard_key_values.end() ){
+				// mouse button up
+				//std::cout << "mouse up\n";
+				if( value2 == "mouse_left" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x01;
+					data_offset += 3;
+				} else if( value2 == "mouse_right" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x02;
+					data_offset += 3;
+				} else if( value2 == "mouse_middle" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x04;
+					data_offset += 3;
+				}
+			} else if( value1 == "delay" ){
+				// delay
+				//std::cout << "delay\n";
+				int duration = (uint8_t)stoi( value2, 0, 10);
+				if( duration >= 1 && duration <= 255 ){
+					_macro_data[macro_number-1][data_offset] = 0x06;
+					_macro_data[macro_number-1][data_offset+1] = duration;
+					data_offset += 3;
+				}
+			}
+			
+		}
+		
+		//process individual line
+		/*if( line.length() != 0 ){
+
+			position = 0;
+			position = line.find("\t", position);
+			value1 = line.substr(0, position);
+			value2 = line.substr(position+1);
+			
+			if( value1 == "down" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				// keyboard key down
+				//std::cout << "down\n";
+				_macro_data[macro_number-1][data_offset] = 0x84;
+				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
+				data_offset += 3;
+			} else if( value1 == "up" && _keyboard_key_values.find(value2) != _keyboard_key_values.end() ){
+				// keyboard key up
+				//std::cout << "up\n";
+				_macro_data[macro_number-1][data_offset] = 0x04;
+				_macro_data[macro_number-1][data_offset+1] = _keyboard_key_values[value2];
+				data_offset += 3;
+			} else if( value1 == "down" && _keyboard_key_values.find(value2) == _keyboard_key_values.end() ){
+				// mouse button down
+				//std::cout << "mouse down\n";
+				if( value2 == "mouse_left" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x01;
+					data_offset += 3;
+				} else if( value2 == "mouse_right" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x02;
+					data_offset += 3;
+				} else if( value2 == "mouse_middle" ){
+					_macro_data[macro_number-1][data_offset] = 0x81;
+					_macro_data[macro_number-1][data_offset+1] = 0x04;
+					data_offset += 3;
+				}
+			} else if( value1 == "up" && _keyboard_key_values.find(value2) == _keyboard_key_values.end() ){
+				// mouse button up
+				//std::cout << "mouse up\n";
+				if( value2 == "mouse_left" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x01;
+					data_offset += 3;
+				} else if( value2 == "mouse_right" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x02;
+					data_offset += 3;
+				} else if( value2 == "mouse_middle" ){
+					_macro_data[macro_number-1][data_offset] = 0x01;
+					_macro_data[macro_number-1][data_offset+1] = 0x04;
+					data_offset += 3;
+				}
+			} else if( value1 == "delay" ){
+				// delay
+				//std::cout << "delay\n";
+				int duration = (uint8_t)stoi( value2, 0, 10);
+				if( duration >= 1 && duration <= 255 ){
+					_macro_data[macro_number-1][data_offset] = 0x06;
+					_macro_data[macro_number-1][data_offset+1] = duration;
+					data_offset += 3;
+				}
+			}
+			
+			if(data_offset > 212){
+				return 0;
+			}
+			*/
+		//}
+	}
+	
+	return 0;
+}
