@@ -1,17 +1,2 @@
-- [x] add support for reading macros from --read output
-	- [x] update documentation
-- [x] add file option to -D and -R
-- [x] read settings → memory
-- [x] print settings ← memory
-- [x] read scrollspeed? not supported by the official software/firmware
-- [ ] unify makefile
-- [x] check setters and getters
-	- [x] add getter for macros
-- [x] test and fix macro decoding
-	- [x] read_settings
-	- [x] read_and_print_settings
-	- [x] print_settings (works when set with set_macro)
-	- [x] get_macro (works when set with set_macro)
-	- decoding works, reading not, now fixed
-	- boundary detection in read part 2 is broken, now fixed
-- [ ] release 2.0
+- [ ] Improve build method
+	- [ ] Installation on all supported platforms
