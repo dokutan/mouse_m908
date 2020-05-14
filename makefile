@@ -10,7 +10,7 @@ CC_OPTIONS := -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
 LIBS != pkg-config --libs libusb-1.0
 
 # version string
-VERSION_STRING = "2.0"
+VERSION_STRING = "\"2.0\""
 
 # compile
 build: constructor.o data.o getters.o helpers.o load_config.o setters.o writers.o readers.o mouse_m908.o
