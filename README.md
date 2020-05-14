@@ -12,7 +12,7 @@ The mouse has a VID of 0x04d9 and PID of 0xfc4d, if you have a compatible device
 
 ### Linux
 - Install the dependencies:
-  - libusb
+  - libusb (On some distributions (e.g. Ubuntu) a dev package is required)
 - Clone this repo or download a release and run
 ```
 make
