@@ -42,6 +42,8 @@
 int open_mouse_wrapper( mouse_m908 &m, const bool flag_bus, const bool flag_device,
 	const std::string &string_bus, const std::string &string_device ){
 	
+	int open_return = 0; // open_mouse() return value
+	
 	if( flag_bus != flag_device ){ // improper arguments
 		
 		std::cout << "Missing argument, --bus and --device must be used together.\n";
@@ -56,22 +58,22 @@ int open_mouse_wrapper( mouse_m908 &m, const bool flag_bus, const bool flag_devi
 			return 1;
 		}
 		
-		int r;
-		r = m.open_mouse_bus_device( stoi(string_bus), stoi(string_device) );
-		if( r != 0 ){
-			std::cout << "Couldn't open mouse\n";
-			return 1;
-		}
+		open_return = m.open_mouse_bus_device( stoi(string_bus), stoi(string_device) );
 		
 	} else{ // open with vid and pid
 		
-		int r;
-		r = m.open_mouse();
-		if( r != 0 ){
-			std::cout << "Couldn't open mouse\n";
-			return 1;
-		}
+		open_return = m.open_mouse();
 		
+	}
+	
+	// Could not open → print message
+	if( open_return != 0 ){
+		std::cout << "Couldn't open mouse.\n";
+		std::cout << "- Check hardware and permissions (maybe you need to be root?)\n";
+		std::cout << "- Try with or without the --kernel-driver option\n";
+		std::cout << "- Try with the --bus and --device options\n";
+		std::cout << "If nothing works please report this as a bug.\n";
+		return 1;
 	}
 	
 	return 0;
