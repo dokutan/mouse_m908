@@ -37,22 +37,25 @@
  * The main class representing the M908 mouse.
  * This class has member functions to open, close and apply settings to the mouse.
  * 
- * There are 3 main types of functions:
+ * There are 4 main types of functions:
  * - set_*: setters
  * - get_*: getters
  * - write_*: write the settings to the mouse
+ * - read_*: read the sttings from the mouse
  * 
  * Therefore the general procedure when changing settings on the mouse is as follows:
  * 1. open_mouse() or open_mouse_bus_device()
  * 2. set_* (this step only changes the internal state of the class)
  * 3. write_* (this step sends the internal state of the class to the mouse)
  * 4. close_mouse()
+ * 
+ * 
  */
 class mouse_m908{
 	
 	public:
 		
-		// constructor
+		/// The default constructor. Sets the default settings.
 		mouse_m908();
 		
 		
@@ -90,51 +93,50 @@ class mouse_m908{
 		
 		
 		//setter functions
-		/** Set the currently active profile
-		 */
+		/// Set the currently active profile
 		int set_profile( m908_profile profile );
 		
-		/** Set the scrollspeed for the specified profile
+		/** \brief Set the scrollspeed for the specified profile
 		 * \see _scrollspeed_min
 		 * \see _scrollspeed_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
 		int set_scrollspeed( m908_profile profile, uint8_t speed );
 		
-		/** Set the led mode for the specified profile
+		/** \brief Set the led mode for the specified profile
 		 * \see m908_lightmode
 		 * \return 0 if successful
 		 */
 		int set_lightmode( m908_profile profile, m908_lightmode lightmode );
 		
-		/** Set the led color for the specified profile
+		/** \brief Set the led color for the specified profile
 		 * \param color color as {r, g, b}
 		 * \return 0 if successful
 		 */
 		int set_color( m908_profile profile, std::array<uint8_t, 3> color );
 		
-		/** Set the led brightness for the specified profile
+		/** \brief Set the led brightness for the specified profile
 		 * \see _brightness_min
 		 * \see _brightness_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
 		int set_brightness( m908_profile profile, uint8_t brightness );
 		
-		/** Set the led animation speed for the specified profile
+		/** \brief Set the led animation speed for the specified profile
 		 * \see _speed_min
 		 * \see _speed_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
 		int set_speed( m908_profile profile, uint8_t speed );
 		
-		/** Enables/Disables a dpi level for the specified profile
+		/** \brief Enables/Disables a dpi level for the specified profile
 		 * \see _level_min
 		 * \see _level_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
 		int set_dpi_enable( m908_profile profile, int level, bool enabled );
 		
-		/** Set the value of a dpi level for the specified profile
+		/** \brief Set the value of a dpi level for the specified profile
 		 * \see _dpi_min
 		 * \see _dpi_max
 		 * \see _level_min
@@ -143,42 +145,42 @@ class mouse_m908{
 		 */
 		int set_dpi( m908_profile profile, int level, uint8_t dpi );
 		
-		/** Set a mapping for a button for the specified profile
+		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping 4 bytes for the usb data packets
 		 * \return 0 if successful
 		 */
 		int set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 4> mapping );
 		
-		/** Set a mapping for a button for the specified profile
+		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping button name (see keymap.md)
 		 * \return 0 if successful, 1 if mapping is invalid
 		 */
 		int set_key_mapping( m908_profile profile, int key, std::string mapping );
 		
-		/** Set the USB poll rate for the specified profile
+		/** \brief Set the USB poll rate for the specified profile
 		 * \see m908_report_rate
 		 * \return 0 if successful
 		 */
 		int set_report_rate( m908_profile profile, m908_report_rate report_rate );
 		
-		/** Load the macro from the specified file into the specified slot
+		/** \brief Load the macro from the specified file into the specified slot
 		 * \param macro_number macro slot (1-15)
 		 * \return 0 if successful
 		 */
 		int set_macro( int macro_number, std::string file );
 		
-		/** Load all macros from the specified .ini file
+		/** \brief Load all macros from the specified .ini file
 		 * \return 0 if successful
 		 */
 		int set_all_macros( std::string file );
 		
-		/** Set how many times the specified macro should be repeated
+		/** \brief Set how many times the specified macro should be repeated
 		 * \param macro_number macro slot (1-15)
 		 * \return 0 if successful
 		 */
 		int set_macro_repeat( int macro_number, uint8_t repeat );
 		
-		/** Set whether to try to detach the kernel driver when opening the mouse
+		/** \brief Set whether to try to detach the kernel driver when opening the mouse
 		 */
 		int set_detach_kernel_driver( bool detach_kernel_driver );
 		
@@ -218,22 +220,22 @@ class mouse_m908{
 		
 		
 		//writer functions (apply settings to mouse)
-		/** Write the currently active profile to the mouse
+		/** \brief Write the currently active profile to the mouse
 		 * \return 0 if successful
 		 */
 		int write_profile();
 		
-		/** Write the settings (leds, button mapping, dpi, etc.) to the mouse
+		/** \brief Write the settings (leds, button mapping, dpi, etc.) to the mouse
 		 * \return 0 if successful
 		 */
 		int write_settings();
 		
-		/** Write a macro to the mouse
+		/** \brief Write a macro to the mouse
 		 * \return 0 if successful
 		 */
 		int write_macro( int macro_number );
 		
-		/** Write the number of repeats for a macro to the mouse
+		/** \brief Write the number of repeats for a macro to the mouse
 		 * \return 0 if successful
 		 */
 		int write_macro_repeat( int macro_number );
@@ -241,39 +243,36 @@ class mouse_m908{
 		
 		
 		//helper functions
-		/** Init libusb and open the mouse by its USB VID and PID
+		/** \brief Init libusb and open the mouse by its USB VID and PID
 		 * \return 0 if successful
 		 */
 		int open_mouse();
 		
-		/** Init libusb and open the mouse by the USB bus and device adress
+		/** \brief Init libusb and open the mouse by the USB bus and device adress
 		 * \return 0 if successful
 		 */
 		int open_mouse_bus_device( uint8_t bus, uint8_t device );
 		
-		/** Close the mouse and libusb
+		/** \brief Close the mouse and libusb
 		 * \return 0 if successful (always at the moment)
 		 */
 		int close_mouse();
 		
-		/**
-		 * Print the current configuration in .ini format to output
-		 */
+		/// Print the current configuration in .ini format to output
 		int print_settings( std::ostream& output );
 		
 		
+		
 		//reader functions (get settings from the mouse)
-		/**
-		 * Read the settings and print the raw data to output
-		 */
+		/// Read the settings and print the raw data to output
 		int dump_settings( std::ostream& output );
 		/**
-		 * Read the settings and print the configuration in .ini format to output.
+		 * \brief Read the settings and print the configuration in .ini format to output.
 		 * This does not alter the internal settings of the mouse_m908 class.
 		 */
 		int read_and_print_settings( std::ostream& output );
 		/**
-		 * Read the settings and print the configuration in .ini format to output.
+		 * \brief Read the settings and print the configuration in .ini format to output.
 		 * This updates the internal settings of the mouse_m908 class.
 		 */
 		int read_settings();

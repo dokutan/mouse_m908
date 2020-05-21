@@ -36,6 +36,7 @@ class simple_ini_parser{
 	
 	private:
 	
+	/// Stores the key-value pairs
 	std::map< std::string, std::string > _ini_values;
 	
 	public:
@@ -50,7 +51,7 @@ class simple_ini_parser{
 	/**
 	 * Get the value of the specified key.
 	 * \return The value of the specified key, or the specified default
-	 * value
+	 * value if the key is unkwnown
 	 */
 	std::string get( std::string key, std::string default_value );
 	

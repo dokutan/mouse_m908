@@ -1,2 +1,4 @@
 - [ ] Improve build method
 	- [ ] Installation on all supported platforms
+- [ ] Add more source documentation
+- [ ] Rename class members to distinguish constants, functions and settings
