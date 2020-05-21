@@ -23,24 +23,24 @@
 int mouse_m908::dump_settings( std::ostream& output ){
 	
 	//prepare data 1
-	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
+	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
 	uint8_t buffer1[rows1][16];
 	for( int i = 0; i < rows1; i++ ){
-		std::copy(std::begin(_data_read_1[i]), std::end(_data_read_1[i]), std::begin(buffer1[i]));
+		std::copy(std::begin(_c_data_read_1[i]), std::end(_c_data_read_1[i]), std::begin(buffer1[i]));
 	}
 	
 	//prepare data 2
-	int rows2 = sizeof(_data_read_2) / sizeof(_data_read_2[0]);
+	int rows2 = sizeof(_c_data_read_2) / sizeof(_c_data_read_2[0]);
 	uint8_t buffer2[rows2][64];
 	for( int i = 0; i < rows2; i++ ){
-		std::copy(std::begin(_data_read_2[i]), std::end(_data_read_2[i]), std::begin(buffer2[i]));
+		std::copy(std::begin(_c_data_read_2[i]), std::end(_c_data_read_2[i]), std::begin(buffer2[i]));
 	}
 	
 	//prepare data 3
-	int rows3 = sizeof(_data_read_3) / sizeof(_data_read_3[0]);
+	int rows3 = sizeof(_c_data_read_3) / sizeof(_c_data_read_3[0]);
 	uint8_t buffer3[rows3][16];
 	for( int i = 0; i < rows3; i++ ){
-		std::copy(std::begin(_data_read_3[i]), std::end(_data_read_3[i]), std::begin(buffer3[i]));
+		std::copy(std::begin(_c_data_read_3[i]), std::end(_c_data_read_3[i]), std::begin(buffer3[i]));
 	}
 	
 	output << "Part 1:\n\n";
@@ -48,13 +48,13 @@ int mouse_m908::dump_settings( std::ostream& output ){
 	//send data 1
 	uint8_t buffer_in1[16];
 	int num_bytes_in;
-	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
 	for( int i = 1; i < rows1; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
 		
 		// control in
-		num_bytes_in = libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1, 16, 1000 );
+		num_bytes_in = libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1, 16, 1000 );
 		
 		// hexdump
 		if ( num_bytes_in > 0 ){
@@ -72,10 +72,10 @@ int mouse_m908::dump_settings( std::ostream& output ){
 	uint8_t buffer_in2[64];
 	for( int i = 0; i < rows2; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
 		
 		// control in
-		num_bytes_in = libusb_control_transfer( _handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2, 64, 1000 );
+		num_bytes_in = libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2, 64, 1000 );
 		
 		// hexdump
 		if ( num_bytes_in > 0 ){
@@ -93,10 +93,10 @@ int mouse_m908::dump_settings( std::ostream& output ){
 	uint8_t buffer_in3[16];
 	for( int i = 0; i < rows3-1; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
 		
 		// control in
-		num_bytes_in = libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3, 16, 1000 );
+		num_bytes_in = libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3, 16, 1000 );
 		
 		// hexdump
 		if ( num_bytes_in > 0 ){
@@ -107,7 +107,7 @@ int mouse_m908::dump_settings( std::ostream& output ){
 			output << "\n\n" << std::dec << std::setw(0) << std::setfill(' ');
 		}
 	}
-	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
 	
 	return 0;
 }
@@ -115,36 +115,36 @@ int mouse_m908::dump_settings( std::ostream& output ){
 int mouse_m908::read_and_print_settings( std::ostream& output ){
 	
 	//prepare data 1
-	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
+	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
 	uint8_t buffer1[rows1][16];
 	for( int i = 0; i < rows1; i++ ){
-		std::copy(std::begin(_data_read_1[i]), std::end(_data_read_1[i]), std::begin(buffer1[i]));
+		std::copy(std::begin(_c_data_read_1[i]), std::end(_c_data_read_1[i]), std::begin(buffer1[i]));
 	}
 	
 	//prepare data 2
-	int rows2 = sizeof(_data_read_2) / sizeof(_data_read_2[0]);
+	int rows2 = sizeof(_c_data_read_2) / sizeof(_c_data_read_2[0]);
 	uint8_t buffer2[rows2][64];
 	for( int i = 0; i < rows2; i++ ){
-		std::copy(std::begin(_data_read_2[i]), std::end(_data_read_2[i]), std::begin(buffer2[i]));
+		std::copy(std::begin(_c_data_read_2[i]), std::end(_c_data_read_2[i]), std::begin(buffer2[i]));
 	}
 	
 	//prepare data 3
-	int rows3 = sizeof(_data_read_3) / sizeof(_data_read_3[0]);
+	int rows3 = sizeof(_c_data_read_3) / sizeof(_c_data_read_3[0]);
 	uint8_t buffer3[rows3][16];
 	for( int i = 0; i < rows3; i++ ){
-		std::copy(std::begin(_data_read_3[i]), std::end(_data_read_3[i]), std::begin(buffer3[i]));
+		std::copy(std::begin(_c_data_read_3[i]), std::end(_c_data_read_3[i]), std::begin(buffer3[i]));
 	}
 	
 	
 	//send data 1
 	uint8_t buffer_in1[8][16] = {0};
-	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
 	for( int i = 1; i < rows1; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
 		
 		// control in
-		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1[i-1], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1[i-1], 16, 1000 );
 		
 	}
 	
@@ -152,10 +152,10 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	uint8_t buffer_in2[85][64] = {0};
 	for( int i = 0; i < rows2; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
 		
 		// control in
-		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2[i], 64, 1000 );
+		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2[i], 64, 1000 );
 		
 	}
 	
@@ -163,19 +163,20 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	uint8_t buffer_in3[100][16] = {0};
 	for( int i = 0; i < rows3-1; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
 		
 		// control in
-		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
 		
 	}
-	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
 	
 	
 	// print configuration
 	output << "# Configuration created with mouse_m908 -R.\n";
-	output << "# Reading the scrollspeed is not supported.\n";
-	output << "# Currently active profile: " << (int)buffer_in1[0][8]+1 << "\n";
+	output << "# This configuration can be send to the mouse with mouse_m908 -c.\n";
+	output << "# Note: reading the scrollspeed is not supported.\n";
+	output << "\n# Currently active profile: " << (int)buffer_in1[0][8]+1 << "\n";
 	
 	for( int i = 1; i < 6; i++ ){
 		
@@ -280,7 +281,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 			uint8_t b4 = buffer_in3[j+(20*(i-1))][11];
 			bool found_name = false;
 			
-			output << _button_names[j] << "=";
+			output << _c_button_names[j] << "=";
 			
 			// fire button
 			if( b1 == 0x99 ){
@@ -296,8 +297,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 					output << "mouse_middle:";
 				else{
 					
-					// iterate over _keyboard_key_values
-					for( auto keycode : _keyboard_key_values ){
+					// iterate over _c_keyboard_key_values
+					for( auto keycode : _c_keyboard_key_values ){
 						
 						if( keycode.second == b2 ){
 							
@@ -321,8 +322,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 			// keyboard key
 			} else if( b1 == 0x90 ){
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
 					if( keycode.second == b3 ){
 						
@@ -337,8 +338,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 			// modifiers + keyboard key
 			} else if( b1 == 0x8f ){
 				
-				// iterate over _keyboard_modifier_values
-				for( auto modifier : _keyboard_modifier_values ){
+				// iterate over _c_keyboard_modifier_values
+				for( auto modifier : _c_keyboard_modifier_values ){
 					
 					if( modifier.second & b2 ){
 						output << modifier.first;
@@ -346,8 +347,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 					
 				}
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
 					if( keycode.second == b3 ){
 						
@@ -361,8 +362,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 				
 			} else{ // mousebutton or special function ?
 				
-				// iterate over _keycodes
-				for( auto keycode : _keycodes ){
+				// iterate over _c_keycodes
+				for( auto keycode : _c_keycodes ){
 					
 					if( keycode.second[0] == b1 &&
 						keycode.second[1] == b2 && 
@@ -469,8 +470,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 				
 				bool found_name = false;
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
 					if( keycode.second == macro_bytes[i][j+1] ){
 						
@@ -494,8 +495,8 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 				
 				bool found_name = false;
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
 					if( keycode.second == macro_bytes[i][j+1] ){
 						
@@ -544,36 +545,36 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 int mouse_m908::read_settings(){
 	
 	//prepare data 1
-	int rows1 = sizeof(_data_read_1) / sizeof(_data_read_1[0]);
+	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
 	uint8_t buffer1[rows1][16];
 	for( int i = 0; i < rows1; i++ ){
-		std::copy(std::begin(_data_read_1[i]), std::end(_data_read_1[i]), std::begin(buffer1[i]));
+		std::copy(std::begin(_c_data_read_1[i]), std::end(_c_data_read_1[i]), std::begin(buffer1[i]));
 	}
 	
 	//prepare data 2
-	int rows2 = sizeof(_data_read_2) / sizeof(_data_read_2[0]);
+	int rows2 = sizeof(_c_data_read_2) / sizeof(_c_data_read_2[0]);
 	uint8_t buffer2[rows2][64];
 	for( int i = 0; i < rows2; i++ ){
-		std::copy(std::begin(_data_read_2[i]), std::end(_data_read_2[i]), std::begin(buffer2[i]));
+		std::copy(std::begin(_c_data_read_2[i]), std::end(_c_data_read_2[i]), std::begin(buffer2[i]));
 	}
 	
 	//prepare data 3
-	int rows3 = sizeof(_data_read_3) / sizeof(_data_read_3[0]);
+	int rows3 = sizeof(_c_data_read_3) / sizeof(_c_data_read_3[0]);
 	uint8_t buffer3[rows3][16];
 	for( int i = 0; i < rows3; i++ ){
-		std::copy(std::begin(_data_read_3[i]), std::end(_data_read_3[i]), std::begin(buffer3[i]));
+		std::copy(std::begin(_c_data_read_3[i]), std::end(_c_data_read_3[i]), std::begin(buffer3[i]));
 	}
 	
 	
 	//send data 1
 	uint8_t buffer_in1[8][16] = {0};
-	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
 	for( int i = 1; i < rows1; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
 		
 		// control in
-		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1[i-1], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in1[i-1], 16, 1000 );
 		
 	}
 	
@@ -581,10 +582,10 @@ int mouse_m908::read_settings(){
 	uint8_t buffer_in2[85][64] = {0};
 	for( int i = 0; i < rows2; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
 		
 		// control in
-		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2[i], 64, 1000 );
+		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, buffer_in2[i], 64, 1000 );
 		
 	}
 	
@@ -592,80 +593,80 @@ int mouse_m908::read_settings(){
 	uint8_t buffer_in3[100][16] = {0};
 	for( int i = 0; i < rows3-1; i++ ){
 		// control out
-		libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
 		
 		// control in
-		libusb_control_transfer( _handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
 		
 	}
-	libusb_control_transfer( _handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
 	
 	// parse received data
 	
 	if( buffer_in1[0][8]+1 == 1 )
-		_profile = profile_1;
+		_s_profile = profile_1;
 	if( buffer_in1[0][8]+1 == 2 )
-		_profile = profile_2;
+		_s_profile = profile_2;
 	if( buffer_in1[0][8]+1 == 3 )
-		_profile = profile_3;
+		_s_profile = profile_3;
 	if( buffer_in1[0][8]+1 == 4 )
-		_profile = profile_4;
+		_s_profile = profile_4;
 	if( buffer_in1[0][8]+1 == 5 )
-		_profile = profile_5;
+		_s_profile = profile_5;
 	
 	for( int i = 1; i < 6; i++ ){
 		
 		// color
-		_colors[i-1][0] = buffer_in1[i][8];
-		_colors[i-1][1] = buffer_in1[i][9];
-		_colors[i-1][2] = buffer_in1[i][10];
+		_s_colors[i-1][0] = buffer_in1[i][8];
+		_s_colors[i-1][1] = buffer_in1[i][9];
+		_s_colors[i-1][2] = buffer_in1[i][10];
 		
 		// brightness
-		_brightness_levels[i-1] = buffer_in1[i][14];
+		_s_brightness_levels[i-1] = buffer_in1[i][14];
 		
 		// speed
-		_speed_levels[i-1] = buffer_in1[i][13];
+		_s_speed_levels[i-1] = buffer_in1[i][13];
 		
 		// lightmode
 		if( buffer_in1[i][11] == 0x00 && buffer_in1[i][13] == 0x00 )
-			_lightmodes[i-1] = lightmode_off;
+			_s_lightmodes[i-1] = lightmode_off;
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x04 )
-			_lightmodes[i-1] = lightmode_breathing;
+			_s_lightmodes[i-1] = lightmode_breathing;
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x08 )
-			_lightmodes[i-1] = lightmode_rainbow;
+			_s_lightmodes[i-1] = lightmode_rainbow;
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x02 )
-			_lightmodes[i-1] = lightmode_static;
+			_s_lightmodes[i-1] = lightmode_static;
 		else if( buffer_in1[i][11] == 0x02 && buffer_in1[i][13] == 0x00 )
-			_lightmodes[i-1] = lightmode_wave;
+			_s_lightmodes[i-1] = lightmode_wave;
 		else if( buffer_in1[i][11] == 0x06 && buffer_in1[i][13] == 0x00 )
-			_lightmodes[i-1] = lightmode_alternating;
+			_s_lightmodes[i-1] = lightmode_alternating;
 		else if( buffer_in1[i][11] == 0x07 && buffer_in1[i][13] == 0x00 )
-			_lightmodes[i-1] = lightmode_reactive;
+			_s_lightmodes[i-1] = lightmode_reactive;
 		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x10 )
-			_lightmodes[i-1] = lightmode_flashing;
+			_s_lightmodes[i-1] = lightmode_flashing;
 		
 		// polling rate (report rate)
 		if( i < 4 ){
 			
 			if( buffer_in1[6][6+(2*i)] == 8 )
-				_report_rates[i-1] = r_125Hz;
+				_s_report_rates[i-1] = r_125Hz;
 			else if( buffer_in1[6][6+(2*i)] == 4 )
-				_report_rates[i-1] = r_250Hz;
+				_s_report_rates[i-1] = r_250Hz;
 			else if( buffer_in1[6][6+(2*i)] == 2 )
-				_report_rates[i-1] = r_500Hz;
+				_s_report_rates[i-1] = r_500Hz;
 			else if( buffer_in1[6][6+(2*i)] == 1 )
-				_report_rates[i-1] = r_1000Hz;
+				_s_report_rates[i-1] = r_1000Hz;
 						
 		} else{
 			
 			if( buffer_in1[7][(2*i)] == 8 )
-				_report_rates[i-1] = r_125Hz;
+				_s_report_rates[i-1] = r_125Hz;
 			else if( buffer_in1[7][(2*i)] == 4 )
-				_report_rates[i-1] = r_250Hz;
+				_s_report_rates[i-1] = r_250Hz;
 			else if( buffer_in1[7][(2*i)] == 2 )
-				_report_rates[i-1] = r_500Hz;
+				_s_report_rates[i-1] = r_500Hz;
 			else if( buffer_in1[7][(2*i)] == 1 )
-				_report_rates[i-1] = r_1000Hz;
+				_s_report_rates[i-1] = r_1000Hz;
 			
 		}
 		
@@ -674,21 +675,21 @@ int mouse_m908::read_settings(){
 		for( int j = 1; j < 6; j++ ){
 			
 			if( buffer_in2[i-1][4+(6*j)] )
-				_dpi_enabled[i-1][j-1] = true;
+				_s_dpi_enabled[i-1][j-1] = true;
 			else
-				_dpi_enabled[i-1][j-1] = false;
+				_s_dpi_enabled[i-1][j-1] = false;
 			
-			_dpi_levels[i-1][j-1] = buffer_in2[i-1][5+(6*j)];
+			_s_dpi_levels[i-1][j-1] = buffer_in2[i-1][5+(6*j)];
 			
 		}
 		
 		// button mapping
 		for( int j = 0; j < 20; j++ ){
 			
-			_keymap_data[i-1][j][0] = buffer_in3[j+(20*(i-1))][8];
-			_keymap_data[i-1][j][1] = buffer_in3[j+(20*(i-1))][9];
-			_keymap_data[i-1][j][2] = buffer_in3[j+(20*(i-1))][10];
-			_keymap_data[i-1][j][3] = buffer_in3[j+(20*(i-1))][11];
+			_s_keymap_data[i-1][j][0] = buffer_in3[j+(20*(i-1))][8];
+			_s_keymap_data[i-1][j][1] = buffer_in3[j+(20*(i-1))][9];
+			_s_keymap_data[i-1][j][2] = buffer_in3[j+(20*(i-1))][10];
+			_s_keymap_data[i-1][j][3] = buffer_in3[j+(20*(i-1))][11];
 			
 		}
 	}
@@ -725,17 +726,17 @@ int mouse_m908::read_settings(){
 		
 	}
 	
-	// store extracted bytes in _macro_data
+	// store extracted bytes in _s_macro_data
 	for( int i = 0; i < 15; i++ ){ // for each macro in macro_bytes
 		
 		// for each byte in the macro
 		for( unsigned int j = 0; j < macro_bytes[i].size(); j++ ){
 			
 			// failsafe
-			if( j >= (_macro_data[i].size()+8) )
+			if( j >= (_s_macro_data[i].size()+8) )
 				break;
 			
-			_macro_data[i][j+8] = macro_bytes[i][j];
+			_s_macro_data[i][j+8] = macro_bytes[i][j];
 			
 		}
 		

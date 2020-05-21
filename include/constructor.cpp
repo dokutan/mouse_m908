@@ -22,30 +22,30 @@
 mouse_m908::mouse_m908(){
 	
 	//default settings
-	_profile = profile_1;
-	_scrollspeeds.fill( 0x01 );
-	_lightmodes.fill( lightmode_static );
-	_colors.fill( {0xff, 0xff, 0xff} );
-	_brightness_levels.fill( 0x03 );
-	_speed_levels.fill( 0x08 );
-	_dpi_enabled.fill( {true, true, true, true, true} );
-	_dpi_levels.fill( {0x04, 0x16, 0x2d, 0x43, 0x8c} );
+	_s_profile = profile_1;
+	_s_scrollspeeds.fill( 0x01 );
+	_s_lightmodes.fill( lightmode_static );
+	_s_colors.fill( {0xff, 0xff, 0xff} );
+	_s_brightness_levels.fill( 0x03 );
+	_s_speed_levels.fill( 0x08 );
+	_s_dpi_enabled.fill( {true, true, true, true, true} );
+	_s_dpi_levels.fill( {0x04, 0x16, 0x2d, 0x43, 0x8c} );
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 20; j++ ){
-			_keymap_data[i][j][0] = _data_settings_3[35+(20*i)+j][8];
-			_keymap_data[i][j][1] = _data_settings_3[35+(20*i)+j][9];
-			_keymap_data[i][j][2] = _data_settings_3[35+(20*i)+j][10];
-			_keymap_data[i][j][3] = _data_settings_3[35+(20*i)+j][11];
+			_s_keymap_data[i][j][0] = _c_data_settings_3[35+(20*i)+j][8];
+			_s_keymap_data[i][j][1] = _c_data_settings_3[35+(20*i)+j][9];
+			_s_keymap_data[i][j][2] = _c_data_settings_3[35+(20*i)+j][10];
+			_s_keymap_data[i][j][3] = _c_data_settings_3[35+(20*i)+j][11];
 		}
 	}
-	_report_rates.fill( r_125Hz );
+	_s_report_rates.fill( r_125Hz );
 	int count = 0;
-	for( auto &i : _macro_data ){
-		std::copy(std::begin(_data_macros_2), std::end(_data_macros_2), std::begin(i));
-		i[2] = _data_macros_codes[count][0];
-		i[3] = _data_macros_codes[count][1];
+	for( auto &i : _s_macro_data ){
+		std::copy(std::begin(_c_data_macros_2), std::end(_c_data_macros_2), std::begin(i));
+		i[2] = _c_data_macros_codes[count][0];
+		i[3] = _c_data_macros_codes[count][1];
 		count++;
 	}
-	_macro_repeat.fill( 0x01 );
+	_s_macro_repeat.fill( 0x01 );
 	
 }

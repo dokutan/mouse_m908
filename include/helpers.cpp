@@ -33,38 +33,38 @@ int mouse_m908::open_mouse(){
 	}
 	
 	//open device
-	_handle = libusb_open_device_with_vid_pid( NULL, _mouse_vid, 
-	_mouse_pid );
-	if( !_handle ){
+	_i_handle = libusb_open_device_with_vid_pid( NULL, _c_mouse_vid, 
+	_c_mouse_pid );
+	if( !_i_handle ){
 		return 1;
 	}
 	
-	if( _detach_kernel_driver ){
+	if( _i_detach_kernel_driver ){
 		//detach kernel driver on interface 0 if active 
-		if( libusb_kernel_driver_active( _handle, 0 ) ){
-			res += libusb_detach_kernel_driver( _handle, 0 );
+		if( libusb_kernel_driver_active( _i_handle, 0 ) ){
+			res += libusb_detach_kernel_driver( _i_handle, 0 );
 			if( res == 0 ){
-				_detached_driver_0 = true;
+				_i_detached_driver_0 = true;
 			} else{
 				return res;
 			}
 		}
 		
 		//detach kernel driver on interface 1 if active 
-		if( libusb_kernel_driver_active( _handle, 1 ) ){
-			res += libusb_detach_kernel_driver( _handle, 1 );
+		if( libusb_kernel_driver_active( _i_handle, 1 ) ){
+			res += libusb_detach_kernel_driver( _i_handle, 1 );
 			if( res == 0 ){
-				_detached_driver_1 = true;
+				_i_detached_driver_1 = true;
 			} else{
 				return res;
 			}
 		}
 		
 		//detach kernel driver on interface 2 if active 
-		if( libusb_kernel_driver_active( _handle, 2 ) ){
-			res += libusb_detach_kernel_driver( _handle, 2 );
+		if( libusb_kernel_driver_active( _i_handle, 2 ) ){
+			res += libusb_detach_kernel_driver( _i_handle, 2 );
 			if( res == 0 ){
-				_detached_driver_2 = true;
+				_i_detached_driver_2 = true;
 			} else{
 				return res;
 			}
@@ -72,19 +72,19 @@ int mouse_m908::open_mouse(){
 	}
 	
 	//claim interface 0
-	res += libusb_claim_interface( _handle, 0 );
+	res += libusb_claim_interface( _i_handle, 0 );
 	if( res != 0 ){
 		return res;
 	}
 	
 	//claim interface 1
-	res += libusb_claim_interface( _handle, 1 );
+	res += libusb_claim_interface( _i_handle, 1 );
 	if( res != 0 ){
 		return res;
 	}
 	
 	//claim interface 2
-	res += libusb_claim_interface( _handle, 2 );
+	res += libusb_claim_interface( _i_handle, 2 );
 	if( res != 0 ){
 		return res;
 	}
@@ -104,7 +104,7 @@ int mouse_m908::open_mouse_bus_device( uint8_t bus, uint8_t device ){
 		return res;
 	}
 	
-	//open device (_handle)
+	//open device (_i_handle)
 	libusb_device **dev_list; // device list
 	ssize_t num_devs = libusb_get_device_list(NULL, &dev_list); //get device list
 	
@@ -118,7 +118,7 @@ int mouse_m908::open_mouse_bus_device( uint8_t bus, uint8_t device ){
 			device == libusb_get_device_address( dev_list[i] ) ){
 			
 			// open device
-			if( libusb_open( dev_list[i], &_handle ) != 0 ){
+			if( libusb_open( dev_list[i], &_i_handle ) != 0 ){
 				return 1;
 			} else{
 				break;
@@ -132,32 +132,32 @@ int mouse_m908::open_mouse_bus_device( uint8_t bus, uint8_t device ){
 	libusb_free_device_list( dev_list, 1 );
 	
 	
-	if( _detach_kernel_driver ){
+	if( _i_detach_kernel_driver ){
 		//detach kernel driver on interface 0 if active 
-		if( libusb_kernel_driver_active( _handle, 0 ) ){
-			res += libusb_detach_kernel_driver( _handle, 0 );
+		if( libusb_kernel_driver_active( _i_handle, 0 ) ){
+			res += libusb_detach_kernel_driver( _i_handle, 0 );
 			if( res == 0 ){
-				_detached_driver_0 = true;
+				_i_detached_driver_0 = true;
 			} else{
 				return res;
 			}
 		}
 		
 		//detach kernel driver on interface 1 if active 
-		if( libusb_kernel_driver_active( _handle, 1 ) ){
-			res += libusb_detach_kernel_driver( _handle, 1 );
+		if( libusb_kernel_driver_active( _i_handle, 1 ) ){
+			res += libusb_detach_kernel_driver( _i_handle, 1 );
 			if( res == 0 ){
-				_detached_driver_1 = true;
+				_i_detached_driver_1 = true;
 			} else{
 				return res;
 			}
 		}
 		
 		//detach kernel driver on interface 2 if active 
-		if( libusb_kernel_driver_active( _handle, 2 ) ){
-			res += libusb_detach_kernel_driver( _handle, 2 );
+		if( libusb_kernel_driver_active( _i_handle, 2 ) ){
+			res += libusb_detach_kernel_driver( _i_handle, 2 );
 			if( res == 0 ){
-				_detached_driver_2 = true;
+				_i_detached_driver_2 = true;
 			} else{
 				return res;
 			}
@@ -165,19 +165,19 @@ int mouse_m908::open_mouse_bus_device( uint8_t bus, uint8_t device ){
 	}
 		
 	//claim interface 0
-	res += libusb_claim_interface( _handle, 0 );
+	res += libusb_claim_interface( _i_handle, 0 );
 	if( res != 0 ){
 		return res;
 	}
 	
 	//claim interface 1
-	res += libusb_claim_interface( _handle, 1 );
+	res += libusb_claim_interface( _i_handle, 1 );
 	if( res != 0 ){
 		return res;
 	}
 	
 	//claim interface 2
-	res += libusb_claim_interface( _handle, 2 );
+	res += libusb_claim_interface( _i_handle, 2 );
 	if( res != 0 ){
 		return res;
 	}
@@ -189,24 +189,24 @@ int mouse_m908::open_mouse_bus_device( uint8_t bus, uint8_t device ){
 int mouse_m908::close_mouse(){
 	
 	//release interfaces 0, 1 and 2
-	libusb_release_interface( _handle, 0 );
-	libusb_release_interface( _handle, 1 );
-	libusb_release_interface( _handle, 2 );
+	libusb_release_interface( _i_handle, 0 );
+	libusb_release_interface( _i_handle, 1 );
+	libusb_release_interface( _i_handle, 2 );
 	
 	//attach kernel driver for interface 0
-	if( _detached_driver_0 ){
-		libusb_attach_kernel_driver( _handle, 0 );
+	if( _i_detached_driver_0 ){
+		libusb_attach_kernel_driver( _i_handle, 0 );
 	}
 	
 	//attach kernel driver for interface 1
-	if( _detached_driver_1 ){
-		libusb_attach_kernel_driver( _handle, 1 );
+	if( _i_detached_driver_1 ){
+		libusb_attach_kernel_driver( _i_handle, 1 );
 	}
 	
 	
 	//attach kernel driver for interface 2
-	if( _detached_driver_2 ){
-		libusb_attach_kernel_driver( _handle, 2);
+	if( _i_detached_driver_2 ){
+		libusb_attach_kernel_driver( _i_handle, 2);
 	}
 	
 	//exit libusb
@@ -220,7 +220,7 @@ int mouse_m908::print_settings( std::ostream& output ){
 	
 	// print configuration
 	output << "# Configuration created by mouse_m908::print_settings().\n";
-	output << "# Currently active profile: " << _profile << "\n";
+	output << "# Currently active profile: " << _s_profile << "\n";
 	
 	for( int i = 1; i < 6; i++ ){
 		
@@ -231,34 +231,34 @@ int mouse_m908::print_settings( std::ostream& output ){
 		
 		// color
 		output << "color=";
-		output << std::setfill('0') << std::setw(2) << std::hex << (int)_colors[i-1][0];
-		output << std::setfill('0') << std::setw(2) << std::hex << (int)_colors[i-1][1];
-		output << std::setfill('0') << std::setw(2) << std::hex << (int)_colors[i-1][2];
+		output << std::setfill('0') << std::setw(2) << std::hex << (int)_s_colors[i-1][0];
+		output << std::setfill('0') << std::setw(2) << std::hex << (int)_s_colors[i-1][1];
+		output << std::setfill('0') << std::setw(2) << std::hex << (int)_s_colors[i-1][2];
 		output << std::setfill(' ') << std::setw(0) << std::dec << "\n";
 		
 		// brightness
-		output << "brightness=" << (int)_brightness_levels[i-1] << "\n";
+		output << "brightness=" << (int)_s_brightness_levels[i-1] << "\n";
 		
 		// speed
-		output << "speed=" << (int)_speed_levels[i-1] << "\n";
+		output << "speed=" << (int)_s_speed_levels[i-1] << "\n";
 		
 		// lightmode
 		output << "lightmode=";
-		if( _lightmodes[i-1] == lightmode_off )
+		if( _s_lightmodes[i-1] == lightmode_off )
 			output << "off\n";
-		else if( _lightmodes[i-1] == lightmode_breathing )
+		else if( _s_lightmodes[i-1] == lightmode_breathing )
 			output << "breathing\n";
-		else if( _lightmodes[i-1] == lightmode_rainbow )
+		else if( _s_lightmodes[i-1] == lightmode_rainbow )
 			output << "rainbow\n";
-		else if( _lightmodes[i-1] == lightmode_static )
+		else if( _s_lightmodes[i-1] == lightmode_static )
 			output << "static\n";
-		else if( _lightmodes[i-1] == lightmode_wave )
+		else if( _s_lightmodes[i-1] == lightmode_wave )
 			output << "wave\n";
-		else if( _lightmodes[i-1] == lightmode_alternating )
+		else if( _s_lightmodes[i-1] == lightmode_alternating )
 			output << "alternating\n";
-		else if( _lightmodes[i-1] == lightmode_reactive )
+		else if( _s_lightmodes[i-1] == lightmode_reactive )
 			output << "reactive\n";
-		else if( _lightmodes[i-1] == lightmode_flashing )
+		else if( _s_lightmodes[i-1] == lightmode_flashing )
 			output << "flashing\n";
 		else{
 			output << "unknown, please report as bug\n";
@@ -266,32 +266,32 @@ int mouse_m908::print_settings( std::ostream& output ){
 		
 		// polling rate (report rate)
 		output << "\n";
-		if( _report_rates[i-1] == r_125Hz )
+		if( _s_report_rates[i-1] == r_125Hz )
 			output << "report_rate=125\n";
-		else if( _report_rates[i-1] == r_250Hz )
+		else if( _s_report_rates[i-1] == r_250Hz )
 			output << "report_rate=250\n";
-		else if( _report_rates[i-1] == r_500Hz )
+		else if( _s_report_rates[i-1] == r_500Hz )
 			output << "report_rate=500\n";
-		else if( _report_rates[i-1] == r_1000Hz )
+		else if( _s_report_rates[i-1] == r_1000Hz )
 			output << "report_rate=1000\n";
 		else{
 			output << "# report rate unknown, please report as bug\n";
 		}
 		
 		// scrollspeed
-		output << "scrollspeed=" << std::hex << (int)_scrollspeeds[i-1] << std::dec << "\n";
+		output << "scrollspeed=" << std::hex << (int)_s_scrollspeeds[i-1] << std::dec << "\n";
 		
 		// dpi
 		output << "\n# DPI settings\n";
 		for( int j = 1; j < 6; j++ ){
 			
-			if( _dpi_enabled[i-1][j] )
+			if( _s_dpi_enabled[i-1][j] )
 				output << "dpi" << j << "_enable=1\n";
 			else
 				output << "dpi" << j << "_enable=0\n";
 			
 			output << std::setfill('0') << std::setw(2) << std::hex;
-			output << "dpi" << j << "=" << (int)_dpi_levels[i-1][j-1] << "\n";
+			output << "dpi" << j << "=" << (int)_s_dpi_levels[i-1][j-1] << "\n";
 			output << std::setfill(' ') << std::setw(0) << std::dec;
 		}
 		
@@ -300,13 +300,13 @@ int mouse_m908::print_settings( std::ostream& output ){
 		
 		for( int j = 0; j < 20; j++ ){
 			
-			uint8_t b1 = _keymap_data[i-1][j][0];
-			uint8_t b2 = _keymap_data[i-1][j][1];
-			uint8_t b3 = _keymap_data[i-1][j][2];
-			uint8_t b4 = _keymap_data[i-1][j][3];
+			uint8_t b1 = _s_keymap_data[i-1][j][0];
+			uint8_t b2 = _s_keymap_data[i-1][j][1];
+			uint8_t b3 = _s_keymap_data[i-1][j][2];
+			uint8_t b4 = _s_keymap_data[i-1][j][3];
 			bool found_name = false;
 			
-			output << _button_names[j] << "=";
+			output << _c_button_names[j] << "=";
 			
 			// fire button
 			if( b1 == 0x99 ){
@@ -322,8 +322,8 @@ int mouse_m908::print_settings( std::ostream& output ){
 					output << "mouse_middle:";
 				else{
 					
-					// iterate over _keyboard_key_values
-					for( auto keycode : _keyboard_key_values ){
+					// iterate over _c_keyboard_key_values
+					for( auto keycode : _c_keyboard_key_values ){
 						
 						if( keycode.second == b2 ){
 							
@@ -347,8 +347,8 @@ int mouse_m908::print_settings( std::ostream& output ){
 			// keyboard key
 			} else if( b1 == 0x90 ){
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
 					if( keycode.second == b3 ){
 						
@@ -363,8 +363,8 @@ int mouse_m908::print_settings( std::ostream& output ){
 			// modifiers + keyboard key
 			} else if( b1 == 0x8f ){
 				
-				// iterate over _keyboard_modifier_values
-				for( auto modifier : _keyboard_modifier_values ){
+				// iterate over _c_keyboard_modifier_values
+				for( auto modifier : _c_keyboard_modifier_values ){
 					
 					if( modifier.second & b2 ){
 						output << modifier.first;
@@ -372,8 +372,8 @@ int mouse_m908::print_settings( std::ostream& output ){
 					
 				}
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
 					if( keycode.second == b3 ){
 						
@@ -387,8 +387,8 @@ int mouse_m908::print_settings( std::ostream& output ){
 				
 			} else{ // mousebutton or special function ?
 				
-				// iterate over _keycodes
-				for( auto keycode : _keycodes ){
+				// iterate over _c_keycodes
+				for( auto keycode : _c_keycodes ){
 					
 					if( keycode.second[0] == b1 &&
 						keycode.second[1] == b2 && 
@@ -421,57 +421,57 @@ int mouse_m908::print_settings( std::ostream& output ){
 	for( int i = 0; i < 15; i++ ){
 		
 		// macro undefined?
-		if( _macro_data[i][8] == 0 && _macro_data[i][9] == 0 && _macro_data[i][10] == 0 )
+		if( _s_macro_data[i][8] == 0 && _s_macro_data[i][9] == 0 && _s_macro_data[i][10] == 0 )
 			continue;
 		
 		output << "\n;## macro" << i+1 << "\n";
 		
-		for( long unsigned int j = 8; j < _macro_data[i].size(); ){
+		for( long unsigned int j = 8; j < _s_macro_data[i].size(); ){
 			
 			// failsafe
-			if( j >= _macro_data[i].size() )
+			if( j >= _s_macro_data[i].size() )
 				break;
 			
-			if( _macro_data[i][j] == 0x81 ){ // mouse button down
+			if( _s_macro_data[i][j] == 0x81 ){ // mouse button down
 				
-				if( _macro_data[i][j] == 0x01 )
+				if( _s_macro_data[i][j] == 0x01 )
 					output << ";# down\tmouse_left\n";
-				else if( _macro_data[i][j] == 0x02 )
+				else if( _s_macro_data[i][j] == 0x02 )
 					output << ";# down\tmouse_right\n";
-				else if( _macro_data[i][j] == 0x04 )
+				else if( _s_macro_data[i][j] == 0x04 )
 					output << ";# down\tmouse_middle\n";
 				else{
 					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_macro_data[i][j] << " ";
-					output << std::hex << (int)_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_macro_data[i][j+2];
+					output << std::hex << (int)_s_macro_data[i][j] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+2];
 					output << std::dec << "\n";
 				}
 				
-			} else if( _macro_data[i][j] == 0x01 ){ // mouse button up
+			} else if( _s_macro_data[i][j] == 0x01 ){ // mouse button up
 				
-				if( _macro_data[i][j] == 0x01 )
+				if( _s_macro_data[i][j] == 0x01 )
 					output << ";# up\tmouse_left\n";
-				else if( _macro_data[i][j] == 0x02 )
+				else if( _s_macro_data[i][j] == 0x02 )
 					output << ";# up\tmouse_right\n";
-				else if( _macro_data[i][j] == 0x04 )
+				else if( _s_macro_data[i][j] == 0x04 )
 					output << ";# up\tmouse_middle\n";
 				else{
 					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_macro_data[i][j] << " ";
-					output << std::hex << (int)_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_macro_data[i][j+2];
+					output << std::hex << (int)_s_macro_data[i][j] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+2];
 					output << std::dec << "\n";
 				}
 				
-			} else if( _macro_data[i][j] == 0x84 ){ // keyboard key down
+			} else if( _s_macro_data[i][j] == 0x84 ){ // keyboard key down
 				
 				bool found_name = false;
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
-					if( keycode.second == _macro_data[i][j+1] ){
+					if( keycode.second == _s_macro_data[i][j+1] ){
 						
 						output << ";# down\t" << keycode.first << "\n";
 						found_name = true;
@@ -483,20 +483,20 @@ int mouse_m908::print_settings( std::ostream& output ){
 				
 				if( !found_name ){
 					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_macro_data[i][j] << " ";
-					output << std::hex << (int)_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_macro_data[i][j+2];
+					output << std::hex << (int)_s_macro_data[i][j] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+2];
 					output << std::dec << "\n";
 				}
 				
-			} else if( _macro_data[i][j] == 0x04 ){ // keyboard key up
+			} else if( _s_macro_data[i][j] == 0x04 ){ // keyboard key up
 				
 				bool found_name = false;
 				
-				// iterate over _keyboard_key_values
-				for( auto keycode : _keyboard_key_values ){
+				// iterate over _c_keyboard_key_values
+				for( auto keycode : _c_keyboard_key_values ){
 					
-					if( keycode.second == _macro_data[i][j+1] ){
+					if( keycode.second == _s_macro_data[i][j+1] ){
 						
 						output << ";# up\t" << keycode.first << "\n";
 						found_name = true;
@@ -508,25 +508,25 @@ int mouse_m908::print_settings( std::ostream& output ){
 				
 				if( !found_name ){
 					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_macro_data[i][j] << " ";
-					output << std::hex << (int)_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_macro_data[i][j+2];
+					output << std::hex << (int)_s_macro_data[i][j] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
+					output << std::hex << (int)_s_macro_data[i][j+2];
 					output << std::dec << "\n";
 				}
 				
-			} else if( _macro_data[i][j] == 0x06 ){ // delay
+			} else if( _s_macro_data[i][j] == 0x06 ){ // delay
 				
-				output << ";# delay\t" << (int)_macro_data[i][j+1] << "\n";
+				output << ";# delay\t" << (int)_s_macro_data[i][j+1] << "\n";
 				
-			} else if( _macro_data[i][j] == 0x00 ){ // padding
+			} else if( _s_macro_data[i][j] == 0x00 ){ // padding
 				
 				j++;
 				
 			} else{
 				output << ";# unknown, please report as bug: ";
-				output << std::hex << (int)_macro_data[i][j] << " ";
-				output << std::hex << (int)_macro_data[i][j+1] << " ";
-				output << std::hex << (int)_macro_data[i][j+2];
+				output << std::hex << (int)_s_macro_data[i][j] << " ";
+				output << std::hex << (int)_s_macro_data[i][j+1] << " ";
+				output << std::hex << (int)_s_macro_data[i][j+2];
 				output << std::dec << "\n";
 			}
 			

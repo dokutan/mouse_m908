@@ -19,39 +19,39 @@
 #include "mouse_m908.h"
 
 mouse_m908::m908_profile mouse_m908::get_profile(){
-	return _profile;
+	return _s_profile;
 }
 
 uint8_t mouse_m908::get_scrollspeed( m908_profile profile ){
-	return _scrollspeeds[profile];
+	return _s_scrollspeeds[profile];
 }
 
 mouse_m908::m908_lightmode mouse_m908::get_lightmode( m908_profile profile ){
-	return _lightmodes[profile];
+	return _s_lightmodes[profile];
 }
 
 void mouse_m908::get_color( m908_profile profile, std::array<uint8_t, 3> &color ){
-	color = _colors[profile];
+	color = _s_colors[profile];
 }
 
 uint8_t mouse_m908::get_brightness( m908_profile profile ){
-	return _brightness_levels[profile];
+	return _s_brightness_levels[profile];
 }
 
 uint8_t mouse_m908::get_speed( m908_profile profile ){
-	return _speed_levels[profile];
+	return _s_speed_levels[profile];
 }
 
 bool mouse_m908::get_dpi_enable( m908_profile profile, int level ){
-	return _dpi_enabled[profile][level];
+	return _s_dpi_enabled[profile][level];
 }
 
 uint8_t mouse_m908::get_dpi( m908_profile profile, int level ){
-	return _dpi_levels[profile][level];
+	return _s_dpi_levels[profile][level];
 }
 
 mouse_m908::m908_report_rate mouse_m908::get_report_rate( m908_profile profile ){
-	return _report_rates[profile];
+	return _s_report_rates[profile];
 }
 
 uint8_t mouse_m908::get_macro_repeat( int macro_number ){
@@ -61,11 +61,11 @@ uint8_t mouse_m908::get_macro_repeat( int macro_number ){
 		return 1;
 	}
 	
-	return _macro_repeat[macro_number];
+	return _s_macro_repeat[macro_number];
 }
 
 bool mouse_m908::get_detach_kernel_driver(){
-	return _detach_kernel_driver;
+	return _i_detach_kernel_driver;
 }
 
 int mouse_m908::get_key_mapping_raw( mouse_m908::m908_profile profile, int key, std::array<uint8_t, 4>& mapping ){
@@ -73,10 +73,10 @@ int mouse_m908::get_key_mapping_raw( mouse_m908::m908_profile profile, int key, 
 	if( key < 0 || key > 19 ) // valid key ?
 		return 1;
 	
-	mapping[0] = _keymap_data[profile][key][0];
-	mapping[1] = _keymap_data[profile][key][1];
-	mapping[2] = _keymap_data[profile][key][2];
-	mapping[3] = _keymap_data[profile][key][3];
+	mapping[0] = _s_keymap_data[profile][key][0];
+	mapping[1] = _s_keymap_data[profile][key][1];
+	mapping[2] = _s_keymap_data[profile][key][2];
+	mapping[3] = _s_keymap_data[profile][key][3];
 	
 	return 0;
 }
@@ -86,10 +86,10 @@ int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std:
 	if( key < 0 || key > 19 ) // valid key ?
 		return 1;
 	
-	uint8_t b1 = _keymap_data[profile][key][0];
-	uint8_t b2 = _keymap_data[profile][key][1];
-	uint8_t b3 = _keymap_data[profile][key][2];
-	uint8_t b4 = _keymap_data[profile][key][3];
+	uint8_t b1 = _s_keymap_data[profile][key][0];
+	uint8_t b2 = _s_keymap_data[profile][key][1];
+	uint8_t b3 = _s_keymap_data[profile][key][2];
+	uint8_t b4 = _s_keymap_data[profile][key][3];
 	bool found_name = false;
 	
 	mapping = "";
@@ -108,8 +108,8 @@ int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std:
 			mapping += "mouse_middle:";
 		else{
 			
-			// iterate over _keyboard_key_values
-			for( auto keycode : _keyboard_key_values ){
+			// iterate over _c_keyboard_key_values
+			for( auto keycode : _c_keyboard_key_values ){
 				
 				if( keycode.second == b2 ){
 					
@@ -133,8 +133,8 @@ int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std:
 	// keyboard key
 	} else if( b1 == 0x90 ){
 		
-		// iterate over _keyboard_key_values
-		for( auto keycode : _keyboard_key_values ){
+		// iterate over _c_keyboard_key_values
+		for( auto keycode : _c_keyboard_key_values ){
 			
 			if( keycode.second == b3 ){
 				
@@ -149,8 +149,8 @@ int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std:
 	// modifiers + keyboard key
 	} else if( b1 == 0x8f ){
 		
-		// iterate over _keyboard_modifier_values
-		for( auto modifier : _keyboard_modifier_values ){
+		// iterate over _c_keyboard_modifier_values
+		for( auto modifier : _c_keyboard_modifier_values ){
 			
 			if( modifier.second & b2 ){
 				mapping += modifier.first;
@@ -158,8 +158,8 @@ int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std:
 			
 		}
 		
-		// iterate over _keyboard_key_values
-		for( auto keycode : _keyboard_key_values ){
+		// iterate over _c_keyboard_key_values
+		for( auto keycode : _c_keyboard_key_values ){
 			
 			if( keycode.second == b3 ){
 				
@@ -173,8 +173,8 @@ int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std:
 		
 	} else{ // mousebutton or special function ?
 		
-		// iterate over _keycodes
-		for( auto keycode : _keycodes ){
+		// iterate over _c_keycodes
+		for( auto keycode : _c_keycodes ){
 			
 			if( keycode.second[0] == b1 &&
 				keycode.second[1] == b2 && 
@@ -207,7 +207,7 @@ int mouse_m908::get_macro_raw( int number, std::array<uint8_t, 256>& macro ){
 	if( number < 1 || number > 15 )
 		return 1;
 	
-	std::copy( _macro_data[number-1].begin(), _macro_data[number-1].end(), macro.begin() );
+	std::copy( _s_macro_data[number-1].begin(), _s_macro_data[number-1].end(), macro.begin() );
 	
 	return 0;
 }
@@ -217,55 +217,55 @@ int mouse_m908::get_macro( int number, std::string& macro ){
 	std::stringstream output;
 	
 	// macro undefined?
-	if( _macro_data[number-1][8] == 0 && _macro_data[number-1][9] == 0 && _macro_data[number-1][10] == 0 )
+	if( _s_macro_data[number-1][8] == 0 && _s_macro_data[number-1][9] == 0 && _s_macro_data[number-1][10] == 0 )
 		return 0;
 	
-	for( long unsigned int j = 8; j < _macro_data[number-1].size(); ){
+	for( long unsigned int j = 8; j < _s_macro_data[number-1].size(); ){
 		
 		// failsafe
-		if( j >= _macro_data[number-1].size() )
+		if( j >= _s_macro_data[number-1].size() )
 			break;
 		
-		if( _macro_data[number-1][j] == 0x81 ){ // mouse button down
+		if( _s_macro_data[number-1][j] == 0x81 ){ // mouse button down
 			
-			if( _macro_data[number-1][j] == 0x01 )
+			if( _s_macro_data[number-1][j] == 0x01 )
 				output << "down\tmouse_left\n";
-			else if( _macro_data[number-1][j] == 0x02 )
+			else if( _s_macro_data[number-1][j] == 0x02 )
 				output << "down\tmouse_right\n";
-			else if( _macro_data[number-1][j] == 0x04 )
+			else if( _s_macro_data[number-1][j] == 0x04 )
 				output << "down\tmouse_middle\n";
 			else{
 				output << "unknown, please report as bug: ";
-				output << std::hex << (int)_macro_data[number-1][j] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+1] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+2];
+				output << std::hex << (int)_s_macro_data[number-1][j] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+1] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+2];
 				output << std::dec << "\n";
 			}
 			
-		} else if( _macro_data[number-1][j] == 0x01 ){ // mouse button up
+		} else if( _s_macro_data[number-1][j] == 0x01 ){ // mouse button up
 			
-			if( _macro_data[number-1][j] == 0x01 )
+			if( _s_macro_data[number-1][j] == 0x01 )
 				output << "up\tmouse_left\n";
-			else if( _macro_data[number-1][j] == 0x02 )
+			else if( _s_macro_data[number-1][j] == 0x02 )
 				output << "up\tmouse_right\n";
-			else if( _macro_data[number-1][j] == 0x04 )
+			else if( _s_macro_data[number-1][j] == 0x04 )
 				output << "up\tmouse_middle\n";
 			else{
 				output << "unknown, please report as bug: ";
-				output << std::hex << (int)_macro_data[number-1][j] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+1] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+2];
+				output << std::hex << (int)_s_macro_data[number-1][j] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+1] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+2];
 				output << std::dec << "\n";
 			}
 			
-		} else if( _macro_data[number-1][j] == 0x84 ){ // keyboard key down
+		} else if( _s_macro_data[number-1][j] == 0x84 ){ // keyboard key down
 			
 			bool found_name = false;
 			
-			// iterate over _keyboard_key_values
-			for( auto keycode : _keyboard_key_values ){
+			// iterate over _c_keyboard_key_values
+			for( auto keycode : _c_keyboard_key_values ){
 				
-				if( keycode.second == _macro_data[number-1][j+1] ){
+				if( keycode.second == _s_macro_data[number-1][j+1] ){
 					
 					output << "down\t" << keycode.first << "\n";
 					found_name = true;
@@ -277,20 +277,20 @@ int mouse_m908::get_macro( int number, std::string& macro ){
 			
 			if( !found_name ){
 				output << "unknown, please report as bug: ";
-				output << std::hex << (int)_macro_data[number-1][j] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+1] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+2];
+				output << std::hex << (int)_s_macro_data[number-1][j] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+1] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+2];
 				output << std::dec << "\n";
 			}
 			
-		} else if( _macro_data[number-1][j] == 0x04 ){ // keyboard key up
+		} else if( _s_macro_data[number-1][j] == 0x04 ){ // keyboard key up
 			
 			bool found_name = false;
 			
-			// iterate over _keyboard_key_values
-			for( auto keycode : _keyboard_key_values ){
+			// iterate over _c_keyboard_key_values
+			for( auto keycode : _c_keyboard_key_values ){
 				
-				if( keycode.second == _macro_data[number-1][j+1] ){
+				if( keycode.second == _s_macro_data[number-1][j+1] ){
 					
 					output << "up\t" << keycode.first << "\n";
 					found_name = true;
@@ -302,25 +302,25 @@ int mouse_m908::get_macro( int number, std::string& macro ){
 			
 			if( !found_name ){
 				output << "unknown, please report as bug: ";
-				output << std::hex << (int)_macro_data[number-1][j] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+1] << " ";
-				output << std::hex << (int)_macro_data[number-1][j+2];
+				output << std::hex << (int)_s_macro_data[number-1][j] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+1] << " ";
+				output << std::hex << (int)_s_macro_data[number-1][j+2];
 				output << std::dec << "\n";
 			}
 			
-		} else if( _macro_data[number-1][j] == 0x06 ){ // delay
+		} else if( _s_macro_data[number-1][j] == 0x06 ){ // delay
 			
-			output << "delay\t" << (int)_macro_data[number-1][j+1] << "\n";
+			output << "delay\t" << (int)_s_macro_data[number-1][j+1] << "\n";
 			
-		} else if( _macro_data[number-1][j] == 0x00 ){ // padding
+		} else if( _s_macro_data[number-1][j] == 0x00 ){ // padding
 			
 			j++;
 			
 		} else{
 			output << "unknown, please report as bug: ";
-			output << std::hex << (int)_macro_data[number-1][j] << " ";
-			output << std::hex << (int)_macro_data[number-1][j+1] << " ";
-			output << std::hex << (int)_macro_data[number-1][j+2];
+			output << std::hex << (int)_s_macro_data[number-1][j] << " ";
+			output << std::hex << (int)_s_macro_data[number-1][j+1] << " ";
+			output << std::hex << (int)_s_macro_data[number-1][j+2];
 			output << std::dec << "\n";
 		}
 		

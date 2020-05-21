@@ -5,6 +5,7 @@ Doxygen is used in places for source code documentation. To build the documentat
 ```
 doxygen Doxyfile
 ```
+A directory named doxygen will be created, containing html and latex files.
 
 ## USB Protocol description
 This directory contains captured usb data (when sending the default settings). For further details look at the write functions in the source code.
