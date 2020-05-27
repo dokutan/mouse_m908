@@ -1,0 +1,19 @@
+name		mouse_m908
+version		2.0-1
+architecture	any
+
+summary		"Control the Redragon M908 Impact Gaming mouse"
+description	"Change the button mapping, LED lighting and more on the Redragon M908 Impact Gaming mouse"
+
+packager	"dokutan"
+vendor		"dokutan"
+
+copyrights	"dokutan"
+licenses	"GNU GPL v3"
+
+urls		"https://github.com/dokutan/mouse_m908"
+source-urls	"https://github.com/dokutan/mouse_m908"
+
+provides {
+	mouse_m908 = 2.0-1
+}

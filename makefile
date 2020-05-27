@@ -25,12 +25,12 @@ install:
 	cp ./example.macro $(DOC_DIR)/mouse_m908/ && \
 	cp ./README.md $(DOC_DIR)/mouse_m908/ && \
 	cp ./keymap.md $(DOC_DIR)/mouse_m908/ && \
-	cp ./LICENSE $(DOC_DIR)/mouse_m908/ && \
 	cp ./mouse_m908.1 $(MAN_DIR)/
 
 # remove binary
 clean:
-	rm ./mouse_m908 *.o
+	rm mouse_m908 *.o
+	rm -r Haiku/bin Haiku/documentation Haiku/mouse_m908.hpkg | true
 
 # remove all installed files
 uninstall:
@@ -41,6 +41,21 @@ uninstall:
 
 # this is an alias to install for backwards compatibility
 upgrade: install
+
+# this builds a .hpkg package on Haiku
+hpkg:
+	mkdir Haiku/bin
+	mkdir -p Haiku/documentation/man/man1
+	mkdir -p Haiku/documentation/packages/mouse_m908
+	cp mouse_m908 Haiku/bin
+	cp mouse_m908.1 Haiku/documentation/man/man1
+	cp example.ini Haiku/documentation/packages/mouse_m908
+	cp example.macro Haiku/documentation/packages/mouse_m908
+	cp README.md Haiku/documentation/packages/mouse_m908
+	cp keymap.md Haiku/documentation/packages/mouse_m908
+	cd Haiku; \
+	package create -b mouse_m908.hpkg; \
+	package add mouse_m908.hpkg bin documentation
 
 # individual files
 mouse_m908.o:

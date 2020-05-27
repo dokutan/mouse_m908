@@ -36,12 +36,16 @@ make CC=clang++
 
 ### Haiku
 
-- Install dependencies: libusb and libusb_devel
+- Install dependencies: libusb and libusb_devel (from the HaikuPorts repo)
 - Clone this repo and compile with
 ```
 make
 ```
-- Run with ``./mouse_m908``
+- Run with ``./mouse_m908`` or build a .hpkg package for installation with
+```
+make hpkg
+```
+- This should create a file named mouse_m908.hpkg in the Haiku directory. The .hpkg package can be installed with HaikuDepot.
 - The --kernel-driver option is required
 
 ### Other platforms
