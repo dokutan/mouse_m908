@@ -1,2 +1,1 @@
-- [ ] Improve build method
-	- [ ] Installation on all supported platforms
+Nothing for now

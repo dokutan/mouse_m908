@@ -31,8 +31,15 @@ sudo make uninstall
 ```
 make CC=clang++
 ```
-- Run with ``./mouse_m908`` or optionally copy the files to the correct places (take a look at ``make install``)
+- Install with: (run as root)
+```
+make install-bsd
+```
 - The --kernel-driver option is required
+- Uninstall with:
+```
+make uninstall
+```
 
 ### Haiku
 
