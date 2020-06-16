@@ -1,12 +1,21 @@
 # keymap.md
 This documents all options for button mapping.
 A button on the mouse can be mapped to one function out of the following categories:
+
 - Mousebutton
-- Special function (these affect the mouse)
-- Macros
+	- Example: ``left``
+- Special function (these affect the mouse, no key event is sent to the PC)
+	- Example: ``dpi+``
+- Macros (a sequence of simulated keypresses, needs to be defined separately)
+	- Example: ``macro1``
 - Keyboard key
+	- Example: ``a`` 
+- Keyboard key + modifiers
+	- Example: ``super_l+shift_l+a``
 - Fire button (simulates multiple button presses)
-- Media controls
+	- Example: ``fire:mouse_left:5:1``
+- Media controls (only available for compatibility, use the Media_* keyboard keys if possible)
+	- Example: ``media_play``
 
 The following sections list all valid button mappings.
 
@@ -150,6 +159,7 @@ Equals
 Bracket_l
 Bracket_r
 Backslash
+Hash
 Semicolon
 Apostrophe
 Comma
@@ -183,6 +193,11 @@ Num_9
 Num_0
 Num_Period
 Num_Lock
+Num_Equals
+Num_Comma
+Num_Paren_l
+Num_Paren_r
+Power
 Lang1
 Lang2
 Lang3
@@ -204,3 +219,47 @@ F21
 F22
 F23
 F24
+Execute
+Help
+Props
+Select
+Stop
+Again
+Undo
+Cut
+Copy
+Paste
+Find
+Mute
+Volume_Up
+Volume_Down
+International1
+International2
+International3
+International4
+International5
+International6
+International7
+International8
+International9
+Media_Play_Pause
+Media_Stop_CD
+Media_Previous
+Media_Next
+Media_Eject_CD
+Media_Volume_Up
+Media_Volume_Down
+Media_Mute
+Media_WWW
+Media_Back
+Media_Forward
+Media_Stop
+Media_Find
+Media_Scroll_Up
+Media_Scroll_Down
+Media_Edit
+Media_Sleep
+Media_Screenlock
+Media_Refresh
+Media_Calc
+

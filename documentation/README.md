@@ -14,4 +14,28 @@ default.txt and default-annotated.pdf contain the extracted usb data when sendin
 
 
 ### Button mapping
-The function of each button is described by 4 bytes. In case of the fire button all 4 bytes are used, in all other cases the last byte is 0x00. Look at ``set_key_mapping()`` (setters.cpp) and constructor.cpp for the meaning of these bytes.
+The function of each button is described by 4 bytes. In case of the fire button all 4 bytes are used, in all other cases the last byte is 0x00. Look at ``set_key_mapping()`` (include/setters.cpp) and include/data.cpp for the full meaning of these bytes.
+
+A few are listed below:
+- Keyboard key:
+	0. = 0x90 if without modifiers, = 0x8f if with modifiers
+	1. modifier value (sum of individual modifer values)
+	2. keycode
+	3. = 0x00
+- Media keys:
+	0. = 0x8e
+	1. = 0x01
+	2. keycode
+	3. = 0x00
+- Fire button:
+	0. = 0x99
+	1. keycode
+	2. repeats
+	3. delay
+- Macro:
+	0. = 0x91
+	1. macro number (0x0-0xe)
+	2. 0x01
+	3. 0x00
+- No function (none)
+	all bytes = 0x00
