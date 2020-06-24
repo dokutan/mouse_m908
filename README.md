@@ -24,9 +24,11 @@ sudo make install
 sudo make uninstall
 ```
 
-### OpenBSD
+### OpenBSD and FreeBSD
 
-- Install dependencies: libusb1
+- Install dependencies:
+	- OpenBSD: libusb1
+	- FreeBSD: pkgconf
 - Clone this repo and compile with
 ```
 make CC=clang++
@@ -35,7 +37,8 @@ make CC=clang++
 ```
 make install-bsd
 ```
-- The --kernel-driver option is required
+- OpenBSD: The --kernel-driver option is required
+- FreeBSD: Running as root is required, however if you know how to fix this please let me know
 - Uninstall with:
 ```
 make uninstall
