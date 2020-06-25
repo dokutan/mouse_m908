@@ -137,7 +137,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	
 	
 	//send data 1
-	uint8_t buffer_in1[8][16] = {0};
+	uint8_t buffer_in1[8][16] = {{0}};
 	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
 	for( int i = 1; i < rows1; i++ ){
 		// control out
@@ -149,7 +149,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	}
 	
 	//send data 2
-	uint8_t buffer_in2[85][64] = {0};
+	uint8_t buffer_in2[85][64] = {{0}};
 	for( int i = 0; i < rows2; i++ ){
 		// control out
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
@@ -160,7 +160,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	}
 	
 	//send data 3
-	uint8_t buffer_in3[100][16] = {0};
+	uint8_t buffer_in3[100][16] = {{0}};
 	for( int i = 0; i < rows3-1; i++ ){
 		// control out
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
@@ -567,7 +567,7 @@ int mouse_m908::read_settings(){
 	
 	
 	//send data 1
-	uint8_t buffer_in1[8][16] = {0};
+	uint8_t buffer_in1[8][16] = {{0}};
 	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
 	for( int i = 1; i < rows1; i++ ){
 		// control out
@@ -579,7 +579,7 @@ int mouse_m908::read_settings(){
 	}
 	
 	//send data 2
-	uint8_t buffer_in2[85][64] = {0};
+	uint8_t buffer_in2[85][64] = {{0}};
 	for( int i = 0; i < rows2; i++ ){
 		// control out
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0303, 0x0002, buffer2[i], 64, 1000 );
@@ -590,7 +590,7 @@ int mouse_m908::read_settings(){
 	}
 	
 	//send data 3
-	uint8_t buffer_in3[100][16] = {0};
+	uint8_t buffer_in3[100][16] = {{0}};
 	for( int i = 0; i < rows3-1; i++ ){
 		// control out
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
