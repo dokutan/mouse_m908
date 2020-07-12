@@ -24,7 +24,8 @@
 
 // usb device vars
 const uint16_t mouse_m908::_c_mouse_vid = 0x04d9;
-const uint16_t mouse_m908::_c_mouse_pid = 0xfc4d;
+// const uint16_t mouse_m908::_c_mouse_pid = 0xfc4d;
+const uint16_t mouse_m908::_c_mouse_pid = 0xfc2a; // M709!
 
 //setting min and max values
 const uint8_t mouse_m908::_c_scrollspeed_min = 0x01, mouse_m908::_c_scrollspeed_max = 0x3f;
