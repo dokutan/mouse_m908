@@ -12,8 +12,8 @@ LIBS != pkg-config --libs libusb-1.0
 # version string
 VERSION_STRING = "\"2.1\""
 
-# compile TODO! split target into m908, m709 ...
-build: constructor_m908.o data_m908.o getters_m908.o helpers_m908.o setters_m908.o writers_m908.o readers_m908.o data_rd.o load_config.o mouse_m908.o
+# compile
+build: m908 data_rd.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -65,6 +65,9 @@ hpkg:
 	cd Haiku; \
 	package create -b mouse_m908.hpkg; \
 	package add mouse_m908.hpkg bin documentation
+
+# targets for different mice
+m908: constructor_m908.o data_m908.o getters_m908.o helpers_m908.o setters_m908.o writers_m908.o readers_m908.o
 
 # individual files
 mouse_m908.o:
