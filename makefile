@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"2.1\""
 
 # compile
-build: m908 data_rd.o load_config.o mouse_m908.o
+build: m908 m709 data_rd.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -69,6 +69,8 @@ hpkg:
 # targets for different mice
 m908: constructor_m908.o data_m908.o getters_m908.o helpers_m908.o setters_m908.o writers_m908.o readers_m908.o
 
+m709: constructor_m709.o data_m709.o getters_m709.o helpers_m709.o setters_m709.o writers_m709.o readers_m709.o
+
 # individual files
 mouse_m908.o:
 	$(CC) -c mouse_m908.cpp $(CC_OPTIONS) -D VERSION_STRING=$(VERSION_STRING)
@@ -99,3 +101,24 @@ writers_m908.o:
 
 readers_m908.o:
 	$(CC) -c include/m908/readers.cpp $(CC_OPTIONS) -o readers_m908.o
+
+constructor_m709.o:
+	$(CC) -c include/m709/constructor.cpp $(CC_OPTIONS) -o constructor_m709.o
+
+data_m709.o:
+	$(CC) -c include/m709/data.cpp $(CC_OPTIONS) -o data_m709.o
+
+getters_m709.o:
+	$(CC) -c include/m709/getters.cpp $(CC_OPTIONS) -o getters_m709.o
+
+helpers_m709.o:
+	$(CC) -c include/m709/helpers.cpp $(CC_OPTIONS) -o helpers_m709.o
+
+setters_m709.o:
+	$(CC) -c include/m709/setters.cpp $(CC_OPTIONS) -o setters_m709.o
+
+writers_m709.o:
+	$(CC) -c include/m709/writers.cpp $(CC_OPTIONS) -o writers_m709.o
+
+readers_m709.o:
+	$(CC) -c include/m709/readers.cpp $(CC_OPTIONS) -o readers_m709.o

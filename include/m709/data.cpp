@@ -24,7 +24,7 @@
 
 // usb device vars
 const uint16_t mouse_m709::_c_mouse_vid = 0x04d9;
-const uint16_t mouse_m709::_c_mouse_pid = 0xfc4d;
+const uint16_t mouse_m709::_c_mouse_pid = 0xfc2a;
 
 // Names of the physical buttons
 std::map< int, std::string > mouse_m709::_c_button_names = {
