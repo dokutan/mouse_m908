@@ -17,7 +17,8 @@
  */
 
 /*
- * This file contains internal constants and lookup tables
+ * This file contains internal constants and lookup tables that are
+ * universal to all mice
  */
 
 #include "rd_mouse.h"

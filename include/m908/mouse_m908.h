@@ -63,40 +63,6 @@ class mouse_m908 : public rd_mouse{
 		/// The default constructor. Sets the default settings.
 		mouse_m908();
 		
-		
-		/*
-		// enums
-		/// The available profiles
-		enum m908_profile{
-			profile_1 = 0,
-			profile_2 = 1,
-			profile_3 = 2,
-			profile_4 = 3,
-			profile_5 = 4,
-		};
-		
-		/// The available led modes
-		enum m908_lightmode{
-			lightmode_breathing,
-			lightmode_rainbow,
-			lightmode_static,
-			lightmode_wave,
-			lightmode_alternating,
-			lightmode_reactive,
-			lightmode_flashing,
-			lightmode_off,
-		};
-		
-		/// The available USB report rates (polling rates)
-		enum m908_report_rate{
-			r_125Hz,
-			r_250Hz,
-			r_500Hz,
-			r_1000Hz
-		};*/
-		
-		
-		
 		//setter functions
 		/// Set the currently active profile
 		int set_profile( rd_profile profile );
@@ -302,15 +268,6 @@ class mouse_m908 : public rd_mouse{
 		/// set by open_mouse for close_mouse
 		bool _i_detached_driver_2 = false;
 		
-		/* TODO! remove
-		//setting min and max values
-		static const uint8_t _c_scrollspeed_min, _c_scrollspeed_max;
-		static const uint8_t _c_brightness_min, _c_brightness_max;
-		static const uint8_t _c_speed_min, _c_speed_max;
-		static const uint8_t _c_level_min, _c_level_max;
-		static const uint8_t _c_dpi_min, _c_dpi_max;
-		*/
-		
 		//setting vars
 		rd_profile _s_profile;
 		std::array<uint8_t, 5> _s_scrollspeeds;
@@ -325,15 +282,6 @@ class mouse_m908 : public rd_mouse{
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		std::array<uint8_t, 15> _s_macro_repeat;
 		
-		//mapping of button names to values
-		/* TODO! remove
-		/// Values/keycodes of mouse buttons and special button functions
-		static std::map< std::string, std::array<uint8_t, 3> > _c_keycodes;
-		/// Values of keyboard modifiers
-		static const std::map< std::string, uint8_t > _c_keyboard_modifier_values;
-		/// Values/keycodes of keyboard keys
-		static std::map< std::string, uint8_t > _c_keyboard_key_values;
-		*/
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
 		

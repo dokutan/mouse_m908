@@ -35,6 +35,10 @@
 
 /**
  * This class is used as a base for the different models
+ * 
+ * Global constants (e.g. keyboard keycodes) and universal functions
+ * should be placed in this class.
+ * 
  */
 class rd_mouse{
 	

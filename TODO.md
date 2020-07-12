@@ -1,1 +1,6 @@
-Nothing for now
+- Prepare for different models/devices
+	- Add M709
+	- Move members from mouse_m908 → rd_mouse
+- Update main program
+	- Rename, make symlinks?
+	- Add --model option
