@@ -10,7 +10,7 @@ A directory named doxygen will be created, containing html and latex files.
 ## USB Protocol description
 This directory contains captured usb data (when sending the default settings). For further details look at the write functions in the source code.
 
-default.txt and default-annotated_m908.pdf contain the extracted usb data when sending the default settings. This was obtained by exporting packet dissections as plain text from wireshark (select only bytes) and running ``grep "00[4-9]0"`` on the exported files.
+default_m908.txt and default-annotated_m908.pdf contain the extracted usb data when sending the default settings. This was obtained by exporting packet dissections as plain text from wireshark (select only bytes) and running ``grep "00[4-9]0"`` on the exported files.
 
 
 ### Button mapping
