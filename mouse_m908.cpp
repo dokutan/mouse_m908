@@ -27,7 +27,8 @@
 #include <regex>
 #include <getopt.h>
 
-#include "include/mouse_m908.h"
+//#include "include/mouse_m908.h"
+#include "include/rd_mouse.h"
 #include "include/load_config.h"
 #include "include/print_help.cpp"
 
@@ -256,7 +257,7 @@ int main( int argc, char **argv ){
 			}
 			
 			// lookup table int → profile enum
-			std::array< mouse_m908::m908_profile, 5 > profile_lut = { mouse_m908::profile_1, mouse_m908::profile_2, mouse_m908::profile_3, mouse_m908::profile_4, mouse_m908::profile_5 };
+			std::array< mouse_m908::rd_profile, 5 > profile_lut = { mouse_m908::profile_1, mouse_m908::profile_2, mouse_m908::profile_3, mouse_m908::profile_4, mouse_m908::profile_5 };
 			
 			//parse config file
 			for( int i = 1; i < 6; i++ ){
