@@ -125,11 +125,11 @@ int mouse_m709::write_settings(){
 	}
 	//key mapping
 	for( int i = 0; i < 5; i++ ){
-		for( int j = 0; j < 20; j++ ){
-			buffer3[35+(20*i)+j][8] = _s_keymap_data[i][j][0];
-			buffer3[35+(20*i)+j][9] = _s_keymap_data[i][j][1];
-			buffer3[35+(20*i)+j][10] = _s_keymap_data[i][j][2];
-			buffer3[35+(20*i)+j][11] = _s_keymap_data[i][j][3];
+		for( int j = 0; j < 8; j++ ){
+			buffer3[35+(8*i)+j][8] = _s_keymap_data[i][j][0];
+			buffer3[35+(8*i)+j][9] = _s_keymap_data[i][j][1];
+			buffer3[35+(8*i)+j][10] = _s_keymap_data[i][j][2];
+			buffer3[35+(8*i)+j][11] = _s_keymap_data[i][j][3];
 			//std::cout << (int)_s_keymap_data[i][j][0] << " " << (int)_s_keymap_data[i][j][1] << " " << (int)_s_keymap_data[i][j][2] << " " << (int)_s_keymap_data[i][j][3] << "\n";
 		}
 	}

@@ -116,6 +116,10 @@ int mouse_m908::set_key_mapping( rd_profile profile, int key, std::array<uint8_t
 
 int mouse_m908::set_key_mapping( rd_profile profile, int key, std::string mapping ){
 	
+	// valid key ?
+	if( _c_button_names[key] == "" )
+		return 1;
+	
 	// is string in _c_keycodes? mousebuttons/special functions and media controls
 	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
 		_s_keymap_data[profile][key][0] = _c_keycodes[mapping][0];

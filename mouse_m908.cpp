@@ -351,30 +351,15 @@ std::string string_dump, std::string string_read ){
 				if( pt.get("profile"+std::to_string(i)+".dpi3", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 2, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi3", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi4", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 3, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi4", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi5", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 4, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi5", ""), 0, 16) );	}
-				if( pt.get("profile"+std::to_string(i)+".button_left", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 0, pt.get("profile"+std::to_string(i)+".button_left", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_right", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 1, pt.get("profile"+std::to_string(i)+".button_right", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_middle", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 2, pt.get("profile"+std::to_string(i)+".button_middle", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_fire", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 3, pt.get("profile"+std::to_string(i)+".button_fire", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_dpi_up", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 4, pt.get("profile"+std::to_string(i)+".button_dpi_up", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_dpi_down", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 5, pt.get("profile"+std::to_string(i)+".button_dpi_down", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_1", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 6, pt.get("profile"+std::to_string(i)+".button_1", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_2", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 7, pt.get("profile"+std::to_string(i)+".button_2", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_3", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 8, pt.get("profile"+std::to_string(i)+".button_3", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_4", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 9, pt.get("profile"+std::to_string(i)+".button_4", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_5", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 10, pt.get("profile"+std::to_string(i)+".button_5", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_6", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 11, pt.get("profile"+std::to_string(i)+".button_6", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_7", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 12, pt.get("profile"+std::to_string(i)+".button_7", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_8", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 13, pt.get("profile"+std::to_string(i)+".button_8", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_9", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 14, pt.get("profile"+std::to_string(i)+".button_9", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_10", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 15, pt.get("profile"+std::to_string(i)+".button_10", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_11", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 16, pt.get("profile"+std::to_string(i)+".button_11", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_12", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 17, pt.get("profile"+std::to_string(i)+".button_12", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".scroll_up", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 18, pt.get("profile"+std::to_string(i)+".scroll_up", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".scroll_down", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 19, pt.get("profile"+std::to_string(i)+".scroll_down", "") );	}
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "125" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_125Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "250" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_250Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "500" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_500Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "1000" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_1000Hz ); }
+				
+				// button mapping
+				for( auto& key : m._c_button_names ){
+					if( pt.get("profile"+std::to_string(i)+"."+key.second, "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], key.first, pt.get("profile"+std::to_string(i)+"."+key.second, "") );	}
+				}
 				
 			}
 			

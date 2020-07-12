@@ -248,6 +248,8 @@ class mouse_m908 : public rd_mouse{
 		 */
 		int read_settings();
 		
+		/// Names of the physical buttons
+		static std::map< int, std::string > _c_button_names;
 		
 	private:
 		
@@ -281,9 +283,6 @@ class mouse_m908 : public rd_mouse{
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		std::array<uint8_t, 15> _s_macro_repeat;
-		
-		/// Names of the physical buttons
-		static std::map< int, std::string > _c_button_names;
 		
 		//usb data packets
 		/// Used for changing the active profile

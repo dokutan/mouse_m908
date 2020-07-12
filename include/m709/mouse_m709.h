@@ -248,6 +248,8 @@ class mouse_m709 : public rd_mouse{
 		 */
 		int read_settings();
 		
+		/// Names of the physical buttons
+		static std::map< int, std::string > _c_button_names;
 		
 	private:
 		
@@ -282,9 +284,6 @@ class mouse_m709 : public rd_mouse{
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		std::array<uint8_t, 15> _s_macro_repeat;
 		
-		/// Names of the physical buttons
-		static std::map< int, std::string > _c_button_names;
-		
 		//usb data packets
 		/// Used for changing the active profile
 		static uint8_t _c_data_s_profile[6][16];
@@ -293,7 +292,7 @@ class mouse_m709 : public rd_mouse{
 		/// Used for sending the settings, part 2/3
 		static uint8_t _c_data_settings_2[64];
 		/// Used for sending the settings, part 3/3
-		static uint8_t _c_data_settings_3[140][16];
+		static uint8_t _c_data_settings_3[80][16];
 		/// Used for sending a macro, part 1/3
 		static uint8_t _c_data_macros_1[16];
 		/// Used for sending a macro, part 2/3
