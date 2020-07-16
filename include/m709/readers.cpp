@@ -273,12 +273,12 @@ int mouse_m709::read_and_print_settings( std::ostream& output ){
 		// button mapping
 		output << "\n# Button mapping\n";
 		
-		for( int j = 0; j < 20; j++ ){
+		for( int j = 0; j < 8; j++ ){
 			
-			uint8_t b1 = buffer_in3[j+(20*(i-1))][8];
-			uint8_t b2 = buffer_in3[j+(20*(i-1))][9];
-			uint8_t b3 = buffer_in3[j+(20*(i-1))][10];
-			uint8_t b4 = buffer_in3[j+(20*(i-1))][11];
+			uint8_t b1 = buffer_in3[j+(8*(i-1))][8];
+			uint8_t b2 = buffer_in3[j+(8*(i-1))][9];
+			uint8_t b3 = buffer_in3[j+(8*(i-1))][10];
+			uint8_t b4 = buffer_in3[j+(8*(i-1))][11];
 			bool found_name = false;
 			
 			output << _c_button_names[j] << "=";
@@ -684,12 +684,12 @@ int mouse_m709::read_settings(){
 		}
 		
 		// button mapping
-		for( int j = 0; j < 20; j++ ){
+		for( int j = 0; j < 8; j++ ){
 			
-			_s_keymap_data[i-1][j][0] = buffer_in3[j+(20*(i-1))][8];
-			_s_keymap_data[i-1][j][1] = buffer_in3[j+(20*(i-1))][9];
-			_s_keymap_data[i-1][j][2] = buffer_in3[j+(20*(i-1))][10];
-			_s_keymap_data[i-1][j][3] = buffer_in3[j+(20*(i-1))][11];
+			_s_keymap_data[i-1][j][0] = buffer_in3[j+(8*(i-1))][8];
+			_s_keymap_data[i-1][j][1] = buffer_in3[j+(8*(i-1))][9];
+			_s_keymap_data[i-1][j][2] = buffer_in3[j+(8*(i-1))][10];
+			_s_keymap_data[i-1][j][3] = buffer_in3[j+(8*(i-1))][11];
 			
 		}
 	}

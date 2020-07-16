@@ -298,7 +298,7 @@ int mouse_m709::print_settings( std::ostream& output ){
 		// button mapping
 		output << "\n# Button mapping\n";
 		
-		for( int j = 0; j < 20; j++ ){
+		for( int j = 0; j < 8; j++ ){
 			
 			uint8_t b1 = _s_keymap_data[i-1][j][0];
 			uint8_t b2 = _s_keymap_data[i-1][j][1];
