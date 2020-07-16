@@ -279,7 +279,7 @@ class mouse_m709 : public rd_mouse{
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
 		std::array<std::array<uint8_t, 5>, 5> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 20>, 5> _s_keymap_data;
+		std::array<std::array<std::array<uint8_t, 4>, 20>, 5> _s_keymap_data; // TODO! 20→8, check readers first
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		std::array<uint8_t, 15> _s_macro_repeat;
