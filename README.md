@@ -4,9 +4,15 @@ Control the Redragon M908 Impact gaming mouse from Linux, BSD and Haiku
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
 ## Status
-All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
+For the M908: All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
 
-The mouse has a VID of 0x04d9 and PID of 0xfc4d, if you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
+### Supported mice
+Name | Support | VID:PID
+---|---|---
+M908 | complete | 0x04d9:0xfc4d
+M709 | experimental | 0x04d9:0xfc2a
+
+If you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
 
 ## Installing
 
@@ -68,6 +74,10 @@ The settings are stored in a file and applied all at once (except macros, see be
 - Apply the example configuration:
 ``
 mouse_m908 -c example.ini
+``
+- For any model ecept the M908, use the ``--model`` option, e.g. for the M709
+``
+mouse_m908 -c example.ini -M 709
 ``
 - Read the configuration from the mouse and store it in config.ini:
 ``
