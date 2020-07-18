@@ -8,6 +8,8 @@ All settings from the official software are implemented, except repeating macros
 
 The mouse has a VID of 0x04d9 and PID of 0xfc4d, if you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
 
+There is experimental support for the M709 in the [multiple-models branch](https://github.com/dokutan/mouse_m908/tree/multiple-models).
+
 ## Installing
 
 ### Linux
