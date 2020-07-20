@@ -248,10 +248,15 @@ class mouse_m908 : public rd_mouse{
 		 */
 		int read_settings();
 		
-		/// Names of the physical buttons
-		static std::map< int, std::string > _c_button_names;
+		
+		
+		/// Returns a reference to _c_button_names (physical button names)
+		std::map< int, std::string >& button_names(){ return _c_button_names; }
 		
 	private:
+		
+		/// Names of the physical buttons
+		static std::map< int, std::string > _c_button_names;
 		
 		/// whether to detach kernel driver
 		bool _i_detach_kernel_driver = true;

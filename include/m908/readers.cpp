@@ -380,7 +380,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 			}
 			
 			if( !found_name ){
-				output << "# unknown, please report as bug: ";
+				output << "unknown, please report as bug: ";
 				output << " " << std::hex << (int)b1 << " ";
 				output << " " << std::hex << (int)b2 << " ";
 				output << " " << std::hex << (int)b3 << " ";

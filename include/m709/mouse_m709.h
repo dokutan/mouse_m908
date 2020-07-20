@@ -239,19 +239,24 @@ class mouse_m709 : public rd_mouse{
 		int dump_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This does not alter the internal settings of the mouse_m908 class.
+		 * This does not alter the internal settings of the mouse_m709 class.
 		 */
 		int read_and_print_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This updates the internal settings of the mouse_m908 class.
+		 * This updates the internal settings of the mouse_m709 class.
 		 */
 		int read_settings();
 		
-		/// Names of the physical buttons
-		static std::map< int, std::string > _c_button_names;
+		
+		
+		/// Returns a reference to _c_button_names (physical button names)
+		std::map< int, std::string >& button_names(){ return _c_button_names; }
 		
 	private:
+		
+		/// Names of the physical buttons
+		static std::map< int, std::string > _c_button_names;
 		
 		/// whether to detach kernel driver
 		bool _i_detach_kernel_driver = true;

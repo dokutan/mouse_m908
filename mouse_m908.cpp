@@ -357,7 +357,7 @@ std::string string_dump, std::string string_read ){
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "1000" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_1000Hz ); }
 				
 				// button mapping
-				for( auto& key : m._c_button_names ){
+				for( auto key : m.button_names() ){
 					if( pt.get("profile"+std::to_string(i)+"."+key.second, "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], key.first, pt.get("profile"+std::to_string(i)+"."+key.second, "") );	}
 				}
 				
