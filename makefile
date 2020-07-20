@@ -21,8 +21,7 @@ install:
 	cp ./mouse_m908 $(BIN_DIR)/mouse_m908 && \
 	cp ./mouse_m908.rules /etc/udev/rules.d && \
 	mkdir $(DOC_DIR)/mouse_m908 | true && \
-	cp ./example.ini $(DOC_DIR)/mouse_m908/ && \
-	cp ./example.macro $(DOC_DIR)/mouse_m908/ && \
+	cp ./examples/* $(DOC_DIR)/mouse_m908/ && \
 	cp ./README.md $(DOC_DIR)/mouse_m908/ && \
 	cp ./keymap.md $(DOC_DIR)/mouse_m908/ && \
 	cp ./mouse_m908.1 $(MAN_DIR)/
@@ -30,8 +29,7 @@ install:
 install-bsd:
 	cp ./mouse_m908 $(BIN_DIR)/mouse_m908 && \
 	mkdir $(DOC_DIR)/mouse_m908 | true && \
-	cp ./example.ini $(DOC_DIR)/mouse_m908/ && \
-	cp ./example.macro $(DOC_DIR)/mouse_m908/ && \
+	cp ./examples/* $(DOC_DIR)/mouse_m908/ && \
 	cp ./README.md $(DOC_DIR)/mouse_m908/ && \
 	cp ./keymap.md $(DOC_DIR)/mouse_m908/ && \
 	cp ./mouse_m908.1 $(MAN_DIR)/

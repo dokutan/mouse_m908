@@ -1,5 +1,0 @@
-- Prepare for different models/devices
-	- Move members from mouse_m908/mouse_m709 → rd_mouse
-- Update main program
-	- Rename, make symlinks?
-- _c_button_names → private + const reference

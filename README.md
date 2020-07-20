@@ -69,15 +69,15 @@ make hpkg
 Other platforms are not tested, however as long as the dependencies are available there is no special reason they should not be compatible. If you (tried) to compile on a platform that is not listed above, please report your results so this file can be updated (and potential bugs can be fixed).
 
 ## Usage
-The settings are stored in a file and applied all at once (except macros, see below). See example.ini and keymap.md
+The settings are stored in a file and applied all at once (except macros, see below). See examples/example_m*.ini and keymap.md
 
 - Apply the example configuration:
 ``
-mouse_m908 -c example.ini
+mouse_m908 -c examples/example_m908.ini
 ``
 - For any model ecept the M908, use the ``--model`` option, e.g. for the M709
 ``
-mouse_m908 -c example.ini -M 709
+mouse_m908 -c examples/example_m709.ini -M 709
 ``
 - Read the configuration from the mouse and store it in config.ini:
 ``
@@ -93,11 +93,11 @@ mouse_m908 -h
 ``
 - Send macro example.macro to slot 1:
 ``
-mouse_m908 -m example.macro -n 1
+mouse_m908 -m examples/example.macro -n 1
 ``
-- Send all macros from example.ini:
+- Send all macros from example_m908.ini:
 ``
-mouse_m908 -m example.ini
+mouse_m908 -m examples/example_m908.ini
 ``
 
 ### Macros
@@ -120,7 +120,7 @@ Each line contains an action and a parameter separated by a tab. Supported actio
 - up	⟨key⟩
 - delay ⟨1-255⟩
 
-example.macro for an example of the older file format, example.ini for an example of the newer format, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
+examples/example.macro for an example of the older file format, examples/example_m*.ini for an example of the newer format, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
 - mouse_left
 - mouse_right
 - mouse_middle
