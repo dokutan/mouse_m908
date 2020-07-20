@@ -175,7 +175,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 	// print configuration
 	output << "# Configuration created with mouse_m908 -R.\n";
 	output << "# This configuration can be send to the mouse with mouse_m908 -c.\n";
-	output << "# Note: reading the scrollspeed is not supported.\n";
+	output << "# Note: reading the scrollspeed is not supported by the mouse.\n";
 	output << "\n# Currently active profile: " << (int)buffer_in1[0][8]+1 << "\n";
 	
 	for( int i = 1; i < 6; i++ ){
@@ -380,7 +380,7 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 			}
 			
 			if( !found_name ){
-				output << "unknown, please report as bug: ";
+				output << "# unknown, please report as bug: ";
 				output << " " << std::hex << (int)b1 << " ";
 				output << " " << std::hex << (int)b2 << " ";
 				output << " " << std::hex << (int)b3 << " ";
