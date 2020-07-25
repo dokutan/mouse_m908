@@ -3,16 +3,32 @@ Control the Redragon M908 Impact gaming mouse from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
+- [Status](#status)
+	- [Supported mice](#supported-mice)
+- [Installing](#installing)
+	- [Linux](#linux)
+	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
+	- [Haiku](#haiku)
+	- [Other platforms](#other-platforms)
+- [Usage](#usage)
+	- [Macros](#macros)
+		- [Macro file](#macro-file)
+	- [--bus and --device options](#--bus-and---device-options)
+	- [--kernel-driver option](#--kernel-driver-option)
+- [License](#license)
+
 ## Status
 For the M908: All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
 
 ### Supported mice
-Name | Support | VID:PID
----|---|---
-M908 | complete | 0x04d9:0xfc4d
-M709 | experimental | 0x04d9:0xfc2a
+Name | Support | VID:PID | Additional notes
+---|---|---|---
+M908 | complete | 0x04d9:0xfc4d | 
+M709 | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested but implemented<br>- Macros are untested<br>- Reading the settings is currently not properly implemented due to a lack of captured data
 
 If you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
+
+If you want to add support for a different mouse, please open an issue (and pull request if you have code to contribute).
 
 ## Installing
 
