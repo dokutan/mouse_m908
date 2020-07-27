@@ -30,8 +30,6 @@ If you have a compatible device sold under a different name, or with a different
 
 If you want to add support for a different mouse, please open an issue (and pull request if you have code to contribute).
 
-There is experimental support for the M709 in the [multiple-models branch](https://github.com/dokutan/mouse_m908/tree/multiple-models).
-
 ## Installing
 
 ### Linux
