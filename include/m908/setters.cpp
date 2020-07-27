@@ -20,12 +20,12 @@
 
 //setter functions
 
-int mouse_m908::set_profile( m908_profile profile ){
+int mouse_m908::set_profile( rd_profile profile ){
 	_s_profile = profile;
 	return 0;
 }
 
-int mouse_m908::set_scrollspeed( m908_profile profile, uint8_t speed ){
+int mouse_m908::set_scrollspeed( rd_profile profile, uint8_t speed ){
 	
 	//check if bounds exceeded
 	if( speed < _c_scrollspeed_min || speed > _c_scrollspeed_max ){
@@ -37,17 +37,17 @@ int mouse_m908::set_scrollspeed( m908_profile profile, uint8_t speed ){
 	return 0;
 }
 
-int mouse_m908::set_lightmode( m908_profile profile, m908_lightmode lightmode ){
+int mouse_m908::set_lightmode( rd_profile profile, rd_lightmode lightmode ){
 	_s_lightmodes[profile] = lightmode;
 	return 0;
 }
 
-int mouse_m908::set_color( m908_profile profile, std::array<uint8_t, 3> color ){
+int mouse_m908::set_color( rd_profile profile, std::array<uint8_t, 3> color ){
 	_s_colors[profile] = color;
 	return 0;
 }
 
-int mouse_m908::set_brightness( m908_profile profile, uint8_t brightness ){
+int mouse_m908::set_brightness( rd_profile profile, uint8_t brightness ){
 	
 	//check bounds
 	if( brightness < _c_brightness_min || brightness > _c_brightness_max ){
@@ -58,7 +58,7 @@ int mouse_m908::set_brightness( m908_profile profile, uint8_t brightness ){
 	return 0;
 }
 
-int mouse_m908::set_speed( m908_profile profile, uint8_t speed ){
+int mouse_m908::set_speed( rd_profile profile, uint8_t speed ){
 	
 	//check bounds
 	if( speed < _c_speed_min || speed > _c_speed_max ){
@@ -69,7 +69,7 @@ int mouse_m908::set_speed( m908_profile profile, uint8_t speed ){
 	return 0;
 }
 
-int mouse_m908::set_dpi_enable( m908_profile profile, int level, bool enabled ){
+int mouse_m908::set_dpi_enable( rd_profile profile, int level, bool enabled ){
 	
 	//check bounds
 	if( level < _c_level_min || level > _c_level_max ){
@@ -95,7 +95,7 @@ int mouse_m908::set_dpi_enable( m908_profile profile, int level, bool enabled ){
 	return 0;
 }
 
-int mouse_m908::set_dpi( m908_profile profile, int level, uint8_t dpi ){
+int mouse_m908::set_dpi( rd_profile profile, int level, uint8_t dpi ){
 	
 	//check bounds
 	if( dpi < _c_dpi_min || dpi > _c_dpi_max ){
@@ -106,7 +106,7 @@ int mouse_m908::set_dpi( m908_profile profile, int level, uint8_t dpi ){
 	return 0;
 }
 
-int mouse_m908::set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 4> mapping ){
+int mouse_m908::set_key_mapping( rd_profile profile, int key, std::array<uint8_t, 4> mapping ){
 	_s_keymap_data[profile][key][0] = mapping[0];
 	_s_keymap_data[profile][key][1] = mapping[1];
 	_s_keymap_data[profile][key][2] = mapping[2];
@@ -114,7 +114,11 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::array<uint8
 	return 0;
 }
 
-int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapping ){
+int mouse_m908::set_key_mapping( rd_profile profile, int key, std::string mapping ){
+	
+	// valid key ?
+	if( _c_button_names[key] == "" )
+		return 1;
 	
 	// is string in _c_keycodes? mousebuttons/special functions and media controls
 	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
@@ -186,7 +190,7 @@ int mouse_m908::set_key_mapping( m908_profile profile, int key, std::string mapp
 	return 0;
 }
 
-int mouse_m908::set_report_rate( m908_profile profile, m908_report_rate report_rate ){
+int mouse_m908::set_report_rate( rd_profile profile, rd_report_rate report_rate ){
 	_s_report_rates[profile] = report_rate;
 	return 0;
 }

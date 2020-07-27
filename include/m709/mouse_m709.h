@@ -17,8 +17,8 @@
  */
 
 //main class
-#ifndef MOUSE_M908
-#define MOUSE_M908
+#ifndef MOUSE_M709
+#define MOUSE_M709
 
 #include <libusb.h>
 #include <map>
@@ -33,8 +33,10 @@
 #include <iostream>
 #include <iomanip>
 
+#include "../rd_mouse.h"
+
 /**
- * The main class representing the M908 mouse.
+ * The main class representing the M709 mouse.
  * This class has member functions to open, close and apply settings to the mouse.
  * 
  * There are 4 main types of functions:
@@ -54,90 +56,56 @@
  * - \_s\_* for variables that describe the settings on the mouse
  * - \_c\_* for constants like keycodes, USB data, minimum and maximum values, etc. (these are not neccessarily defined as const)
  */
-class mouse_m908{
+class mouse_m709 : public rd_mouse{
 	
 	public:
 		
 		/// The default constructor. Sets the default settings.
-		mouse_m908();
-		
-		
-		
-		// enums
-		/// The available profiles
-		enum m908_profile{
-			profile_1 = 0,
-			profile_2 = 1,
-			profile_3 = 2,
-			profile_4 = 3,
-			profile_5 = 4,
-		};
-		
-		/// The available led modes
-		enum m908_lightmode{
-			lightmode_breathing,
-			lightmode_rainbow,
-			lightmode_static,
-			lightmode_wave,
-			lightmode_alternating,
-			lightmode_reactive,
-			lightmode_flashing,
-			lightmode_off,
-		};
-		
-		/// The available USB report rates (polling rates)
-		enum m908_report_rate{
-			r_125Hz,
-			r_250Hz,
-			r_500Hz,
-			r_1000Hz
-		};
-		
-		
+		mouse_m709();
 		
 		//setter functions
 		/// Set the currently active profile
-		int set_profile( m908_profile profile );
+		int set_profile( rd_profile profile );
 		
 		/** \brief Set the scrollspeed for the specified profile
 		 * \see _c_scrollspeed_min
 		 * \see _c_scrollspeed_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
-		int set_scrollspeed( m908_profile profile, uint8_t speed );
+		int set_scrollspeed( rd_profile profile, uint8_t speed );
 		
 		/** \brief Set the led mode for the specified profile
-		 * \see m908_lightmode
+		 * \see rd_lightmode
 		 * \return 0 if successful
 		 */
-		int set_lightmode( m908_profile profile, m908_lightmode lightmode );
+		int set_lightmode( rd_profile profile, rd_lightmode lightmode );
 		
 		/** \brief Set the led color for the specified profile
 		 * \param color color as {r, g, b}
 		 * \return 0 if successful
 		 */
-		int set_color( m908_profile profile, std::array<uint8_t, 3> color );
+		int set_color( rd_profile profile, std::array<uint8_t, 3> color );
 		
 		/** \brief Set the led brightness for the specified profile
 		 * \see _c_brightness_min
 		 * \see _c_brightness_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
-		int set_brightness( m908_profile profile, uint8_t brightness );
+		int set_brightness( rd_profile profile, uint8_t brightness );
 		
 		/** \brief Set the led animation speed for the specified profile
 		 * \see _c_speed_min
 		 * \see _c_speed_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
-		int set_speed( m908_profile profile, uint8_t speed );
+		int set_speed( rd_profile profile, uint8_t speed );
 		
 		/** \brief Enables/Disables a dpi level for the specified profile
 		 * \see _c_level_min
 		 * \see _c_level_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
-		int set_dpi_enable( m908_profile profile, int level, bool enabled );
+		int set_dpi_enable( rd_profile profile, int level, bool enabled );
 		
 		/** \brief Set the value of a dpi level for the specified profile
 		 * \see _c_dpi_min
@@ -146,25 +114,25 @@ class mouse_m908{
 		 * \see _c_level_max
 		 * \return 0 if successful, 1 if out of bounds
 		 */
-		int set_dpi( m908_profile profile, int level, uint8_t dpi );
+		int set_dpi( rd_profile profile, int level, uint8_t dpi );
 		
 		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping 4 bytes for the usb data packets
 		 * \return 0 if successful
 		 */
-		int set_key_mapping( m908_profile profile, int key, std::array<uint8_t, 4> mapping );
+		int set_key_mapping( rd_profile profile, int key, std::array<uint8_t, 4> mapping );
 		
 		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping button name (see keymap.md)
 		 * \return 0 if successful, 1 if mapping is invalid
 		 */
-		int set_key_mapping( m908_profile profile, int key, std::string mapping );
+		int set_key_mapping( rd_profile profile, int key, std::string mapping );
 		
 		/** \brief Set the USB poll rate for the specified profile
-		 * \see m908_report_rate
+		 * \see rd_report_rate
 		 * \return 0 if successful
 		 */
-		int set_report_rate( m908_profile profile, m908_report_rate report_rate );
+		int set_report_rate( rd_profile profile, rd_report_rate report_rate );
 		
 		/** \brief Load the macro from the specified file into the specified slot
 		 * \param macro_number macro slot (1-15)
@@ -191,31 +159,31 @@ class mouse_m908{
 		
 		//getter functions
 		/// Get currently active profile
-		m908_profile get_profile();
+		rd_profile get_profile();
 		/// Get scrollspeed of specified profile
-		uint8_t get_scrollspeed( m908_profile profile );
+		uint8_t get_scrollspeed( rd_profile profile );
 		/// Get led mode of specified profile
-		m908_lightmode get_lightmode( m908_profile profile );
+		rd_lightmode get_lightmode( rd_profile profile );
 		/// Get led color of specified profile
-		void get_color( m908_profile profile, std::array<uint8_t, 3> &color );
+		void get_color( rd_profile profile, std::array<uint8_t, 3> &color );
 		/// Get led brightness of specified profile
-		uint8_t get_brightness( m908_profile profile );
+		uint8_t get_brightness( rd_profile profile );
 		/// Get led animation speed of specified profile
-		uint8_t get_speed( m908_profile profile );
+		uint8_t get_speed( rd_profile profile );
 		/// Get dpi level enabled/disabled status of specified profile
-		bool get_dpi_enable( m908_profile profile, int level );
+		bool get_dpi_enable( rd_profile profile, int level );
 		/// Get dpi value of specified level and profile
-		uint8_t get_dpi( m908_profile profile, int level );
+		uint8_t get_dpi( rd_profile profile, int level );
 		/// Get USB poll rate of specified profile
-		m908_report_rate get_report_rate( m908_profile profile );
+		rd_report_rate get_report_rate( rd_profile profile );
 		/// Get macro repeat number of specified profile
 		uint8_t get_macro_repeat( int macro_number );
 		/// Get _i_detach_kernel_driver
 		bool get_detach_kernel_driver();
 		/// Get button mapping as a string
-		int get_key_mapping( m908_profile profile, int key, std::string& mapping );
+		int get_key_mapping( rd_profile profile, int key, std::string& mapping );
 		/// Get button mapping as a 4-byte value
-		int get_key_mapping_raw( m908_profile profile, int key, std::array<uint8_t, 4>& mapping );
+		int get_key_mapping_raw( rd_profile profile, int key, std::array<uint8_t, 4>& mapping );
 		/// Get macro as a string
 		int get_macro( int number, std::string& macro );
 		/// Get raw macro bytecode
@@ -271,17 +239,24 @@ class mouse_m908{
 		int dump_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This does not alter the internal settings of the mouse_m908 class.
+		 * This does not alter the internal settings of the mouse_m709 class.
 		 */
 		int read_and_print_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This updates the internal settings of the mouse_m908 class.
+		 * This updates the internal settings of the mouse_m709 class.
 		 */
 		int read_settings();
 		
 		
+		
+		/// Returns a reference to _c_button_names (physical button names)
+		std::map< int, std::string >& button_names(){ return _c_button_names; }
+		
 	private:
+		
+		/// Names of the physical buttons
+		static std::map< int, std::string > _c_button_names;
 		
 		/// whether to detach kernel driver
 		bool _i_detach_kernel_driver = true;
@@ -300,36 +275,19 @@ class mouse_m908{
 		/// set by open_mouse for close_mouse
 		bool _i_detached_driver_2 = false;
 		
-		//setting min and max values
-		static const uint8_t _c_scrollspeed_min, _c_scrollspeed_max;
-		static const uint8_t _c_brightness_min, _c_brightness_max;
-		static const uint8_t _c_speed_min, _c_speed_max;
-		static const uint8_t _c_level_min, _c_level_max;
-		static const uint8_t _c_dpi_min, _c_dpi_max;
-		
 		//setting vars
-		m908_profile _s_profile;
+		rd_profile _s_profile;
 		std::array<uint8_t, 5> _s_scrollspeeds;
-		std::array<m908_lightmode, 5> _s_lightmodes;
+		std::array<rd_lightmode, 5> _s_lightmodes;
 		std::array<std::array<uint8_t, 3>, 5> _s_colors;
 		std::array<uint8_t, 5> _s_brightness_levels;
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
 		std::array<std::array<uint8_t, 5>, 5> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 20>, 5> _s_keymap_data;
-		std::array<m908_report_rate, 5> _s_report_rates;
+		std::array<std::array<std::array<uint8_t, 4>, 8>, 5> _s_keymap_data;
+		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		std::array<uint8_t, 15> _s_macro_repeat;
-		
-		//mapping of button names to values
-		/// Values/keycodes of mouse buttons and special button functions
-		static std::map< std::string, std::array<uint8_t, 3> > _c_keycodes;
-		/// Values of keyboard modifiers
-		static const std::map< std::string, uint8_t > _c_keyboard_modifier_values;
-		/// Values/keycodes of keyboard keys
-		static std::map< std::string, uint8_t > _c_keyboard_key_values;
-		/// Names of the physical buttons
-		static std::map< int, std::string > _c_button_names;
 		
 		//usb data packets
 		/// Used for changing the active profile
@@ -339,7 +297,7 @@ class mouse_m908{
 		/// Used for sending the settings, part 2/3
 		static uint8_t _c_data_settings_2[64];
 		/// Used for sending the settings, part 3/3
-		static uint8_t _c_data_settings_3[140][16];
+		static uint8_t _c_data_settings_3[80][16];
 		/// Used for sending a macro, part 1/3
 		static uint8_t _c_data_macros_1[16];
 		/// Used for sending a macro, part 2/3
@@ -357,14 +315,5 @@ class mouse_m908{
 		/// Used to read the settings, part 3/3 
 		static uint8_t _c_data_read_3[101][16];
 };
-
-/* the files are now compiled individually
-#include "data.cpp"
-#include "constructor.cpp"
-#include "helpers.cpp"
-#include "getters.cpp"
-#include "setters.cpp"
-#include "writers.cpp"
-*/
 
 #endif

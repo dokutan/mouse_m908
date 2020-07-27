@@ -18,39 +18,39 @@
 
 #include "mouse_m908.h"
 
-mouse_m908::m908_profile mouse_m908::get_profile(){
+mouse_m908::rd_profile mouse_m908::get_profile(){
 	return _s_profile;
 }
 
-uint8_t mouse_m908::get_scrollspeed( m908_profile profile ){
+uint8_t mouse_m908::get_scrollspeed( rd_profile profile ){
 	return _s_scrollspeeds[profile];
 }
 
-mouse_m908::m908_lightmode mouse_m908::get_lightmode( m908_profile profile ){
+mouse_m908::rd_lightmode mouse_m908::get_lightmode( rd_profile profile ){
 	return _s_lightmodes[profile];
 }
 
-void mouse_m908::get_color( m908_profile profile, std::array<uint8_t, 3> &color ){
+void mouse_m908::get_color( rd_profile profile, std::array<uint8_t, 3> &color ){
 	color = _s_colors[profile];
 }
 
-uint8_t mouse_m908::get_brightness( m908_profile profile ){
+uint8_t mouse_m908::get_brightness( rd_profile profile ){
 	return _s_brightness_levels[profile];
 }
 
-uint8_t mouse_m908::get_speed( m908_profile profile ){
+uint8_t mouse_m908::get_speed( rd_profile profile ){
 	return _s_speed_levels[profile];
 }
 
-bool mouse_m908::get_dpi_enable( m908_profile profile, int level ){
+bool mouse_m908::get_dpi_enable( rd_profile profile, int level ){
 	return _s_dpi_enabled[profile][level];
 }
 
-uint8_t mouse_m908::get_dpi( m908_profile profile, int level ){
+uint8_t mouse_m908::get_dpi( rd_profile profile, int level ){
 	return _s_dpi_levels[profile][level];
 }
 
-mouse_m908::m908_report_rate mouse_m908::get_report_rate( m908_profile profile ){
+mouse_m908::rd_report_rate mouse_m908::get_report_rate( rd_profile profile ){
 	return _s_report_rates[profile];
 }
 
@@ -68,9 +68,10 @@ bool mouse_m908::get_detach_kernel_driver(){
 	return _i_detach_kernel_driver;
 }
 
-int mouse_m908::get_key_mapping_raw( mouse_m908::m908_profile profile, int key, std::array<uint8_t, 4>& mapping ){
+int mouse_m908::get_key_mapping_raw( mouse_m908::rd_profile profile, int key, std::array<uint8_t, 4>& mapping ){
 	
-	if( key < 0 || key > 19 ) // valid key ?
+	// valid key ?
+	if( _c_button_names[key] == "" )
 		return 1;
 	
 	mapping[0] = _s_keymap_data[profile][key][0];
@@ -81,9 +82,10 @@ int mouse_m908::get_key_mapping_raw( mouse_m908::m908_profile profile, int key, 
 	return 0;
 }
 
-int mouse_m908::get_key_mapping( mouse_m908::m908_profile profile, int key, std::string& mapping ){
+int mouse_m908::get_key_mapping( mouse_m908::rd_profile profile, int key, std::string& mapping ){
 	
-	if( key < 0 || key > 19 ) // valid key ?
+	// valid key ?
+	if( _c_button_names[key] == "" )
 		return 1;
 	
 	uint8_t b1 = _s_keymap_data[profile][key][0];

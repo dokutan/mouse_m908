@@ -3,10 +3,32 @@ Control the Redragon M908 Impact gaming mouse from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
-## Status
-All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
+- [Status](#status)
+	- [Supported mice](#supported-mice)
+- [Installing](#installing)
+	- [Linux](#linux)
+	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
+	- [Haiku](#haiku)
+	- [Other platforms](#other-platforms)
+- [Usage](#usage)
+	- [Macros](#macros)
+		- [Macro file](#macro-file)
+	- [--bus and --device options](#--bus-and---device-options)
+	- [--kernel-driver option](#--kernel-driver-option)
+- [License](#license)
 
-The mouse has a VID of 0x04d9 and PID of 0xfc4d, if you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
+## Status
+For the M908: All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
+
+### Supported mice
+Name | Support | VID:PID | Additional notes
+---|---|---|---
+M908 | complete | 0x04d9:0xfc4d | 
+M709 | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested but implemented<br>- Macros are untested<br>- Reading the settings is currently not properly implemented due to a lack of captured data
+
+If you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
+
+If you want to add support for a different mouse, please open an issue (and pull request if you have code to contribute).
 
 There is experimental support for the M709 in the [multiple-models branch](https://github.com/dokutan/mouse_m908/tree/multiple-models).
 
@@ -65,11 +87,15 @@ make hpkg
 Other platforms are not tested, however as long as the dependencies are available there is no special reason they should not be compatible. If you (tried) to compile on a platform that is not listed above, please report your results so this file can be updated (and potential bugs can be fixed).
 
 ## Usage
-The settings are stored in a file and applied all at once (except macros, see below). See example.ini and keymap.md
+The settings are stored in a file and applied all at once (except macros, see below). See examples/example_m*.ini and keymap.md
 
 - Apply the example configuration:
 ``
-mouse_m908 -c example.ini
+mouse_m908 -c examples/example_m908.ini
+``
+- For any model ecept the M908, use the ``--model`` option, e.g. for the M709
+``
+mouse_m908 -c examples/example_m709.ini -M 709
 ``
 - Read the configuration from the mouse and store it in config.ini:
 ``
@@ -85,11 +111,11 @@ mouse_m908 -h
 ``
 - Send macro example.macro to slot 1:
 ``
-mouse_m908 -m example.macro -n 1
+mouse_m908 -m examples/example.macro -n 1
 ``
-- Send all macros from example.ini:
+- Send all macros from example_m908.ini:
 ``
-mouse_m908 -m example.ini
+mouse_m908 -m examples/example_m908.ini
 ``
 
 ### Macros
@@ -112,7 +138,7 @@ Each line contains an action and a parameter separated by a tab. Supported actio
 - up	⟨key⟩
 - delay ⟨1-255⟩
 
-example.macro for an example of the older file format, example.ini for an example of the newer format, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
+examples/example.macro for an example of the older file format, examples/example_m*.ini for an example of the newer format, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
 - mouse_left
 - mouse_right
 - mouse_middle

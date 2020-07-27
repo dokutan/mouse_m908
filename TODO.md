@@ -1,1 +1,2 @@
-Nothing for now
+- Completeley support the M709, requires captured data
+- Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse

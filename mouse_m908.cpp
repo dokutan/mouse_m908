@@ -27,7 +27,7 @@
 #include <regex>
 #include <getopt.h>
 
-#include "include/mouse_m908.h"
+#include "include/rd_mouse.h"
 #include "include/load_config.h"
 #include "include/print_help.cpp"
 
@@ -39,7 +39,7 @@
 
 // this function checks its arguments and opens the mouse accordingly
 // (with vid and pid or with bus and device)
-int open_mouse_wrapper( mouse_m908 &m, const bool flag_bus, const bool flag_device,
+template< typename T >int open_mouse_wrapper( T &m, const bool flag_bus, const bool flag_device,
 	const std::string &string_bus, const std::string &string_device ){
 	
 	int open_return = 0; // open_mouse() return value
@@ -71,6 +71,7 @@ int open_mouse_wrapper( mouse_m908 &m, const bool flag_bus, const bool flag_devi
 		std::cout << "Couldn't open mouse.\n";
 		std::cout << "- Check hardware and permissions (maybe you need to be root?)\n";
 		std::cout << "- Try with or without the --kernel-driver option\n";
+		std::cout << "- Try with the --model option\n";
 		std::cout << "- Try with the --bus and --device options\n";
 		std::cout << "If nothing works please report this as a bug.\n";
 		return 1;
@@ -79,9 +80,16 @@ int open_mouse_wrapper( mouse_m908 &m, const bool flag_bus, const bool flag_devi
 	return 0;
 }
 
+// function to perform all actions on the mouse
+template< typename T > int perform_actions( 
+bool flag_config, bool flag_profile, bool flag_macro, bool flag_number,
+bool flag_bus, bool flag_device, bool flag_kernel_driver,
+bool flag_dump_settings, bool flag_read_settings,
+std::string string_config, std::string string_profile, std::string string_macro,
+std::string string_number, std::string string_bus, std::string string_device,
+std::string string_dump, std::string string_read );
+
 int main( int argc, char **argv ){
-	
-	mouse_m908 m;
 	
 	// if no arguments: print help
 	if( argc == 1 ){
@@ -103,6 +111,7 @@ int main( int argc, char **argv ){
 		{"version", no_argument, 0, 'v'},
 		{"dump", required_argument, 0, 'D'},
 		{"read", required_argument, 0, 'R'},
+		{"model", required_argument, 0, 'M'},
 		{0, 0, 0, 0}
 	};
 	
@@ -120,11 +129,11 @@ int main( int argc, char **argv ){
 	//std::string string_repeat;
 	std::string string_bus, string_device;
 	std::string string_dump, string_read;
+	std::string string_model = "908";
 	
 	//parse command line options
 	int c, option_index = 0;
-	//while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvr:",
-	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvD:R:",
+	while( (c = getopt_long( argc, argv, "hc:p:m:n:b:d:kvD:R:M:",
 	long_options, &option_index ) ) != -1 ){
 		
 		switch( c ){
@@ -174,6 +183,9 @@ int main( int argc, char **argv ){
 				flag_read_settings = true;
 				string_read = optarg;
 				break;
+			case 'M':
+				string_model = optarg;
+				break;
 			case '?':
 				break;
 			default:
@@ -181,12 +193,57 @@ int main( int argc, char **argv ){
 		}
 	}
 	
-	// set whether to detach kernel driver
-	m.set_detach_kernel_driver( !flag_kernel_driver );
-	
 	// print version if requested
 	if( flag_version )
 		std::cout << "Version: " << VERSION_STRING << "\n";
+	
+	// parse model → call perform_actions()
+	if( string_model == "908" ){
+		
+		return perform_actions< mouse_m908 >(
+			flag_config, flag_profile, flag_macro, flag_number,
+			flag_bus, flag_device, flag_kernel_driver,
+			flag_dump_settings, flag_read_settings,
+			string_config, string_profile, string_macro,
+			string_number, string_bus, string_device,
+			string_dump, string_read );
+			
+	}else if( string_model == "709" ){
+		
+		return perform_actions< mouse_m709 >(
+			flag_config, flag_profile, flag_macro, flag_number,
+			flag_bus, flag_device, flag_kernel_driver,
+			flag_dump_settings, flag_read_settings,
+			string_config, string_profile, string_macro,
+			string_number, string_bus, string_device,
+			string_dump, string_read );
+			
+	}else{
+		
+		std::cout << "Unknown model, valid options are:\n";
+		std::cout << "709\n908\n";
+		return 1;
+		
+	}
+	
+	
+	return 0;
+}
+
+
+template< typename T > int perform_actions( 
+bool flag_config, bool flag_profile, bool flag_macro, bool flag_number,
+bool flag_bus, bool flag_device, bool flag_kernel_driver,
+bool flag_dump_settings, bool flag_read_settings,
+std::string string_config, std::string string_profile, std::string string_macro,
+std::string string_number, std::string string_bus, std::string string_device,
+std::string string_dump, std::string string_read ){
+	
+	// create mouse object
+	T m;
+	
+	// set whether to detach kernel driver
+	m.set_detach_kernel_driver( !flag_kernel_driver );
 	
 	// read settings and dump raw data
 	if( flag_dump_settings ){
@@ -256,7 +313,7 @@ int main( int argc, char **argv ){
 			}
 			
 			// lookup table int → profile enum
-			std::array< mouse_m908::m908_profile, 5 > profile_lut = { mouse_m908::profile_1, mouse_m908::profile_2, mouse_m908::profile_3, mouse_m908::profile_4, mouse_m908::profile_5 };
+			std::array< mouse_m908::rd_profile, 5 > profile_lut = { mouse_m908::profile_1, mouse_m908::profile_2, mouse_m908::profile_3, mouse_m908::profile_4, mouse_m908::profile_5 };
 			
 			//parse config file
 			for( int i = 1; i < 6; i++ ){
@@ -294,30 +351,15 @@ int main( int argc, char **argv ){
 				if( pt.get("profile"+std::to_string(i)+".dpi3", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 2, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi3", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi4", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 3, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi4", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi5", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 4, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi5", ""), 0, 16) );	}
-				if( pt.get("profile"+std::to_string(i)+".button_left", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 0, pt.get("profile"+std::to_string(i)+".button_left", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_right", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 1, pt.get("profile"+std::to_string(i)+".button_right", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_middle", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 2, pt.get("profile"+std::to_string(i)+".button_middle", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_fire", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 3, pt.get("profile"+std::to_string(i)+".button_fire", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_dpi_up", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 4, pt.get("profile"+std::to_string(i)+".button_dpi_up", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_dpi_down", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 5, pt.get("profile"+std::to_string(i)+".button_dpi_down", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_1", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 6, pt.get("profile"+std::to_string(i)+".button_1", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_2", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 7, pt.get("profile"+std::to_string(i)+".button_2", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_3", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 8, pt.get("profile"+std::to_string(i)+".button_3", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_4", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 9, pt.get("profile"+std::to_string(i)+".button_4", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_5", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 10, pt.get("profile"+std::to_string(i)+".button_5", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_6", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 11, pt.get("profile"+std::to_string(i)+".button_6", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_7", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 12, pt.get("profile"+std::to_string(i)+".button_7", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_8", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 13, pt.get("profile"+std::to_string(i)+".button_8", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_9", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 14, pt.get("profile"+std::to_string(i)+".button_9", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_10", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 15, pt.get("profile"+std::to_string(i)+".button_10", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_11", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 16, pt.get("profile"+std::to_string(i)+".button_11", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".button_12", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 17, pt.get("profile"+std::to_string(i)+".button_12", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".scroll_up", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 18, pt.get("profile"+std::to_string(i)+".scroll_up", "") );	}
-				if( pt.get("profile"+std::to_string(i)+".scroll_down", "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], 19, pt.get("profile"+std::to_string(i)+".scroll_down", "") );	}
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "125" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_125Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "250" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_250Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "500" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_500Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "1000" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_1000Hz ); }
+				
+				// button mapping
+				for( auto key : m.button_names() ){
+					if( pt.get("profile"+std::to_string(i)+"."+key.second, "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], key.first, pt.get("profile"+std::to_string(i)+"."+key.second, "") );	}
+				}
 				
 			}
 			
