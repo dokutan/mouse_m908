@@ -1,5 +1,5 @@
 # mouse_m908
-Control the Redragon M908 Impact gaming mouse from Linux, BSD and Haiku
+Control the Redragon M908 Impact and M709 gaming mice from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
