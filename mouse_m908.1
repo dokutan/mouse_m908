@@ -1,6 +1,6 @@
 .TH MOUSE_M908 1
 .SH NAME
-mouse_m908 \- control the Redragon M908 Impact gaming mouse
+mouse_m908 \- control the Redragon M908 Impact and M709 gaming mice
 .SH SYNOPSIS
 .B mouse_m908
 [\fIOPTIONS\fR]... \fB\-c\fR \fIFILE\fR
@@ -14,7 +14,7 @@ mouse_m908 \- control the Redragon M908 Impact gaming mouse
 .B mouse_m908
 \fB\-h\fR
 .SH DESCRIPTION
-Change the LED lighting, the button mapping and the active profile of the Redragon M908 Impact gaming mouse.
+Change the LED lighting, the button mapping and the active profile of the Redragon M908 Impact and M709 gaming mice. Support for the M709 is currently experimental, see \fIREADME.md\fR for details.
 .SH OPTIONS
 .TP
 \fB\-h\fR, \fB\-\-help\fR
@@ -58,6 +58,14 @@ To send the configuration from example.ini
 .nf
 .RS
 mouse_m908 -c example.ini
+.RE
+.fi
+.PP
+For any model except the M908, use the \fB\-\-model\fR option, e.g. for the M709
+.PP
+.nf
+.RS
+mouse_m908 -c example_m709.ini -M 709
 .RE
 .fi
 .PP
