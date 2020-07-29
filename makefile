@@ -56,8 +56,7 @@ hpkg:
 	mkdir -p Haiku/documentation/packages/mouse_m908
 	cp mouse_m908 Haiku/bin
 	cp mouse_m908.1 Haiku/documentation/man/man1
-	cp example.ini Haiku/documentation/packages/mouse_m908
-	cp example.macro Haiku/documentation/packages/mouse_m908
+	cp examples/* Haiku/documentation/packages/mouse_m908
 	cp README.md Haiku/documentation/packages/mouse_m908
 	cp keymap.md Haiku/documentation/packages/mouse_m908
 	cd Haiku; \
