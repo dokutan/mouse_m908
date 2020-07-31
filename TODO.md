@@ -6,3 +6,4 @@
 	- _c_button_names is unchanged from the M709
 - Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse
 - Maybe add support for the M715 (PID 0xfc39), currently lacking information
+	- Copy M711
