@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"2.2\""
 
 # compile
-build: m908 m709 data_rd.o load_config.o mouse_m908.o
+build: m908 m709 m711 data_rd.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -63,10 +63,12 @@ hpkg:
 	package create -b mouse_m908.hpkg; \
 	package add mouse_m908.hpkg bin documentation
 
-# targets for different mice
+# targets for the different mice
 m908: constructor_m908.o data_m908.o getters_m908.o helpers_m908.o setters_m908.o writers_m908.o readers_m908.o
 
 m709: constructor_m709.o data_m709.o getters_m709.o helpers_m709.o setters_m709.o writers_m709.o readers_m709.o
+
+m711: constructor_m711.o data_m711.o getters_m711.o helpers_m711.o setters_m711.o writers_m711.o readers_m711.o
 
 # individual files
 mouse_m908.o:
@@ -119,3 +121,24 @@ writers_m709.o:
 
 readers_m709.o:
 	$(CC) -c include/m709/readers.cpp $(CC_OPTIONS) -o readers_m709.o
+
+constructor_m711.o:
+	$(CC) -c include/m711/constructor.cpp $(CC_OPTIONS) -o constructor_m711.o
+
+data_m711.o:
+	$(CC) -c include/m711/data.cpp $(CC_OPTIONS) -o data_m711.o
+
+getters_m711.o:
+	$(CC) -c include/m711/getters.cpp $(CC_OPTIONS) -o getters_m711.o
+
+helpers_m711.o:
+	$(CC) -c include/m711/helpers.cpp $(CC_OPTIONS) -o helpers_m711.o
+
+setters_m711.o:
+	$(CC) -c include/m711/setters.cpp $(CC_OPTIONS) -o setters_m711.o
+
+writers_m711.o:
+	$(CC) -c include/m711/writers.cpp $(CC_OPTIONS) -o writers_m711.o
+
+readers_m711.o:
+	$(CC) -c include/m711/readers.cpp $(CC_OPTIONS) -o readers_m711.o

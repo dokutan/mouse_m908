@@ -1,2 +1,8 @@
 - Completeley support the M709, requires captured data
+	- --read and --dump are unchanged from the M908
+- Completeley support the M711, requires captured data
+	- write_settings() is incomplete
+	- read_and_print_settings & read_settings: keymapping is not implemented
+	- _c_button_names is unchanged from the M709
 - Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse
+- Maybe add support for the M715 (PID 0xfc39), currently lacking information

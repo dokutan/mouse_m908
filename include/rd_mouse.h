@@ -96,5 +96,6 @@ class rd_mouse{
 // include header files for the individual models
 #include "m908/mouse_m908.h"
 #include "m709/mouse_m709.h"
+#include "m711/mouse_m711.h"
 
 #endif

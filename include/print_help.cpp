@@ -36,6 +36,6 @@ void print_help(){
 	std::cout << "-v --version\n\tPrint version.\n";
 	std::cout << "-R --read=arg\n\tRead settings from the mouse and print configuration to the specified file (\"-\" = stdout).\n";
 	std::cout << "-D --dump=arg\n\tRead settings from the mouse and dump the raw data to the specified file (\"-\" = stdout).\n";
-	std::cout << "-M --model=arg\n\tSpecifies the mouse model (709, 908).\n";
+	std::cout << "-M --model=arg\n\tSpecifies the mouse model (709, 711, 908).\n";
 	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }

@@ -218,10 +218,20 @@ int main( int argc, char **argv ){
 			string_number, string_bus, string_device,
 			string_dump, string_read );
 			
+	}else if( string_model == "711" ){
+		
+		return perform_actions< mouse_m711 >(
+			flag_config, flag_profile, flag_macro, flag_number,
+			flag_bus, flag_device, flag_kernel_driver,
+			flag_dump_settings, flag_read_settings,
+			string_config, string_profile, string_macro,
+			string_number, string_bus, string_device,
+			string_dump, string_read );
+			
 	}else{
 		
 		std::cout << "Unknown model, valid options are:\n";
-		std::cout << "709\n908\n";
+		std::cout << "709\n711\n908\n";
 		return 1;
 		
 	}
