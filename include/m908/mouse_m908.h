@@ -189,6 +189,15 @@ class mouse_m908 : public rd_mouse{
 		/// Get raw macro bytecode
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
+		/// Get USB vendor id
+		static uint16_t get_vid(){
+			return _c_mouse_vid;
+		}
+		/// Get USB product id
+		static uint16_t get_pid(){
+			return _c_mouse_pid;
+		}
+		
 		
 		//writer functions (apply settings to mouse)
 		/** \brief Write the currently active profile to the mouse
@@ -315,14 +324,5 @@ class mouse_m908 : public rd_mouse{
 		/// Used to read the settings, part 3/3 
 		static uint8_t _c_data_read_3[101][16];
 };
-
-/* the files are now compiled individually
-#include "data.cpp"
-#include "constructor.cpp"
-#include "helpers.cpp"
-#include "getters.cpp"
-#include "setters.cpp"
-#include "writers.cpp"
-*/
 
 #endif

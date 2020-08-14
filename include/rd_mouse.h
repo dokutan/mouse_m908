@@ -32,6 +32,7 @@
 #include <utility>
 #include <iostream>
 #include <iomanip>
+#include <string>
 
 /**
  * This class is used as a base for the different models
@@ -73,6 +74,12 @@ class rd_mouse{
 			r_500Hz,
 			r_1000Hz
 		};
+		
+		/** \brief Detects supported mice
+		 * In the case of multiple connected mice, only the first will be detected
+		 * \return The model name of the mouse, empty string if no mouse was found
+		 */
+		static std::string detect();
 		
 	protected:
 		

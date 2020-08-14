@@ -7,3 +7,5 @@
 - Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse
 - Maybe add support for the M715 (PID 0xfc39), currently lacking information
 	- Copy M711
+- Improve main part, see comments
+	- error handling

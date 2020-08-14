@@ -51,7 +51,7 @@ Read settings from the mouse and print the configuration to the specfied file. U
 Read settings from the mouse and dump the raw data to the specfied file. Uses stdout when \fIFILE\fR is "-". Only useful for debugging and development.
 .TP
 \fB\-M\fR, \fB\-\-model\fR=\fINAME\fR
-Specifies the model of the mouse (709, 711, 908).
+Specifies the model of the mouse (709, 711, 908). Without this option the program attempts to detect the mouse you have connected.
 .SH EXAMPLES
 To send the configuration from example.ini
 .PP
@@ -61,7 +61,7 @@ mouse_m908 -c example.ini
 .RE
 .fi
 .PP
-For any model except the M908, use the \fB\-\-model\fR option, e.g. for the M709
+To explicitly state which mouse to open, use the \fB\-\-model\fR option, e.g. for the M709
 .PP
 .nf
 .RS

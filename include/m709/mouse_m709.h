@@ -189,6 +189,15 @@ class mouse_m709 : public rd_mouse{
 		/// Get raw macro bytecode
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
+		/// Get USB vendor id
+		static uint16_t get_vid(){
+			return _c_mouse_vid;
+		}
+		/// Get USB product id
+		static uint16_t get_pid(){
+			return _c_mouse_pid;
+		}
+		
 		
 		//writer functions (apply settings to mouse)
 		/** \brief Write the currently active profile to the mouse

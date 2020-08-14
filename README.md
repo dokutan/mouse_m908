@@ -92,7 +92,7 @@ The settings are stored in a file and applied all at once (except macros, see be
 ``
 mouse_m908 -c examples/example_m908.ini
 ``
-- For any model except the M908, use the ``--model`` option, e.g. for the M709
+- To explicitly state which mouse to open, use the ``--model`` option, e.g. for the M709
 ``
 mouse_m908 -c examples/example_m709.ini -M 709
 ``

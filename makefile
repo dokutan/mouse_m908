@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"2.2\""
 
 # compile
-build: m908 m709 m711 data_rd.o load_config.o mouse_m908.o
+build: m908 m709 m711 data_rd.o rd_mouse.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -79,6 +79,9 @@ load_config.o:
 
 data_rd.o:
 	$(CC) -c include/data.cpp $(CC_OPTIONS)
+
+rd_mouse.o:
+	$(CC) -c include/rd_mouse.cpp $(CC_OPTIONS)
 
 constructor_m908.o:
 	$(CC) -c include/m908/constructor.cpp $(CC_OPTIONS) -o constructor_m908.o

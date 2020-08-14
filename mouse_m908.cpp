@@ -37,6 +37,7 @@
 #define VERSION_STRING "no version defined during compilation"
 #endif
 
+// TODO! move definition
 // this function checks its arguments and opens the mouse accordingly
 // (with vid and pid or with bus and device)
 template< typename T >int open_mouse_wrapper( T &m, const bool flag_bus, const bool flag_device,
@@ -129,7 +130,10 @@ int main( int argc, char **argv ){
 	//std::string string_repeat;
 	std::string string_bus, string_device;
 	std::string string_dump, string_read;
-	std::string string_model = "908";
+	std::string string_model = "";
+	/* string_model is set by the -M option, if empty,
+	 * rd_mouse::detect() is called
+	 */
 	
 	//parse command line options
 	int c, option_index = 0;
@@ -197,6 +201,21 @@ int main( int argc, char **argv ){
 	if( flag_version )
 		std::cout << "Version: " << VERSION_STRING << "\n";
 	
+	// detect mouse if no model specified
+	if( string_model == "" ){
+		
+		string_model = rd_mouse::detect();
+		
+		// no mouse found by detect()
+		if( string_model == "" ){
+			std::cout << "Couldn't detect mouse.\n";
+			std::cout << "- Check hardware and permissions (maybe you need to be root?)\n";
+			std::cout << "- Try with the --model option\n";
+			std::cout << "If nothing works please report this as a bug.\n";
+			return 1;
+		}
+	}
+	
 	// parse model → call perform_actions()
 	if( string_model == "908" ){
 		
@@ -240,7 +259,7 @@ int main( int argc, char **argv ){
 	return 0;
 }
 
-
+// TODO! only open/close once
 template< typename T > int perform_actions( 
 bool flag_config, bool flag_profile, bool flag_macro, bool flag_number,
 bool flag_bus, bool flag_device, bool flag_kernel_driver,
