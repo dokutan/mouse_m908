@@ -20,7 +20,7 @@
 
 //prints a help message
 void print_help(){
-	std::cout << "mouse_m908: Control the Redragon M908 Impact gaming mouse.\n";
+	std::cout << "mouse_m908: Control various Redragon gaming mice.\n";
 	std::cout << "GPLv3 or later.\n\n";
 	
 	std::cout << "Options:\n\n";
@@ -36,6 +36,6 @@ void print_help(){
 	std::cout << "-v --version\n\tPrint version.\n";
 	std::cout << "-R --read=arg\n\tRead settings from the mouse and print configuration to the specified file (\"-\" = stdout).\n";
 	std::cout << "-D --dump=arg\n\tRead settings from the mouse and dump the raw data to the specified file (\"-\" = stdout).\n";
-	std::cout << "-M --model=arg\n\tSpecifies the mouse model (709, 711, 908).\n";
+	std::cout << "-M --model=arg\n\tSpecifies the mouse model (709, 711, 715, 908).\n";
 	//std::cout << "-r --repeat\n\tSets number of times the macro will be repeated (1-255).\n";
 }

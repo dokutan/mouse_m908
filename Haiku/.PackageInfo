@@ -2,8 +2,8 @@ name		mouse_m908
 version		2.2-1
 architecture	any
 
-summary		"Control the Redragon M908 Impact, M709 and M711 gaming mice"
-description	"Change the button mapping, LED lighting and more on the Redragon M908 Impact, M709 and M711 gaming mice"
+summary		"Control the Redragon M908 Impact, M709, M711 and M715 gaming mice"
+description	"Change the button mapping, LED lighting and more on the Redragon M908 Impact, M709, M711 and M715 gaming mice"
 
 packager	"dokutan"
 vendor		"dokutan"

@@ -1,5 +1,5 @@
 # mouse_m908
-Control the Redragon M908 Impact, M709 and M711 gaming mice from Linux, BSD and Haiku
+Control the Redragon M908 Impact, M709, M711 and M715 gaming mice from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
@@ -25,7 +25,8 @@ Name | Support | VID:PID | Additional notes
 ---|---|---|---
 M908 | complete | 0x04d9:0xfc4d | 
 M709 | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested but implemented<br>- Macros are untested<br>- Reading the settings is currently not properly implemented due to a lack of captured data
-M711 | experimental | 0x04d9:0xfc30 | Nothing is tested, please report your results<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
+M711 | experimental | 0x04d9:0xfc30 | ee [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested, please report your results<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
+M715 | experimental | 0x04d9:0xfc39 | Nothing is tested, please report your results<br>- The device specific code is copied from the M711 and mostly unmodified
 
 If you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
 

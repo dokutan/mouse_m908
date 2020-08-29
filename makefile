@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"2.2\""
 
 # compile
-build: m908 m709 m711 data_rd.o rd_mouse.o load_config.o mouse_m908.o
+build: m908 m709 m711 m715 data_rd.o rd_mouse.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -69,6 +69,8 @@ m908: constructor_m908.o data_m908.o getters_m908.o helpers_m908.o setters_m908.
 m709: constructor_m709.o data_m709.o getters_m709.o helpers_m709.o setters_m709.o writers_m709.o readers_m709.o
 
 m711: constructor_m711.o data_m711.o getters_m711.o helpers_m711.o setters_m711.o writers_m711.o readers_m711.o
+
+m715: constructor_m715.o data_m715.o getters_m715.o helpers_m715.o setters_m715.o writers_m715.o readers_m715.o
 
 # individual files
 mouse_m908.o:
@@ -145,3 +147,24 @@ writers_m711.o:
 
 readers_m711.o:
 	$(CC) -c include/m711/readers.cpp $(CC_OPTIONS) -o readers_m711.o
+
+constructor_m715.o:
+	$(CC) -c include/m715/constructor.cpp $(CC_OPTIONS) -o constructor_m715.o
+
+data_m715.o:
+	$(CC) -c include/m715/data.cpp $(CC_OPTIONS) -o data_m715.o
+
+getters_m715.o:
+	$(CC) -c include/m715/getters.cpp $(CC_OPTIONS) -o getters_m715.o
+
+helpers_m715.o:
+	$(CC) -c include/m715/helpers.cpp $(CC_OPTIONS) -o helpers_m715.o
+
+setters_m715.o:
+	$(CC) -c include/m715/setters.cpp $(CC_OPTIONS) -o setters_m715.o
+
+writers_m715.o:
+	$(CC) -c include/m715/writers.cpp $(CC_OPTIONS) -o writers_m715.o
+
+readers_m715.o:
+	$(CC) -c include/m715/readers.cpp $(CC_OPTIONS) -o readers_m715.o

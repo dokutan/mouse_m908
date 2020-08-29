@@ -53,6 +53,9 @@ std::string rd_mouse::detect(){
 		}else if( vid == mouse_m711::get_vid() && pid == mouse_m711::get_pid() ){
 			model = "711";
 			break;
+		}else if( vid == mouse_m715::get_vid() && pid == mouse_m715::get_pid() ){
+			model = "715";
+			break;
 		}
 		
 	}
