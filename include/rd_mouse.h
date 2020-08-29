@@ -20,7 +20,7 @@
 #ifndef RD_MOUSE
 #define RD_MOUSE
 
-//#include <libusb.h>
+#include <libusb.h>
 #include <map>
 #include <array>
 #include <string>
@@ -81,6 +81,13 @@ class rd_mouse{
 		 */
 		static std::string detect();
 		
+		/// Set whether to try to detach the kernel driver when opening the mouse
+		void set_detach_kernel_driver( bool detach_kernel_driver ){
+			_i_detach_kernel_driver = detach_kernel_driver;
+		}
+		/// Get _i_detach_kernel_driver
+		bool get_detach_kernel_driver(){ return _i_detach_kernel_driver; }
+		
 	protected:
 		
 		//setting min and max values
@@ -97,6 +104,33 @@ class rd_mouse{
 		static const std::map< std::string, uint8_t > _c_keyboard_modifier_values;
 		/// Values/keycodes of keyboard keys
 		static std::map< std::string, uint8_t > _c_keyboard_key_values;
+		
+		//usb device handling
+		/// libusb device handle
+		libusb_device_handle* _i_handle;
+		/// whether to detach kernel driver
+		bool _i_detach_kernel_driver = true;
+		/// set by open_mouse for close_mouse
+		bool _i_detached_driver_0 = false;
+		/// set by open_mouse for close_mouse
+		bool _i_detached_driver_1 = false;
+		/// set by open_mouse for close_mouse
+		bool _i_detached_driver_2 = false;
+		
+		/** \brief Init libusb and open the mouse by its USB VID and PID
+		 * \return 0 if successful
+		 */
+		int _i_open_mouse( const uint16_t vid, const uint16_t pid );
+		
+		/** \brief Init libusb and open the mouse by the USB bus and device adress
+		 * \return 0 if successful
+		 */
+		int _i_open_mouse_bus_device( const uint8_t bus, const uint8_t device );
+		
+		/** \brief Close the mouse and libusb
+		 * \return 0 if successful (always at the moment)
+		 */
+		int _i_close_mouse();
 		
 };
 

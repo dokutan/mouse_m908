@@ -64,10 +64,6 @@ uint8_t mouse_m709::get_macro_repeat( int macro_number ){
 	return _s_macro_repeat[macro_number];
 }
 
-bool mouse_m709::get_detach_kernel_driver(){
-	return _i_detach_kernel_driver;
-}
-
 int mouse_m709::get_key_mapping_raw( mouse_m709::rd_profile profile, int key, std::array<uint8_t, 4>& mapping ){
 	
 	// valid key ?

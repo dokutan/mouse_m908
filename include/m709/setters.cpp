@@ -300,13 +300,6 @@ int mouse_m709::set_macro_repeat( int macro_number, uint8_t repeat ){
 	return 0;
 }
 
-int mouse_m709::set_detach_kernel_driver( bool detach_kernel_driver ){
-	
-	_i_detach_kernel_driver = detach_kernel_driver;
-	return 0;
-}
-
-
 int mouse_m709::set_all_macros( std::string file ){
 	
 	//open file

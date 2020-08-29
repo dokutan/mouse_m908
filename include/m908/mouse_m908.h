@@ -151,11 +151,6 @@ class mouse_m908 : public rd_mouse{
 		 */
 		int set_macro_repeat( int macro_number, uint8_t repeat );
 		
-		/** \brief Set whether to try to detach the kernel driver when opening the mouse
-		 */
-		int set_detach_kernel_driver( bool detach_kernel_driver );
-		
-		
 		
 		//getter functions
 		/// Get currently active profile
@@ -178,8 +173,6 @@ class mouse_m908 : public rd_mouse{
 		rd_report_rate get_report_rate( rd_profile profile );
 		/// Get macro repeat number of specified profile
 		uint8_t get_macro_repeat( int macro_number );
-		/// Get _i_detach_kernel_driver
-		bool get_detach_kernel_driver();
 		/// Get button mapping as a string
 		int get_key_mapping( rd_profile profile, int key, std::string& mapping );
 		/// Get button mapping as a 4-byte value
@@ -267,22 +260,11 @@ class mouse_m908 : public rd_mouse{
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
 		
-		/// whether to detach kernel driver
-		bool _i_detach_kernel_driver = true;
-		
 		//usb device vars
 		/// USB vendor id
 		static const uint16_t _c_mouse_vid;
 		/// USB product id
 		static const uint16_t _c_mouse_pid;
-		/// libusb device handle
-		libusb_device_handle* _i_handle;
-		/// set by open_mouse for close_mouse
-		bool _i_detached_driver_0 = false;
-		/// set by open_mouse for close_mouse
-		bool _i_detached_driver_1 = false;
-		/// set by open_mouse for close_mouse
-		bool _i_detached_driver_2 = false;
 		
 		//setting vars
 		rd_profile _s_profile;
