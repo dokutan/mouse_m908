@@ -10,7 +10,7 @@ CC_OPTIONS := -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
 LIBS != pkg-config --libs libusb-1.0
 
 # version string
-VERSION_STRING = "\"2.2\""
+VERSION_STRING = "\"2.3\""
 
 # compile
 build: m908 m709 m711 m715 data_rd.o rd_mouse.o load_config.o mouse_m908.o
