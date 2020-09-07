@@ -437,11 +437,11 @@ int mouse_m709::read_and_print_settings( std::ostream& output ){
 			
 			if( macro_bytes[i][j] == 0x81 ){ // mouse button down
 				
-				if( macro_bytes[i][j] == 0x01 )
+				if( macro_bytes[i][j+1] == 0x01 )
 					output << ";# down\tmouse_left\n";
-				else if( macro_bytes[i][j] == 0x02 )
+				else if( macro_bytes[i][j+1] == 0x02 )
 					output << ";# down\tmouse_right\n";
-				else if( macro_bytes[i][j] == 0x04 )
+				else if( macro_bytes[i][j+1] == 0x04 )
 					output << ";# down\tmouse_middle\n";
 				else{
 					output << ";# unknown, please report as bug: ";
@@ -453,11 +453,11 @@ int mouse_m709::read_and_print_settings( std::ostream& output ){
 				
 			} else if( macro_bytes[i][j] == 0x01 ){ // mouse button up
 				
-				if( macro_bytes[i][j] == 0x01 )
+				if( macro_bytes[i][j+1] == 0x01 )
 					output << ";# up\tmouse_left\n";
-				else if( macro_bytes[i][j] == 0x02 )
+				else if( macro_bytes[i][j+1] == 0x02 )
 					output << ";# up\tmouse_right\n";
-				else if( macro_bytes[i][j] == 0x04 )
+				else if( macro_bytes[i][j+1] == 0x04 )
 					output << ";# up\tmouse_middle\n";
 				else{
 					output << ";# unknown, please report as bug: ";
