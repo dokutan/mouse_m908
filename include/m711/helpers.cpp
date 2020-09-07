@@ -254,11 +254,11 @@ int mouse_m711::print_settings( std::ostream& output ){
 			
 			if( _s_macro_data[i][j] == 0x81 ){ // mouse button down
 				
-				if( _s_macro_data[i][j] == 0x01 )
+				if( _s_macro_data[i][j+1] == 0x01 )
 					output << ";# down\tmouse_left\n";
-				else if( _s_macro_data[i][j] == 0x02 )
+				else if( _s_macro_data[i][j+1] == 0x02 )
 					output << ";# down\tmouse_right\n";
-				else if( _s_macro_data[i][j] == 0x04 )
+				else if( _s_macro_data[i][j+1] == 0x04 )
 					output << ";# down\tmouse_middle\n";
 				else{
 					output << ";# unknown, please report as bug: ";
@@ -270,11 +270,11 @@ int mouse_m711::print_settings( std::ostream& output ){
 				
 			} else if( _s_macro_data[i][j] == 0x01 ){ // mouse button up
 				
-				if( _s_macro_data[i][j] == 0x01 )
+				if( _s_macro_data[i][j+1] == 0x01 )
 					output << ";# up\tmouse_left\n";
-				else if( _s_macro_data[i][j] == 0x02 )
+				else if( _s_macro_data[i][j+1] == 0x02 )
 					output << ";# up\tmouse_right\n";
-				else if( _s_macro_data[i][j] == 0x04 )
+				else if( _s_macro_data[i][j+1] == 0x04 )
 					output << ";# up\tmouse_middle\n";
 				else{
 					output << ";# unknown, please report as bug: ";

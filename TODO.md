@@ -5,5 +5,6 @@
 	- read_and_print_settings & read_settings: keymapping is not implemented
 	- _c_button_names is unchanged from the M709
 - Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse
+	- print_settings() and read_and_print_settings(): move macro decoding to function in rd_mouse
 - Maybe add support for the M715 (PID 0xfc39), currently lacking information
 	- Copy M711
