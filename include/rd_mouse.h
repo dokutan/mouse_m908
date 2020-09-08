@@ -132,6 +132,16 @@ class rd_mouse{
 		 */
 		int _i_close_mouse();
 		
+		
+		/** \brief Decode macro byte code (of one macro) and print the commands to output
+		 * \arg macro_bytes the macro bytecode
+		 * \arg output where to print to
+		 * \arg prefix string printed before each action
+		 * \arg offset start decoding from macro_bytes[offset], set to 0 if offset >= macro_bytes.size()
+		 * \return 0 if no invalid codes were encountered
+		 */
+		int _i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset );
+		
 };
 
 // include header files for the individual models

@@ -262,3 +262,96 @@ int rd_mouse::_i_close_mouse(){
 	
 	return 0;
 }
+
+//decode macro bytecode
+int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset ){
+	
+	// valid offset ?
+	if( offset >= macro_bytes.size() )
+		offset = 0;
+	
+	for( size_t i = 0; i < macro_bytes.size(); ){
+		
+		bool unknown_code = false;
+		
+		// failsafe
+		if( i >= macro_bytes.size() )
+			break;
+		
+		// mouse buttons ( 0x81 = down, 0x01 = up )
+		if( macro_bytes[i] == 0x81 && macro_bytes[i+1] == 0x01 )
+			output << prefix << "down\tmouse_left\n";
+		else if( macro_bytes[i] == 0x81 && macro_bytes[i+1] == 0x02 )
+			output << prefix << "down\tmouse_right\n";
+		else if( macro_bytes[i] == 0x81 && macro_bytes[i+1] == 0x04 )
+			output << prefix << "down\tmouse_middle\n";
+		else if( macro_bytes[i] == 0x01 && macro_bytes[i+1] == 0x01 )
+			output << prefix << "up\tmouse_left\n";
+		else if( macro_bytes[i] == 0x01 && macro_bytes[i+1] == 0x02 )
+			output << prefix << "up\tmouse_right\n";
+		else if( macro_bytes[i] == 0x01 && macro_bytes[i+1] == 0x04 )
+			output << prefix << "up\tmouse_middle\n";
+		else if( macro_bytes[i] == 0x81 || macro_bytes[i] == 0x01 )
+			unknown_code = true; // unknown code
+		
+		// keyboard key ( 0x84 = down, 0x04 = up )
+		else if( macro_bytes[i] == 0x84 || macro_bytes[i] == 0x04 ){
+			
+			bool found_name = false;
+			std::string key = "";
+			
+			// iterate over _c_keyboard_key_values
+			for( auto keycode : _c_keyboard_key_values ){
+				
+				if( keycode.second == macro_bytes[i+1] ){
+					key = keycode.first;
+					found_name = true;
+					break;
+				}
+				
+			}
+			
+			// if key found, print key action
+			if( found_name ){
+				
+				if( macro_bytes[i] == 0x84 ) // keyboard key down
+					output << prefix << "down\t" << key << "\n";
+				else if( macro_bytes[i] == 0x04 ) // keyboard key up
+					output << prefix << "up\t" << key << "\n";
+				else // failsafe
+					unknown_code = true;
+				
+			} else{ // unknown key
+				unknown_code = true;
+			}
+			
+		}
+		// delay
+		else if( macro_bytes[i] == 0x06 ){
+			output << prefix << "delay\t" << (int)macro_bytes[i+1] << "\n";
+		}
+		// padding (increment by one until a code appears)
+		else if( macro_bytes[i] == 0x00 ){
+			i++;
+		}
+		// unknown code
+		else{
+			unknown_code = true;
+		}
+		
+		// if unknown code, print message + code
+		if( unknown_code ){
+			output << prefix << "unknown, please report as bug: ";
+			output << std::hex << (int)macro_bytes[i] << " ";
+			output << std::hex << (int)macro_bytes[i+1] << " ";
+			output << std::hex << (int)macro_bytes[i+2];
+			output << std::dec << "\n";
+		}
+		
+		// increment (each code is 3 bytes long)
+		i+=3;
+		
+	}
+	
+	return 0;
+}

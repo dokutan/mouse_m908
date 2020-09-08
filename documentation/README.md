@@ -39,3 +39,9 @@ A few are listed below:
 	3. 0x00
 - No function (none)
 	all bytes = 0x00
+
+### Reading settings from the mouse
+The settings are read in 3 parts:
+1. led settings
+2. macros
+3. button mappping

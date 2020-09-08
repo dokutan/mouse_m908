@@ -428,120 +428,13 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 	output << "\n# Macros\n";
 	for( int i = 0; i < 15; i++ ){
 		
-		// macro undefined?
+		// is macro not defined ?
 		if( macro_bytes[i][0] == 0 && macro_bytes[i][1] == 0 && macro_bytes[i][2] == 0 )
 			continue;
 		
+		// print macro
 		output << "\n;## macro" << i+1 << "\n";
-		
-		for( long unsigned int j = 0; j < macro_bytes[i].size(); ){
-			
-			// failsafe
-			if( j >= macro_bytes[i].size() )
-				break;
-			
-			if( macro_bytes[i][j] == 0x81 ){ // mouse button down
-				
-				if( macro_bytes[i][j+1] == 0x01 )
-					output << ";# down\tmouse_left\n";
-				else if( macro_bytes[i][j+1] == 0x02 )
-					output << ";# down\tmouse_right\n";
-				else if( macro_bytes[i][j+1] == 0x04 )
-					output << ";# down\tmouse_middle\n";
-				else{
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)macro_bytes[i][j] << " ";
-					output << std::hex << (int)macro_bytes[i][j+1] << " ";
-					output << std::hex << (int)macro_bytes[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( macro_bytes[i][j] == 0x01 ){ // mouse button up
-				
-				if( macro_bytes[i][j+1] == 0x01 )
-					output << ";# up\tmouse_left\n";
-				else if( macro_bytes[i][j+1] == 0x02 )
-					output << ";# up\tmouse_right\n";
-				else if( macro_bytes[i][j+1] == 0x04 )
-					output << ";# up\tmouse_middle\n";
-				else{
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)macro_bytes[i][j] << " ";
-					output << std::hex << (int)macro_bytes[i][j+1] << " ";
-					output << std::hex << (int)macro_bytes[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( macro_bytes[i][j] == 0x84 ){ // keyboard key down
-				
-				bool found_name = false;
-				
-				// iterate over _c_keyboard_key_values
-				for( auto keycode : _c_keyboard_key_values ){
-					
-					if( keycode.second == macro_bytes[i][j+1] ){
-						
-						output << ";# down\t" << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-				if( !found_name ){
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)macro_bytes[i][j] << " ";
-					output << std::hex << (int)macro_bytes[i][j+1] << " ";
-					output << std::hex << (int)macro_bytes[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( macro_bytes[i][j] == 0x04 ){ // keyboard key up
-				
-				bool found_name = false;
-				
-				// iterate over _c_keyboard_key_values
-				for( auto keycode : _c_keyboard_key_values ){
-					
-					if( keycode.second == macro_bytes[i][j+1] ){
-						
-						output << ";# up\t" << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-				if( !found_name ){
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)macro_bytes[i][j] << " ";
-					output << std::hex << (int)macro_bytes[i][j+1] << " ";
-					output << std::hex << (int)macro_bytes[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( macro_bytes[i][j] == 0x06 ){ // delay
-				
-				output << ";# delay\t" << (int)macro_bytes[i][j+1] << "\n";
-				
-			} else if( macro_bytes[i][j] == 0x00 ){ // padding
-				
-				j++;
-				
-			} else{
-				output << ";# unknown, please report as bug: ";
-				output << std::hex << (int)macro_bytes[i][j] << " ";
-				output << std::hex << (int)macro_bytes[i][j+1] << " ";
-				output << std::hex << (int)macro_bytes[i][j+2];
-				output << std::dec << "\n";
-			}
-			
-			// increment
-			j+=3;
-			
-		}
+		_i_decode_macro( macro_bytes[i], output, ";# ", 0 );
 		
 	}
 	

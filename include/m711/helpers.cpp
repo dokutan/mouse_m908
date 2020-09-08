@@ -240,120 +240,16 @@ int mouse_m711::print_settings( std::ostream& output ){
 	output << "\n# Macros\n";
 	for( int i = 0; i < 15; i++ ){
 		
-		// macro undefined?
+		// is macro not defined ?
 		if( _s_macro_data[i][8] == 0 && _s_macro_data[i][9] == 0 && _s_macro_data[i][10] == 0 )
 			continue;
 		
-		output << "\n;## macro" << i+1 << "\n";
+		// _i_decode_macros takes a vector as argument, copy array to vector
+		std::vector< uint8_t > macro_bytes( _s_macro_data[i].begin(), _s_macro_data[i].end() );
 		
-		for( long unsigned int j = 8; j < _s_macro_data[i].size(); ){
-			
-			// failsafe
-			if( j >= _s_macro_data[i].size() )
-				break;
-			
-			if( _s_macro_data[i][j] == 0x81 ){ // mouse button down
-				
-				if( _s_macro_data[i][j+1] == 0x01 )
-					output << ";# down\tmouse_left\n";
-				else if( _s_macro_data[i][j+1] == 0x02 )
-					output << ";# down\tmouse_right\n";
-				else if( _s_macro_data[i][j+1] == 0x04 )
-					output << ";# down\tmouse_middle\n";
-				else{
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_s_macro_data[i][j] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( _s_macro_data[i][j] == 0x01 ){ // mouse button up
-				
-				if( _s_macro_data[i][j+1] == 0x01 )
-					output << ";# up\tmouse_left\n";
-				else if( _s_macro_data[i][j+1] == 0x02 )
-					output << ";# up\tmouse_right\n";
-				else if( _s_macro_data[i][j+1] == 0x04 )
-					output << ";# up\tmouse_middle\n";
-				else{
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_s_macro_data[i][j] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( _s_macro_data[i][j] == 0x84 ){ // keyboard key down
-				
-				bool found_name = false;
-				
-				// iterate over _c_keyboard_key_values
-				for( auto keycode : _c_keyboard_key_values ){
-					
-					if( keycode.second == _s_macro_data[i][j+1] ){
-						
-						output << ";# down\t" << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-				if( !found_name ){
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_s_macro_data[i][j] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( _s_macro_data[i][j] == 0x04 ){ // keyboard key up
-				
-				bool found_name = false;
-				
-				// iterate over _c_keyboard_key_values
-				for( auto keycode : _c_keyboard_key_values ){
-					
-					if( keycode.second == _s_macro_data[i][j+1] ){
-						
-						output << ";# up\t" << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-				if( !found_name ){
-					output << ";# unknown, please report as bug: ";
-					output << std::hex << (int)_s_macro_data[i][j] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+1] << " ";
-					output << std::hex << (int)_s_macro_data[i][j+2];
-					output << std::dec << "\n";
-				}
-				
-			} else if( _s_macro_data[i][j] == 0x06 ){ // delay
-				
-				output << ";# delay\t" << (int)_s_macro_data[i][j+1] << "\n";
-				
-			} else if( _s_macro_data[i][j] == 0x00 ){ // padding
-				
-				j++;
-				
-			} else{
-				output << ";# unknown, please report as bug: ";
-				output << std::hex << (int)_s_macro_data[i][j] << " ";
-				output << std::hex << (int)_s_macro_data[i][j+1] << " ";
-				output << std::hex << (int)_s_macro_data[i][j+2];
-				output << std::dec << "\n";
-			}
-			
-			// increment
-			j+=3;
-			
-		}
+		// print macro (macro data starts at byte 8)
+		output << "\n;## macro" << i+1 << "\n";
+		_i_decode_macro( macro_bytes, output, ";# ", 8 );
 		
 	}
 	
