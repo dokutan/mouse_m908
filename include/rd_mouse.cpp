@@ -270,7 +270,7 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 	if( offset >= macro_bytes.size() )
 		offset = 0;
 	
-	for( size_t i = 0; i < macro_bytes.size(); ){
+	for( size_t i = offset; i < macro_bytes.size(); ){
 		
 		bool unknown_code = false;
 		
