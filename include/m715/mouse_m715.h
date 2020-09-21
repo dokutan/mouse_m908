@@ -112,9 +112,10 @@ class mouse_m715 : public rd_mouse{
 		 * \see _c_dpi_max
 		 * \see _c_level_min
 		 * \see _c_level_max
-		 * \return 0 if successful, 1 if out of bounds
+		 * \return 0 if successful, 1 if out of bounds or invalid dpi
 		 */
-		int set_dpi( rd_profile profile, int level, uint8_t dpi );
+		int set_dpi( rd_profile profile, int level, std::string dpi );
+		//int set_dpi( rd_profile profile, int level, uint8_t dpi ); //TODO! rewrite
 		
 		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping 4 bytes for the usb data packets
@@ -168,7 +169,7 @@ class mouse_m715 : public rd_mouse{
 		/// Get dpi level enabled/disabled status of specified profile
 		bool get_dpi_enable( rd_profile profile, int level );
 		/// Get dpi value of specified level and profile
-		uint8_t get_dpi( rd_profile profile, int level );
+		//uint8_t get_dpi( rd_profile profile, int level ); //TODO! rewrite
 		/// Get USB poll rate of specified profile
 		rd_report_rate get_report_rate( rd_profile profile );
 		/// Get macro repeat number of specified profile
@@ -274,7 +275,7 @@ class mouse_m715 : public rd_mouse{
 		std::array<uint8_t, 5> _s_brightness_levels;
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		std::array<std::array<uint8_t, 5>, 5> _s_dpi_levels;
+		std::array<std::array<std::array<uint8_t, 2>, 5>, 5> _s_dpi_levels;
 		std::array<std::array<std::array<uint8_t, 4>, 8>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;

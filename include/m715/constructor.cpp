@@ -28,8 +28,12 @@ mouse_m715::mouse_m715(){
 	_s_colors.fill( {0xff, 0xff, 0xff} );
 	_s_brightness_levels.fill( 0x03 );
 	_s_speed_levels.fill( 0x08 );
+	
+	// dpi
 	_s_dpi_enabled.fill( {true, true, true, true, true} );
-	_s_dpi_levels.fill( {0x04, 0x16, 0x2d, 0x43, 0x8c} );
+	_s_dpi_levels.fill( {{ {0x04, 0x00}, {0x16, 0x00}, {0x2d, 0x00}, {0x43, 0x00}, {0x8c, 0x00} }} );
+	
+	// button mapping
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 8; j++ ){
 			_s_keymap_data[i][j][0] = _c_data_settings_3[35+(8*i)+j][8];

@@ -110,8 +110,10 @@ int mouse_m711::print_settings( std::ostream& output ){
 			else
 				output << "dpi" << j << "_enable=0\n";
 			
+			// DPI value
 			output << std::setfill('0') << std::setw(2) << std::hex;
-			output << "dpi" << j << "=" << (int)_s_dpi_levels[i-1][j-1] << "\n";
+			output << "dpi" << j << "=0x";
+			output << std::setw(2) << (int)_s_dpi_levels[i-1][j-1][0] << std::setw(2) << (int)_s_dpi_levels[i-1][j-1][1] << "\n";
 			output << std::setfill(' ') << std::setw(0) << std::dec;
 		}
 		

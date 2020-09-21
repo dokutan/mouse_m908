@@ -133,7 +133,8 @@ int mouse_m715::write_settings(){
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 5; j++ ){
 			buffer3[7+(5*i)+j][8] = _s_dpi_enabled[j][i];
-			buffer3[7+(5*i)+j][9] = _s_dpi_levels[j][i];
+			buffer3[7+(5*i)+j][9] = _s_dpi_levels[j][i][0];
+			buffer3[7+(5*i)+j][10] = _s_dpi_levels[j][i][1];
 		}
 	}
 	

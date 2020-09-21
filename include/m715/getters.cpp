@@ -46,9 +46,11 @@ bool mouse_m715::get_dpi_enable( rd_profile profile, int level ){
 	return _s_dpi_enabled[profile][level];
 }
 
+/* TODO! rewrite
 uint8_t mouse_m715::get_dpi( rd_profile profile, int level ){
 	return _s_dpi_levels[profile][level];
 }
+*/
 
 mouse_m715::rd_report_rate mouse_m715::get_report_rate( rd_profile profile ){
 	return _s_report_rates[profile];

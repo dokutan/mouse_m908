@@ -95,15 +95,26 @@ int mouse_m711::set_dpi_enable( rd_profile profile, int level, bool enabled ){
 	return 0;
 }
 
-int mouse_m711::set_dpi( rd_profile profile, int level, uint8_t dpi ){
+int mouse_m711::set_dpi( rd_profile profile, int level, std::string dpi ){
 	
-	//check bounds
-	if( dpi < _c_dpi_min || dpi > _c_dpi_max ){
-		return 1;
+	// check format: 0xABCD (raw bytes)
+	if( std::regex_match( dpi, std::regex("0x[[:xdigit:]]{4}") ) ){
+
+		uint8_t b0 = (uint8_t)stoi( dpi.substr(2,2), 0, 16 );
+		uint8_t b1 = (uint8_t)stoi( dpi.substr(4,2), 0, 16 );
+
+		//check bounds
+		if( b0 < _c_dpi_min || b0 > _c_dpi_max || b1 < _c_dpi_2_min || b1 > _c_dpi_2_max )
+			return 1;
+
+		_s_dpi_levels[profile][level][0] = b0;
+		_s_dpi_levels[profile][level][1] = b1;
+		
+		return 0;
+		
 	}
 	
-	_s_dpi_levels[profile][level] = dpi;
-	return 0;
+	return 1;
 }
 
 int mouse_m711::set_key_mapping( rd_profile profile, int key, std::array<uint8_t, 4> mapping ){

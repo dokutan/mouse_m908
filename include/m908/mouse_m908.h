@@ -202,7 +202,7 @@ class mouse_m908 : public rd_mouse{
 		/** \brief Write the settings (leds, button mapping, dpi, etc.) to the mouse
 		 * \return 0 if successful
 		 */
-		int write_settings(); //TODO!
+		int write_settings(); //TODO! real dpi values
 		
 		/** \brief Write a macro to the mouse
 		 * \return 0 if successful
@@ -233,7 +233,7 @@ class mouse_m908 : public rd_mouse{
 		int close_mouse();
 		
 		/// Print the current configuration in .ini format to output
-		int print_settings( std::ostream& output ); //TODO!
+		int print_settings( std::ostream& output ); //TODO! real dpi values
 		
 		
 		
@@ -275,7 +275,6 @@ class mouse_m908 : public rd_mouse{
 		std::array<uint8_t, 5> _s_brightness_levels;
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		//std::array<std::array<uint8_t, 5>, 5> _s_dpi_levels; //TODO! remove
 		std::array<std::array<std::array<uint8_t, 2>, 5>, 5> _s_dpi_levels;
 		std::array<std::array<std::array<uint8_t, 4>, 20>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
