@@ -21,15 +21,19 @@
 // Constructor, set the default settings
 mouse_m908::mouse_m908(){
 	
-	//default settings
+	// default settings
 	_s_profile = profile_1;
 	_s_scrollspeeds.fill( 0x01 );
 	_s_lightmodes.fill( lightmode_static );
 	_s_colors.fill( {0xff, 0xff, 0xff} );
 	_s_brightness_levels.fill( 0x03 );
 	_s_speed_levels.fill( 0x08 );
+	
+	// dpi
 	_s_dpi_enabled.fill( {true, true, true, true, true} );
-	_s_dpi_levels.fill( {0x04, 0x16, 0x2d, 0x43, 0x8c} );
+	_s_dpi_levels.fill( {{ {0x04, 0x00}, {0x16, 0x00}, {0x2d, 0x00}, {0x43, 0x00}, {0x8c, 0x00} }} );
+	
+	// button mapping
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 20; j++ ){
 			_s_keymap_data[i][j][0] = _c_data_settings_3[35+(20*i)+j][8];
@@ -38,7 +42,10 @@ mouse_m908::mouse_m908(){
 			_s_keymap_data[i][j][3] = _c_data_settings_3[35+(20*i)+j][11];
 		}
 	}
+	
 	_s_report_rates.fill( r_125Hz );
+	
+	// macros
 	int count = 0;
 	for( auto &i : _s_macro_data ){
 		std::copy(std::begin(_c_data_macros_2), std::end(_c_data_macros_2), std::begin(i));

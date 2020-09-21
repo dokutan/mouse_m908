@@ -120,7 +120,8 @@ int mouse_m908::write_settings(){
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 5; j++ ){
 			buffer3[7+(5*i)+j][8] = _s_dpi_enabled[j][i];
-			buffer3[7+(5*i)+j][9] = _s_dpi_levels[j][i];
+			buffer3[7+(5*i)+j][9] = _s_dpi_levels[j][i][0];
+			buffer3[7+(5*i)+j][10] = _s_dpi_levels[j][i][1];
 		}
 	}
 	//key mapping
@@ -130,7 +131,6 @@ int mouse_m908::write_settings(){
 			buffer3[35+(20*i)+j][9] = _s_keymap_data[i][j][1];
 			buffer3[35+(20*i)+j][10] = _s_keymap_data[i][j][2];
 			buffer3[35+(20*i)+j][11] = _s_keymap_data[i][j][3];
-			//std::cout << (int)_s_keymap_data[i][j][0] << " " << (int)_s_keymap_data[i][j][1] << " " << (int)_s_keymap_data[i][j][2] << " " << (int)_s_keymap_data[i][j][3] << "\n";
 		}
 	}
 	//usb report rate

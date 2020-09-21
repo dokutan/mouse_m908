@@ -264,9 +264,14 @@ int mouse_m908::read_and_print_settings( std::ostream& output ){
 		output << "\n# DPI settings\n";
 		output << "# Active dpi level for this profile: " << (int)buffer_in2[i-1][8]+1 << "\n";
 		for( int j = 1; j < 6; j++ ){
+			
+			// DPI enable
 			output << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
+			
+			// DPI value, TODO! lookup real value
 			output << std::setfill('0') << std::setw(2) << std::hex;
-			output << "dpi" << j << "=" << (int)buffer_in2[i-1][5+(6*j)] << "\n";
+			output << "dpi" << j << "=0x";
+			output << std::setw(2) << (int)buffer_in2[i-1][5+(6*j)] << std::setw(2) << (int)buffer_in2[i-1][6+(6*j)] << "\n";
 			output << std::setfill(' ') << std::setw(0) << std::dec;
 		}
 		
@@ -572,7 +577,8 @@ int mouse_m908::read_settings(){
 			else
 				_s_dpi_enabled[i-1][j-1] = false;
 			
-			_s_dpi_levels[i-1][j-1] = buffer_in2[i-1][5+(6*j)];
+			_s_dpi_levels[i-1][j-1][0] = buffer_in2[i-1][5+(6*j)];
+			_s_dpi_levels[i-1][j-1][1] = buffer_in2[i-1][6+(6*j)];
 			
 		}
 		

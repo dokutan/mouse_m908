@@ -29,6 +29,7 @@ const uint8_t rd_mouse::_c_brightness_min = 0x01, rd_mouse::_c_brightness_max = 
 const uint8_t rd_mouse::_c_speed_min = 0x01, rd_mouse::_c_speed_max = 0x08;
 const uint8_t rd_mouse::_c_level_min = 0, rd_mouse::_c_level_max = 4;
 const uint8_t rd_mouse::_c_dpi_min = 0x04, rd_mouse::_c_dpi_max = 0x8c;
+const uint8_t rd_mouse::_c_dpi_2_min = 0x00, rd_mouse::_c_dpi_2_max = 0x01;
 
 //name → keycode
 std::map< std::string, std::array<uint8_t, 3> > rd_mouse::_c_keycodes = {

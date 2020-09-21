@@ -105,13 +105,15 @@ int mouse_m908::print_settings( std::ostream& output ){
 		output << "\n# DPI settings\n";
 		for( int j = 1; j < 6; j++ ){
 			
-			if( _s_dpi_enabled[i-1][j] )
+			if( _s_dpi_enabled[i-1][j] ) // TODO! check if [j] → [j-1]
 				output << "dpi" << j << "_enable=1\n";
 			else
 				output << "dpi" << j << "_enable=0\n";
 			
+			// DPI value, TODO! lookup real value
 			output << std::setfill('0') << std::setw(2) << std::hex;
-			output << "dpi" << j << "=" << (int)_s_dpi_levels[i-1][j-1] << "\n";
+			output << "dpi" << j << "=0x";
+			output << std::setw(2) << (int)_s_dpi_levels[i-1][j-1][0] << std::setw(2) << (int)_s_dpi_levels[i-1][j-1][1] << "\n";
 			output << std::setfill(' ') << std::setw(0) << std::dec;
 		}
 		

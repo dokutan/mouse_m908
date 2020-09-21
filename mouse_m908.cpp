@@ -360,11 +360,13 @@ std::string string_dump, std::string string_read ){
 				if( pt.get("profile"+std::to_string(i)+".dpi4_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 3, false ); }
 				if( pt.get("profile"+std::to_string(i)+".dpi5_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 4, false ); }
 				
+				/* TODO! parse config
 				if( pt.get("profile"+std::to_string(i)+".dpi1", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 0, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi1", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi2", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 1, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi2", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi3", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 2, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi3", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi4", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 3, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi4", ""), 0, 16) );	}
 				if( pt.get("profile"+std::to_string(i)+".dpi5", "").length() != 0 ){ m.set_dpi( profile_lut[i-1], 4, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".dpi5", ""), 0, 16) );	}
+				*/
 				
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "125" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_125Hz ); }
 				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "250" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_250Hz ); }

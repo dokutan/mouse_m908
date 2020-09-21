@@ -96,6 +96,7 @@ class rd_mouse{
 		static const uint8_t _c_speed_min, _c_speed_max;
 		static const uint8_t _c_level_min, _c_level_max;
 		static const uint8_t _c_dpi_min, _c_dpi_max;
+		static const uint8_t _c_dpi_2_min, _c_dpi_2_max;
 		
 		//mapping of button names to values
 		/// Values/keycodes of mouse buttons and special button functions
