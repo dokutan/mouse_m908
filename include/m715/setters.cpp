@@ -117,6 +117,17 @@ int mouse_m715::set_dpi( rd_profile profile, int level, std::string dpi ){
 	return 1;
 }
 
+int mouse_m715::set_dpi( rd_profile profile, int level, std::array<uint8_t, 2> dpi ){
+	
+	//check bounds
+	if( dpi[0] < _c_dpi_min || dpi[0] > _c_dpi_max || dpi[1] < _c_dpi_2_min || dpi[1] > _c_dpi_2_max )
+		return 1;
+	
+	_s_dpi_levels[profile][level][0] = dpi[0];
+	_s_dpi_levels[profile][level][1] = dpi[1];
+	return 0;
+}
+
 int mouse_m715::set_key_mapping( rd_profile profile, int key, std::array<uint8_t, 4> mapping ){
 	_s_keymap_data[profile][key][0] = mapping[0];
 	_s_keymap_data[profile][key][1] = mapping[1];

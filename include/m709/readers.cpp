@@ -269,7 +269,7 @@ int mouse_m709::read_and_print_settings( std::ostream& output ){
 			// DPI enable
 			output << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
 			
-			// DPI value, TODO! lookup real value
+			// DPI value
 			output << std::setfill('0') << std::setw(2) << std::hex;
 			output << "dpi" << j << "=0x";
 			output << std::setw(2) << (int)buffer_in2[i-1][5+(6*j)] << std::setw(2) << (int)buffer_in2[i-1][6+(6*j)] << "\n";

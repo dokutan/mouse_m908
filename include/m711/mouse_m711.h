@@ -115,7 +115,7 @@ class mouse_m711 : public rd_mouse{
 		 * \return 0 if successful, 1 if out of bounds or invalid dpi
 		 */
 		int set_dpi( rd_profile profile, int level, std::string dpi );
-		//int set_dpi( rd_profile profile, int level, uint8_t dpi ); //TODO! rewrite
+		int set_dpi( rd_profile profile, int level, std::array<uint8_t, 2> dpi );
 		
 		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping 4 bytes for the usb data packets
@@ -169,7 +169,7 @@ class mouse_m711 : public rd_mouse{
 		/// Get dpi level enabled/disabled status of specified profile
 		bool get_dpi_enable( rd_profile profile, int level );
 		/// Get dpi value of specified level and profile
-		//uint8_t get_dpi( rd_profile profile, int level ); //TODO! rewrite
+		int get_dpi( rd_profile profile, int level, std::array<uint8_t, 2>& dpi );
 		/// Get USB poll rate of specified profile
 		rd_report_rate get_report_rate( rd_profile profile );
 		/// Get macro repeat number of specified profile

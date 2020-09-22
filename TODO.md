@@ -8,4 +8,4 @@
 	- Copied M711, probably needs changed button mapping
 - Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse
 	- print_settings() and read_and_print_settings(): move macro decoding to function in rd_mouse
-
+- Check level in dpi setters and getters
