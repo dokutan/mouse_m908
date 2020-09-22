@@ -202,7 +202,7 @@ class mouse_m908 : public rd_mouse{
 		/** \brief Write the settings (leds, button mapping, dpi, etc.) to the mouse
 		 * \return 0 if successful
 		 */
-		int write_settings(); //TODO! real dpi values
+		int write_settings();
 		
 		/** \brief Write a macro to the mouse
 		 * \return 0 if successful
@@ -233,7 +233,12 @@ class mouse_m908 : public rd_mouse{
 		int close_mouse();
 		
 		/// Print the current configuration in .ini format to output
-		int print_settings( std::ostream& output ); //TODO! real dpi values
+		int print_settings( std::ostream& output );
+		
+		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * \return 0 if no error
+		 */
+		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ); //TODO! real dpi values
 		
 		
 		
@@ -257,11 +262,6 @@ class mouse_m908 : public rd_mouse{
 		std::map< int, std::string >& button_names(){ return _c_button_names; }
 		
 	private:
-		
-		/** dpi bytes → string
-		 * \return 0 if no error
-		 */
-		// int _i_dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ); TODO! implement
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;

@@ -111,10 +111,13 @@ int mouse_m715::print_settings( std::ostream& output ){
 				output << "dpi" << j << "_enable=0\n";
 			
 			// DPI value
-			output << std::setfill('0') << std::setw(2) << std::hex;
-			output << "dpi" << j << "=0x";
-			output << std::setw(2) << (int)_s_dpi_levels[i-1][j-1][0] << std::setw(2) << (int)_s_dpi_levels[i-1][j-1][1] << "\n";
-			output << std::setfill(' ') << std::setw(0) << std::dec;
+			std::array<uint8_t, 2> dpi_bytes = {_s_dpi_levels[i-1][j-1][0], _s_dpi_levels[i-1][j-1][1]};
+			std::string dpi_string = "";
+			
+			if( dpi_bytes_to_string( dpi_bytes, dpi_string ) == 0 )
+				output << "dpi" << j << "=" << dpi_string << "\n";
+			else
+				output << "\n";
 		}
 		
 		// button mapping
@@ -254,6 +257,20 @@ int mouse_m715::print_settings( std::ostream& output ){
 		_i_decode_macro( macro_bytes, output, ";# ", 8 );
 		
 	}
+	
+	return 0;
+}
+
+int mouse_m715::dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
+	
+	std::stringstream conversion_stream;
+	
+	conversion_stream << std::setfill('0') << std::hex;
+	conversion_stream << "0x";
+	conversion_stream << std::setw(2) << (int)dpi_bytes[0] << std::setw(2) << (int)dpi_bytes[1];
+	conversion_stream << std::setfill(' ') << std::setw(0) << std::dec;
+	
+	dpi_string = conversion_stream.str();
 	
 	return 0;
 }

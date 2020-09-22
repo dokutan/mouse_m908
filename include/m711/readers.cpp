@@ -270,10 +270,13 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 			output << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
 			
 			// DPI value
-			output << std::setfill('0') << std::setw(2) << std::hex;
-			output << "dpi" << j << "=0x";
-			output << std::setw(2) << (int)buffer_in2[i-1][5+(6*j)] << std::setw(2) << (int)buffer_in2[i-1][6+(6*j)] << "\n";
-			output << std::setfill(' ') << std::setw(0) << std::dec;
+			std::array<uint8_t, 2> dpi_bytes = {buffer_in2[i-1][5+(6*j)], buffer_in2[i-1][6+(6*j)]};
+			std::string dpi_string = "";
+			
+			if( dpi_bytes_to_string( dpi_bytes, dpi_string ) == 0 )
+				output << "dpi" << j << "=" << dpi_string << "\n";
+			else
+				output << "\n";
 		}
 		
 		output << "\n# Button mapping is not implemented due to a lack of captured data\n";
