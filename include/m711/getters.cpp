@@ -43,10 +43,19 @@ uint8_t mouse_m711::get_speed( rd_profile profile ){
 }
 
 bool mouse_m711::get_dpi_enable( rd_profile profile, int level ){
+	
+	// check DPI level bounds
+	if( level < _c_level_min || level > _c_level_max )
+		return false;
+	
 	return _s_dpi_enabled[profile][level];
 }
 
 int mouse_m711::get_dpi( rd_profile profile, int level, std::array<uint8_t, 2>& dpi ){
+	
+	// check DPI level bounds
+	if( level < _c_level_min || level > _c_level_max )
+		return 1;
 	
 	dpi[0] = _s_dpi_levels[profile][level][0];
 	dpi[1] = _s_dpi_levels[profile][level][1];

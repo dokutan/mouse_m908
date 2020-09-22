@@ -97,6 +97,10 @@ int mouse_m715::set_dpi_enable( rd_profile profile, int level, bool enabled ){
 
 int mouse_m715::set_dpi( rd_profile profile, int level, std::string dpi ){
 	
+	// check DPI level bounds
+	if( level < _c_level_min || level > _c_level_max )
+		return 1;
+	
 	// check format: 0xABCD (raw bytes)
 	if( std::regex_match( dpi, std::regex("0x[[:xdigit:]]{4}") ) ){
 
@@ -118,6 +122,10 @@ int mouse_m715::set_dpi( rd_profile profile, int level, std::string dpi ){
 }
 
 int mouse_m715::set_dpi( rd_profile profile, int level, std::array<uint8_t, 2> dpi ){
+	
+	// check DPI level bounds
+	if( level < _c_level_min || level > _c_level_max )
+		return 1;
 	
 	//check bounds
 	if( dpi[0] < _c_dpi_min || dpi[0] > _c_dpi_max || dpi[1] < _c_dpi_2_min || dpi[1] > _c_dpi_2_max )
