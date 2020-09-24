@@ -263,6 +263,17 @@ int mouse_m908::print_settings( std::ostream& output ){
 
 int mouse_m908::dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
 	
+	// is dpi value known?
+	for( auto dpi_value : _c_dpi_codes ){
+		
+		if( dpi_value.second[0] == dpi_bytes[0] && dpi_value.second[1] == dpi_bytes[1] ){
+			dpi_string = std::to_string( dpi_value.first );
+			return 0;
+		}
+		
+	}
+	
+	// unknown dpi value
 	std::stringstream conversion_stream;
 	
 	conversion_stream << std::setfill('0') << std::hex;

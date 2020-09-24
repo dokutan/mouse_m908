@@ -8,4 +8,5 @@
 	- Copied M711, probably needs changed button mapping
 - Investigate methods to deduplicate code between mouse_m* classes, move code to rd_mouse
 	- print_settings() and read_and_print_settings(): move macro decoding to function in rd_mouse
-- Check level in dpi setters and getters
+- Add support for actual DPI values to the M709, M711 and M715
+	- Requires data (DPI → bytecode)

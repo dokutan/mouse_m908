@@ -238,7 +238,7 @@ class mouse_m908 : public rd_mouse{
 		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
 		 * \return 0 if no error
 		 */
-		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ); //TODO! real dpi values
+		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
 		
 		
 		
@@ -265,6 +265,9 @@ class mouse_m908 : public rd_mouse{
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
+		
+		/// Mapping of real DPI values to bytecode
+		static std::map< unsigned int, std::array<uint8_t, 2> > _c_dpi_codes;
 		
 		//usb device vars
 		/// USB vendor id
