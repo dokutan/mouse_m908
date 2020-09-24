@@ -354,18 +354,17 @@ std::string string_dump, std::string string_read ){
 					m.set_scrollspeed( profile_lut[i-1], (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".scrollspeed", ""), 0, 16) );
 				}
 				
-				if( pt.get("profile"+std::to_string(i)+".dpi1_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 0, false ); }
-				if( pt.get("profile"+std::to_string(i)+".dpi2_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 1, false ); }
-				if( pt.get("profile"+std::to_string(i)+".dpi3_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 2, false ); }
-				if( pt.get("profile"+std::to_string(i)+".dpi4_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 3, false ); }
-				if( pt.get("profile"+std::to_string(i)+".dpi5_enable", "") == "0" ){ m.set_dpi_enable( profile_lut[i-1], 4, false ); }
-				
 				// DPI
 				for( int j = 1; j < 6; j++ ){
 					
+					// DPI level disabled
+					if( pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j)+"_enable", "") == "0" )
+						m.set_dpi_enable( profile_lut[i-1], j-1, false );
+					
+					// DPI value
 					if( pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "").length() != 0 ){ // non-empty dpi value
 						
-						if( m.set_dpi( profile_lut[i-1], j-1, pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "") ) != 0 ) // invalid dpi value
+						if( m.set_dpi( profile_lut[i-1], j-1, pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "") ) != 0 ) // if invalid dpi value
 							std::cerr << "Warning: Unknown DPI value " << pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "") << "\n";
 					}
 				}

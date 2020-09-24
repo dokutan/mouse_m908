@@ -105,7 +105,7 @@ int mouse_m715::print_settings( std::ostream& output ){
 		output << "\n# DPI settings\n";
 		for( int j = 1; j < 6; j++ ){
 			
-			if( _s_dpi_enabled[i-1][j] )
+			if( _s_dpi_enabled[i-1][j-1] )
 				output << "dpi" << j << "_enable=1\n";
 			else
 				output << "dpi" << j << "_enable=0\n";
