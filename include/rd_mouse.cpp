@@ -355,3 +355,228 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 	
 	return 0;
 }
+
+int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping ){
+	
+	std::stringstream output;
+	bool found_name = false;
+	int return_value = 0;
+	
+	// fire button
+	if( bytes.at(0) == 0x99 ){
+		
+		output << "fire:";
+		
+		// button
+		if( bytes.at(1) == 0x81 )
+			output << "mouse_left:";
+		else if( bytes.at(1) == 0x82 )
+			output << "mouse_right:";
+		else if( bytes.at(1) == 0x84 )
+			output << "mouse_middle:";
+		else{
+			
+			// iterate over _c_keyboard_key_values
+			for( auto keycode : _c_keyboard_key_values ){
+				
+				if( keycode.second == bytes.at(1) ){
+					
+					output << keycode.first;
+					break;
+					
+				}
+				
+			}
+			output << ":";
+		}
+		
+		// repeats
+		output << (int)bytes.at(2) << ":";
+		
+		// delay
+		output << (int)bytes.at(3);
+		
+		found_name = true;
+		
+	// snipe button
+	} else if( bytes.at(0) == 0x9a && bytes.at(1) == 0x01 ){
+		
+		// iterate over _c_snipe_dpi_values
+		for( auto dpi : _c_snipe_dpi_values ){
+			
+			if( dpi.second == bytes.at(2) && dpi.second == bytes.at(3) ){
+				
+				output << "snipe:" << dpi.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	// keyboard key
+	} else if( bytes.at(0) == 0x90 ){
+		
+		// iterate over _c_keyboard_key_values
+		for( auto keycode : _c_keyboard_key_values ){
+			
+			if( keycode.second == bytes.at(2) ){
+				
+				output << keycode.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	// modifiers + keyboard key
+	} else if( bytes.at(0) == 0x8f ){
+		
+		// iterate over _c_keyboard_modifier_values
+		for( auto modifier : _c_keyboard_modifier_values ){
+			
+			if( modifier.second & bytes.at(1) ){
+				output << modifier.first;
+			}
+			
+		}
+		
+		// iterate over _c_keyboard_key_values
+		for( auto keycode : _c_keyboard_key_values ){
+			
+			if( keycode.second == bytes.at(2) ){
+				
+				output << keycode.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	} else{ // mousebutton or special function ?
+		
+		// iterate over _c_keycodes
+		for( auto keycode : _c_keycodes ){
+			
+			if( keycode.second[0] == bytes.at(0) &&
+				keycode.second[1] == bytes.at(1) && 
+				keycode.second[2] == bytes.at(2) ){
+				
+				output << keycode.first;
+				found_name = true;
+				break;
+				
+			}
+			
+		}
+		
+	}
+	
+	if( !found_name ){
+		output << "unknown, please report as bug: ";
+		output << " " << std::hex << (int)bytes.at(0) << " ";
+		output << " " << std::hex << (int)bytes.at(1) << " ";
+		output << " " << std::hex << (int)bytes.at(2) << " ";
+		output << " " << std::hex << (int)bytes.at(3);
+		output << std::dec;
+		return_value = 1;
+	}
+	
+	mapping = output.str();
+	return return_value;
+}
+
+int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes ){
+	
+	// is string in _c_keycodes? mousebuttons/special functions and media controls
+	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
+		
+		bytes[0] = _c_keycodes[mapping][0];
+		bytes[1] = _c_keycodes[mapping][1];
+		bytes[2] = _c_keycodes[mapping][2];
+		bytes[3] = 0x00;
+	
+	// fire button (multiple keypresses)
+	} else if( mapping.find("fire") == 0 ){
+		
+		std::stringstream mapping_stream(mapping);
+		std::string value1 = "", value2 = "", value3 = "";
+		uint8_t keycode, repeats = 1, delay = 0;
+		
+		// the repeated value1 line is not a mistake, it skips the "fire:"
+		std::getline( mapping_stream, value1, ':' );
+		std::getline( mapping_stream, value1, ':' );
+		std::getline( mapping_stream, value2, ':' );
+		std::getline( mapping_stream, value3, ':' );
+		
+		if( value1 == "mouse_left" ){
+			keycode = 0x81;
+		} else if( value1 == "mouse_right" ){
+			keycode = 0x82;
+		} else if( value1 == "mouse_middle" ){
+			keycode = 0x84;
+		} else if( _c_keyboard_key_values.find(value1) != _c_keyboard_key_values.end() ){
+			keycode = _c_keyboard_key_values[value1];
+		} else{
+			return 1;
+		}
+		
+		repeats = (uint8_t)stoi(value2);
+		delay = (uint8_t)stoi(value3);
+		
+		// store values
+		bytes[0] = 0x99;
+		bytes[1] = keycode;
+		bytes[2] = repeats;
+		bytes[3] = delay;
+	
+	// snipe button (changes dpi while pressed)
+	} else if( mapping.find("snipe") == 0 ){
+		
+		try{
+			
+			int dpi_value = std::stoi( std::regex_replace( mapping, std::regex("snipe:"), "" ) );
+			uint8_t dpi_byte = _c_snipe_dpi_values.at( dpi_value );
+			
+			bytes[0] = 0x9a;
+			bytes[1] = 0x01;
+			bytes[2] = dpi_byte;
+			bytes[3] = dpi_byte;
+			
+		} catch( std::exception& f ){ // invalid mapping pattern or dpi
+			return 1;
+		}
+		
+	// string is not a key in _c_keycodes: keyboard key (+ modifiers) ?
+	} else{
+		
+		// search for modifiers and change values accordingly: ctrl, shift ...
+		uint8_t first_value = 0x90;
+		uint8_t modifier_value = 0x00;
+		for( auto i : _c_keyboard_modifier_values ){
+			if( mapping.find( i.first ) != std::string::npos ){
+				modifier_value += i.second;
+				first_value = 0x8f;
+			}
+		}
+		
+		// get key value and store everything
+		try{
+			
+			std::regex modifier_regex ("[a-z_]*\\+");
+			
+			// store values
+			bytes[0] = first_value;
+			bytes[1] = modifier_value;
+			bytes[2] = _c_keyboard_key_values[std::regex_replace( mapping, modifier_regex, "" )];
+			bytes[3] = 0x00;
+			
+		} catch( std::exception& f ){
+			return 1;
+		}
+	}
+	
+	return 0;
+}

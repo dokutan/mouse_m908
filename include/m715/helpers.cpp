@@ -124,120 +124,16 @@ int mouse_m715::print_settings( std::ostream& output ){
 		output << "\n# Button mapping\n";
 		
 		for( int j = 0; j < 8; j++ ){
+			std::array< uint8_t, 4 > bytes = {
+				_s_keymap_data[i-1][j][0],
+				_s_keymap_data[i-1][j][1],
+				_s_keymap_data[i-1][j][2],
+				_s_keymap_data[i-1][j][3]
+			};
+			std::string mapping;
 			
-			uint8_t b1 = _s_keymap_data[i-1][j][0];
-			uint8_t b2 = _s_keymap_data[i-1][j][1];
-			uint8_t b3 = _s_keymap_data[i-1][j][2];
-			uint8_t b4 = _s_keymap_data[i-1][j][3];
-			bool found_name = false;
-			
-			output << _c_button_names[j] << "=";
-			
-			// fire button
-			if( b1 == 0x99 ){
-				
-				output << "fire:";
-				
-				// button
-				if( b2 == 0x81 )
-					output << "mouse_left:";
-				else if( b2 == 0x82 )
-					output << "mouse_right:";
-				else if( b2 == 0x84 )
-					output << "mouse_middle:";
-				else{
-					
-					// iterate over _c_keyboard_key_values
-					for( auto keycode : _c_keyboard_key_values ){
-						
-						if( keycode.second == b2 ){
-							
-							output << keycode.first;
-							break;
-							
-						}
-						
-					}
-					output << ":";
-				}
-				
-				// repeats
-				output << (int)b3 << ":";
-				
-				// delay
-				output << (int)b4 << "\n";
-				
-				found_name = true;
-				
-			// keyboard key
-			} else if( b1 == 0x90 ){
-				
-				// iterate over _c_keyboard_key_values
-				for( auto keycode : _c_keyboard_key_values ){
-					
-					if( keycode.second == b3 ){
-						
-						output << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-			// modifiers + keyboard key
-			} else if( b1 == 0x8f ){
-				
-				// iterate over _c_keyboard_modifier_values
-				for( auto modifier : _c_keyboard_modifier_values ){
-					
-					if( modifier.second & b2 ){
-						output << modifier.first;
-					}
-					
-				}
-				
-				// iterate over _c_keyboard_key_values
-				for( auto keycode : _c_keyboard_key_values ){
-					
-					if( keycode.second == b3 ){
-						
-						output << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-			} else{ // mousebutton or special function ?
-				
-				// iterate over _c_keycodes
-				for( auto keycode : _c_keycodes ){
-					
-					if( keycode.second[0] == b1 &&
-						keycode.second[1] == b2 && 
-						keycode.second[2] == b3 ){
-						
-						output << keycode.first << "\n";
-						found_name = true;
-						break;
-						
-					}
-					
-				}
-				
-			}
-			
-			if( !found_name ){
-				output << "unknown, please report as bug: ";
-				output << " " << std::hex << (int)b1 << " ";
-				output << " " << std::hex << (int)b2 << " ";
-				output << " " << std::hex << (int)b3 << " ";
-				output << " " << std::hex << (int)b4;
-				output << std::dec << "\n";
-			}
-			
+			_i_decode_button_mapping( bytes, mapping );
+			output << _c_button_names[j] << "=" << mapping << std::endl;
 		}
 	}
 	

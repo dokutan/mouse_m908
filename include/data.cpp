@@ -268,3 +268,16 @@ std::map< std::string, uint8_t > rd_mouse::_c_keyboard_key_values = {
 	{ "Media_Screenlock", 0xf9 },
 	{ "Media_Refresh", 0xfa },
 	{ "Media_Calc", 0xfb } };
+
+std::map< int, uint8_t >  rd_mouse::_c_snipe_dpi_values = {
+	{ 200, 0x04 },
+	{ 300, 0x06 },
+	{ 400, 0x09 },
+	{ 500, 0x0b },
+	{ 600, 0x0d },
+	{ 700, 0x0f },
+	{ 800, 0x12 },
+	{ 900, 0x14 },
+	{ 1000, 0x16 },
+	{ 1100, 0x18 }
+};

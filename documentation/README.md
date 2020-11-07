@@ -37,6 +37,11 @@ A few are listed below:
 	1. macro number (0x0-0xe)
 	2. 0x01
 	3. 0x00
+- Snipe (Changes DPI while pressed)
+	0. = 0x9a
+	1. 1
+	2. DPI 200-1100 (100 increment): 4 6 9 b d f 12 14 16 18
+	3. = 2.
 - No function (none)
 	all bytes = 0x00
 

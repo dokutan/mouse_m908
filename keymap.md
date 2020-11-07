@@ -14,6 +14,8 @@ A button on the mouse can be mapped to one function out of the following categor
 	- Example: ``super_l+shift_l+a``
 - Fire button (simulates multiple button presses)
 	- Example: ``fire:mouse_left:5:1``
+- Snipe button (changes DPI while pressed)
+	- Example: ``snipe:200``
 - Media controls (only available for compatibility, use the Media_* keyboard keys if possible)
 	- Example: ``media_play``
 
@@ -39,6 +41,11 @@ fire:⟨button⟩:⟨repeats⟩:⟨delay⟩
 
 ⟨repeats⟩ can be 1-255
 ⟨delay⟩ can be 1-255
+
+## Snipe button (changes DPI while pressed)
+snipe:⟨DPI⟩
+
+⟨DPI⟩ can be 200-1100 (increment: 100)
 
 ## Mousebuttons and special functions
 forward

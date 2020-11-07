@@ -150,74 +150,17 @@ int mouse_m715::set_key_mapping( rd_profile profile, int key, std::string mappin
 	if( _c_button_names[key] == "" )
 		return 1;
 	
-	// is string in _c_keycodes? mousebuttons/special functions and media controls
-	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
-		_s_keymap_data[profile][key][0] = _c_keycodes[mapping][0];
-		_s_keymap_data[profile][key][1] = _c_keycodes[mapping][1];
-		_s_keymap_data[profile][key][2] = _c_keycodes[mapping][2];
-		_s_keymap_data[profile][key][3] = 0x00;
-	} else if( mapping.find("fire") == 0 ){
-		// fire button (multiple keypresses)
-		
-		std::stringstream mapping_stream(mapping);
-		std::string value1 = "", value2 = "", value3 = "";
-		uint8_t keycode, repeats = 1, delay = 0;
-		
-		// the repeated value1 line is not a mistake, it skips the "fire:"
-		std::getline( mapping_stream, value1, ':' );
-		std::getline( mapping_stream, value1, ':' );
-		std::getline( mapping_stream, value2, ':' );
-		std::getline( mapping_stream, value3, ':' );
-		
-		if( value1 == "mouse_left" ){
-			keycode = 0x81;
-		} else if( value1 == "mouse_right" ){
-			keycode = 0x82;
-		} else if( value1 == "mouse_middle" ){
-			keycode = 0x84;
-		} else if( _c_keyboard_key_values.find(value1) != _c_keyboard_key_values.end() ){
-			keycode = _c_keyboard_key_values[value1];
-		} else{
-			return 1;
-		}
-		
-		repeats = (uint8_t)stoi(value2);
-		delay = (uint8_t)stoi(value3);
-		
-		// store values
-		_s_keymap_data[profile][key][0] = 0x99;
-		_s_keymap_data[profile][key][1] = keycode;
-		_s_keymap_data[profile][key][2] = repeats;
-		_s_keymap_data[profile][key][3] = delay;
-		
-	} else{
-		// string is not a key in _c_keycodes: keyboard key?
-		
-		// search for modifiers and change values accordingly: ctrl, shift ...
-		uint8_t first_value = 0x90;
-		uint8_t modifier_value = 0x00;
-		for( auto i : _c_keyboard_modifier_values ){
-			if( mapping.find( i.first ) != std::string::npos ){
-				modifier_value += i.second;
-				first_value = 0x8f;
-			}
-		}
-		
-		// get key value and store everything
-		try{
-			std::regex modifier_regex ("[a-z_]*\\+");
-			// store values
-			_s_keymap_data[profile][key][0] = first_value;
-			_s_keymap_data[profile][key][1] = modifier_value;
-			_s_keymap_data[profile][key][2] = _c_keyboard_key_values[std::regex_replace( mapping, modifier_regex, "" )];
-			_s_keymap_data[profile][key][3] = 0x00;
-			//std::cout << std::regex_replace( mapping, modifier_regex, "" ) << "\n";
-		} catch( std::exception& f ){
-			return 1;
-		}
+	std::array< uint8_t, 4 > bytes;
+	int return_value = _i_encode_button_mapping( mapping, bytes );
+	
+	if( return_value == 0 ){
+		_s_keymap_data[profile][key][0] = bytes[0];
+		_s_keymap_data[profile][key][1] = bytes[1];
+		_s_keymap_data[profile][key][2] = bytes[2];
+		_s_keymap_data[profile][key][3] = bytes[3];
 	}
 	
-	return 0;
+	return return_value;
 }
 
 int mouse_m715::set_report_rate( rd_profile profile, rd_report_rate report_rate ){

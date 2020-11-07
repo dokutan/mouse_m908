@@ -105,6 +105,8 @@ class rd_mouse{
 		static const std::map< std::string, uint8_t > _c_keyboard_modifier_values;
 		/// Values/keycodes of keyboard keys
 		static std::map< std::string, uint8_t > _c_keyboard_key_values;
+		/// DPI values for the snipe button
+		static std::map< int, uint8_t > _c_snipe_dpi_values;
 		
 		//usb device handling
 		/// libusb device handle
@@ -143,6 +145,21 @@ class rd_mouse{
 		 */
 		int _i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset );
 		
+		/** \brief Decodes the bytes describing a button mapping
+		 * \arg bytes the 4 bytes descriping the mapping
+		 * \arg mapping string to hold the result
+		 * \return 0 if valid button mapping
+		 * \see _i_encode_button_mapping
+		 */
+		int _i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping );
+		
+		/** \brief Turns a string describing a button mapping into bytecode
+		 * \arg mapping button mapping
+		 * \arg bytes holds the result
+		 * \return 0 if valid button mapping
+		 * \see _i_decode_button_mapping
+		 */
+		int _i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes );
 };
 
 // include header files for the individual models
