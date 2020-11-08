@@ -144,6 +144,8 @@ examples/example.macro for an example of the older file format, examples/example
 - mouse_left
 - mouse_right
 - mouse_middle
+- mouse_forward
+- mouse_backward
 
 ### --bus and --device options
 

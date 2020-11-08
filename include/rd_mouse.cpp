@@ -291,6 +291,14 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 			output << prefix << "up\tmouse_right\n";
 		else if( macro_bytes[i] == 0x01 && macro_bytes[i+1] == 0x04 )
 			output << prefix << "up\tmouse_middle\n";
+		else if( macro_bytes[i] == 0x81 && macro_bytes[i+1] == 0x10 )
+			output << prefix << "down\tmouse_forward\n";
+		else if( macro_bytes[i] == 0x01 && macro_bytes[i+1] == 0x10 )
+			output << prefix << "up\tmouse_forward\n";
+		else if( macro_bytes[i] == 0x81 && macro_bytes[i+1] == 0x08 )
+			output << prefix << "down\tmouse_backward\n";
+		else if( macro_bytes[i] == 0x01 && macro_bytes[i+1] == 0x08 )
+			output << prefix << "up\tmouse_backward\n";
 		else if( macro_bytes[i] == 0x81 || macro_bytes[i] == 0x01 )
 			unknown_code = true; // unknown code
 		
@@ -410,6 +418,14 @@ int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::ist
 				macro_bytes[data_offset] = 0x81;
 				macro_bytes[data_offset+1] = 0x04;
 				data_offset += 3;
+			} else if( value2 == "mouse_backward" ){
+				macro_bytes[data_offset] = 0x81;
+				macro_bytes[data_offset+1] = 0x08;
+				data_offset += 3;
+			} else if( value2 == "mouse_forward" ){
+				macro_bytes[data_offset] = 0x81;
+				macro_bytes[data_offset+1] = 0x10;
+				data_offset += 3;
 			}
 		
 		// mouse button up
@@ -426,6 +442,14 @@ int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::ist
 			} else if( value2 == "mouse_middle" ){
 				macro_bytes[data_offset] = 0x01;
 				macro_bytes[data_offset+1] = 0x04;
+				data_offset += 3;
+			} else if( value2 == "mouse_backward" ){
+				macro_bytes[data_offset] = 0x01;
+				macro_bytes[data_offset+1] = 0x08;
+				data_offset += 3;
+			} else if( value2 == "mouse_forward" ){
+				macro_bytes[data_offset] = 0x01;
+				macro_bytes[data_offset+1] = 0x10;
 				data_offset += 3;
 			}
 			
