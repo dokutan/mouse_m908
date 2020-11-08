@@ -145,6 +145,13 @@ class rd_mouse{
 		 */
 		int _i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset );
 		
+		/** \brief Encode macro commands to macro bytecode
+		 * \arg macro_bytes holds the result
+		 * \arg input where the macro commands are read from
+		 * \arg offset skips offset bytes at the beginning
+		 */
+		int _i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, size_t offset );
+		
 		/** \brief Decodes the bytes describing a button mapping
 		 * \arg bytes the 4 bytes descriping the mapping
 		 * \arg mapping string to hold the result

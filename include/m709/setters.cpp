@@ -168,7 +168,6 @@ int mouse_m709::set_report_rate( rd_profile profile, rd_report_rate report_rate 
 	return 0;
 }
 
-
 int mouse_m709::set_macro( int macro_number, std::string file ){
 	
 	//check if macro_number is valid
@@ -182,83 +181,11 @@ int mouse_m709::set_macro( int macro_number, std::string file ){
 		return 1;
 	}
 	
-	//process file
-	std::string value1 = "";
-	std::string value2 = "";
-	std::size_t position = 0;
-	int data_offset = 8;
+	std::array< uint8_t, 256 > macro_bytes;
+	_i_encode_macro( macro_bytes, config_in, 8 );
+	std::copy( macro_bytes.begin()+8, macro_bytes.end(), _s_macro_data[macro_number-1].begin()+8 );
 	
-	for( std::string line; std::getline(config_in, line); ){
-		//process individual line
-		if( line.length() != 0 ){
-
-			position = 0;
-			position = line.find("\t", position);
-			value1 = line.substr(0, position);
-			value2 = line.substr(position+1);
-			
-			if( value1 == "down" && _c_keyboard_key_values.find(value2) != _c_keyboard_key_values.end() ){
-				// keyboard key down
-				//std::cout << "down\n";
-				_s_macro_data[macro_number-1][data_offset] = 0x84;
-				_s_macro_data[macro_number-1][data_offset+1] = _c_keyboard_key_values[value2];
-				data_offset += 3;
-			} else if( value1 == "up" && _c_keyboard_key_values.find(value2) != _c_keyboard_key_values.end() ){
-				// keyboard key up
-				//std::cout << "up\n";
-				_s_macro_data[macro_number-1][data_offset] = 0x04;
-				_s_macro_data[macro_number-1][data_offset+1] = _c_keyboard_key_values[value2];
-				data_offset += 3;
-			} else if( value1 == "down" && _c_keyboard_key_values.find(value2) == _c_keyboard_key_values.end() ){
-				// mouse button down
-				//std::cout << "mouse down\n";
-				if( value2 == "mouse_left" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x81;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x01;
-					data_offset += 3;
-				} else if( value2 == "mouse_right" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x81;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x02;
-					data_offset += 3;
-				} else if( value2 == "mouse_middle" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x81;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x04;
-					data_offset += 3;
-				}
-			} else if( value1 == "up" && _c_keyboard_key_values.find(value2) == _c_keyboard_key_values.end() ){
-				// mouse button up
-				//std::cout << "mouse up\n";
-				if( value2 == "mouse_left" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x01;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x01;
-					data_offset += 3;
-				} else if( value2 == "mouse_right" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x01;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x02;
-					data_offset += 3;
-				} else if( value2 == "mouse_middle" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x01;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x04;
-					data_offset += 3;
-				}
-			} else if( value1 == "delay" ){
-				// delay
-				//std::cout << "delay\n";
-				int duration = (uint8_t)stoi( value2, 0, 10);
-				if( duration >= 1 && duration <= 255 ){
-					_s_macro_data[macro_number-1][data_offset] = 0x06;
-					_s_macro_data[macro_number-1][data_offset+1] = duration;
-					data_offset += 3;
-				}
-			}
-			
-			if(data_offset > 212){
-				return 0;
-			}
-			
-		}
-	}
-	
+	config_in.close();
 	return 0;
 }
 
@@ -281,23 +208,19 @@ int mouse_m709::set_all_macros( std::string file ){
 		return 1;
 	}
 	
-	//process file
-	std::string value1 = "";
-	std::string value2 = "";
-	std::size_t position = 0;
-	int data_offset = 8;
 	int macro_number = 0; // initially invalid
+	std::array< std::stringstream, 15 > macro_streams;
 	
+	// get all macros from file
 	for( std::string line; std::getline(config_in, line); ){
 		
 		// empty line → skip
 		if( line.length() == 0 )
 			continue;
 		
-		// macro header → set macro_number, reset data_offset
+		// macro header → set macro_number
 		if( std::regex_match( line, std::regex(";## macro[0-9]*") ) ){
 			macro_number = stoi( std::regex_replace( line, std::regex(";## macro"), "" ), 0, 10 );
-			data_offset = 8;
 		}
 		
 		// macro action
@@ -307,76 +230,17 @@ int mouse_m709::set_all_macros( std::string file ){
 			if( macro_number < 1 || macro_number > 15 )
 				continue;
 			
-			// maximum size reached
-			if(data_offset > 212)
-				continue;
-			
-			// get action string
-			std::string action = std::regex_replace( line, std::regex(";# "), "" );
-			
-			// get value substrings
-			position = 0;
-			position = action.find("\t", position);
-			value1 = action.substr(0, position);
-			value2 = action.substr(position+1);
-			
-			// encode values
-			if( value1 == "down" && _c_keyboard_key_values.find(value2) != _c_keyboard_key_values.end() ){
-				// keyboard key down
-				//std::cout << "down\n";
-				_s_macro_data[macro_number-1][data_offset] = 0x84;
-				_s_macro_data[macro_number-1][data_offset+1] = _c_keyboard_key_values[value2];
-				data_offset += 3;
-			} else if( value1 == "up" && _c_keyboard_key_values.find(value2) != _c_keyboard_key_values.end() ){
-				// keyboard key up
-				//std::cout << "up\n";
-				_s_macro_data[macro_number-1][data_offset] = 0x04;
-				_s_macro_data[macro_number-1][data_offset+1] = _c_keyboard_key_values[value2];
-				data_offset += 3;
-			} else if( value1 == "down" && _c_keyboard_key_values.find(value2) == _c_keyboard_key_values.end() ){
-				// mouse button down
-				//std::cout << "mouse down\n";
-				if( value2 == "mouse_left" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x81;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x01;
-					data_offset += 3;
-				} else if( value2 == "mouse_right" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x81;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x02;
-					data_offset += 3;
-				} else if( value2 == "mouse_middle" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x81;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x04;
-					data_offset += 3;
-				}
-			} else if( value1 == "up" && _c_keyboard_key_values.find(value2) == _c_keyboard_key_values.end() ){
-				// mouse button up
-				//std::cout << "mouse up\n";
-				if( value2 == "mouse_left" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x01;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x01;
-					data_offset += 3;
-				} else if( value2 == "mouse_right" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x01;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x02;
-					data_offset += 3;
-				} else if( value2 == "mouse_middle" ){
-					_s_macro_data[macro_number-1][data_offset] = 0x01;
-					_s_macro_data[macro_number-1][data_offset+1] = 0x04;
-					data_offset += 3;
-				}
-			} else if( value1 == "delay" ){
-				// delay
-				//std::cout << "delay\n";
-				int duration = (uint8_t)stoi( value2, 0, 10);
-				if( duration >= 1 && duration <= 255 ){
-					_s_macro_data[macro_number-1][data_offset] = 0x06;
-					_s_macro_data[macro_number-1][data_offset+1] = duration;
-					data_offset += 3;
-				}
-			}
-			
+			macro_streams.at( macro_number-1 ) << std::regex_replace( line, std::regex(";# "), "" ) << "\n";
 		}
+		
+	}
+	
+	// encode and store all macros
+	for( int i = 0; i < 15; i++ ){
+		
+		std::array< uint8_t, 256 > macro_bytes;
+		_i_encode_macro( macro_bytes, macro_streams.at(i), 8 );
+		std::copy( macro_bytes.begin()+8, macro_bytes.end(), _s_macro_data.at(i).begin()+8 );
 		
 	}
 	

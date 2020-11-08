@@ -356,6 +356,96 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 	return 0;
 }
 
+int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, size_t offset ){
+	
+	macro_bytes.fill( 0x00 );
+	
+	// process macro
+	std::string value1 = "";
+	std::string value2 = "";
+	std::size_t position = 0; // position in line
+	int data_offset = offset; // position in macro_bytes
+	
+	for( std::string line; std::getline(input, line); ){
+		
+		// process individual line
+		if( line.length() == 0 )
+			continue;
+		
+		// maximum length reached
+		if(data_offset > 212)
+			return 0;
+
+		position = 0;
+		position = line.find("\t", position);
+		value1 = line.substr(0, position);
+		value2 = line.substr(position+1);
+		
+		// keyboard key down
+		if( value1 == "down" && _c_keyboard_key_values.find(value2) != _c_keyboard_key_values.end() ){
+			
+			macro_bytes[data_offset] = 0x84;
+			macro_bytes[data_offset+1] = _c_keyboard_key_values[value2];
+			data_offset += 3;
+		
+		// keyboard key up
+		} else if( value1 == "up" && _c_keyboard_key_values.find(value2) != _c_keyboard_key_values.end() ){
+			
+			macro_bytes[data_offset] = 0x04;
+			macro_bytes[data_offset+1] = _c_keyboard_key_values[value2];
+			data_offset += 3;
+		
+		// mouse button down	
+		} else if( value1 == "down" && _c_keyboard_key_values.find(value2) == _c_keyboard_key_values.end() ){
+			
+			if( value2 == "mouse_left" ){
+				macro_bytes[data_offset] = 0x81;
+				macro_bytes[data_offset+1] = 0x01;
+				data_offset += 3;
+			} else if( value2 == "mouse_right" ){
+				macro_bytes[data_offset] = 0x81;
+				macro_bytes[data_offset+1] = 0x02;
+				data_offset += 3;
+			} else if( value2 == "mouse_middle" ){
+				macro_bytes[data_offset] = 0x81;
+				macro_bytes[data_offset+1] = 0x04;
+				data_offset += 3;
+			}
+		
+		// mouse button up
+		} else if( value1 == "up" && _c_keyboard_key_values.find(value2) == _c_keyboard_key_values.end() ){
+			
+			if( value2 == "mouse_left" ){
+				macro_bytes[data_offset] = 0x01;
+				macro_bytes[data_offset+1] = 0x01;
+				data_offset += 3;
+			} else if( value2 == "mouse_right" ){
+				macro_bytes[data_offset] = 0x01;
+				macro_bytes[data_offset+1] = 0x02;
+				data_offset += 3;
+			} else if( value2 == "mouse_middle" ){
+				macro_bytes[data_offset] = 0x01;
+				macro_bytes[data_offset+1] = 0x04;
+				data_offset += 3;
+			}
+			
+		// delay
+		} else if( value1 == "delay" ){
+			
+			int duration = (uint8_t)stoi( value2, 0, 10);
+			if( duration >= 1 && duration <= 255 ){
+				macro_bytes[data_offset] = 0x06;
+				macro_bytes[data_offset+1] = duration;
+				data_offset += 3;
+			}
+			
+		}
+		
+	}
+	
+	return 0;
+}
+
 int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping ){
 	
 	std::stringstream output;
