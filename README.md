@@ -18,7 +18,7 @@ Control the Redragon M908 Impact, M709, M711 and M715 gaming mice from Linux, BS
 - [License](#license)
 
 ## Status
-All settings from the official software are implemented, except repeating macros, which seems to be broken in the official software and is therefore currently disabled in this program.
+All known settings from the official software are implemented for the M908. The other mice have varying levels of support.
 
 ### Supported mice
 Name | Support | VID:PID | Additional notes

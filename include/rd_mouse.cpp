@@ -614,7 +614,31 @@ int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::stri
 			}
 			
 		}
+	
+	// macro
+	} else if( bytes.at(0) == 0x91 ){
 		
+		// no repeats
+		if( bytes.at(1) <= 0x0e && bytes.at(2) == 0x01 ){
+			output << "macro" << (int)bytes.at(1) + 1;
+			found_name = true;
+		
+		// repeats
+		} else if( bytes.at(1) <= 0x0e && bytes.at(2) >= 0x01 ){
+			output << "macro" << (int)bytes.at(1) + 1 << ":" << (int)bytes.at(2);
+			found_name = true;
+		
+		// repeat until button is pressed again
+		} else if( bytes.at(1) >= 0x40 && bytes.at(1) <= 0x4e ){
+			output << "macro" << (int)bytes.at(1) - 0x3f << ":until";
+			found_name = true;
+		
+		// repeat while button is held down
+		} else if( bytes.at(1) >= 0x80 && bytes.at(1) <= 0x8e ){
+			output << "macro" << (int)bytes.at(1) - 0x7f << ":while";
+			found_name = true;
+		}
+	
 	// keyboard key
 	} else if( bytes.at(0) == 0x90 ){
 		
@@ -749,7 +773,63 @@ int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t
 		} catch( std::exception& f ){ // invalid mapping pattern or dpi
 			return 1;
 		}
+	
+	// macro (no repeats)
+	} else if( std::regex_match( mapping, std::regex("(macro[1-9]|macro1[0-5])") ) ){
 		
+		try{
+			
+			bytes[0] = 0x91;
+			bytes[1] = std::stoi( std::regex_replace( mapping, std::regex("macro"), "" ) ) - 1;
+			bytes[2] = 0x01;
+			bytes[3] = 0x00;
+			
+		} catch( std::exception& f ){
+			return 1;
+		}
+	
+	// macro (repeats)
+	} else if( std::regex_match( mapping, std::regex("(macro[1-9]|macro1[0-5]):\\d+") ) ){
+		
+		try{
+			
+			bytes[0] = 0x91;
+			bytes[1] = std::stoi( std::regex_replace( mapping, std::regex("(macro|:\\d+)"), "" ) ) - 1;
+			bytes[2] = std::stoi( std::regex_replace( mapping, std::regex("macro\\d+:"), "" ) );
+			bytes[3] = 0x00;
+			
+		} catch( std::exception& f ){
+			return 1;
+		}
+	
+	// macro (repeat until button is pressed again)
+	} else if( std::regex_match( mapping, std::regex("(macro[1-9]|macro1[0-5]):until") ) ){
+		
+		try{
+			
+			bytes[0] = 0x91;
+			bytes[1] = std::stoi( std::regex_replace( mapping, std::regex("(macro|:until)"), "" ) ) + 0x3f;
+			bytes[2] = 0xff;
+			bytes[3] = 0xff;
+			
+		} catch( std::exception& f ){
+			return 1;
+		}
+	
+	// macro (repeat while button id held down)
+	} else if( std::regex_match( mapping, std::regex("(macro[1-9]|macro1[0-5]):while") ) ){
+		
+		try{
+			
+			bytes[0] = 0x91;
+			bytes[1] = std::stoi( std::regex_replace( mapping, std::regex("(macro|:while)"), "" ) ) + 0x7f;
+			bytes[2] = 0xff;
+			bytes[3] = 0xff;
+			
+		} catch( std::exception& f ){
+			return 1;
+		}
+	
 	// string is not a key in _c_keycodes: keyboard key (+ modifiers) ?
 	} else{
 		

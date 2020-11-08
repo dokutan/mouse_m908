@@ -35,8 +35,18 @@ A few are listed below:
 - Macro:
 	0. = 0x91
 	1. macro number (0x0-0xe)
-	2. 0x01
+	2. number of repeats
 	3. 0x00
+- Macro (repeat until button is pressed again):
+	0. = 0x91
+	1. macro number (0x0-0xe) + 0x3f
+	2. 0xff
+	3. 0xff
+- Macro (repeat while button is pressed):
+	0. = 0x91
+	1. macro number (0x0-0xe) + 0x7f
+	2. 0xff
+	3. 0xff
 - Snipe (Changes DPI while pressed)
 	0. = 0x9a
 	1. 1

@@ -65,21 +65,15 @@ led_mode_switch
 none
 
 ## Macros (see README.md)
-macro1
-macro2
-macro3
-macro4
-macro5
-macro6
-macro7
-macro8
-macro9
-macro10
-macro11
-macro12
-macro13
-macro14
-macro15
+macro⟨N⟩
+macro⟨N⟩:⟨repeats⟩
+macro⟨N⟩:while
+macro⟨N⟩:until
+
+⟨N⟩ is the number of the macro (1-15)
+⟨repeats⟩ can be 1-255
+while: macro is repeated while button is pressed 
+until: macro is repeated until button is pressed again
 
 ## Keyboard keys
 ### Modifers
