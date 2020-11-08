@@ -334,14 +334,57 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 			}
 			
 		}
+		
 		// delay
 		else if( macro_bytes[i] == 0x06 ){
 			output << prefix << "delay\t" << (int)macro_bytes[i+1] << "\n";
 		}
+		
+		// mouse movement
+		else if( macro_bytes[i] == 0x02 ){
+			
+			// left/right
+			if( macro_bytes[i+2] == 0x00 ){
+			
+				// left
+				if( macro_bytes[i+1] >= 0x88 )
+					output << prefix << "move_left\t" << (int)((int8_t)macro_bytes[i+1] * (-1)) << "\n";
+				
+				// right
+				else if( macro_bytes[i+1] <= 0x78 )
+					output << prefix << "move_right\t" << (int)macro_bytes[i+1] << "\n";
+				
+				else
+					unknown_code = true;
+				
+			}
+			
+			// up down
+			else if( macro_bytes[i+1] == 0x00 ){
+				
+				// up
+				if( (int)macro_bytes[i+2] >= 0x88 )
+					output << prefix << "move_up\t" << (int)((int8_t)macro_bytes[i+2] * (-1)) << "\n";
+				
+				// down
+				else if( macro_bytes[i+2] <= 0x78 )
+					output << prefix << "move_down\t" << (int)macro_bytes[i+2] << "\n";
+				
+				else
+					unknown_code = true;
+				
+			}
+			
+			else
+				unknown_code = true;
+			
+		}
+		
 		// padding (increment by one until a code appears)
 		else if( macro_bytes[i] == 0x00 ){
 			i++;
 		}
+		
 		// unknown code
 		else{
 			unknown_code = true;
@@ -452,7 +495,51 @@ int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::ist
 				macro_bytes[data_offset+1] = 0x10;
 				data_offset += 3;
 			}
+		
+		// mouse movement left
+		} else if( value1 == "move_left" ){
 			
+			int distance = (uint8_t)(int8_t)(std::stoi( value2, 0, 10) * (-1));
+			if( distance >= 0x88 ){
+				macro_bytes[data_offset] = 0x02;
+				macro_bytes[data_offset+1] = distance;
+				macro_bytes[data_offset+2] = 0x00;
+				data_offset += 3;
+			}
+		
+		// mouse movement right
+		} else if( value1 == "move_right" ){
+			
+			int distance = (uint8_t)std::stoi( value2, 0, 10);
+			if( distance <= 0x78 ){
+				macro_bytes[data_offset] = 0x02;
+				macro_bytes[data_offset+1] = distance;
+				macro_bytes[data_offset+2] = 0x00;
+				data_offset += 3;
+			}
+		
+		// mouse movement up
+		} else if( value1 == "move_up" ){
+			
+			int distance = (uint8_t)(int8_t)(std::stoi( value2, 0, 10) * (-1));
+			if( distance >= 0x88 ){
+				macro_bytes[data_offset] = 0x02;
+				macro_bytes[data_offset+1] = 0x00;
+				macro_bytes[data_offset+2] = distance;
+				data_offset += 3;
+			}
+			
+		// mouse movement down
+		} else if( value1 == "move_down" ){
+			
+			int distance = (uint8_t)std::stoi( value2, 0, 10);
+			if( distance <= 0x78 ){
+				macro_bytes[data_offset] = 0x02;
+				macro_bytes[data_offset+1] = 0x00;
+				macro_bytes[data_offset+2] = distance;
+				data_offset += 3;
+			}
+		
 		// delay
 		} else if( value1 == "delay" ){
 			

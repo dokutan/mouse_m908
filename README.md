@@ -139,6 +139,10 @@ Each line contains an action and a parameter separated by a tab. Supported actio
 - down	⟨key⟩
 - up	⟨key⟩
 - delay ⟨1-255⟩
+- move_left	⟨1-120⟩
+- move_right	⟨1-120⟩
+- move_up	⟨1-120⟩
+- move_down	⟨1-120⟩
 
 examples/example.macro for an example of the older file format, examples/example_m*.ini for an example of the newer format, keymap.md section Keyboard keys/Keys for a list of recognized Keys. Supported mousebuttons (up and down):
 - mouse_left
