@@ -146,11 +146,6 @@ class mouse_m711 : public rd_mouse{
 		 */
 		int set_all_macros( std::string file );
 		
-		/** \brief Set how many times the specified macro should be repeated
-		 * \param macro_number macro slot (1-15)
-		 * \return 0 if successful
-		 */
-		int set_macro_repeat( int macro_number, uint8_t repeat );
 		
 		
 		//getter functions

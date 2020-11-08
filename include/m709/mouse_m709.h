@@ -146,11 +146,6 @@ class mouse_m709 : public rd_mouse{
 		 */
 		int set_all_macros( std::string file );
 		
-		/** \brief Set how many times the specified macro should be repeated
-		 * \param macro_number macro slot (1-15)
-		 * \return 0 if successful
-		 */
-		int set_macro_repeat( int macro_number, uint8_t repeat );
 		
 		
 		//getter functions
@@ -172,8 +167,6 @@ class mouse_m709 : public rd_mouse{
 		int get_dpi( rd_profile profile, int level, std::array<uint8_t, 2>& dpi );
 		/// Get USB poll rate of specified profile
 		rd_report_rate get_report_rate( rd_profile profile );
-		/// Get macro repeat number of specified profile
-		uint8_t get_macro_repeat( int macro_number );
 		/// Get button mapping as a string
 		int get_key_mapping( rd_profile profile, int key, std::string& mapping );
 		/// Get button mapping as a 4-byte value
@@ -208,11 +201,6 @@ class mouse_m709 : public rd_mouse{
 		 * \return 0 if successful
 		 */
 		int write_macro( int macro_number );
-		
-		/** \brief Write the number of repeats for a macro to the mouse
-		 * \return 0 if successful
-		 */
-		int write_macro_repeat( int macro_number );
 		
 		
 		
@@ -284,7 +272,6 @@ class mouse_m709 : public rd_mouse{
 		std::array<std::array<std::array<uint8_t, 4>, 8>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
-		std::array<uint8_t, 15> _s_macro_repeat;
 		
 		//usb data packets
 		/// Used for changing the active profile
@@ -303,8 +290,6 @@ class mouse_m709 : public rd_mouse{
 		static uint8_t _c_data_macros_3[16];
 		/// Lookup table used when specifying which slot to send a macro to
 		static uint8_t _c_data_macros_codes[15][2];
-		/// Used to send the number repeats for a macro 
-		static uint8_t _c_data_macros_repeat[16];
 		/// Used to read the settings, part 1/3 
 		static uint8_t _c_data_read_1[9][16];
 		/// Used to read the settings, part 2/3 

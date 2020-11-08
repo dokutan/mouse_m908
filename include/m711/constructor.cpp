@@ -50,6 +50,5 @@ mouse_m711::mouse_m711(){
 		i[3] = _c_data_macros_codes[count][1];
 		count++;
 	}
-	_s_macro_repeat.fill( 0x01 );
 	
 }

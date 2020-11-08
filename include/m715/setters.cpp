@@ -190,17 +190,6 @@ int mouse_m715::set_macro( int macro_number, std::string file ){
 	return 0;
 }
 
-int mouse_m715::set_macro_repeat( int macro_number, uint8_t repeat ){
-	
-	//check if macro_number is valid
-	if( macro_number < 1 || macro_number > 15 ){
-		return 1;
-	}
-	
-	_s_macro_repeat[macro_number] = repeat;
-	return 0;
-}
-
 int mouse_m715::set_all_macros( std::string file ){
 	
 	//open file

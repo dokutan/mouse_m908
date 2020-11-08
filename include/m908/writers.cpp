@@ -208,22 +208,3 @@ int mouse_m908::write_macro( int macro_number ){
 	
 	return 0;
 }
-
-int mouse_m908::write_macro_repeat( int macro_number ){
-	
-	//check if macro_number is valid
-	if( macro_number < 1 || macro_number > 15 ){
-		return 1;
-	}
-	
-	//prepare data
-	uint8_t buffer[16];
-	std::copy(std::begin(_c_data_macros_repeat), std::end(_c_data_macros_repeat), std::begin(buffer));
-	
-	buffer[10] = _s_macro_repeat[macro_number];
-	
-	//send data
-	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer, 16, 1000 );
-	
-	return 0;
-}

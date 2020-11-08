@@ -66,16 +66,6 @@ mouse_m715::rd_report_rate mouse_m715::get_report_rate( rd_profile profile ){
 	return _s_report_rates[profile];
 }
 
-uint8_t mouse_m715::get_macro_repeat( int macro_number ){
-	
-	//check if macro_number is valid
-	if( macro_number < 1 || macro_number > 15 ){
-		return 1;
-	}
-	
-	return _s_macro_repeat[macro_number];
-}
-
 int mouse_m715::get_key_mapping_raw( mouse_m715::rd_profile profile, int key, std::array<uint8_t, 4>& mapping ){
 	
 	// valid key ?

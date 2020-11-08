@@ -99,8 +99,7 @@ int main( int argc, char **argv ){
 		std::string string_dump, string_read;
 		std::string string_model = "";
 		
-		// string_model is set by the -M option, if empty,
-		// rd_mouse::detect() is called
+		// string_model is set by the -M option, if empty, rd_mouse::detect() is called
 		
 		//parse command line options
 		int c, option_index = 0;
@@ -136,10 +135,6 @@ int main( int argc, char **argv ){
 					flag_device = true;
 					string_device = optarg;
 					break;
-				//case 'r':
-				//	flag_repeat = true;
-				//	string_repeat = optarg;
-				//	break;
 				case 'k':
 					flag_kernel_driver = true;
 					break;
@@ -444,20 +439,6 @@ std::string string_dump, std::string string_read ){
 			
 			// write macro
 			m.write_macro(number);
-			
-			// Repeating macros appear to be broken (in the official software as well),
-			// so this option is disabled for now.
-			// If you want to try it out, uncomment the next section and the
-			// appropriate lines in the commandline options section
-			/*if( flag_repeat ){
-				int repeat = (int)stoi(string_repeat);
-				r = m.set_macro_repeat( number, repeat );
-				if( r != 0 ){
-					std::cout << "Invalid repeats\n";
-					return 1;
-				}
-				m.write_macro_repeat( number );
-			}*/
 			
 		} else if( !flag_macro && flag_number ){
 			throw std::string( "Misssing option, --macro and --number must be used together." );
