@@ -22,12 +22,12 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 All known settings from the official software are implemented for the M908. The other mice have varying levels of support.
 
 ### Supported mice
-If you have a mouse that is not listed below with VID 0x04d9, there is a good chance that it is easy to add support. Please open an issue for that.
+If you have a mouse with VID 0x04d9 that is not listed below, there is a good chance that it is easy to add support. Please open an issue for that.
 
 Name | Support | VID:PID | Additional notes
 ---|---|---|---
 Redragon M908 Impact | complete | 0x04d9:0xfc4d | 
-Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested but implemented<br>- Macros are untested<br>- Reading the settings is currently not properly implemented due to a lack of captured data
+Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested<br>- Macros are untested<br>- Reading the settings is not properly implemented due to a lack of data
 Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
 Redragon M990 Legend | generic | 0x04d9:0xfc41 | [please read this](#generic-support)
@@ -40,7 +40,7 @@ Redragon M901 Perdition (3) | generic | 0x04d9:0xfc40 | [please read this](#gene
 Redragon M801 Mammoth | generic | 0x04d9:0xfc56 | [please read this](#generic-support)
 Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
 Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read this](#generic-support)
-Redragon M607 Griffib | generic | 0x04d9:0xfc38 | [please read this](#generic-support)
+Redragon M607 Griffin | generic | 0x04d9:0xfc38 | [please read this](#generic-support)
 Redragon (?) | generic | 0x04d9:0xfc3f | [please read this](#generic-support)
 
 If you have a mouse with experimental support, your help is needed to improve this software. Please report your results (working and non-working software).
@@ -49,7 +49,7 @@ If you have a mouse with experimental support, your help is needed to improve th
 If your mouse is listed as having generic support:
 - Nothing is known about this mouse, no specific code has been written
 - Please expect nothing beyond changing the active profile (other features might work if you are lucky)
-- **Please open an issue to help adding proper support**
+- **Please open an issue to add complete support**
 
 ## Installing
 
