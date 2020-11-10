@@ -1,10 +1,11 @@
 # mouse_m908
-Control the Redragon M908 Impact, M709, M711 and M715 gaming mice from Linux, BSD and Haiku
+Control Redragon gaming mice from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
 - [Status](#status)
 	- [Supported mice](#supported-mice)
+	- [Generic support](#generic-support)
 - [Installing](#installing)
 	- [Linux](#linux)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
@@ -21,18 +22,34 @@ Control the Redragon M908 Impact, M709, M711 and M715 gaming mice from Linux, BS
 All known settings from the official software are implemented for the M908. The other mice have varying levels of support.
 
 ### Supported mice
+If you have a mouse that is not listed below with VID 0x04d9, there is a good chance that it is easy to add support. Please open an issue for that.
+
 Name | Support | VID:PID | Additional notes
 ---|---|---|---
-M908 | complete | 0x04d9:0xfc4d | 
-M709 | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested but implemented<br>- Macros are untested<br>- Reading the settings is currently not properly implemented due to a lack of captured data
-M711 | experimental | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
-M715 | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
+Redragon M908 Impact | complete | 0x04d9:0xfc4d | 
+Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested but implemented<br>- Macros are untested<br>- Reading the settings is currently not properly implemented due to a lack of captured data
+Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
+Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
+Redragon M990 Legend | generic | 0x04d9:0xfc41 | [please read this](#generic-support)
+Redragon M719 Invader | generic | 0x04d9:0xfc4f | [please read this](#generic-support)
+Redragon M802 Titanoboa 2 | generic | 0x04d9:0xfc42 | [please read this](#generic-support)
+Redragon 2858 (?) | generic | 0x04d9:0xfc5e | [please read this](#generic-support)
+Redragon 2805 (?) | generic | 0x04d9:0xfc58 | [please read this](#generic-support)
+Redragon 2850 (?) | generic | 0x04d9:0xfc61 | [please read this](#generic-support)
+Redragon M901 Perdition (3) | generic | 0x04d9:0xfc40 | [please read this](#generic-support)
+Redragon M801 Mammoth | generic | 0x04d9:0xfc56 | [please read this](#generic-support)
+Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
+Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read this](#generic-support)
+Redragon M607 Griffib | generic | 0x04d9:0xfc38 | [please read this](#generic-support)
+Redragon (?) | generic | 0x04d9:0xfc3f | [please read this](#generic-support)
 
 If you have a mouse with experimental support, your help is needed to improve this software. Please report your results (working and non-working software).
 
-If you have a compatible device sold under a different name, or with a different VID or PID, please let me know so the readme can be updated.
-
-If you want to add support for a different mouse, please open an issue (and pull request if you have code to contribute).
+### Generic support
+If your mouse is listed as having generic support:
+- Nothing is known about this mouse, no specific code has been written
+- Please expect nothing beyond changing the active profile (other features might work if you are lucky)
+- **Please open an issue to help adding proper support**
 
 ## Installing
 
