@@ -17,8 +17,8 @@
  */
 
 //main class
-#ifndef MOUSE_M711
-#define MOUSE_M711
+#ifndef MOUSE_GENERIC
+#define MOUSE_GENERIC
 
 #include <libusb.h>
 #include <map>
@@ -36,8 +36,11 @@
 #include "../rd_mouse.h"
 
 /**
- * The main class representing the M711 mouse.
+ * This class does not represent a specific model and is intended to be
+ * used for mice that have no class.
  * This class has member functions to open, close and apply settings to the mouse.
+ * 
+ * The code for this class was originally copied from the the M709.
  * 
  * There are 4 main types of functions:
  * - set_*: setters
@@ -56,12 +59,12 @@
  * - \_s\_* for variables that describe the settings on the mouse
  * - \_c\_* for constants like keycodes, USB data, minimum and maximum values, etc. (these are not neccessarily defined as const)
  */
-class mouse_m711 : public rd_mouse{
+class mouse_generic : public rd_mouse{
 	
 	public:
 		
 		/// The default constructor. Sets the default settings.
-		mouse_m711();
+		mouse_generic();
 		
 		//setter functions
 		/// Set the currently active profile
@@ -146,10 +149,14 @@ class mouse_m711 : public rd_mouse{
 		 */
 		int set_all_macros( std::string file );
 		
-		/// Does nothing, exists only for compatibility
-		void set_vid( uint16_t vid ){ (void)vid; }
-		/// Does nothing, exists only for compatibility
-		void set_pid( uint16_t pid ){ (void)pid; }
+		/// Set USB vendor id
+		void set_vid( uint16_t vid ){
+			_c_mouse_vid = vid;
+		}
+		/// Set USB product id
+		void set_pid( uint16_t pid ){
+			_c_mouse_pid = pid;
+		}
 		
 		
 		
@@ -172,8 +179,6 @@ class mouse_m711 : public rd_mouse{
 		int get_dpi( rd_profile profile, int level, std::array<uint8_t, 2>& dpi );
 		/// Get USB poll rate of specified profile
 		rd_report_rate get_report_rate( rd_profile profile );
-		/// Get macro repeat number of specified profile
-		uint8_t get_macro_repeat( int macro_number );
 		/// Get button mapping as a string
 		int get_key_mapping( rd_profile profile, int key, std::string& mapping );
 		/// Get button mapping as a 4-byte value
@@ -184,11 +189,11 @@ class mouse_m711 : public rd_mouse{
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
 		/// Get USB vendor id
-		static uint16_t get_vid(){
+		uint16_t get_vid(){
 			return _c_mouse_vid;
 		}
 		/// Get USB product id
-		static uint16_t get_pid(){
+		uint16_t get_pid(){
 			return _c_mouse_pid;
 		}
 		
@@ -208,11 +213,6 @@ class mouse_m711 : public rd_mouse{
 		 * \return 0 if successful
 		 */
 		int write_macro( int macro_number );
-		
-		/** \brief Write the number of repeats for a macro to the mouse
-		 * \return 0 if successful
-		 */
-		int write_macro_repeat( int macro_number );
 		
 		
 		
@@ -247,12 +247,12 @@ class mouse_m711 : public rd_mouse{
 		int dump_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This does not alter the internal settings of the mouse_m711 class.
+		 * This does not alter the internal settings of the mouse_generic class.
 		 */
 		int read_and_print_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This updates the internal settings of the mouse_m711 class.
+		 * This updates the internal settings of the mouse_generic class.
 		 */
 		int read_settings();
 		
@@ -267,10 +267,10 @@ class mouse_m711 : public rd_mouse{
 		static std::map< int, std::string > _c_button_names;
 		
 		//usb device vars
-		/// USB vendor id
-		static const uint16_t _c_mouse_vid;
-		/// USB product id
-		static const uint16_t _c_mouse_pid;
+		/// USB vendor id, needs to be explicitly set
+		uint16_t _c_mouse_vid;
+		/// USB product id, needs to be explicitly set
+		uint16_t _c_mouse_pid;
 		
 		//setting vars
 		rd_profile _s_profile;
@@ -284,13 +284,12 @@ class mouse_m711 : public rd_mouse{
 		std::array<std::array<std::array<uint8_t, 4>, 8>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
-		std::array<uint8_t, 15> _s_macro_repeat;
 		
 		//usb data packets
 		/// Used for changing the active profile
 		static uint8_t _c_data_s_profile[6][16];
 		/// Used for sending the settings, part 1/3
-		static uint8_t _c_data_settings_1[12][16];
+		static uint8_t _c_data_settings_1[15][16];
 		/// Used for sending the settings, part 2/3
 		static uint8_t _c_data_settings_2[64];
 		/// Used for sending the settings, part 3/3
@@ -303,14 +302,12 @@ class mouse_m711 : public rd_mouse{
 		static uint8_t _c_data_macros_3[16];
 		/// Lookup table used when specifying which slot to send a macro to
 		static uint8_t _c_data_macros_codes[15][2];
-		/// Used to send the number repeats for a macro 
-		static uint8_t _c_data_macros_repeat[16];
 		/// Used to read the settings, part 1/3 
 		static uint8_t _c_data_read_1[9][16];
 		/// Used to read the settings, part 2/3 
 		static uint8_t _c_data_read_2[85][64];
 		/// Used to read the settings, part 3/3 
-		static uint8_t _c_data_read_3[46][16];
+		static uint8_t _c_data_read_3[101][16];
 };
 
 #endif

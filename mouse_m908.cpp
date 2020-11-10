@@ -51,7 +51,7 @@ bool flag_bus, bool flag_device, bool flag_kernel_driver,
 bool flag_dump_settings, bool flag_read_settings,
 std::string string_config, std::string string_profile, std::string string_macro,
 std::string string_number, std::string string_bus, std::string string_device,
-std::string string_dump, std::string string_read );
+std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid );
 
 
 
@@ -72,7 +72,6 @@ int main( int argc, char **argv ){
 			{"profile", required_argument, 0, 'p'},
 			{"macro", required_argument, 0, 'm'},
 			{"number", required_argument, 0, 'n'},
-			//{"repeat", required_argument, 0, 'r'},
 			{"bus", required_argument, 0, 'b'},
 			{"device", required_argument, 0, 'd'},
 			{"kernel-driver", no_argument, 0, 'k'},
@@ -90,16 +89,12 @@ int main( int argc, char **argv ){
 		bool flag_version = false;
 		bool flag_dump_settings = false;
 		bool flag_read_settings = false;
-		//bool flag_repeat;
 		
 		std::string string_config, string_profile;
 		std::string string_macro, string_number;
-		//std::string string_repeat;
 		std::string string_bus, string_device;
 		std::string string_dump, string_read;
-		std::string string_model = "";
-		
-		// string_model is set by the -M option, if empty, rd_mouse::detect() is called
+		std::string string_model = ""; // string_model is set by the -M option, if empty or "generic" , rd_mouse::detect() is called
 		
 		//parse command line options
 		int c, option_index = 0;
@@ -163,22 +158,32 @@ int main( int argc, char **argv ){
 		if( flag_version )
 			std::cout << "Version: " << VERSION_STRING << "\n";
 		
-		// detect mouse if no model was specified
+		
+		// detect mouse
+		uint16_t vid = 0x0000, pid = 0x0000;
 		if( string_model == "" ){
 			
-			string_model = rd_mouse::detect();
+			// detect model, vid, pid
+			rd_mouse::detect( string_model, vid, pid );
 			
-			// no mouse found by detect()
-			if( string_model == "" ){
-				
-				throw std::string( 
-					"Couldn't detect mouse.\n"
-					"- Check hardware and permissions (maybe you need to be root?)\n"
-					"- Try with the --model option\n"
-					"If nothing works please report this as a bug."
-				);
-				
-			}
+		} else if( string_model == "generic" ){
+			
+			// model is "generic": detect only vid and pid
+			std::string useless_string;
+			rd_mouse::detect( useless_string, vid, pid );
+			
+		}
+		
+		// no mouse found by detect()
+		if( string_model == "" ){
+			
+			throw std::string( 
+				"Couldn't detect mouse.\n"
+				"- Check hardware and permissions (maybe you need to be root?)\n"
+				"- Try with the --model option\n"
+				"If nothing works please report this as a bug."
+			);
+			
 		}
 		
 		// parse model → call perform_actions()
@@ -190,7 +195,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read );
+				string_dump, string_read, vid, pid );
 				
 		}else if( string_model == "709" ){
 			
@@ -200,7 +205,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read );
+				string_dump, string_read, vid, pid );
 				
 		}else if( string_model == "711" ){
 			
@@ -210,7 +215,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read );
+				string_dump, string_read, vid, pid );
 				
 		}else if( string_model == "715" ){
 			
@@ -220,13 +225,23 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read );
+				string_dump, string_read, vid, pid );
 				
+		}else if( string_model == "generic" ){
+			
+			return perform_actions< mouse_generic >(
+				flag_config, flag_profile, flag_macro, flag_number,
+				flag_bus, flag_device, flag_kernel_driver,
+				flag_dump_settings, flag_read_settings,
+				string_config, string_profile, string_macro,
+				string_number, string_bus, string_device,
+				string_dump, string_read, vid, pid );
+			
 		}else{
 			
 			throw std::string(
 				"Unknown model, valid options are:\n"
-				"709\n711\n715\n908"
+				"709\n711\n715\n908\ngeneric"
 			);
 			
 		}
@@ -254,10 +269,14 @@ bool flag_bus, bool flag_device, bool flag_kernel_driver,
 bool flag_dump_settings, bool flag_read_settings,
 std::string string_config, std::string string_profile, std::string string_macro,
 std::string string_number, std::string string_bus, std::string string_device,
-std::string string_dump, std::string string_read ){
+std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid ){
 	
 	// create mouse object
 	T m;
+	
+	// set vid and pid, only affects mouse_generic
+	m.set_vid( vid );
+	m.set_pid( pid );
 	
 	// set whether to detach kernel driver
 	m.set_detach_kernel_driver( !flag_kernel_driver );

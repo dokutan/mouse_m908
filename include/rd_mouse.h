@@ -33,6 +33,7 @@
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include <set>
 
 /**
  * This class is used as a base for the different models
@@ -77,9 +78,12 @@ class rd_mouse{
 		
 		/** \brief Detects supported mice
 		 * In the case of multiple connected mice, only the first will be detected
+		 * \arg model the detected model
+		 * \arg detected_vid the USB VID of the detected mouse
+		 * \arg detected_pid the USB PID of the detected mouse
 		 * \return The model name of the mouse, empty string if no mouse was found
 		 */
-		static std::string detect();
+		static int detect( std::string& model, uint16_t& detected_vid, uint16_t& detected_pid );
 		
 		/// Set whether to try to detach the kernel driver when opening the mouse
 		void set_detach_kernel_driver( bool detach_kernel_driver ){
@@ -88,7 +92,13 @@ class rd_mouse{
 		/// Get _i_detach_kernel_driver
 		bool get_detach_kernel_driver(){ return _i_detach_kernel_driver; }
 		
+		
+		
 	protected:
+		
+		// usb ids for all mice
+		static std::set< uint16_t > _c_all_vids;
+		static std::set< uint16_t > _c_all_pids;
 		
 		//setting min and max values
 		static const uint8_t _c_scrollspeed_min, _c_scrollspeed_max;
@@ -174,5 +184,6 @@ class rd_mouse{
 #include "m709/mouse_m709.h"
 #include "m711/mouse_m711.h"
 #include "m715/mouse_m715.h"
+#include "generic/mouse_generic.h"
 
 #endif

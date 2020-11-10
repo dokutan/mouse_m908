@@ -18,20 +18,20 @@
 
 #include "rd_mouse.h"
 
-std::string rd_mouse::detect(){
+int rd_mouse::detect( std::string& model, uint16_t& detected_vid, uint16_t& detected_pid ){
 	
-	std::string model = "";
+	model = "";
 	
 	// libusb init
 	if( libusb_init( NULL ) < 0 )
-		return model;
+		return 1;
 	
 	// get device list
 	libusb_device **dev_list; // device list
 	ssize_t num_devs = libusb_get_device_list(NULL, &dev_list);
 	
 	if( num_devs < 0 )
-		return model;
+		return 1;
 	
 	for( ssize_t i = 0; i < num_devs; i++ ){
 		
@@ -45,16 +45,29 @@ std::string rd_mouse::detect(){
 		
 		// compare vendor and product id against known ids
 		if( vid == mouse_m908::get_vid() && pid == mouse_m908::get_pid() ){
+			detected_pid = pid;
+			detected_vid = vid;
 			model = "908";
 			break;
 		}else if( vid == mouse_m709::get_vid() && pid == mouse_m709::get_pid() ){
+			detected_pid = pid;
+			detected_vid = vid;
 			model = "709";
 			break;
 		}else if( vid == mouse_m711::get_vid() && pid == mouse_m711::get_pid() ){
+			detected_pid = pid;
+			detected_vid = vid;
 			model = "711";
 			break;
 		}else if( vid == mouse_m715::get_vid() && pid == mouse_m715::get_pid() ){
+			detected_pid = pid;
+			detected_vid = vid;
 			model = "715";
+			break;
+		} else if( (_c_all_vids.find(vid) != _c_all_vids.end()) && (_c_all_pids.find(pid) != _c_all_pids.end()) ){
+			detected_pid = pid;
+			detected_vid = vid;
+			model = "generic";
 			break;
 		}
 		
@@ -66,7 +79,7 @@ std::string rd_mouse::detect(){
 	// exit libusb
 	libusb_exit( NULL );
 		
-	return model;
+	return 0;
 }
 
 //init libusb and open mouse

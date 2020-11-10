@@ -23,6 +23,17 @@
 
 #include "rd_mouse.h"
 
+// usb ids for all mice
+std::set< uint16_t > rd_mouse::_c_all_vids = {
+	0x04d9 // all known mice have the same VID
+};
+std::set< uint16_t > rd_mouse::_c_all_pids = {
+	0xfc4d, // M908
+	0xfc2a, // M709
+	0xfc30, // M711
+	0xfc39  // M715
+};
+
 //setting min and max values
 const uint8_t rd_mouse::_c_scrollspeed_min = 0x01, rd_mouse::_c_scrollspeed_max = 0x3f;
 const uint8_t rd_mouse::_c_brightness_min = 0x01, rd_mouse::_c_brightness_max = 0x03;

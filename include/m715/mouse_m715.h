@@ -146,6 +146,11 @@ class mouse_m715 : public rd_mouse{
 		 */
 		int set_all_macros( std::string file );
 		
+		/// Does nothing, exists only for compatibility
+		void set_vid( uint16_t vid ){ (void)vid; }
+		/// Does nothing, exists only for compatibility
+		void set_pid( uint16_t pid ){ (void)pid; }
+		
 		
 		
 		//getter functions
