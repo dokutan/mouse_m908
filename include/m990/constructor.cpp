@@ -33,15 +33,15 @@ mouse_m990::mouse_m990(){
 	_s_dpi_enabled.fill( {true, true, true, true, true} );
 	_s_dpi_levels.fill( {{ {0x04, 0x00}, {0x16, 0x00}, {0x2d, 0x00}, {0x43, 0x00}, {0x8c, 0x00} }} );
 	
-	// button mapping
-	for( int i = 0; i < 5; i++ ){
+	// default button mapping TODO! implement or remove
+	/*for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 20; j++ ){
 			_s_keymap_data[i][j][0] = _c_data_settings_3[35+(20*i)+j][8];
 			_s_keymap_data[i][j][1] = _c_data_settings_3[35+(20*i)+j][9];
 			_s_keymap_data[i][j][2] = _c_data_settings_3[35+(20*i)+j][10];
 			_s_keymap_data[i][j][3] = _c_data_settings_3[35+(20*i)+j][11];
 		}
-	}
+	}*/
 	
 	_s_report_rates.fill( r_125Hz );
 	

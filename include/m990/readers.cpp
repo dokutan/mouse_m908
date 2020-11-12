@@ -22,6 +22,7 @@
 
 int mouse_m990::dump_settings( std::ostream& output ){
 	
+	/* TODO! missing data
 	//prepare data 1
 	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
 	uint8_t buffer1[rows1][16];
@@ -108,12 +109,14 @@ int mouse_m990::dump_settings( std::ostream& output ){
 		}
 	}
 	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	*/
 	
 	return 0;
 }
 
 int mouse_m990::read_and_print_settings( std::ostream& output ){
 	
+	/* TODO! missing data
 	//prepare data 1
 	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
 	uint8_t buffer1[rows1][16];
@@ -335,12 +338,14 @@ int mouse_m990::read_and_print_settings( std::ostream& output ){
 		_i_decode_macro( macro_bytes[i], output, ";# ", 0 );
 		
 	}
+	*/
 	
 	return 0;
 }
 
 int mouse_m990::read_settings(){
 	
+	/* TODO! missing data
 	//prepare data 1
 	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
 	uint8_t buffer1[rows1][16];
@@ -536,6 +541,7 @@ int mouse_m990::read_settings(){
 		}
 		
 	}
+	*/
 	
 	return 0;
 }

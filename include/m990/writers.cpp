@@ -23,18 +23,19 @@
 int mouse_m990::write_profile(){
 	
 	//prepare data
-	uint8_t buffer[6][16];
-	for( int i = 0; i < 6; i++ ){
-		std::copy(std::begin(_c_data_s_profile[i]), std::end(_c_data_s_profile[i]), std::begin(buffer[i]));
+	uint8_t buffer[5][16];
+	for( int i = 0; i < 5; i++ ){
+		std::copy(std::begin(_c_data_profile[i]), std::end(_c_data_profile[i]), std::begin(buffer[i]));
 	}
 	
 	//modify buffer from default to include specified profile
-	buffer[0][8] = _s_profile;
+	buffer[1][8] = _s_profile;
 	
 	//send data
-	for( int i = 0; i < 6; i++ ){
+	for( int i = 0; i < 5; i++ ){
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer[i], 16, 1000 );
 	}
+	libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, NULL, 0, 1000 );
 	
 	return 0;
 }
@@ -42,24 +43,25 @@ int mouse_m990::write_profile(){
 int mouse_m990::write_settings(){
 	
 	//prepare data 1
-	int rows1 = sizeof(_c_data_settings_1) / sizeof(_c_data_settings_1[0]);
-	uint8_t buffer1[rows1][16];
-	for( int i = 0; i < rows1; i++ ){
-		std::copy(std::begin(_c_data_settings_1[i]), std::end(_c_data_settings_1[i]), std::begin(buffer1[i]));
+	uint8_t buffer1[21][16];
+	for( int i = 0; i < 21; i++ ){
+		std::copy(std::begin(_c_data_settings_16[i]), std::end(_c_data_settings_16[i]), std::begin(buffer1[i]));
 	}
 	
 	//prepare data 2
-	uint8_t buffer2[64];
-	std::copy(std::begin(_c_data_settings_2), std::end(_c_data_settings_2), std::begin(buffer2));
-	
-	//prepare data 3
-	int rows3 = sizeof(_c_data_settings_3) / sizeof(_c_data_settings_3[0]);
-	uint8_t buffer3[rows3][16];
-	for( int i = 0; i < rows3; i++ ){
-		std::copy(std::begin(_c_data_settings_3[i]), std::end(_c_data_settings_3[i]), std::begin(buffer3[i]));
+	uint8_t buffer2[5][256];
+	for( int i = 0; i < 5; i++ ){
+		std::copy(std::begin(_c_data_settings_256[i]), std::end(_c_data_settings_256[i]), std::begin(buffer2[i]));
 	}
 	
-	//modify buffers to include settings
+	//prepare data 3
+	uint8_t buffer3[5][64];
+	for( int i = 0; i < 5; i++ ){
+		std::copy(std::begin(_c_data_settings_64[i]), std::end(_c_data_settings_64[i]), std::begin(buffer3[i]));
+	}
+	
+	//modify buffers to include settings TODO!
+	/*
 	//scrollspeed
 	for( int i = 0; i < 5; i++ ){
 		buffer2[8+(2*i)] = _s_scrollspeeds[i];
@@ -160,24 +162,44 @@ int mouse_m990::write_settings(){
 				buffer1[14][2+(2*i)] = 0x01; break;
 		}
 	}
+	*/
 	
+	// send data
+	int pos1 = 0, pos2 = 0, pos3 = 0;
 	
-	//send data 1
-	for( int i = 0; i < rows1; i++ ){
-		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[0], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[1], 16, 1000 );
+	pos1 += 2;
+	
+	libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, NULL, 0, 1000 );
+	
+	for( int i = 0; i < 5; ){
+		
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0304, 0x0002, buffer2[pos2], 256, 1000 );
+		pos2++;
+		
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[pos1], 16, 1000 );
+		pos1++;
+		
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0303, 0x0002, buffer3[pos3], 64, 1000 );
+		pos3++;
+		
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[pos1], 16, 1000 );
+		pos1++;
+		
 	}
 	
-	//send data 2
-	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer2, 64, 1000 );
-	
-	//send data 3
-	for( int i = 0; i < rows3; i++ ){
-		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
+	for( ; pos1 < 20; pos1++ ){
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[pos1], 16, 1000 );
 	}
+	
+	libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, NULL, 0, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[20], 16, 1000 );
 	
 	return 0;
 }
 
+// TODO! check for m990
 int mouse_m990::write_macro( int macro_number ){
 	
 	//check if macro_number is valid

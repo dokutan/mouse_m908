@@ -36,8 +36,10 @@
 #include "../rd_mouse.h"
 
 /**
- * The main class representing the M908 mouse.
+ * The main class representing the M990 mouse.
  * This class has member functions to open, close and apply settings to the mouse.
+ * 
+ * The M990 uses a different data format, different keycodes, etc.
  * 
  * There are 4 main types of functions:
  * - set_*: setters
@@ -283,13 +285,7 @@ class mouse_m990 : public rd_mouse{
 		
 		//usb data packets
 		/// Used for changing the active profile
-		static uint8_t _c_data_s_profile[6][16];
-		/// Used for sending the settings, part 1/3
-		static uint8_t _c_data_settings_1[15][16];
-		/// Used for sending the settings, part 2/3
-		static uint8_t _c_data_settings_2[64];
-		/// Used for sending the settings, part 3/3
-		static uint8_t _c_data_settings_3[140][16];
+		static uint8_t _c_data_profile[5][16];
 		/// Used for sending a macro, part 1/3
 		static uint8_t _c_data_macros_1[16];
 		/// Used for sending a macro, part 2/3
@@ -298,12 +294,12 @@ class mouse_m990 : public rd_mouse{
 		static uint8_t _c_data_macros_3[16];
 		/// Lookup table used when specifying which slot to send a macro to
 		static uint8_t _c_data_macros_codes[15][2];
-		/// Used to read the settings, part 1/3 
-		static uint8_t _c_data_read_1[9][16];
-		/// Used to read the settings, part 2/3 
-		static uint8_t _c_data_read_2[85][64];
-		/// Used to read the settings, part 3/3 
-		static uint8_t _c_data_read_3[101][16];
+		/// Used to send the settings 1/3
+		static uint8_t _c_data_settings_16[21][16];
+		/// Used to send the settings 2/3
+		static uint8_t _c_data_settings_256[5][256];
+		/// Used to send the settings 3/3
+		static uint8_t _c_data_settings_64[5][64];
 };
 
 #endif
