@@ -33,6 +33,7 @@ std::set< uint16_t > rd_mouse::_c_all_pids = {
 	0xfc30, // M711 Cobra (FPS)
 	0xfc39, // M715 Dagger	
 	0xfc41, // M990 Legend
+	0xfc0f, // M990 Legend (no RGB)
 	0xfc4f, // M719 Invader
 	0xfc42, // M802 Titanoboa 2
 	0xfc5e, // 2858 (?)
