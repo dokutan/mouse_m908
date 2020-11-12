@@ -184,6 +184,7 @@ class rd_mouse{
 #include "m709/mouse_m709.h"
 #include "m711/mouse_m711.h"
 #include "m715/mouse_m715.h"
+#include "m990/mouse_m990.h"
 #include "generic/mouse_generic.h"
 
 #endif

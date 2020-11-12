@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"3.1\""
 
 # compile
-build: m908 m709 m711 m715 generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
+build: m908 m709 m711 m715 m990 generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -71,6 +71,8 @@ m709: constructor_m709.o data_m709.o getters_m709.o helpers_m709.o setters_m709.
 m711: constructor_m711.o data_m711.o getters_m711.o helpers_m711.o setters_m711.o writers_m711.o readers_m711.o
 
 m715: constructor_m715.o data_m715.o getters_m715.o helpers_m715.o setters_m715.o writers_m715.o readers_m715.o
+
+m990: constructor_m990.o data_m990.o getters_m990.o helpers_m990.o setters_m990.o writers_m990.o readers_m990.o
 
 generic: constructor_generic.o data_generic.o getters_generic.o helpers_generic.o setters_generic.o writers_generic.o readers_generic.o
 
@@ -191,3 +193,24 @@ writers_generic.o:
 
 readers_generic.o:
 	$(CC) -c include/generic/readers.cpp $(CC_OPTIONS) -o readers_generic.o
+
+constructor_m990.o:
+	$(CC) -c include/m990/constructor.cpp $(CC_OPTIONS) -o constructor_m990.o
+
+data_m990.o:
+	$(CC) -c include/m990/data.cpp $(CC_OPTIONS) -o data_m990.o
+
+getters_m990.o:
+	$(CC) -c include/m990/getters.cpp $(CC_OPTIONS) -o getters_m990.o
+
+helpers_m990.o:
+	$(CC) -c include/m990/helpers.cpp $(CC_OPTIONS) -o helpers_m990.o
+
+setters_m990.o:
+	$(CC) -c include/m990/setters.cpp $(CC_OPTIONS) -o setters_m990.o
+
+writers_m990.o:
+	$(CC) -c include/m990/writers.cpp $(CC_OPTIONS) -o writers_m990.o
+
+readers_m990.o:
+	$(CC) -c include/m990/readers.cpp $(CC_OPTIONS) -o readers_m990.o
