@@ -46,10 +46,17 @@ std::map< int, std::string > mouse_m990::_c_button_names = {
 	{ 15, "button_10" },
 	{ 16, "button_11" },
 	{ 17, "button_12" },
-	{ 18, "scroll_up" },
-	{ 19, "scroll_down" } };
+	{ 18, "button_13" },
+	{ 19, "button_14" },
+	{ 20, "button_15" },
+	{ 21, "button_16" },
+	{ 22, "button_mode" },
+	{ 23, "button_profile" },
+	{ 24, "scroll_up" },
+	{ 25, "scroll_down" } };
 
 // Mapping of real DPI values to bytecode TODO!
+// Min. 50, Max. 16400
 std::map< unsigned int, std::array<uint8_t, 2> > mouse_m990::_c_dpi_codes = {
 	/*
 	{ 200, {0x4, 0x00} },
