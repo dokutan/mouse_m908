@@ -107,7 +107,7 @@ int mouse_m711::dump_settings( std::ostream& output ){
 			output << "\n\n" << std::dec << std::setw(0) << std::setfill(' ');
 		}
 	}
-	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[45], 16, 1000 );
 	
 	return 0;
 }
@@ -169,7 +169,7 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
 		
 	}
-	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[45], 16, 1000 );
 	
 	
 	// print configuration
@@ -402,7 +402,7 @@ int mouse_m711::read_settings(){
 		libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0302, 0x0002, buffer_in3[i], 16, 1000 );
 		
 	}
-	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[100], 16, 1000 );
+	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[45], 16, 1000 );
 	
 	// parse received data
 	
