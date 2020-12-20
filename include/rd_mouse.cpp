@@ -69,6 +69,11 @@ int rd_mouse::detect( std::string& model, uint16_t& detected_vid, uint16_t& dete
 			detected_vid = vid;
 			model = "990";
 			break;
+		}else if( vid == mouse_m990chroma::get_vid() && pid == mouse_m990chroma::get_pid() ){
+			detected_pid = pid;
+			detected_vid = vid;
+			model = "990chroma";
+			break;
 		} else if( (_c_all_vids.find(vid) != _c_all_vids.end()) && (_c_all_pids.find(pid) != _c_all_pids.end()) ){
 			detected_pid = pid;
 			detected_vid = vid;

@@ -237,6 +237,16 @@ int main( int argc, char **argv ){
 				string_number, string_bus, string_device,
 				string_dump, string_read, vid, pid );
 				
+		}else if( string_model == "990chroma" ){
+			
+			return perform_actions< mouse_m990chroma >(
+				flag_config, flag_profile, flag_macro, flag_number,
+				flag_bus, flag_device, flag_kernel_driver,
+				flag_dump_settings, flag_read_settings,
+				string_config, string_profile, string_macro,
+				string_number, string_bus, string_device,
+				string_dump, string_read, vid, pid );
+				
 		}else if( string_model == "generic" ){
 			
 			return perform_actions< mouse_generic >(
@@ -251,7 +261,7 @@ int main( int argc, char **argv ){
 			
 			throw std::string(
 				"Unknown model, valid options are:\n"
-				"709\n711\n715\n908\n990\ngeneric"
+				"709\n711\n715\n908\n990\n990chroma\ngeneric"
 			);
 			
 		}

@@ -13,7 +13,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"3.1\""
 
 # compile
-build: m908 m709 m711 m715 m990 generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
+build: m908 m709 m711 m715 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -73,6 +73,8 @@ m711: constructor_m711.o data_m711.o getters_m711.o helpers_m711.o setters_m711.
 m715: constructor_m715.o data_m715.o getters_m715.o helpers_m715.o setters_m715.o writers_m715.o readers_m715.o
 
 m990: constructor_m990.o data_m990.o getters_m990.o helpers_m990.o setters_m990.o writers_m990.o readers_m990.o
+
+m990chroma: constructor_m990chroma.o data_m990chroma.o getters_m990chroma.o helpers_m990chroma.o setters_m990chroma.o writers_m990chroma.o readers_m990chroma.o
 
 generic: constructor_generic.o data_generic.o getters_generic.o helpers_generic.o setters_generic.o writers_generic.o readers_generic.o
 
@@ -214,3 +216,24 @@ writers_m990.o:
 
 readers_m990.o:
 	$(CC) -c include/m990/readers.cpp $(CC_OPTIONS) -o readers_m990.o
+
+constructor_m990chroma.o:
+	$(CC) -c include/m990chroma/constructor.cpp $(CC_OPTIONS) -o constructor_m990chroma.o
+
+data_m990chroma.o:
+	$(CC) -c include/m990chroma/data.cpp $(CC_OPTIONS) -o data_m990chroma.o
+
+getters_m990chroma.o:
+	$(CC) -c include/m990chroma/getters.cpp $(CC_OPTIONS) -o getters_m990chroma.o
+
+helpers_m990chroma.o:
+	$(CC) -c include/m990chroma/helpers.cpp $(CC_OPTIONS) -o helpers_m990chroma.o
+
+setters_m990chroma.o:
+	$(CC) -c include/m990chroma/setters.cpp $(CC_OPTIONS) -o setters_m990chroma.o
+
+writers_m990chroma.o:
+	$(CC) -c include/m990chroma/writers.cpp $(CC_OPTIONS) -o writers_m990chroma.o
+
+readers_m990chroma.o:
+	$(CC) -c include/m990chroma/readers.cpp $(CC_OPTIONS) -o readers_m990chroma.o
