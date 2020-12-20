@@ -30,7 +30,7 @@ Redragon M908 Impact | complete | 0x04d9:0xfc4d |
 Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested<br>- Macros are untested<br>- Reading the settings is not properly implemented due to a lack of data
 Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
-Redragon M990 Legend | generic,<br>experimental support in the [m990 branch](https://github.com/dokutan/mouse_m908/tree/m990) | 0x04d9:0xfc0f | See [this issue](https://github.com/dokutan/mouse_m908/issues/5)<br>This mouse uses a different data format, keycodes, etc.
+Redragon M990 Legend | experimental | 0x04d9:0xfc0f | See [this issue](https://github.com/dokutan/mouse_m908/issues/5)<br>This mouse uses a different data format, keycodes, etc.
 Redragon M990 Legend (RGB/Chroma) | generic | 0x04d9:0xfc41 | [please read this](#generic-support)
 Redragon M719 Invader | generic | 0x04d9:0xfc4f | [please read this](#generic-support)
 Redragon M802 Titanoboa 2 | generic | 0x04d9:0xfc42 | [please read this](#generic-support)

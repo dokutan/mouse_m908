@@ -22,6 +22,9 @@
 
 int mouse_m990::dump_settings( std::ostream& output ){
 	
+	// prevents a compiler warning
+	(void)output;
+	
 	/* TODO! missing data
 	//prepare data 1
 	int rows1 = sizeof(_c_data_read_1) / sizeof(_c_data_read_1[0]);
@@ -115,6 +118,9 @@ int mouse_m990::dump_settings( std::ostream& output ){
 }
 
 int mouse_m990::read_and_print_settings( std::ostream& output ){
+	
+	// prevents a compiler warning
+	(void)output;
 	
 	/* TODO! missing data
 	//prepare data 1
