@@ -51,7 +51,7 @@ bool flag_bus, bool flag_device, bool flag_kernel_driver,
 bool flag_dump_settings, bool flag_read_settings,
 std::string string_config, std::string string_profile, std::string string_macro,
 std::string string_number, std::string string_bus, std::string string_device,
-std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid );
+std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid, std::string model );
 
 
 
@@ -195,7 +195,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 				
 		}else if( string_model == "709" ){
 			
@@ -205,7 +205,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 				
 		}else if( string_model == "711" ){
 			
@@ -215,7 +215,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 				
 		}else if( string_model == "715" ){
 			
@@ -225,7 +225,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 				
 		}else if( string_model == "990" ){
 			
@@ -235,7 +235,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 				
 		}else if( string_model == "990chroma" ){
 			
@@ -245,7 +245,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 				
 		}else if( string_model == "generic" ){
 			
@@ -255,7 +255,7 @@ int main( int argc, char **argv ){
 				flag_dump_settings, flag_read_settings,
 				string_config, string_profile, string_macro,
 				string_number, string_bus, string_device,
-				string_dump, string_read, vid, pid );
+				string_dump, string_read, vid, pid, string_model );
 			
 		}else{
 			
@@ -289,7 +289,7 @@ bool flag_bus, bool flag_device, bool flag_kernel_driver,
 bool flag_dump_settings, bool flag_read_settings,
 std::string string_config, std::string string_profile, std::string string_macro,
 std::string string_number, std::string string_bus, std::string string_device,
-std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid ){
+std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid, std::string model ){
 	
 	// create mouse object
 	T m;
@@ -333,7 +333,8 @@ std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid ){
 			if( string_read != "-" ){
 				std::ofstream out( string_read );
 				
-				if( out.is_open() ){				
+				if( out.is_open() ){
+					out << "# Model: " << model << "\n";
 					// read settings
 					m.read_and_print_settings( out );
 				
@@ -342,6 +343,7 @@ std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid ){
 					throw std::string( "Couldn't open "+string_read );
 				}
 			} else{
+				std::cout << "# Model: " << model << "\n";
 				m.read_and_print_settings( std::cout );
 			}
 			
