@@ -282,18 +282,21 @@ int mouse_m990chroma::read_and_print_settings( std::ostream& output ){
 		// button mapping
 		output << "\n# Button mapping\n";
 		
-		for( int j = 0; j < 8; j++ ){
+		for( int j = 0; j < 20; j++ ){
 			std::array< uint8_t, 4 > bytes = {
-				buffer_in3[j+(8*(i-1))][8],
-				buffer_in3[j+(8*(i-1))][9],
-				buffer_in3[j+(8*(i-1))][10],
-				buffer_in3[j+(8*(i-1))][11]
+				buffer_in3[j+(20*(i-1))][8],
+				buffer_in3[j+(20*(i-1))][9],
+				buffer_in3[j+(20*(i-1))][10],
+				buffer_in3[j+(20*(i-1))][11]
 			};
 			std::string mapping;
 			
 			_i_decode_button_mapping( bytes, mapping );
 			output << _c_button_names[j] << "=" << mapping << std::endl;
 		}
+		
+		// there are 25 buttons on the mouse, only the first 20 are read
+		output << "# The remaining button mappings are not read because captured usb data is missing\n";
 		
 	}
 	
@@ -484,12 +487,12 @@ int mouse_m990chroma::read_settings(){
 		}
 		
 		// button mapping
-		for( int j = 0; j < 8; j++ ){
+		for( int j = 0; j < 20; j++ ){
 			
-			_s_keymap_data[i-1][j][0] = buffer_in3[j+(8*(i-1))][8];
-			_s_keymap_data[i-1][j][1] = buffer_in3[j+(8*(i-1))][9];
-			_s_keymap_data[i-1][j][2] = buffer_in3[j+(8*(i-1))][10];
-			_s_keymap_data[i-1][j][3] = buffer_in3[j+(8*(i-1))][11];
+			_s_keymap_data[i-1][j][0] = buffer_in3[j+(20*(i-1))][8];
+			_s_keymap_data[i-1][j][1] = buffer_in3[j+(20*(i-1))][9];
+			_s_keymap_data[i-1][j][2] = buffer_in3[j+(20*(i-1))][10];
+			_s_keymap_data[i-1][j][3] = buffer_in3[j+(20*(i-1))][11];
 			
 		}
 	}
