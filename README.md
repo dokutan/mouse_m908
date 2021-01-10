@@ -54,7 +54,7 @@ If your mouse is listed as having generic support:
 - **Please open an issue to add complete support**
 
 ### Safety
-As the question of safety has been asked before and there is no simple answer i have added this section which lists known things that can make your mouse unusable and ways to fix them. You can then decide if you consider this software to be safe enough. Please read the disclaimer at the top of this document.
+As the question of safety has been asked before and there is no simple answer, i have added this section, which lists known things that can make your mouse unusable and ways to fix them. You can then decide if you consider this software to be safe enough. Please read the disclaimer at the top of this document.
 - M602A-RGB
   - Issue: changing the the settings on the prevents moving the mouse in the vertical direction
   - Potential solution: use the official software to restore the settings
