@@ -6,6 +6,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 - [Status](#status)
 	- [Supported mice](#supported-mice)
 	- [Generic support](#generic-support)
+	- [Safety](#safety)
 - [Installing](#installing)
 	- [Linux](#linux)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
@@ -51,6 +52,19 @@ If your mouse is listed as having generic support:
 - Nothing is known about this mouse, no specific code has been written
 - Please expect nothing beyond changing the active profile (other features might work if you are lucky)
 - **Please open an issue to add complete support**
+
+### Safety
+As the question of safety has been asked before and there is no simple answer i have added this section which lists known things that can make your mouse unusable and ways to fix them. You can then decide if you consider this software to be safe enough. Please read the disclaimer at the top of this document.
+- M602A-RGB
+  - Issue: changing the the settings on the prevents moving the mouse in the vertical direction
+  - Potential solution: use the official software to restore the settings
+- Old versions of this software (fixed in newer versions)
+  - Issue: disabling all DPI levels makes the mouse completely unresponsive
+  - Solution: use the official software to restore the settings and use a recent version of this software to prevent this from happening
+- Mice with generic and untested experimental support
+  - Issue: Changing the settings has an increased risk of similar problems as described above
+  - Potential solution: have a second mouse and the official software available to restore the settings in case of an issue
+
 
 ## Installing
 
