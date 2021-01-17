@@ -40,7 +40,7 @@ std::set< uint16_t > rd_mouse::_c_all_pids = {
 	0xfc58, // 2805 (?)
 	0xfc61, // 2850 (?)
 	0xfc40, // M901 Perdition (3)
-	0xfc56, // M801 Mammoth
+	0xfa56, // M801 Mammoth
 	0xfc49, // M910 Ranger
 	0xfc5f, // M998-RGB and M808-RGB (?)
 	0xfc38, // M607 Griffin
