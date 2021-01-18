@@ -40,6 +40,7 @@ Redragon 2805 (?) | generic | 0x04d9:0xfc58 | [please read this](#generic-suppor
 Redragon 2850 (?) | generic | 0x04d9:0xfc61 | [please read this](#generic-support)
 Redragon M901 Perdition (3) | generic | 0x04d9:0xfc40 | [please read this](#generic-support)
 Redragon M801 Mammoth | generic | 0x04d9:0xfa56 | [please read this](#generic-support)
+Redragon M801 Mammoth (?) | generic | 0x04d9:0xfc56 | [please read this](#generic-support)
 Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
 Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read this](#generic-support)
 Redragon M607 Griffin | generic | 0x04d9:0xfc38 | [please read this](#generic-support)
