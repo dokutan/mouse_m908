@@ -219,8 +219,8 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 			output << "flashing\n";
 		else{
 			output << "unknown, please report as bug: ";
-			output << std::hex << buffer_in1[i][11] << " ";
-			output << std::hex << buffer_in1[i][13] << std::dec << "\n";
+			output << std::hex << (int)buffer_in1[i][11] << " ";
+			output << std::hex << (int)buffer_in1[i][13] << std::dec << "\n";
 		}
 		
 		// polling rate (report rate)
