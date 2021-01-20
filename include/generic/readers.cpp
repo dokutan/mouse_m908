@@ -377,48 +377,14 @@ int mouse_generic::read_settings(){
 		_s_speed_levels[i-1] = buffer_in1[i][13];
 		
 		// lightmode
-		if( buffer_in1[i][11] == 0x00 && buffer_in1[i][13] == 0x00 )
-			_s_lightmodes[i-1] = lightmode_off;
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x04 )
-			_s_lightmodes[i-1] = lightmode_breathing;
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x08 )
-			_s_lightmodes[i-1] = lightmode_rainbow;
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x02 )
-			_s_lightmodes[i-1] = lightmode_static;
-		else if( buffer_in1[i][11] == 0x02 && buffer_in1[i][13] == 0x00 )
-			_s_lightmodes[i-1] = lightmode_wave;
-		else if( buffer_in1[i][11] == 0x06 && buffer_in1[i][13] == 0x00 )
-			_s_lightmodes[i-1] = lightmode_alternating;
-		else if( buffer_in1[i][11] == 0x07 && buffer_in1[i][13] == 0x00 )
-			_s_lightmodes[i-1] = lightmode_reactive;
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x10 )
-			_s_lightmodes[i-1] = lightmode_flashing;
+		std::array<uint8_t, 2> lightmode_bytes = {buffer_in1[i][11], buffer_in1[i][13]};
+		if( _c_lightmode_values.find(lightmode_bytes) != _c_lightmode_values.end() )
+			_s_lightmodes[i-1] = _c_lightmode_values.at(lightmode_bytes);
 		
 		// polling rate (report rate)
-		if( i < 4 ){
-			
-			if( buffer_in1[6][6+(2*i)] == 8 )
-				_s_report_rates[i-1] = r_125Hz;
-			else if( buffer_in1[6][6+(2*i)] == 4 )
-				_s_report_rates[i-1] = r_250Hz;
-			else if( buffer_in1[6][6+(2*i)] == 2 )
-				_s_report_rates[i-1] = r_500Hz;
-			else if( buffer_in1[6][6+(2*i)] == 1 )
-				_s_report_rates[i-1] = r_1000Hz;
-						
-		} else{
-			
-			if( buffer_in1[7][(2*i)] == 8 )
-				_s_report_rates[i-1] = r_125Hz;
-			else if( buffer_in1[7][(2*i)] == 4 )
-				_s_report_rates[i-1] = r_250Hz;
-			else if( buffer_in1[7][(2*i)] == 2 )
-				_s_report_rates[i-1] = r_500Hz;
-			else if( buffer_in1[7][(2*i)] == 1 )
-				_s_report_rates[i-1] = r_1000Hz;
-			
-		}
-		
+		uint8_t report_rate_byte = (i < 4) ? buffer_in1[6][6+(2*i)] : buffer_in1[7][(2*i)];
+		if( _c_report_rate_values.find(report_rate_byte) != _c_report_rate_values.end() )
+			_s_report_rates[i-1] = _c_report_rate_values.at(report_rate_byte);
 		
 		// dpi
 		for( int j = 1; j < 6; j++ ){
@@ -443,8 +409,6 @@ int mouse_generic::read_settings(){
 			
 		}
 	}
-	
-	// macros
 	
 	// macros
 	std::array< std::vector< uint8_t >, 15 > macro_bytes;
