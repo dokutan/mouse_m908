@@ -114,7 +114,7 @@ int mouse_m709::print_settings( std::ostream& output ){
 			std::array<uint8_t, 2> dpi_bytes = {_s_dpi_levels[i-1][j-1][0], _s_dpi_levels[i-1][j-1][1]};
 			std::string dpi_string = "";
 			
-			if( dpi_bytes_to_string( dpi_bytes, dpi_string ) == 0 )
+			if( _i_decode_dpi( dpi_bytes, dpi_string ) == 0 )
 				output << "dpi" << j << "=" << dpi_string << "\n";
 			else
 				output << "\n";

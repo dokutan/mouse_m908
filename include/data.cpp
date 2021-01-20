@@ -291,3 +291,39 @@ std::map< int, uint8_t >  rd_mouse::_c_snipe_dpi_values = {
 	{ 1000, 0x16 },
 	{ 1100, 0x18 }
 };
+
+std::map< uint8_t, rd_mouse::rd_report_rate > rd_mouse::_c_report_rate_values = {
+	{ 8, rd_mouse::r_125Hz },
+	{ 4, rd_mouse::r_250Hz },
+	{ 2, rd_mouse::r_500Hz },
+	{ 1, rd_mouse::r_1000Hz }
+};
+
+std::map< rd_mouse::rd_report_rate, std::string > rd_mouse::_c_report_rate_strings = {
+	{ rd_mouse::r_125Hz, "125" },
+	{ rd_mouse::r_250Hz, "250" },
+	{ rd_mouse::r_500Hz, "500" },
+	{ rd_mouse::r_1000Hz, "1000" }
+};
+
+std::map< std::array<uint8_t, 2>, rd_mouse::rd_lightmode > rd_mouse::_c_lightmode_values = {
+	{ {0x00, 0x00}, rd_mouse::lightmode_off },
+	{ {0x01, 0x04}, rd_mouse::lightmode_breathing },
+	{ {0x01, 0x08}, rd_mouse::lightmode_rainbow },
+	{ {0x01, 0x02}, rd_mouse::lightmode_static },
+	{ {0x02, 0x00}, rd_mouse::lightmode_wave },
+	{ {0x06, 0x00}, rd_mouse::lightmode_alternating },
+	{ {0x07, 0x00}, rd_mouse::lightmode_reactive },
+	{ {0x01, 0x10}, rd_mouse::lightmode_flashing }
+};
+
+std::map< rd_mouse::rd_lightmode, std::string > rd_mouse::_c_lightmode_strings = {
+	{ rd_mouse::lightmode_off, "off" },
+	{ rd_mouse::lightmode_breathing, "breathing" },
+	{ rd_mouse::lightmode_rainbow, "rainbow" },
+	{ rd_mouse::lightmode_static, "static" },
+	{ rd_mouse::lightmode_wave, "wave" },
+	{ rd_mouse::lightmode_alternating, "alternating" },
+	{ rd_mouse::lightmode_reactive, "reactive" },
+	{ rd_mouse::lightmode_flashing, "flashing" }
+};

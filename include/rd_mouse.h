@@ -92,13 +92,6 @@ class rd_mouse{
 		/// Get _i_detach_kernel_driver
 		bool get_detach_kernel_driver(){ return _i_detach_kernel_driver; }
 		
-		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
-		 * This implementation always outputs the raw bytes as a hexdump,
-		 * to support actual DPI values this function needs to be overloaded in the model specific classes.
-		 * \return 0 if no error occured
-		 */
-		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
-		
 	protected:
 		
 		// usb ids for all mice
@@ -122,7 +115,15 @@ class rd_mouse{
 		static std::map< std::string, uint8_t > _c_keyboard_key_values;
 		/// DPI values for the snipe button
 		static std::map< int, uint8_t > _c_snipe_dpi_values;
-		
+		/// Bytecode for the poll/report rate
+		static std::map< uint8_t, rd_mouse::rd_report_rate > _c_report_rate_values;
+		/// String representations for the poll/report rate
+		static std::map< rd_mouse::rd_report_rate, std::string > _c_report_rate_strings;
+		/// Bytecode for the lightmode
+		static std::map< std::array<uint8_t, 2>, rd_mouse::rd_lightmode > _c_lightmode_values;
+		/// String representations for the lightmode
+		static std::map< rd_mouse::rd_lightmode, std::string > _c_lightmode_strings;
+
 		//usb device handling
 		/// libusb device handle
 		libusb_device_handle* _i_handle;
@@ -151,6 +152,7 @@ class rd_mouse{
 		int _i_close_mouse();
 		
 		
+		// bytecode/string conversion functions TODO! add missing functions
 		/** \brief Decode macro byte code (of one macro) and print the commands to output
 		 * \arg macro_bytes the macro bytecode
 		 * \arg output where to print to
@@ -158,14 +160,14 @@ class rd_mouse{
 		 * \arg offset start decoding from macro_bytes[offset], set to 0 if offset >= macro_bytes.size()
 		 * \return 0 if no invalid codes were encountered
 		 */
-		int _i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset );
+		static int _i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset );
 		
 		/** \brief Encode macro commands to macro bytecode
 		 * \arg macro_bytes holds the result
 		 * \arg input where the macro commands are read from
 		 * \arg offset skips offset bytes at the beginning
 		 */
-		int _i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, size_t offset );
+		static int _i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, size_t offset );
 		
 		/** \brief Decodes the bytes describing a button mapping
 		 * \arg bytes the 4 bytes descriping the mapping
@@ -173,7 +175,7 @@ class rd_mouse{
 		 * \return 0 if valid button mapping
 		 * \see _i_encode_button_mapping
 		 */
-		int _i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping );
+		static int _i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping );
 		
 		/** \brief Turns a string describing a button mapping into bytecode
 		 * \arg mapping button mapping
@@ -181,7 +183,24 @@ class rd_mouse{
 		 * \return 0 if valid button mapping
 		 * \see _i_decode_button_mapping
 		 */
-		int _i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes );
+		static int _i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes );
+		
+		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * This implementation always outputs the raw bytes as a hexdump,
+		 * to support actual DPI values this function needs to be overloaded in the model specific classes.
+		 * \return 0 if no error occured
+		 */
+		static int _i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
+		
+		/** Convert the bytecode for a lightmode to a string
+		 * \return 0 if the lightmode is valid
+		 */
+		static int _i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string );
+
+		/** Convert the bytecode for a USB report/poll rate to a string
+		 * \return 0 if the report rate is valid
+		 */
+		static int _i_decode_report_rate( uint8_t report_rate_byte, std::string& report_rate_string );
 };
 
 // include header files for the individual models

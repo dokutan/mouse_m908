@@ -200,66 +200,16 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 		output << "speed=" << (int)buffer_in1[i][13] << "\n";
 		
 		// lightmode
-		output << "lightmode=";
-		if( buffer_in1[i][11] == 0x00 && buffer_in1[i][13] == 0x00 )
-			output << "off\n";
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x04 )
-			output << "breathing\n";
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x08 )
-			output << "rainbow\n";
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x02 )
-			output << "static\n";
-		else if( buffer_in1[i][11] == 0x02 && buffer_in1[i][13] == 0x00 )
-			output << "wave\n";
-		else if( buffer_in1[i][11] == 0x06 && buffer_in1[i][13] == 0x00 )
-			output << "alternating\n";
-		else if( buffer_in1[i][11] == 0x07 && buffer_in1[i][13] == 0x00 )
-			output << "reactive\n";
-		else if( buffer_in1[i][11] == 0x01 && buffer_in1[i][13] == 0x10 )
-			output << "flashing\n";
-		else{
-			output << "unknown, please report as bug: ";
-			output << std::hex << (int)buffer_in1[i][11] << " ";
-			output << std::hex << (int)buffer_in1[i][13] << std::dec << "\n";
-		}
+		std::array<uint8_t, 2> lightmode_bytes = {buffer_in1[i][11], buffer_in1[i][13]};
+		std::string lightmode_string = "";
+		_i_decode_lightmode(lightmode_bytes, lightmode_string);
+		output << "lightmode=" << lightmode_string << "\n";
 		
 		// polling rate (report rate)
-		if( i < 4 ){
-			
-			output << "\n";
-			
-			if( buffer_in1[6][6+(2*i)] == 8 )
-				output << "report_rate=125\n";
-			else if( buffer_in1[6][6+(2*i)] == 4 )
-				output << "report_rate=250\n";
-			else if( buffer_in1[6][6+(2*i)] == 2 )
-				output << "report_rate=500\n";
-			else if( buffer_in1[6][6+(2*i)] == 1 )
-				output << "report_rate=1000\n";
-			else{
-				output << "# report rate unknown, please report as bug: "
-					<< (int)buffer_in1[6][6+(2*i)] << "\n";
-			}
-			
-		} else{
-			
-			output << "\n";
-			
-			if( buffer_in1[7][(2*i)] == 8 )
-				output << "report_rate=125\n";
-			else if( buffer_in1[7][(2*i)] == 4 )
-				output << "report_rate=250\n";
-			else if( buffer_in1[7][(2*i)] == 2 )
-				output << "report_rate=500\n";
-			else if( buffer_in1[7][(2*i)] == 1 )
-				output << "report_rate=1000\n";
-			else{
-				output << "# report rate unknown, please report as bug: "
-					<< (int)buffer_in1[7][(2*i)] << "\n";
-			}
-			
-		}
-		
+		uint8_t report_rate_byte = (i < 4) ? buffer_in1[6][6+(2*i)] : buffer_in1[7][(2*i)];
+		std::string report_rate_string = "";
+		_i_decode_report_rate(report_rate_byte, report_rate_string);
+		output << "report_rate=" << report_rate_string << "\n";
 		
 		// dpi
 		output << "\n# DPI settings\n";
@@ -273,7 +223,7 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 			std::array<uint8_t, 2> dpi_bytes = {buffer_in2[i-1][5+(6*j)], buffer_in2[i-1][6+(6*j)]};
 			std::string dpi_string = "";
 			
-			if( dpi_bytes_to_string( dpi_bytes, dpi_string ) == 0 )
+			if( _i_decode_dpi( dpi_bytes, dpi_string ) == 0 )
 				output << "dpi" << j << "=" << dpi_string << "\n";
 			else
 				output << "\n";

@@ -885,7 +885,7 @@ int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t
 	return 0;
 }
 
-int rd_mouse::dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
+int rd_mouse::_i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
 	
 	std::stringstream conversion_stream;
 	
@@ -895,6 +895,60 @@ int rd_mouse::dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::strin
 	conversion_stream << std::setfill(' ') << std::setw(0) << std::dec;
 	
 	dpi_string = conversion_stream.str();
-	
 	return 0;
+}
+
+int rd_mouse::_i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string ){
+	
+	int return_value = 0;
+	
+	// bytes are known
+	if( _c_lightmode_values.find(lightmode_bytes) != _c_lightmode_values.end() ){
+
+		// string is known
+		if( _c_lightmode_strings.find(_c_lightmode_values.at(lightmode_bytes)) != _c_lightmode_strings.end() ){
+			lightmode_string = _c_lightmode_strings.at( _c_lightmode_values.at(lightmode_bytes) );
+		}else{
+			return_value = 1;
+		}
+	}else{
+		return_value = 1;
+	}
+
+	if( return_value != 0 ){
+		std::stringstream conversion_stream;
+		conversion_stream << "unknown, please report as bug: ";
+		conversion_stream << std::hex << (int)lightmode_bytes.at(0) << " ";
+		conversion_stream << std::hex << (int)lightmode_bytes.at(1) << std::dec;
+		lightmode_string = conversion_stream.str();
+	}
+	
+	return return_value;
+}
+
+int rd_mouse::_i_decode_report_rate( uint8_t report_rate_byte, std::string& report_rate_string ){
+	
+	int return_value = 0;
+
+	// byte is known
+	if( _c_report_rate_values.find(report_rate_byte) != _c_report_rate_values.end() ){
+		
+		// string is known
+		if( _c_report_rate_strings.find(_c_report_rate_values.at(report_rate_byte)) != _c_report_rate_strings.end() ){
+			report_rate_string = _c_report_rate_strings.at( _c_report_rate_values.at(report_rate_byte) );
+		}else{
+			return_value = 1;
+		}
+	}else{
+		return_value = 1;
+	}
+
+	// invalid report rate
+	if( return_value != 0 ){
+		std::stringstream conversion_stream;
+		conversion_stream << "unknown, please report as bug: " << std::hex << (int)report_rate_byte;
+		report_rate_string = conversion_stream.str();
+	}
+
+	return return_value;
 }

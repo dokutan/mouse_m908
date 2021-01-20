@@ -114,7 +114,7 @@ int mouse_m908::print_settings( std::ostream& output ){
 			std::array<uint8_t, 2> dpi_bytes = {_s_dpi_levels[i-1][j-1][0], _s_dpi_levels[i-1][j-1][1]};
 			std::string dpi_string = "";
 			
-			if( dpi_bytes_to_string( dpi_bytes, dpi_string ) == 0 )
+			if( _i_decode_dpi( dpi_bytes, dpi_string ) == 0 )
 				output << "dpi" << j << "=" << dpi_string << "\n";
 			else
 				output << "\n";
@@ -158,7 +158,7 @@ int mouse_m908::print_settings( std::ostream& output ){
 	return 0;
 }
 
-int mouse_m908::dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
+int mouse_m908::_i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
 	
 	// is dpi value known?
 	for( auto dpi_value : _c_dpi_codes ){
