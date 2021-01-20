@@ -92,7 +92,12 @@ class rd_mouse{
 		/// Get _i_detach_kernel_driver
 		bool get_detach_kernel_driver(){ return _i_detach_kernel_driver; }
 		
-		
+		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * This implementation always outputs the raw bytes as a hexdump,
+		 * to support actual DPI values this function needs to be overloaded in the model specific classes.
+		 * \return 0 if no error occured
+		 */
+		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
 		
 	protected:
 		

@@ -157,17 +157,3 @@ int mouse_m709::print_settings( std::ostream& output ){
 	
 	return 0;
 }
-
-int mouse_m709::dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
-	
-	std::stringstream conversion_stream;
-	
-	conversion_stream << std::setfill('0') << std::hex;
-	conversion_stream << "0x";
-	conversion_stream << std::setw(2) << (int)dpi_bytes[0] << std::setw(2) << (int)dpi_bytes[1];
-	conversion_stream << std::setfill(' ') << std::setw(0) << std::dec;
-	
-	dpi_string = conversion_stream.str();
-	
-	return 0;
-}

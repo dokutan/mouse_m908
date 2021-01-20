@@ -235,12 +235,7 @@ class mouse_generic : public rd_mouse{
 		/// Print the current configuration in .ini format to output
 		int print_settings( std::ostream& output );
 		
-		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
-		 * \return 0 if no error
-		 */
-		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
-		
-		
+				
 		
 		//reader functions (get settings from the mouse)
 		/// Read the settings and print the raw data to output

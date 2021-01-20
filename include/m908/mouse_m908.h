@@ -229,6 +229,7 @@ class mouse_m908 : public rd_mouse{
 		int print_settings( std::ostream& output );
 		
 		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
 		 * \return 0 if no error
 		 */
 		int dpi_bytes_to_string( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
