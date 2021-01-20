@@ -901,7 +901,7 @@ int rd_mouse::_i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi
 int rd_mouse::_i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string ){
 	
 	int return_value = 0;
-	
+
 	// bytes are known
 	if( _c_lightmode_values.find(lightmode_bytes) != _c_lightmode_values.end() ){
 
@@ -923,6 +923,21 @@ int rd_mouse::_i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std:
 		lightmode_string = conversion_stream.str();
 	}
 	
+	return return_value;
+}
+
+int rd_mouse::_i_encode_lightmode( rd_mouse::rd_lightmode lightmode, std::array<uint8_t, 2>& lightmode_bytes ){
+
+	int return_value = 1;
+
+	for( auto& l : _c_lightmode_values ){
+		if( lightmode == l.second ){
+			lightmode_bytes = l.first;
+			return_value = 0;
+			break;
+		}
+	}
+
 	return return_value;
 }
 
@@ -948,6 +963,20 @@ int rd_mouse::_i_decode_report_rate( uint8_t report_rate_byte, std::string& repo
 		std::stringstream conversion_stream;
 		conversion_stream << "unknown, please report as bug: " << std::hex << (int)report_rate_byte;
 		report_rate_string = conversion_stream.str();
+	}
+
+	return return_value;
+}
+
+uint8_t rd_mouse::_i_encode_report_rate( rd_mouse::rd_report_rate report_rate ){
+
+	uint8_t return_value = 0x08; // = 125 Hz, this should be a safe default in case of an error
+
+	for( auto& r : _c_report_rate_values ){
+		if( report_rate == r.second ){
+			return_value = r.first;
+			break;
+		}
 	}
 
 	return return_value;

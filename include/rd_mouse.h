@@ -197,10 +197,20 @@ class rd_mouse{
 		 */
 		static int _i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string );
 
+		/** Convert a lightmode to bytecode
+		 * \return 0 if the lightmode is valid
+		 */
+		static int _i_encode_lightmode( rd_mouse::rd_lightmode lightmode, std::array<uint8_t, 2>& lightmode_bytes );
+
 		/** Convert the bytecode for a USB report/poll rate to a string
 		 * \return 0 if the report rate is valid
 		 */
 		static int _i_decode_report_rate( uint8_t report_rate_byte, std::string& report_rate_string );
+
+		/** Convert a report rate to bytecode
+		 * \return the byte representing the given report rate
+		 */
+		static uint8_t _i_encode_report_rate( rd_mouse::rd_report_rate report_rate );
 };
 
 // include header files for the individual models

@@ -76,41 +76,10 @@ int mouse_m711::write_settings(){
 	
 	//lightmode
 	for( int i = 0; i < 5; i++ ){
-		switch( _s_lightmodes[i] ){
-			case lightmode_breathing:
-				buffer1[1+(2*i)][11] = 0x01;
-				buffer1[1+(2*i)][13] = 0x04;
-				break;
-			case lightmode_rainbow:
-				buffer1[1+(2*i)][11] = 0x01;
-				buffer1[1+(2*i)][13] = 0x08;
-				break;
-			case lightmode_static:
-			default:
-				buffer1[1+(2*i)][11] = 0x01;
-				buffer1[1+(2*i)][13] = 0x02;
-				break;
-			case lightmode_wave:
-				buffer1[1+(2*i)][11] = 0x02;
-				buffer1[1+(2*i)][13] = 0x00;
-				break;
-			case lightmode_alternating:
-				buffer1[1+(2*i)][11] = 0x06;
-				buffer1[1+(2*i)][13] = 0x00;
-				break;
-			case lightmode_reactive:
-				buffer1[1+(2*i)][11] = 0x07;
-				buffer1[1+(2*i)][13] = 0x00;
-				break;
-			case lightmode_flashing:
-				buffer1[1+(2*i)][11] = 0x01;
-				buffer1[1+(2*i)][13] = 0x10;
-				break;
-			case lightmode_off:
-				buffer1[1+(2*i)][11] = 0x00;
-				buffer1[1+(2*i)][13] = 0x00;
-				break;
-		}
+		std::array<uint8_t, 2> lightmode_bytes = {0x01, 0x02}; // default value is lightmode_static, only relevent in case of an error
+		_i_encode_lightmode( _s_lightmodes[i], lightmode_bytes );
+		buffer1[3+(2*i)][11] = lightmode_bytes.at(0);
+		buffer1[3+(2*i)][13] = lightmode_bytes.at(1);
 	}
 	//color
 	for( int i = 0; i < 5; i++ ){
@@ -154,32 +123,10 @@ int mouse_m711::write_settings(){
 	/* Currently no data capture available
 	 * 
 	//usb report rate
-	for( int i = 0; i < 3; i++ ){
-		switch( _s_report_rates[i] ){
-			default:
-			case r_125Hz:
-				buffer1[13][8+(2*i)] = 0x08; break;
-			case r_250Hz:
-				buffer1[13][8+(2*i)] = 0x04; break;
-			case r_500Hz:
-				buffer1[13][8+(2*i)] = 0x02; break;
-			case r_1000Hz:
-				buffer1[13][8+(2*i)] = 0x01; break;
-		}
-	}
-	for( int i = 3; i < 5; i++ ){
-		switch( _s_report_rates[i] ){
-			default:
-			case r_125Hz:
-				buffer1[14][2+(2*i)] = 0x08; break;
-			case r_250Hz:
-				buffer1[14][2+(2*i)] = 0x04; break;
-			case r_500Hz:
-				buffer1[14][2+(2*i)] = 0x02; break;
-			case r_1000Hz:
-				buffer1[14][2+(2*i)] = 0x01; break;
-		}
-	}
+	for( int i = 0; i < 3; i++ )
+		buffer1[13][8+(2*i)] = _i_encode_report_rate(_s_report_rates[i]);
+	for( int i = 3; i < 5; i++ )
+		buffer1[14][2+(2*i)] = _i_encode_report_rate(_s_report_rates[i]);
 	*
 	*/
 	
