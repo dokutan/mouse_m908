@@ -66,6 +66,9 @@ class rd_mouse{
 			lightmode_reactive,
 			lightmode_flashing,
 			lightmode_off,
+			lightmode_random,
+			lightmode_reactive_button,
+			lightmode_breathing_rainbow
 		};
 		
 		/// The available USB report rates (polling rates)

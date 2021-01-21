@@ -308,13 +308,16 @@ std::map< rd_mouse::rd_report_rate, std::string > rd_mouse::_c_report_rate_strin
 
 std::map< std::array<uint8_t, 2>, rd_mouse::rd_lightmode > rd_mouse::_c_lightmode_values = {
 	{ {0x00, 0x00}, rd_mouse::lightmode_off },
+	{ {0x01, 0x01}, rd_mouse::lightmode_breathing_rainbow },
+	{ {0x01, 0x02}, rd_mouse::lightmode_static },
 	{ {0x01, 0x04}, rd_mouse::lightmode_breathing },
 	{ {0x01, 0x08}, rd_mouse::lightmode_rainbow },
-	{ {0x01, 0x02}, rd_mouse::lightmode_static },
+	{ {0x01, 0x10}, rd_mouse::lightmode_flashing },
 	{ {0x02, 0x00}, rd_mouse::lightmode_wave },
+	{ {0x03, 0x00}, rd_mouse::lightmode_reactive_button },
+	{ {0x04, 0x00}, rd_mouse::lightmode_random },
 	{ {0x06, 0x00}, rd_mouse::lightmode_alternating },
-	{ {0x07, 0x00}, rd_mouse::lightmode_reactive },
-	{ {0x01, 0x10}, rd_mouse::lightmode_flashing }
+	{ {0x07, 0x00}, rd_mouse::lightmode_reactive }
 };
 
 std::map< rd_mouse::rd_lightmode, std::string > rd_mouse::_c_lightmode_strings = {
@@ -325,5 +328,8 @@ std::map< rd_mouse::rd_lightmode, std::string > rd_mouse::_c_lightmode_strings =
 	{ rd_mouse::lightmode_wave, "wave" },
 	{ rd_mouse::lightmode_alternating, "alternating" },
 	{ rd_mouse::lightmode_reactive, "reactive" },
-	{ rd_mouse::lightmode_flashing, "flashing" }
+	{ rd_mouse::lightmode_flashing, "flashing" },
+	{ rd_mouse::lightmode_breathing_rainbow, "breathing_rainbow" },
+	{ rd_mouse::lightmode_reactive_button, "reactive_button" },
+	{ rd_mouse::lightmode_random, "random" }
 };

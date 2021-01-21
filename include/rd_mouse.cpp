@@ -917,9 +917,10 @@ int rd_mouse::_i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std:
 
 	if( return_value != 0 ){
 		std::stringstream conversion_stream;
-		conversion_stream << "unknown, please report as bug: ";
-		conversion_stream << std::hex << (int)lightmode_bytes.at(0) << " ";
-		conversion_stream << std::hex << (int)lightmode_bytes.at(1) << std::dec;
+		conversion_stream << "unknown, please report as bug: " << std::setfill('0');
+		conversion_stream << std::hex << std::setw(2) << (int)lightmode_bytes[0] << " ";
+		conversion_stream << std::hex << std::setw(2) << (int)lightmode_bytes[1];
+		conversion_stream << std::setfill(' ') << std::setw(0) << std::dec;
 		lightmode_string = conversion_stream.str();
 	}
 	

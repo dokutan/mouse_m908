@@ -60,3 +60,23 @@ The settings are read in 3 parts:
 1. led settings
 2. macros
 3. button mappping
+
+### LED modes
+The LED mode is specified by two bytes.
+
+byte1 % 8:
+	- 0: off
+	- 1: decode byte2
+	- 2: wave (multicolor)
+	- 3: reactive_button (static color, new color on button press, not in the official software)
+	- 4: random (random flashing with random colors, scrollwheel and logo separately, not in the official software)
+	- 5: wave (same as 2)
+	- 6: alternating (flashing of scrollwheel and logo separately, multicolor)
+	- 7: reactive
+
+byte2 (only relevant when byte1 == 1):
+	- 0: breathing (single color)
+	- 1: breathing_rainbow (not in the official software)
+	- 2: static
+	- 8: rainbow
+	- 16: flashing
