@@ -20,7 +20,7 @@
  * This file contains internal constants and lookup tables
  */
 
-#include "mouse_m715.h"
+#include "../rd_mouse.h"
 
 // usb device vars
 const uint16_t mouse_m715::_c_mouse_vid = 0x04d9;

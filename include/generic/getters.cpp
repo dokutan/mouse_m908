@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_generic.h"
+#include "../rd_mouse.h"
 
 mouse_generic::rd_profile mouse_generic::get_profile(){
 	return _s_profile;

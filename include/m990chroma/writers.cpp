@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_m990chroma.h"
+#include "../rd_mouse.h"
 
 //writer functions (apply changes to mouse)
 

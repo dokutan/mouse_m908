@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_m990.h"
+#include "../rd_mouse.h"
 
 mouse_m990::rd_profile mouse_m990::get_profile(){
 	return _s_profile;

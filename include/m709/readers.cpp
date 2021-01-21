@@ -15,8 +15,8 @@
  * MA 02110-1301, USA.
  * 
  */
-
-#include "mouse_m709.h"
+ 
+#include "../rd_mouse.h"
 
 //reader functions (get settings from mouse)
 

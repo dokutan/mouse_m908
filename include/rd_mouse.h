@@ -34,6 +34,18 @@
 #include <iomanip>
 #include <string>
 #include <set>
+#include <variant>
+
+/* These declarations exist to make it possible for rd_mouse::detect()
+ * to use these classes.
+ */
+class mouse_generic;
+class mouse_m709;
+class mouse_m711;
+class mouse_m715;
+class mouse_m908;
+class mouse_m990;
+class mouse_m990chroma;
 
 /**
  * This class is used as a base for the different models
@@ -78,6 +90,18 @@ class rd_mouse{
 			r_500Hz,
 			r_1000Hz
 		};
+
+		/// This variant can hold an object for all available mice
+		typedef std::variant<
+			std::monostate,
+			mouse_generic,
+			mouse_m709,
+			mouse_m711,
+			mouse_m715,
+			mouse_m908,
+			mouse_m990,
+			mouse_m990chroma
+		> mouse_variant;
 		
 		/** \brief Detects supported mice
 		 * In the case of multiple connected mice, only the first will be detected
@@ -221,6 +245,8 @@ class rd_mouse{
 		static uint8_t _i_encode_report_rate( rd_mouse::rd_report_rate report_rate );
 };
 
+#endif
+
 // include header files for the individual models
 #include "m908/mouse_m908.h"
 #include "m709/mouse_m709.h"
@@ -229,5 +255,3 @@ class rd_mouse{
 #include "m990/mouse_m990.h"
 #include "m990chroma/mouse_m990chroma.h"
 #include "generic/mouse_generic.h"
-
-#endif

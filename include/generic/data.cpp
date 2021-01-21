@@ -20,7 +20,7 @@
  * This file contains internal constants and lookup tables
  */
 
-#include "mouse_generic.h"
+#include "../rd_mouse.h"
 
 // Names of the physical buttons
 std::map< int, std::string > mouse_generic::_c_button_names = {

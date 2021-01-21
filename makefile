@@ -5,8 +5,8 @@ DOC_DIR = $(PREFIX)/share/doc
 MAN_DIR = $(PREFIX)/share/man/man1
 
 # compiler options
-CC = g++
-CC_OPTIONS := -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
+CC = c++
+CC_OPTIONS := -std=c++17 -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
 LIBS != pkg-config --libs libusb-1.0
 
 # version string

@@ -33,8 +33,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include "../rd_mouse.h"
-
 /**
  * This class does not represent a specific model and is intended to be
  * used for mice that have no class.

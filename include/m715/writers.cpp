@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_m715.h"
+#include "../rd_mouse.h"
 
 //writer functions (apply changes to mouse)
 

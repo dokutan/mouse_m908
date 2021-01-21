@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_generic.h"
+#include "../rd_mouse.h"
 
 //setter functions
 

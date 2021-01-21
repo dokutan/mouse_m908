@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_m715.h"
+#include "../rd_mouse.h"
 
 // Constructor, set the default settings
 mouse_m715::mouse_m715(){

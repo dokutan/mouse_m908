@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_m908.h"
+#include "../rd_mouse.h"
 
 // Constructor, set the default settings
 mouse_m908::mouse_m908(){

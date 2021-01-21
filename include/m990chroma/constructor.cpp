@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_m990chroma.h"
+#include "../rd_mouse.h"
 
 // Constructor, set the default settings
 mouse_m990chroma::mouse_m990chroma(){

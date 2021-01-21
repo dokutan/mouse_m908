@@ -16,7 +16,7 @@
  * 
  */
 
-#include "mouse_generic.h"
+#include "../rd_mouse.h"
 
 // Constructor, set the default settings
 mouse_generic::mouse_generic(){

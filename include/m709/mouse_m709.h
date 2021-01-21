@@ -33,8 +33,6 @@
 #include <iostream>
 #include <iomanip>
 
-#include "../rd_mouse.h"
-
 /**
  * The main class representing the M709 mouse.
  * This class has member functions to open, close and apply settings to the mouse.
