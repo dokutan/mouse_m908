@@ -92,6 +92,11 @@ class rd_mouse{
 		/// Get _i_detach_kernel_driver
 		bool get_detach_kernel_driver(){ return _i_detach_kernel_driver; }
 		
+		/// Returns a reference to _c_lightmode_strings (lighmode names)
+		std::map< rd_mouse::rd_lightmode, std::string >& lightmode_strings(){ return _c_lightmode_strings; }
+		/// Returns a reference to _c_report_rate_strings (report rate names)
+		std::map< rd_mouse::rd_report_rate, std::string >& report_rate_strings(){ return _c_report_rate_strings; }
+
 	protected:
 		
 		// usb ids for all mice

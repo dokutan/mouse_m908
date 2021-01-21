@@ -356,38 +356,33 @@ std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid, st
 			if( pt.read_ini( string_config ) != 0 )
 				throw std::string( "Could not open configuration file." );
 			
-			// lookup table int → profile enum
-			std::array< mouse_m908::rd_profile, 5 > profile_lut = { mouse_m908::profile_1, mouse_m908::profile_2, mouse_m908::profile_3, mouse_m908::profile_4, mouse_m908::profile_5 };
-			
 			//parse config file
 			for( int i = 1; i < 6; i++ ){
 				
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "breathing" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_breathing ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "rainbow" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_rainbow ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "static" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_static ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "wave" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_wave ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "alternating" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_alternating ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "reactive" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_reactive ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "flashing" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_flashing ); }
-				if( pt.get("profile"+std::to_string(i)+".lightmode", "") == "off" ){ m.set_lightmode( profile_lut[i-1], mouse_m908::lightmode_off ); }
-				
-				if( pt.get("profile"+std::to_string(i)+".color", "").length() == 6 ){
-					m.set_color( profile_lut[i-1],
+				rd_mouse::rd_profile profile = (rd_mouse::rd_profile)(i - 1);
+
+				for( auto& lightmode : m.lightmode_strings() ){
+					if( pt.get("profile"+std::to_string(i)+".lightmode", "") == lightmode.second )
+						m.set_lightmode( profile, lightmode.first );
+				}
+
+				if( std::regex_match( pt.get("profile"+std::to_string(i)+".color", ""), std::regex("[0-9a-fA-F]{6}") ) ){
+					m.set_color( profile,
 					{(uint8_t)stoi( pt.get("profile"+std::to_string(i)+".color", "").substr(0,2), 0, 16),
 					(uint8_t)stoi( pt.get("profile"+std::to_string(i)+".color", "").substr(2,2), 0, 16), 
 					(uint8_t)stoi( pt.get("profile"+std::to_string(i)+".color", "").substr(4,2), 0, 16)} );
 				}
 				
 				if( pt.get("profile"+std::to_string(i)+".brightness", "").length() != 0 ){
-					m.set_brightness( profile_lut[i-1], (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".brightness", ""), 0, 16) );
+					m.set_brightness( profile, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".brightness", ""), 0, 16) );
 				}
 				
 				if( pt.get("profile"+std::to_string(i)+".speed", "").length() != 0 ){
-					m.set_speed( profile_lut[i-1], (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".speed", ""), 0, 16) );
+					m.set_speed( profile, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".speed", ""), 0, 16) );
 				}
 				
 				if( pt.get("profile"+std::to_string(i)+".scrollspeed", "").length() != 0 ){
-					m.set_scrollspeed( profile_lut[i-1], (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".scrollspeed", ""), 0, 16) );
+					m.set_scrollspeed( profile, (uint8_t)stoi( pt.get("profile"+std::to_string(i)+".scrollspeed", ""), 0, 16) );
 				}
 				
 				// DPI
@@ -395,24 +390,24 @@ std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid, st
 					
 					// DPI level disabled
 					if( pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j)+"_enable", "") == "0" )
-						m.set_dpi_enable( profile_lut[i-1], j-1, false );
+						m.set_dpi_enable( profile, j-1, false );
 					
 					// DPI value
 					if( pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "").length() != 0 ){ // non-empty dpi value
 						
-						if( m.set_dpi( profile_lut[i-1], j-1, pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "") ) != 0 ) // if invalid dpi value
+						if( m.set_dpi( profile, j-1, pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "") ) != 0 ) // if invalid dpi value
 							std::cerr << "Warning: Unknown DPI value " << pt.get("profile"+std::to_string(i)+".dpi"+std::to_string(j), "") << "\n";
 					}
 				}
 				
-				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "125" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_125Hz ); }
-				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "250" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_250Hz ); }
-				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "500" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_500Hz ); }
-				if( pt.get("profile"+std::to_string(i)+".report_rate", "") == "1000" ){ m.set_report_rate( profile_lut[i-1], mouse_m908::r_1000Hz ); }
-				
+				for( auto& report_rate : m.report_rate_strings() ){
+					if( pt.get("profile"+std::to_string(i)+".report_rate", "") == report_rate.second )
+						m.set_report_rate( profile, report_rate.first );
+				}
+
 				// button mapping
 				for( auto key : m.button_names() ){
-					if( pt.get("profile"+std::to_string(i)+"."+key.second, "").length() != 0 ){ m.set_key_mapping( profile_lut[i-1], key.first, pt.get("profile"+std::to_string(i)+"."+key.second, "") );	}
+					if( pt.get("profile"+std::to_string(i)+"."+key.second, "").length() != 0 ){ m.set_key_mapping( profile, key.first, pt.get("profile"+std::to_string(i)+"."+key.second, "") );	}
 				}
 				
 			}
@@ -425,20 +420,15 @@ std::string string_dump, std::string string_read, uint16_t vid, uint16_t pid, st
 		// change active profile
 		if( flag_profile ){
 			
-			
 			// set profile
 			if( !std::regex_match( string_profile, std::regex("[1-5]") ) ){
 				
 				throw std::string( "Wrong argument, expected 1-5." );
 				return 1;
 			}
-			
-			if( string_profile == "1" ){ m.set_profile( mouse_m908::profile_1 ); }
-			if( string_profile == "2" ){ m.set_profile( mouse_m908::profile_2 ); }
-			if( string_profile == "3" ){ m.set_profile( mouse_m908::profile_3 ); }
-			if( string_profile == "4" ){ m.set_profile( mouse_m908::profile_4 ); }
-			if( string_profile == "5" ){ m.set_profile( mouse_m908::profile_5 ); }
-			
+
+			m.set_profile( (rd_mouse::rd_profile)(std::stoi(string_profile) - 1) );
+
 			// write profile
 			m.write_profile();
 			

@@ -248,7 +248,7 @@ class mouse_m908 : public rd_mouse{
 		
 		/// Returns a reference to _c_button_names (physical button names)
 		std::map< int, std::string >& button_names(){ return _c_button_names; }
-		
+
 	private:
 		
 		/// Names of the physical buttons
