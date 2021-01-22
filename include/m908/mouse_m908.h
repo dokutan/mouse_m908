@@ -188,6 +188,10 @@ class mouse_m908 : public rd_mouse{
 			return _c_mouse_pid;
 		}
 		
+		/// Get USB product id
+		static std::string get_name(){
+			return _c_name;
+		}
 		
 		//writer functions (apply settings to mouse)
 		/** \brief Write the currently active profile to the mouse
@@ -255,6 +259,9 @@ class mouse_m908 : public rd_mouse{
 		/// Mapping of real DPI values to bytecode
 		static std::map< unsigned int, std::array<uint8_t, 2> > _c_dpi_codes;
 		
+		/// The model name
+		static const std::string _c_name;
+
 		//usb device vars
 		/// USB vendor id
 		static const uint16_t _c_mouse_vid;

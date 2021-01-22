@@ -22,6 +22,8 @@
 
 #include "../rd_mouse.h"
 
+const std::string mouse_m990chroma::_c_name = "m990chroma";
+
 // usb device vars
 const uint16_t mouse_m990chroma::_c_mouse_vid = 0x04d9;
 const uint16_t mouse_m990chroma::_c_mouse_pid = 0xfc41;

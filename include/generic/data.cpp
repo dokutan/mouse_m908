@@ -22,6 +22,8 @@
 
 #include "../rd_mouse.h"
 
+const std::string mouse_generic::_c_name = "generic";
+
 // Names of the physical buttons
 std::map< int, std::string > mouse_generic::_c_button_names = {
 	{ 0, "button_left" },

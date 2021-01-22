@@ -187,6 +187,11 @@ class mouse_m709 : public rd_mouse{
 		static uint16_t get_pid(){
 			return _c_mouse_pid;
 		}
+
+		/// Get USB product id
+		static std::string get_name(){
+			return _c_name;
+		}
 		
 		
 		//writer functions (apply settings to mouse)
@@ -252,6 +257,9 @@ class mouse_m709 : public rd_mouse{
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
 		
+		/// The model name
+		static const std::string _c_name;
+
 		//usb device vars
 		/// USB vendor id
 		static const uint16_t _c_mouse_vid;

@@ -18,20 +18,20 @@
 
 #include "rd_mouse.h"
 
-int rd_mouse::detect( std::string& model, uint16_t& detected_vid, uint16_t& detected_pid ){
+rd_mouse::mouse_variant rd_mouse::detect(){
 	
-	model = "";
-	
+	rd_mouse::mouse_variant mouse = std::monostate();
+
 	// libusb init
 	if( libusb_init( NULL ) < 0 )
-		return 1;
+		return mouse;
 	
 	// get device list
 	libusb_device **dev_list; // device list
 	ssize_t num_devs = libusb_get_device_list(NULL, &dev_list);
 	
 	if( num_devs < 0 )
-		return 1;
+		return mouse;
 	
 	for( ssize_t i = 0; i < num_devs; i++ ){
 		
@@ -43,41 +43,30 @@ int rd_mouse::detect( std::string& model, uint16_t& detected_vid, uint16_t& dete
 		uint16_t vid = descriptor.idVendor;
 		uint16_t pid = descriptor.idProduct;
 		
-		// compare vendor and product id against known ids
+		// compare vendor and product id against known ids, TODO! this should be done in a generic way
 		if( vid == mouse_m908::get_vid() && pid == mouse_m908::get_pid() ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "908";
+			mouse = mouse_m908();
 			break;
 		}else if( vid == mouse_m709::get_vid() && pid == mouse_m709::get_pid() ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "709";
+			mouse = mouse_m709();
 			break;
 		}else if( vid == mouse_m711::get_vid() && pid == mouse_m711::get_pid() ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "711";
+			mouse = mouse_m711();
 			break;
 		}else if( vid == mouse_m715::get_vid() && pid == mouse_m715::get_pid() ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "715";
+			mouse = mouse_m715();
 			break;
 		}else if( vid == mouse_m990::get_vid() && pid == mouse_m990::get_pid() ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "990";
+			mouse = mouse_m990();
 			break;
 		}else if( vid == mouse_m990chroma::get_vid() && pid == mouse_m990chroma::get_pid() ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "990chroma";
+			mouse = mouse_m990chroma();
 			break;
 		} else if( (_c_all_vids.find(vid) != _c_all_vids.end()) && (_c_all_pids.find(pid) != _c_all_pids.end()) ){
-			detected_pid = pid;
-			detected_vid = vid;
-			model = "generic";
+			mouse_generic temp_mouse;
+			temp_mouse.set_vid(vid);
+			temp_mouse.set_pid(pid);
+			mouse = temp_mouse;
 			break;
 		}
 		
@@ -89,7 +78,70 @@ int rd_mouse::detect( std::string& model, uint16_t& detected_vid, uint16_t& dete
 	// exit libusb
 	libusb_exit( NULL );
 		
-	return 0;
+	return mouse;
+}
+
+rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
+	
+	rd_mouse::mouse_variant mouse = std::monostate();
+
+	// libusb init
+	if( libusb_init( NULL ) < 0 )
+		return mouse;
+	
+	// get device list
+	libusb_device **dev_list; // device list
+	ssize_t num_devs = libusb_get_device_list(NULL, &dev_list);
+	
+	if( num_devs < 0 )
+		return mouse;
+	
+	for( ssize_t i = 0; i < num_devs; i++ ){
+		
+		// get device descriptor
+		libusb_device_descriptor descriptor;
+		libusb_get_device_descriptor( dev_list[i], &descriptor );
+		
+		// get vendor and product id from descriptor
+		uint16_t vid = descriptor.idVendor;
+		uint16_t pid = descriptor.idProduct;
+		
+		// compare vendor and product id against known ids, TODO! this should be done in a generic way
+		if( vid == mouse_m908::get_vid() && pid == mouse_m908::get_pid() && mouse_name == mouse_m908::get_name() ){
+			mouse = mouse_m908();
+			break;
+		}else if( vid == mouse_m709::get_vid() && pid == mouse_m709::get_pid() && mouse_name == mouse_m709::get_name() ){
+			mouse = mouse_m709();
+			break;
+		}else if( vid == mouse_m711::get_vid() && pid == mouse_m711::get_pid() && mouse_name == mouse_m711::get_name() ){
+			mouse = mouse_m711();
+			break;
+		}else if( vid == mouse_m715::get_vid() && pid == mouse_m715::get_pid() && mouse_name == mouse_m715::get_name() ){
+			mouse = mouse_m715();
+			break;
+		}else if( vid == mouse_m990::get_vid() && pid == mouse_m990::get_pid() && mouse_name == mouse_m990::get_name() ){
+			mouse = mouse_m990();
+			break;
+		}else if( vid == mouse_m990chroma::get_vid() && pid == mouse_m990chroma::get_pid() && mouse_name == mouse_m990chroma::get_name() ){
+			mouse = mouse_m990chroma();
+			break;
+		} else if( (_c_all_vids.find(vid) != _c_all_vids.end()) && (_c_all_pids.find(pid) != _c_all_pids.end()) && mouse_name == mouse_generic::get_name() ){
+			mouse_generic temp_mouse;
+			temp_mouse.set_vid(vid);
+			temp_mouse.set_pid(pid);
+			mouse = temp_mouse;
+			break;
+		}
+		
+	}
+	
+	// free device list, unreference devices
+	libusb_free_device_list( dev_list, 1 );
+	
+	// exit libusb
+	libusb_exit( NULL );
+		
+	return mouse;
 }
 
 //init libusb and open mouse

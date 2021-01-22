@@ -105,12 +105,16 @@ class rd_mouse{
 		
 		/** \brief Detects supported mice
 		 * In the case of multiple connected mice, only the first will be detected
-		 * \arg model the detected model
-		 * \arg detected_vid the USB VID of the detected mouse
-		 * \arg detected_pid the USB PID of the detected mouse
-		 * \return The model name of the mouse, empty string if no mouse was found
+		 * \return A mouse_variant containing an object corresponding to the detected mouse, or std::monostate
 		 */
-		static int detect( std::string& model, uint16_t& detected_vid, uint16_t& detected_pid );
+		static mouse_variant detect();
+
+		/** \brief Detects supported mice that have a specified name
+		 * \arg mouse_name detects mice with name = mouse_name
+		 * In the case of multiple connected mice, only the first will be detected
+		 * \return A mouse_variant containing an object corresponding to the detected mouse, or std::monostate
+		 */
+		static mouse_variant detect( std::string mouse_name );
 		
 		/// Set whether to try to detach the kernel driver when opening the mouse
 		void set_detach_kernel_driver( bool detach_kernel_driver ){

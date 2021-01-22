@@ -195,6 +195,10 @@ class mouse_generic : public rd_mouse{
 			return _c_mouse_pid;
 		}
 		
+		/// Get USB product id
+		static std::string get_name(){
+			return _c_name;
+		}
 		
 		//writer functions (apply settings to mouse)
 		/** \brief Write the currently active profile to the mouse
@@ -259,6 +263,9 @@ class mouse_generic : public rd_mouse{
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
 		
+		/// The model name
+		static const std::string _c_name;
+
 		//usb device vars
 		/// USB vendor id, needs to be explicitly set
 		uint16_t _c_mouse_vid;
