@@ -29,7 +29,7 @@
 
 #include "include/rd_mouse.h"
 #include "include/load_config.h"
-#include "include/print_help.cpp"
+#include "include/help.h"
 
 // this is the default version string
 // the version string gets overwritten by the makefile
@@ -59,7 +59,7 @@ int main( int argc, char **argv ){
 	try{
 		// if no arguments: print help
 		if( argc == 1 ){
-			print_help();
+			std::cout << mouse_m908_help;
 			return 0;
 		}
 		
@@ -101,7 +101,7 @@ int main( int argc, char **argv ){
 			
 			switch( c ){
 				case 'h':
-					print_help();
+					std::cout << mouse_m908_help;
 					return 0;
 					break;
 				case 'c':
@@ -374,18 +374,6 @@ int main( int argc, char **argv ){
 		);
 
 		std::visit( [&](auto&& arg){ perform_actions(arg); }, mouse );
-
-		/*
-		std::visit( [&](auto&& arg){
-			perform_actions( arg,
-				flag_config, flag_profile, flag_macro, flag_number,
-				flag_bus, flag_device, flag_kernel_driver,
-				flag_dump_settings, flag_read_settings,
-				string_config, string_profile, string_macro,
-				string_number, string_bus, string_device,
-				string_dump, string_read, 0, 0, string_model );
-		}, mouse );
-		*/
 
 	} catch( std::string const &message ){ // print error message and quit
 		

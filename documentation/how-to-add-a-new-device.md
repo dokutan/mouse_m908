@@ -14,5 +14,4 @@ This document contains a list of thing that need to be changed or added when add
 	- README (supported models)
 	- manpage (supported models)
 	- help message (supported models)
-	- Haiku/.PackageInfo (supported models)
 	- create new config in examples/
