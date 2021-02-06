@@ -9,7 +9,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [Safety](#safety)
 - [Installing](#installing)
 	- [Linux](#linux)
-       - [Fedora/RHEL](#fedorarhel)
+	- [Fedora/RHEL](#fedorarhel)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
 	- [Other platforms](#other-platforms)
@@ -97,7 +97,7 @@ make rpm
 ```
 - Install the resulting package by running:
 ```
-sudo dnf install ./mouse_m908-3.1-1.x86_64.rpm
+sudo dnf install ./mouse_m908*.rpm
 ```
 
 ### OpenBSD and FreeBSD
