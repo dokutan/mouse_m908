@@ -9,6 +9,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [Safety](#safety)
 - [Installing](#installing)
 	- [Linux](#linux)
+       - [Fedora/RHEL](#fedora)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
 	- [Other platforms](#other-platforms)
@@ -68,6 +69,22 @@ As the question of safety has been asked before and there is no simple answer, i
 
 
 ## Installing
+
+### Fedora/RHEL
+
+RPM Package support was added so you can install `mouse_m908` via your package manager.
+
+- Clone this repo
+- Install build dependencies: `dnf builddep mouse_m908.spec`
+- run:
+```
+make
+make rpm
+```
+- Install the resulting package by running:
+```
+sudo dnf install ./mouse_m908-3.1-1.x86_64.rpm
+```
 
 ### Linux
 - Install the dependencies:

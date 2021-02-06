@@ -1,2 +1,5 @@
 info
 doxygen
+*.o
+*.rpm
+mouse_m908
