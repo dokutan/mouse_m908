@@ -37,8 +37,8 @@ install-bsd:
 
 # remove binary
 clean:
-	rm mouse_m908 *.o mouse_m908*.rpm
-	rm -r Haiku/bin Haiku/documentation Haiku/mouse_m908.hpkg | true
+	rm -f mouse_m908 *.o mouse_m908*.rpm
+	rm -rf Haiku/bin Haiku/documentation Haiku/mouse_m908.hpkg
 
 # remove all installed files
 uninstall:
