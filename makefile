@@ -3,6 +3,7 @@ PREFIX = /usr
 BIN_DIR = $(PREFIX)/bin
 DOC_DIR = $(PREFIX)/share/doc
 MAN_DIR = $(PREFIX)/share/man/man1
+ETC_DIR = /etc
 
 # compiler options
 CC = c++
@@ -19,7 +20,7 @@ build: m908 m709 m711 m715 m990 m990chroma generic data_rd.o rd_mouse.o load_con
 # copy all files to their correct location
 install:
 	cp ./mouse_m908 $(BIN_DIR)/mouse_m908 && \
-	cp ./mouse_m908.rules /etc/udev/rules.d && \
+	cp ./mouse_m908.rules $(ETC_DIR)/udev/rules.d && \
 	mkdir $(DOC_DIR)/mouse_m908 | true && \
 	cp ./examples/* $(DOC_DIR)/mouse_m908/ && \
 	cp ./README.md $(DOC_DIR)/mouse_m908/ && \
@@ -42,7 +43,7 @@ clean:
 # remove all installed files
 uninstall:
 	rm -f $(BIN_DIR)/mouse_m908 && \
-	rm -f /etc/udev/rules.d/mouse_m908.rules && \
+	rm -f $(ETC_DIR)/udev/rules.d/mouse_m908.rules && \
 	rm -rf $(DOC_DIR)/mouse_m908 && \
 	rm -f $(MAN_DIR)/mouse_m908.1
 
