@@ -37,7 +37,7 @@ install-bsd:
 
 # remove binary
 clean:
-	rm mouse_m908 *.o
+	rm mouse_m908 *.o mouse_m908*.rpm
 	rm -r Haiku/bin Haiku/documentation Haiku/mouse_m908.hpkg | true
 
 # remove all installed files
@@ -49,6 +49,14 @@ uninstall:
 
 # this is an alias to install for backwards compatibility
 upgrade: install
+
+# this builds a .rpm for Fedora/RHEL systems
+rpm:
+	rpmbuild --buildroot $(PWD)/rpmbuild/BUILDROOT --define "_topdir $(PWD)/rpmbuild" -bb mouse_m908.spec
+
+# this builds .src.rpm for Fedora/RHEL systems
+src-rpm:
+	rpmbuild --buildroot $(PWD)/rpmbuild/BUILDROOT --define "_topdir $(PWD)/rpmbuild" -bs mouse_m908.spec
 
 # this builds a .hpkg package on Haiku
 hpkg:
