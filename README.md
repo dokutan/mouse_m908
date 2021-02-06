@@ -9,7 +9,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [Safety](#safety)
 - [Installing](#installing)
 	- [Linux](#linux)
-       - [Fedora/RHEL](#fedora)
+       - [Fedora/RHEL](#fedorarhel)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
 	- [Other platforms](#other-platforms)
@@ -70,6 +70,20 @@ As the question of safety has been asked before and there is no simple answer, i
 
 ## Installing
 
+### Linux
+- Install the dependencies:
+  - libusb (On some distributions (e.g. Ubuntu) a dev package is required)
+- Clone this repo or download a release and run
+```
+make
+sudo make install
+```
+- Restart to get userspace access to the mouse via the installed udev rule
+- Uninstall with
+```
+sudo make uninstall
+```
+
 ### Fedora/RHEL
 
 RPM Package support was added so you can install `mouse_m908` via your package manager.
@@ -84,20 +98,6 @@ make rpm
 - Install the resulting package by running:
 ```
 sudo dnf install ./mouse_m908-3.1-1.x86_64.rpm
-```
-
-### Linux
-- Install the dependencies:
-  - libusb (On some distributions (e.g. Ubuntu) a dev package is required)
-- Clone this repo or download a release and run
-```
-make
-sudo make install
-```
-- Restart to get userspace access to the mouse via the installed udev rule
-- Uninstall with
-```
-sudo make uninstall
 ```
 
 ### OpenBSD and FreeBSD
