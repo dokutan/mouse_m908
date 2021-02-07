@@ -19,7 +19,7 @@
 #include "rd_mouse.h"
 
 /// Calls the function fn with an object of each type in the variant V
-template< typename V, size_t I, typename F > void variant_loop(F fn){
+template< typename V, size_t I = std::variant_size_v<V>-1, typename F > void variant_loop(F fn){
 
 	V var = V(std::in_place_index<I>);
 	std::visit( fn, var );
@@ -55,7 +55,7 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 		uint16_t pid = descriptor.idProduct;
 
 		// Compare the VID and PID of the current device against the IDs of all mice
-		variant_loop< rd_mouse::mouse_variant, std::variant_size_v<rd_mouse::mouse_variant>-1 >( [&](auto m){
+		variant_loop< rd_mouse::mouse_variant >( [&](auto m){
 			if( vid == m.get_vid() && pid == m.get_pid() )
 				mouse = m;
 		} );
@@ -82,7 +82,7 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 }
 
 rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
-	
+	std::cout << mouse_name << "\n";
 	rd_mouse::mouse_variant mouse = rd_mouse::monostate();
 
 	// libusb init
@@ -107,7 +107,7 @@ rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
 		uint16_t pid = descriptor.idProduct;
 
 		// Compare the VID and PID of the current device against the IDs of all mice
-		variant_loop< rd_mouse::mouse_variant, std::variant_size_v<rd_mouse::mouse_variant>-1 >( [&](auto m){
+		variant_loop< rd_mouse::mouse_variant >( [&](auto m){
 			if( vid == m.get_vid() && pid == m.get_pid() && mouse_name == m.get_name() )
 				mouse = m;
 		} );

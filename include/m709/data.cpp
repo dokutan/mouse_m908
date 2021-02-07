@@ -22,7 +22,7 @@
 
 #include "../rd_mouse.h"
 
-const std::string mouse_m709::_c_name = "m709";
+const std::string mouse_m709::_c_name = "709";
 
 // usb device vars
 const uint16_t mouse_m709::_c_mouse_vid = 0x04d9;
