@@ -18,9 +18,20 @@
 
 #include "rd_mouse.h"
 
+/// Calls the function fn with an object of each type in the variant V
+template< typename V, size_t I, typename F > void variant_loop(F fn){
+
+	V var = V(std::in_place_index<I>);
+	std::visit( fn, var );
+
+	if constexpr ( I > 0 ){
+		variant_loop< V, I-1, F >(fn);
+	}
+}
+
 rd_mouse::mouse_variant rd_mouse::detect(){
 	
-	rd_mouse::mouse_variant mouse = std::monostate();
+	rd_mouse::mouse_variant mouse = rd_mouse::monostate();
 
 	// libusb init
 	if( libusb_init( NULL ) < 0 )
@@ -42,34 +53,23 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 		// get vendor and product id from descriptor
 		uint16_t vid = descriptor.idVendor;
 		uint16_t pid = descriptor.idProduct;
-		
-		// compare vendor and product id against known ids, TODO! this should be done in a generic way
-		if( vid == mouse_m908::get_vid() && pid == mouse_m908::get_pid() ){
-			mouse = mouse_m908();
-			break;
-		}else if( vid == mouse_m709::get_vid() && pid == mouse_m709::get_pid() ){
-			mouse = mouse_m709();
-			break;
-		}else if( vid == mouse_m711::get_vid() && pid == mouse_m711::get_pid() ){
-			mouse = mouse_m711();
-			break;
-		}else if( vid == mouse_m715::get_vid() && pid == mouse_m715::get_pid() ){
-			mouse = mouse_m715();
-			break;
-		}else if( vid == mouse_m990::get_vid() && pid == mouse_m990::get_pid() ){
-			mouse = mouse_m990();
-			break;
-		}else if( vid == mouse_m990chroma::get_vid() && pid == mouse_m990chroma::get_pid() ){
-			mouse = mouse_m990chroma();
-			break;
-		} else if( (_c_all_vids.find(vid) != _c_all_vids.end()) && (_c_all_pids.find(pid) != _c_all_pids.end()) ){
-			mouse_generic temp_mouse;
-			temp_mouse.set_vid(vid);
-			temp_mouse.set_pid(pid);
-			mouse = temp_mouse;
-			break;
+
+		// Compare the VID and PID of the current device against the IDs of all mice
+		variant_loop< rd_mouse::mouse_variant, std::variant_size_v<rd_mouse::mouse_variant>-1 >( [&](auto m){
+			if( vid == m.get_vid() && pid == m.get_pid() )
+				mouse = m;
+		} );
+
+		// The mouse_generic class has no fixed VID/PID and therefore needs special handling
+		if( std::holds_alternative<rd_mouse::monostate>(mouse) ){
+			if( _c_all_vids.find(vid) != _c_all_vids.end() && _c_all_pids.find(pid) != _c_all_pids.end() ){
+				mouse_generic temp_mouse;
+				temp_mouse.set_vid(vid);
+				temp_mouse.set_pid(pid);
+				mouse = temp_mouse;
+			}
 		}
-		
+
 	}
 	
 	// free device list, unreference devices
@@ -83,7 +83,7 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 
 rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
 	
-	rd_mouse::mouse_variant mouse = std::monostate();
+	rd_mouse::mouse_variant mouse = rd_mouse::monostate();
 
 	// libusb init
 	if( libusb_init( NULL ) < 0 )
@@ -105,32 +105,21 @@ rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
 		// get vendor and product id from descriptor
 		uint16_t vid = descriptor.idVendor;
 		uint16_t pid = descriptor.idProduct;
-		
-		// compare vendor and product id against known ids, TODO! this should be done in a generic way
-		if( vid == mouse_m908::get_vid() && pid == mouse_m908::get_pid() && mouse_name == mouse_m908::get_name() ){
-			mouse = mouse_m908();
-			break;
-		}else if( vid == mouse_m709::get_vid() && pid == mouse_m709::get_pid() && mouse_name == mouse_m709::get_name() ){
-			mouse = mouse_m709();
-			break;
-		}else if( vid == mouse_m711::get_vid() && pid == mouse_m711::get_pid() && mouse_name == mouse_m711::get_name() ){
-			mouse = mouse_m711();
-			break;
-		}else if( vid == mouse_m715::get_vid() && pid == mouse_m715::get_pid() && mouse_name == mouse_m715::get_name() ){
-			mouse = mouse_m715();
-			break;
-		}else if( vid == mouse_m990::get_vid() && pid == mouse_m990::get_pid() && mouse_name == mouse_m990::get_name() ){
-			mouse = mouse_m990();
-			break;
-		}else if( vid == mouse_m990chroma::get_vid() && pid == mouse_m990chroma::get_pid() && mouse_name == mouse_m990chroma::get_name() ){
-			mouse = mouse_m990chroma();
-			break;
-		} else if( (_c_all_vids.find(vid) != _c_all_vids.end()) && (_c_all_pids.find(pid) != _c_all_pids.end()) && mouse_name == mouse_generic::get_name() ){
-			mouse_generic temp_mouse;
-			temp_mouse.set_vid(vid);
-			temp_mouse.set_pid(pid);
-			mouse = temp_mouse;
-			break;
+
+		// Compare the VID and PID of the current device against the IDs of all mice
+		variant_loop< rd_mouse::mouse_variant, std::variant_size_v<rd_mouse::mouse_variant>-1 >( [&](auto m){
+			if( vid == m.get_vid() && pid == m.get_pid() && mouse_name == m.get_name() )
+				mouse = m;
+		} );
+
+		// The mouse_generic class has no fixed VID/PID and therefore needs special handling
+		if( std::holds_alternative<rd_mouse::monostate>(mouse) ){
+			if( _c_all_vids.find(vid) != _c_all_vids.end() && _c_all_pids.find(pid) != _c_all_pids.end() && mouse_name == mouse_generic::get_name() ){
+				mouse_generic temp_mouse;
+				temp_mouse.set_vid(vid);
+				temp_mouse.set_pid(pid);
+				mouse = temp_mouse;
+			}
 		}
 		
 	}

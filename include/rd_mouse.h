@@ -58,6 +58,16 @@ class rd_mouse{
 	
 	public:
 		
+		/** \brief This struct acts as a default value for mouse_variant.
+	 	 * Using std::monostate is not possible because the get_vid(), get_pid() and get_name() functions are not defined but used for detection.
+		 * \see rd_mouse::mouse_variant
+		 */
+		struct monostate{
+			std::string get_name(){ return ""; }
+			uint16_t get_vid(){ return 0; }
+			uint16_t get_pid(){ return 0; }
+		};
+
 		// enums
 		/// The available profiles
 		enum rd_profile{
@@ -93,7 +103,7 @@ class rd_mouse{
 
 		/// This variant can hold an object for all available mice
 		typedef std::variant<
-			std::monostate,
+			rd_mouse::monostate,
 			mouse_generic,
 			mouse_m709,
 			mouse_m711,
@@ -105,14 +115,14 @@ class rd_mouse{
 		
 		/** \brief Detects supported mice
 		 * In the case of multiple connected mice, only the first will be detected
-		 * \return A mouse_variant containing an object corresponding to the detected mouse, or std::monostate
+		 * \return A mouse_variant containing an object corresponding to the detected mouse, or rd_mouse::monostate
 		 */
 		static mouse_variant detect();
 
 		/** \brief Detects supported mice that have a specified name
 		 * \arg mouse_name detects mice with name = mouse_name
 		 * In the case of multiple connected mice, only the first will be detected
-		 * \return A mouse_variant containing an object corresponding to the detected mouse, or std::monostate
+		 * \return A mouse_variant containing an object corresponding to the detected mouse, or rd_mouse::monostate
 		 */
 		static mouse_variant detect( std::string mouse_name );
 		

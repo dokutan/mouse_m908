@@ -165,7 +165,7 @@ int main( int argc, char **argv ){
 		else
 			mouse = rd_mouse::detect(string_model);
 		
-		if( std::holds_alternative<std::monostate>(mouse) ){
+		if( std::holds_alternative<rd_mouse::monostate>(mouse) ){
 			throw std::string( 
 				"Couldn't detect mouse.\n"
 				"- Check hardware and permissions (maybe you need to be root?)\n"
@@ -176,7 +176,7 @@ int main( int argc, char **argv ){
 		
 		// lambda function to perform all actions on the mouse
 		auto perform_actions = overload(
-			[](std::monostate){},
+			[](rd_mouse::monostate){},
 			[&](auto& m){
 
 				// set whether to detach kernel driver
