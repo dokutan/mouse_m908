@@ -46,7 +46,7 @@ Options:
 -D --dump=arg
 	Read settings from the mouse and dump the raw data to the specified file ('-' = stdout).
 -M --model=arg
-	Specifies the mouse model (709, 711, 715, 908, 990, 990chroma, generic).
+	Specifies the mouse model (? for a list of valid models).
 
 Examples:
 

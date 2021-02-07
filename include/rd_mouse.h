@@ -47,6 +47,17 @@ class mouse_m908;
 class mouse_m990;
 class mouse_m990chroma;
 
+/// Calls the function fn with an object of each type in the variant V
+template< typename V, size_t I = std::variant_size_v<V>-1, typename F > void variant_loop(F fn){
+
+	V var = V(std::in_place_index<I>);
+	std::visit( fn, var );
+
+	if constexpr ( I > 0 ){
+		variant_loop< V, I-1, F >(fn);
+	}
+}
+
 /**
  * This class is used as a base for the different models
  * 
@@ -63,9 +74,9 @@ class rd_mouse{
 		 * \see rd_mouse::mouse_variant
 		 */
 		struct monostate{
-			std::string get_name(){ return ""; }
-			uint16_t get_vid(){ return 0; }
-			uint16_t get_pid(){ return 0; }
+			static std::string get_name(){ return ""; }
+			static uint16_t get_vid(){ return 0; }
+			static uint16_t get_pid(){ return 0; }
 		};
 
 		// enums

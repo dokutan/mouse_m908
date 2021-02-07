@@ -84,7 +84,6 @@ int main( int argc, char **argv ){
 		bool flag_macro = false, flag_number = false;
 		bool flag_bus = false, flag_device = false;
 		bool flag_kernel_driver = false;
-		bool flag_version = false;
 		bool flag_dump_settings = false;
 		bool flag_read_settings = false;
 		
@@ -132,7 +131,8 @@ int main( int argc, char **argv ){
 					flag_kernel_driver = true;
 					break;
 				case 'v':
-					flag_version = true;
+					std::cout << "Version: " << VERSION_STRING << "\n";
+					return 0;
 					break;
 				case 'D':
 					flag_dump_settings = true;
@@ -151,13 +151,16 @@ int main( int argc, char **argv ){
 					break;
 			}
 		}
+
+		// print a list of valid model names
+		if( string_model == "?" ){
+			variant_loop<rd_mouse::mouse_variant>( [](auto m){
+				if( m.get_name() != rd_mouse::monostate::get_name() )
+					std::cout << m.get_name() << "\n";
+			} );
+			return 0;
+		}
 		
-		// print version if requested
-		if( flag_version )
-			std::cout << "Version: " << VERSION_STRING << "\n";
-		
-		
-		// detect mouse
 		rd_mouse::mouse_variant mouse;
 		
 		if( string_model == "" )

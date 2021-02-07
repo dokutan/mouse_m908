@@ -18,7 +18,7 @@
 
 #include "rd_mouse.h"
 
-/// Calls the function fn with an object of each type in the variant V
+/*
 template< typename V, size_t I = std::variant_size_v<V>-1, typename F > void variant_loop(F fn){
 
 	V var = V(std::in_place_index<I>);
@@ -28,6 +28,7 @@ template< typename V, size_t I = std::variant_size_v<V>-1, typename F > void var
 		variant_loop< V, I-1, F >(fn);
 	}
 }
+*/
 
 rd_mouse::mouse_variant rd_mouse::detect(){
 	
@@ -82,7 +83,7 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 }
 
 rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
-	std::cout << mouse_name << "\n";
+	
 	rd_mouse::mouse_variant mouse = rd_mouse::monostate();
 
 	// libusb init
