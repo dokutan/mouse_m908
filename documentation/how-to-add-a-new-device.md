@@ -5,13 +5,11 @@ This document contains a list of thing that need to be changed or added when add
 - include/rd\_mouse.h
 	- class declaration (at the top)
 	- mouse\_variant typedef
-	- #include new header file
+	- #include new header file (at the bottom)
 - include/rd\_mouse.cpp
-	- rd\_mouse::detect()
+	- rd\_mouse::detect() only needs changing for mice that have more than 1 PID (e.g. generic)
 - makefile
 	- Add new m\* target
 - documentation:
 	- README (supported models)
-	- manpage (supported models)
-	- help message (supported models)
 	- create new config in examples/
