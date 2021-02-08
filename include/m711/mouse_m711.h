@@ -290,7 +290,7 @@ class mouse_m711 : public rd_mouse{
 		/// Used for changing the active profile
 		static uint8_t _c_data_s_profile[6][16];
 		/// Used for sending the settings, part 1/3
-		static uint8_t _c_data_settings_1[12][16];
+		static uint8_t _c_data_settings_1[15][16];
 		/// Used for sending the settings, part 2/3
 		static uint8_t _c_data_settings_2[64];
 		/// Used for sending the settings, part 3/3
