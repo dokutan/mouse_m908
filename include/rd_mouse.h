@@ -36,7 +36,7 @@
 #include <set>
 #include <variant>
 
-/* These declarations exist to make it possible for rd_mouse::detect()
+/* These declarations exist to make it possible for mouse_variant
  * to use these classes.
  */
 class mouse_generic;

@@ -18,18 +18,6 @@
 
 #include "rd_mouse.h"
 
-/*
-template< typename V, size_t I = std::variant_size_v<V>-1, typename F > void variant_loop(F fn){
-
-	V var = V(std::in_place_index<I>);
-	std::visit( fn, var );
-
-	if constexpr ( I > 0 ){
-		variant_loop< V, I-1, F >(fn);
-	}
-}
-*/
-
 rd_mouse::mouse_variant rd_mouse::detect(){
 	
 	rd_mouse::mouse_variant mouse = rd_mouse::monostate();
