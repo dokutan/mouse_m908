@@ -79,17 +79,17 @@ int mouse_m711::write_settings(){
 	}
 	//color
 	for( int i = 0; i < 5; i++ ){
-		buffer1[1+(2*i)][8] = _s_colors[i].at(0);
-		buffer1[1+(2*i)][9] = _s_colors[i].at(1);
-		buffer1[1+(2*i)][10] = _s_colors[i].at(2);
+		buffer1[3+(2*i)][8] = _s_colors[i].at(0);
+		buffer1[3+(2*i)][9] = _s_colors[i].at(1);
+		buffer1[3+(2*i)][10] = _s_colors[i].at(2);
 	}
 	//brightness
 	for( int i = 0; i < 5; i++ ){
-		buffer1[2+(2*i)][8] = _s_brightness_levels[i];
+		buffer1[4+(2*i)][8] = _s_brightness_levels[i];
 	}
 	//speed
 	for( int i = 0; i < 5; i++ ){
-		buffer1[1+(2*i)][12] = _s_speed_levels[i];
+		buffer1[3+(2*i)][12] = _s_speed_levels[i];
 	}
 	
 	// Currently no data capture available 
