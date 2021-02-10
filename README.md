@@ -9,6 +9,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [Safety](#safety)
 - [Installing](#installing)
 	- [Linux](#linux)
+	- [Arch Linux](#arch-linux)
 	- [Fedora/RHEL](#fedorarhel)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
@@ -82,6 +83,15 @@ sudo make install
 - Uninstall with
 ```
 sudo make uninstall
+```
+
+### Arch Linux
+Arch Linux support was added with a pkgbuild file so you can install `mouse_m908` via pacman
+
+- Clone this repo
+- Run:
+```
+makepkg -si
 ```
 
 ### Fedora/RHEL
