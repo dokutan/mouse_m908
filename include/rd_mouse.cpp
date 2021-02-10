@@ -738,9 +738,10 @@ int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::stri
 		// iterate over _c_keycodes
 		for( auto keycode : _c_keycodes ){
 			
-			if( keycode.second[0] == bytes.at(0) &&
-				keycode.second[1] == bytes.at(1) && 
-				keycode.second[2] == bytes.at(2) ){
+			if( keycode.second.at(0) == bytes.at(0) &&
+				keycode.second.at(1) == bytes.at(1) && 
+				keycode.second.at(2) == bytes.at(2) &&
+				keycode.second.at(3) == bytes.at(3) ){
 				
 				output << keycode.first;
 				found_name = true;
@@ -774,7 +775,7 @@ int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t
 		bytes[0] = _c_keycodes[mapping][0];
 		bytes[1] = _c_keycodes[mapping][1];
 		bytes[2] = _c_keycodes[mapping][2];
-		bytes[3] = 0x00;
+		bytes[3] = _c_keycodes[mapping][3];
 	
 	// fire button (multiple keypresses)
 	} else if( mapping.find("fire") == 0 ){

@@ -64,6 +64,30 @@ profile_switch
 led_mode_switch
 none
 
+## Compatibility functions (these are only handled by the official software and are mostly redundant)
+compatibility_cut
+compatibility_copy
+compatibility_paste
+compatibility_select_all
+compatibility_find
+compatibility_new
+compatibility_print
+compatibility_save
+compatibility_switch_window
+compatibility_close_window
+compatibility_open_explorer
+compatibility_run
+compatibility_show_desktop
+compatibility_lock_pcme
+compatibility_browser_home
+compatibility_browser_backward
+compatibility_browser_forward
+compatibility_browser_stop
+compatibility_browser_refresh
+compatibility_browser_search
+compatibility_browser_favorite
+compatibility_mail
+
 ## Macros (see README.md)
 macro⟨N⟩
 macro⟨N⟩:⟨repeats⟩

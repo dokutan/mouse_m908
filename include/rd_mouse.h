@@ -165,7 +165,7 @@ class rd_mouse{
 		
 		//mapping of button names to values
 		/// Values/keycodes of mouse buttons and special button functions
-		static std::map< std::string, std::array<uint8_t, 3> > _c_keycodes;
+		static std::map< std::string, std::array<uint8_t, 4> > _c_keycodes;
 		/// Values of keyboard modifiers
 		static const std::map< std::string, uint8_t > _c_keyboard_modifier_values;
 		/// Values/keycodes of keyboard keys
