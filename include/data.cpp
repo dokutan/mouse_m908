@@ -25,7 +25,8 @@
 
 // usb ids for all mice
 std::set< uint16_t > rd_mouse::_c_all_vids = {
-	0x04d9 // all known mice have the same VID
+	0x04d9, // all known mice have the same VID,
+	0x25a7  // except the M913
 };
 std::set< uint16_t > rd_mouse::_c_all_pids = {
 	0xfc4d, // M908 Impact
@@ -45,7 +46,9 @@ std::set< uint16_t > rd_mouse::_c_all_pids = {
 	0xfc49, // M910 Ranger
 	0xfc5f, // M998-RGB and M808-RGB (?)
 	0xfc38, // M607 Griffin
-	0xfc3f  // (?)
+	0xfc3f, // (?)
+	0xfa07, // M913 (has two PIDs for wired/wireless connection)
+	0xfa08  // M913 (has two PIDs for wired/wireless connection)
 };
 
 //setting min and max values
