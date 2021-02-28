@@ -26,8 +26,28 @@ int mouse_m913::write_profile(){
 }
 
 int mouse_m913::write_settings(){
-	// missing data
-	return 0;
+
+	// return value
+	int ret = 0;
+
+	// prepare data
+	int rows = sizeof(_c_data_settings) / sizeof(_c_data_settings[0]);
+	uint8_t buffer[rows][17];
+	for( int i = 0; i < rows; i++ ){
+		std::copy(std::begin(_c_data_settings[i]), std::end(_c_data_settings[i]), std::begin(buffer[i]));
+	}
+
+	// TODO! modify buffer to include the actual settings
+	
+	// send data
+	uint8_t buffer_in[17]; // holds the received data
+	int received; // how many bytes were actually received
+	for( int i = 0; i < rows; i++ ){
+		ret += libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0308, 0x0001, buffer[i], 17, 1000 );
+		ret += libusb_interrupt_transfer( _i_handle, 0x82, buffer_in, 17, &received, 1000 );
+	}
+
+	return ret;
 }
 
 int mouse_m913::write_macro( int macro_number ){
