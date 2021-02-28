@@ -47,8 +47,8 @@ std::set< uint16_t > rd_mouse::_c_all_pids = {
 	0xfc5f, // M998-RGB and M808-RGB (?)
 	0xfc38, // M607 Griffin
 	0xfc3f, // (?)
-	0xfa07, // M913 (has two PIDs for wired/wireless connection)
-	0xfa08  // M913 (has two PIDs for wired/wireless connection)
+	0xfa07, // M913 (has two PIDs: wireless connection)
+	0xfa08  // M913 (has two PIDs: wired connection)
 };
 
 //setting min and max values

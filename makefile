@@ -14,7 +14,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"3.1\""
 
 # compile
-build: m908 m709 m711 m715 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
+build: m908 m709 m711 m715 m913 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -80,6 +80,8 @@ m709: constructor_m709.o data_m709.o getters_m709.o helpers_m709.o setters_m709.
 m711: constructor_m711.o data_m711.o getters_m711.o helpers_m711.o setters_m711.o writers_m711.o readers_m711.o
 
 m715: constructor_m715.o data_m715.o getters_m715.o helpers_m715.o setters_m715.o writers_m715.o readers_m715.o
+
+m913: constructor_m913.o data_m913.o getters_m913.o helpers_m913.o setters_m913.o writers_m913.o readers_m913.o
 
 m990: constructor_m990.o data_m990.o getters_m990.o helpers_m990.o setters_m990.o writers_m990.o readers_m990.o
 
@@ -204,6 +206,27 @@ writers_generic.o:
 
 readers_generic.o:
 	$(CC) -c include/generic/readers.cpp $(CC_OPTIONS) -o readers_generic.o
+
+constructor_m913.o:
+	$(CC) -c include/m913/constructor.cpp $(CC_OPTIONS) -o constructor_m913.o
+
+data_m913.o:
+	$(CC) -c include/m913/data.cpp $(CC_OPTIONS) -o data_m913.o
+
+getters_m913.o:
+	$(CC) -c include/m913/getters.cpp $(CC_OPTIONS) -o getters_m913.o
+
+helpers_m913.o:
+	$(CC) -c include/m913/helpers.cpp $(CC_OPTIONS) -o helpers_m913.o
+
+setters_m913.o:
+	$(CC) -c include/m913/setters.cpp $(CC_OPTIONS) -o setters_m913.o
+
+writers_m913.o:
+	$(CC) -c include/m913/writers.cpp $(CC_OPTIONS) -o writers_m913.o
+
+readers_m913.o:
+	$(CC) -c include/m913/readers.cpp $(CC_OPTIONS) -o readers_m913.o
 
 constructor_m990.o:
 	$(CC) -c include/m990/constructor.cpp $(CC_OPTIONS) -o constructor_m990.o
