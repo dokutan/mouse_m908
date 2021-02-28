@@ -26,7 +26,10 @@ const std::string mouse_m913::_c_name = "913";
 
 // usb device vars
 const uint16_t mouse_m913::_c_mouse_vid = 0x25a7;
-const uint16_t mouse_m913::_c_mouse_pid = 0xfc4d;
+std::set< uint16_t > mouse_m913::_c_all_pids = {
+	0xfa07, // wireless connection
+	0xfa08  // wired connection
+};
 
 // Names of the physical buttons
 std::map< int, std::string > mouse_m913::_c_button_names = {

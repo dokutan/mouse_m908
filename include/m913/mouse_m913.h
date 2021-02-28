@@ -144,7 +144,14 @@ class mouse_m913 : public rd_mouse{
 		 */
 		int set_all_macros( std::string file );
 		
-		
+		/// Set USB vendor id, does nothing
+		void set_vid( uint16_t vid ){
+			(void)vid;
+		}
+		/// Set USB product id
+		void set_pid( uint16_t pid ){
+			_c_mouse_pid = pid;
+		}
 		
 		//getter functions
 		/// Get currently active profile
@@ -174,16 +181,12 @@ class mouse_m913 : public rd_mouse{
 		/// Get raw macro bytecode
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
-		/// Get USB vendor id
-		static uint16_t get_vid(){
-			return _c_mouse_vid;
-		}
-		/// Get USB product id
-		static uint16_t get_pid(){
-			return _c_mouse_pid;
+		/// Checks if the mouse has the given vendor and product id
+		static bool has_vid_pid( uint16_t vid, uint16_t pid ){
+			return vid == _c_mouse_vid && _c_all_pids.find(pid) != _c_all_pids.end();
 		}
 		
-		/// Get USB product id
+		/// Get mouse name
 		static std::string get_name(){
 			return _c_name;
 		}
@@ -255,10 +258,11 @@ class mouse_m913 : public rd_mouse{
 		static const std::string _c_name;
 
 		//usb device vars
-		/// USB vendor id, needs to be explicitly set
+		static std::set< uint16_t > _c_all_pids;
+		/// USB vendor id
 		static const uint16_t _c_mouse_vid;
 		/// USB product id, needs to be explicitly set
-		static const uint16_t _c_mouse_pid;
+		uint16_t _c_mouse_pid;
 		
 		//setting vars
 		rd_profile _s_profile;

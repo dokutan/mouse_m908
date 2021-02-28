@@ -45,19 +45,17 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 
 		// Compare the VID and PID of the current device against the IDs of all mice
 		variant_loop< rd_mouse::mouse_variant >( [&](auto m){
-			if( vid == m.get_vid() && pid == m.get_pid() )
-				mouse = m;
-		} );
+			
+			if( m.has_vid_pid(vid, pid) ){
 
-		// The mouse_generic class has no fixed VID/PID and therefore needs special handling
-		if( std::holds_alternative<rd_mouse::monostate>(mouse) ){
-			if( _c_all_vids.find(vid) != _c_all_vids.end() && _c_all_pids.find(pid) != _c_all_pids.end() ){
-				mouse_generic temp_mouse;
-				temp_mouse.set_vid(vid);
-				temp_mouse.set_pid(pid);
-				mouse = temp_mouse;
+				// setting the vid/pid is required for mice woth multiple ids and is ignored by all other backends
+				m.set_vid(vid);
+				m.set_pid(pid);
+
+				mouse = m;
 			}
-		}
+
+		} );
 
 	}
 	
@@ -97,19 +95,17 @@ rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
 
 		// Compare the VID and PID of the current device against the IDs of all mice
 		variant_loop< rd_mouse::mouse_variant >( [&](auto m){
-			if( vid == m.get_vid() && pid == m.get_pid() && mouse_name == m.get_name() )
-				mouse = m;
-		} );
 
-		// The mouse_generic class has no fixed VID/PID and therefore needs special handling
-		if( std::holds_alternative<rd_mouse::monostate>(mouse) ){
-			if( _c_all_vids.find(vid) != _c_all_vids.end() && _c_all_pids.find(pid) != _c_all_pids.end() && mouse_name == mouse_generic::get_name() ){
-				mouse_generic temp_mouse;
-				temp_mouse.set_vid(vid);
-				temp_mouse.set_pid(pid);
-				mouse = temp_mouse;
+			if( m.has_vid_pid(vid, pid) && mouse_name == m.get_name() ){
+
+				// setting the vid/pid is required for mice woth multiple ids and is ignored by all other backends
+				m.set_vid(vid);
+				m.set_pid(pid);
+
+				mouse = m;
 			}
-		}
+			
+		} );
 		
 	}
 	

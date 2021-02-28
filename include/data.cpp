@@ -23,34 +23,6 @@
 
 #include "rd_mouse.h"
 
-// usb ids for all mice
-std::set< uint16_t > rd_mouse::_c_all_vids = {
-	0x04d9, // all known mice have the same VID,
-	0x25a7  // except the M913
-};
-std::set< uint16_t > rd_mouse::_c_all_pids = {
-	0xfc4d, // M908 Impact
-	0xfc2a, // M709 Tiger
-	0xfc30, // M711 Cobra (FPS)
-	0xfc39, // M715 Dagger	
-	0xfc41, // M990 Legend Chroma/RGB
-	0xfc0f, // M990 Legend
-	0xfc4f, // M719 Invader
-	0xfc42, // M802 Titanoboa 2
-	0xfc5e, // 2858 (?)
-	0xfc58, // 2805 (?)
-	0xfc61, // 2850 (?)
-	0xfc40, // M901 Perdition (3)
-	0xfa56, // M801 Mammoth
-	0xfc56, // M801 Mammoth (?)
-	0xfc49, // M910 Ranger
-	0xfc5f, // M998-RGB and M808-RGB (?)
-	0xfc38, // M607 Griffin
-	0xfc3f, // (?)
-	0xfa07, // M913 (has two PIDs: wireless connection)
-	0xfa08  // M913 (has two PIDs: wired connection)
-};
-
 //setting min and max values
 const uint8_t rd_mouse::_c_scrollspeed_min = 0x01, rd_mouse::_c_scrollspeed_max = 0x3f;
 const uint8_t rd_mouse::_c_brightness_min = 0x01, rd_mouse::_c_brightness_max = 0x03;

@@ -76,8 +76,13 @@ class rd_mouse{
 		 */
 		struct monostate{
 			static std::string get_name(){ return ""; }
-			static uint16_t get_vid(){ return 0; }
-			static uint16_t get_pid(){ return 0; }
+			static void set_vid( uint16_t vid ){ (void)vid; }
+			static void set_pid( uint16_t pid ){ (void)pid; }
+			static bool has_vid_pid( uint16_t vid, uint16_t pid ){
+				(void)vid;
+				(void)pid;
+				return false;
+			}
 		};
 
 		// enums
@@ -116,14 +121,14 @@ class rd_mouse{
 		/// This variant can hold an object for all available mice
 		typedef std::variant<
 			rd_mouse::monostate,
-			mouse_generic,
 			mouse_m709,
 			mouse_m711,
 			mouse_m715,
 			mouse_m908,
 			mouse_m913,
 			mouse_m990,
-			mouse_m990chroma
+			mouse_m990chroma,
+			mouse_generic // needs to be last to take the lowest priority during detection
 		> mouse_variant;
 		
 		/** \brief Detects supported mice
@@ -152,10 +157,6 @@ class rd_mouse{
 		std::map< rd_mouse::rd_report_rate, std::string >& report_rate_strings(){ return _c_report_rate_strings; }
 
 	protected:
-		
-		// usb ids for all mice
-		static std::set< uint16_t > _c_all_vids;
-		static std::set< uint16_t > _c_all_pids;
 		
 		//setting min and max values
 		static const uint8_t _c_scrollspeed_min, _c_scrollspeed_max;

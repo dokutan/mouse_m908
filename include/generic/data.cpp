@@ -24,6 +24,31 @@
 
 const std::string mouse_generic::_c_name = "generic";
 
+// usb ids for all mice with generic support
+std::set< uint16_t > mouse_generic::_c_all_vids = {
+	0x04d9, // all known mice with generic support have the same VID
+};
+std::set< uint16_t > mouse_generic::_c_all_pids = {
+	0xfc4d, // M908 Impact
+	0xfc2a, // M709 Tiger
+	0xfc30, // M711 Cobra (FPS)
+	0xfc39, // M715 Dagger
+	0xfc41, // M990 Legend Chroma/RGB
+	0xfc0f, // M990 Legend
+	0xfc4f, // M719 Invader
+	0xfc42, // M802 Titanoboa 2
+	0xfc5e, // 2858 (?)
+	0xfc58, // 2805 (?)
+	0xfc61, // 2850 (?)
+	0xfc40, // M901 Perdition (3)
+	0xfa56, // M801 Mammoth
+	0xfc56, // M801 Mammoth (?)
+	0xfc49, // M910 Ranger
+	0xfc5f, // M998-RGB and M808-RGB (?)
+	0xfc38, // M607 Griffin
+	0xfc3f // (?)
+};
+
 // Names of the physical buttons
 std::map< int, std::string > mouse_generic::_c_button_names = {
 	{ 0, "button_left" },
