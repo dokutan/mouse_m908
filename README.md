@@ -94,6 +94,8 @@ Arch Linux support was added with a pkgbuild file so you can install `mouse_m908
 makepkg -si
 ```
 
+Note that this will currently build the latest release version, to get the latest git version follow the generic instructions for Linux.
+
 ### Fedora/RHEL
 
 RPM Package support was added so you can install `mouse_m908` via your package manager.
