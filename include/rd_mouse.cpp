@@ -45,9 +45,6 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 
 		// Compare the VID and PID of the current device against the IDs of all mice
 		variant_loop< rd_mouse::mouse_variant >( [&](auto m){
-			
-			// TODO! remove
-			std::cerr << m.get_name() << std::hex << "\t" << vid << ":" << pid << "\t" << (m.has_vid_pid(vid, pid) ? "true" : "false") << "\n";
 
 			if( m.has_vid_pid(vid, pid) ){
 
@@ -98,9 +95,6 @@ rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
 
 		// Compare the VID and PID of the current device against the IDs of all mice
 		variant_loop< rd_mouse::mouse_variant >( [&](auto m){
-
-			// TODO! remove
-			std::cerr << m.get_name() << std::hex << "\t" << vid << ":" << pid << "\t" << (m.has_vid_pid(vid, pid) && mouse_name == m.get_name() ? "true" : "false") << "\n";
 
 			if( m.has_vid_pid(vid, pid) && mouse_name == m.get_name() ){
 
