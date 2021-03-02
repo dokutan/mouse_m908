@@ -278,7 +278,7 @@ class mouse_m913 : public rd_mouse{
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		
 		//usb data packets
-		/// Used for sending the settings, part 1/3
+		/// Used for sending the settings
 		static uint8_t _c_data_settings[29][17];
 };
 

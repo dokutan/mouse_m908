@@ -38,6 +38,23 @@ int mouse_m913::write_settings(){
 	}
 
 	// TODO! modify buffer to include the actual settings
+	// DPI
+	buffer[19][6] = _s_dpi_levels[profile_1][0][0]; buffer[19][7] = _s_dpi_levels[profile_1][0][1]; // DPI level 1
+	buffer[19][10] = _s_dpi_levels[profile_1][1][0]; buffer[19][11] = _s_dpi_levels[profile_1][1][1]; // DPI level 2
+	buffer[20][6] = _s_dpi_levels[profile_1][2][0]; buffer[20][7] = _s_dpi_levels[profile_1][2][1]; // DPI level 3
+	buffer[20][10] = _s_dpi_levels[profile_1][3][0]; buffer[20][11] = _s_dpi_levels[profile_1][3][1]; // DPI level 4
+	buffer[21][6] = _s_dpi_levels[profile_1][4][0]; buffer[21][7] = _s_dpi_levels[profile_1][4][1]; // DPI level 5
+
+
+	// TODO! remove, print hexdump of buffer
+	for( int i = 0; i < rows; i++ ){
+		std::cout << i << "\t: ";
+		for( int j=0; j < 17; j++ ){
+			std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)buffer[i][j] << " ";
+		}
+		std::cout << "\n";
+	}
+
 	
 	// send data
 	uint8_t buffer_in[17]; // holds the received data
