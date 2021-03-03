@@ -163,17 +163,15 @@ int mouse_m913::set_key_mapping( rd_profile profile, int key, std::string mappin
 	if( _c_button_names[key] == "" )
 		return 1;
 	
-	std::array< uint8_t, 4 > bytes;
-	int return_value = _i_encode_button_mapping( mapping, bytes );
-	
-	if( return_value == 0 ){
-		_s_keymap_data[profile][key][0] = bytes[0];
-		_s_keymap_data[profile][key][1] = bytes[1];
-		_s_keymap_data[profile][key][2] = bytes[2];
-		_s_keymap_data[profile][key][3] = bytes[3];
+	// current assumption: only one profile
+	profile = profile_1;
+
+	// the M913 uses different keycodes, therefore the decoding is done here
+	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
+		_s_keymap_data[profile][key] = _c_keycodes[mapping];
 	}
 	
-	return return_value;
+	return 0;
 }
 
 int mouse_m913::set_report_rate( rd_profile profile, rd_report_rate report_rate ){

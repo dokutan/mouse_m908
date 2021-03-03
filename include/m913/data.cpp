@@ -33,26 +33,34 @@ std::set< uint16_t > mouse_m913::_c_all_pids = {
 
 // Names of the physical buttons
 std::map< int, std::string > mouse_m913::_c_button_names = {
-	{ 0, "button_left" },
+	/*{ 0, "button_left" },
 	{ 1, "button_right" },
 	{ 2, "button_middle" },
-	{ 3, "button_fire" },
+	{ 3, "button_fire" },*/
 	//{ 4, "button_dpi_up" }, // not known if remappable
 	//{ 5, "button_dpi_down" }, // not known if remappable
-	{ 6, "button_1" },
-	{ 7, "button_2" },
-	{ 8, "button_3" },
-	{ 9, "button_4" },
-	{ 10, "button_5" },
-	{ 11, "button_6" },
-	{ 12, "button_7" },
-	{ 13, "button_8" },
-	{ 14, "button_9" },
-	{ 15, "button_10" },
-	{ 16, "button_11" },
-	{ 17, "button_12" },
-	{ 18, "scroll_up" },
-	{ 19, "scroll_down" } };
+	{ 0, "button_1" },
+	{ 1, "button_2" },
+	{ 2, "button_3" },
+	{ 3, "button_4" },
+	{ 4, "button_5" },
+	{ 5, "button_6" },
+	{ 6, "button_7" },
+	{ 7, "button_8" },
+	{ 8, "button_9" },
+	{ 9, "button_10" },
+	{ 10, "button_11" },
+	{ 11, "button_12" }
+	//{ 12, "scroll_up" },
+	//{ 13, "scroll_down" }
+};
+
+std::map< std::string, std::array<uint8_t, 4> > mouse_m913::_c_keycodes = {
+	{ "forward", { 0x01, 0x10, 0x00, 0x44 } },
+	{ "left", { 0x01, 0x01, 0x00, 0x53 } },
+	{ "led_toggle", { 0x08, 0x08, 0x00, 0x00 } },
+	{ "none", { 0x05, 0x00, 0x00, 0x50 } }
+};
 
 // DPI → bytecode
 std::map< int, std::array<uint8_t,3> > mouse_m913::_c_dpi_codes = {
