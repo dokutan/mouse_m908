@@ -38,12 +38,26 @@ int mouse_m913::write_settings(){
 	}
 
 	// TODO! modify buffer to include the actual settings
-	// DPI
-	buffer[19][6] = _s_dpi_levels[profile_1][0][0]; buffer[19][7] = _s_dpi_levels[profile_1][0][1]; // DPI level 1
-	buffer[19][10] = _s_dpi_levels[profile_1][1][0]; buffer[19][11] = _s_dpi_levels[profile_1][1][1]; // DPI level 2
-	buffer[20][6] = _s_dpi_levels[profile_1][2][0]; buffer[20][7] = _s_dpi_levels[profile_1][2][1]; // DPI level 3
-	buffer[20][10] = _s_dpi_levels[profile_1][3][0]; buffer[20][11] = _s_dpi_levels[profile_1][3][1]; // DPI level 4
-	buffer[21][6] = _s_dpi_levels[profile_1][4][0]; buffer[21][7] = _s_dpi_levels[profile_1][4][1]; // DPI level 5
+	// DPI level 1
+	buffer[19][6] = _s_dpi_levels[profile_1][0][0];
+	buffer[19][7] = _s_dpi_levels[profile_1][0][1];
+	buffer[19][9] = _s_dpi_levels[profile_1][0][2];
+	// DPI level 2
+	buffer[19][10] = _s_dpi_levels[profile_1][1][0];
+	buffer[19][11] = _s_dpi_levels[profile_1][1][1];
+	buffer[19][13] = _s_dpi_levels[profile_1][1][2];
+	// DPI level 3
+	buffer[20][6] = _s_dpi_levels[profile_1][2][0];
+	buffer[20][7] = _s_dpi_levels[profile_1][2][1];
+	buffer[20][9] = _s_dpi_levels[profile_1][2][2];
+	// DPI level 4
+	buffer[20][10] = _s_dpi_levels[profile_1][3][0];
+	buffer[20][11] = _s_dpi_levels[profile_1][3][1];
+	buffer[20][12] = _s_dpi_levels[profile_1][3][2];
+	// DPI level 5
+	buffer[21][6] = _s_dpi_levels[profile_1][4][0];
+	buffer[21][7] = _s_dpi_levels[profile_1][4][1];
+	buffer[21][9] = _s_dpi_levels[profile_1][4][2];
 
 
 	// TODO! remove, print hexdump of buffer

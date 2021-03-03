@@ -104,7 +104,8 @@ int mouse_m913::set_dpi( rd_profile profile, int level, std::string dpi ){
 	// current assumption: only one profile
 	profile = profile_1;
 	
-	// check format: 0xABCD (raw bytes)
+	// check format: 0xABCD (raw bytes), TODO! enable or remove
+	/*
 	if( std::regex_match( dpi, std::regex("0x[[:xdigit:]]{4}") ) ){
 
 		uint8_t b0 = (uint8_t)stoi( dpi.substr(2,2), 0, 16 );
@@ -120,25 +121,31 @@ int mouse_m913::set_dpi( rd_profile profile, int level, std::string dpi ){
 		return 0;
 		
 	}
+	*/
+
+	// check format: 1234 (real DPI)
+	if( std::regex_match( dpi, std::regex("[[:digit:]]+") ) ){
+		
+		if( _c_dpi_codes.find( std::stoi(dpi) ) != _c_dpi_codes.end() ){
+
+			_s_dpi_levels[profile][level] = _c_dpi_codes.at( std::stoi(dpi) );
+			return 0;
+		}
+	}
 	
 	return 1;
 }
 
-int mouse_m913::set_dpi( rd_profile profile, int level, std::array<uint8_t, 2> dpi ){
+int mouse_m913::set_dpi( rd_profile profile, int level, std::array<uint8_t, 3> dpi ){
 	
 	// check DPI level bounds
 	if( level < _c_level_min || level > _c_level_max )
 		return 1;
 	
-	//check bounds, bounds currently unknown TODO!
-	//if( dpi[0] < _c_dpi_min || dpi[0] > _c_dpi_max || dpi[1] < _c_dpi_2_min || dpi[1] > _c_dpi_2_max )
-	//	return 1;
-	
 	// current assumption: only one profile
 	profile = profile_1;
 
-	_s_dpi_levels[profile][level][0] = dpi[0];
-	_s_dpi_levels[profile][level][1] = dpi[1];
+	_s_dpi_levels[profile][level] = dpi;
 	return 0;
 }
 

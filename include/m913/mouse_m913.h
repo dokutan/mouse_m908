@@ -113,7 +113,7 @@ class mouse_m913 : public rd_mouse{
 		 * \return 0 if successful, 1 if out of bounds or invalid dpi
 		 */
 		int set_dpi( rd_profile profile, int level, std::string dpi );
-		int set_dpi( rd_profile profile, int level, std::array<uint8_t, 2> dpi );
+		int set_dpi( rd_profile profile, int level, std::array<uint8_t, 3> dpi );
 		
 		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping 4 bytes for the usb data packets
@@ -263,7 +263,10 @@ class mouse_m913 : public rd_mouse{
 		static const uint16_t _c_mouse_vid;
 		/// USB product id, needs to be explicitly set
 		uint16_t _c_mouse_pid;
-		
+
+		/// DPI → bytecode
+		static std::map< int, std::array<uint8_t,3> > _c_dpi_codes;
+
 		//setting vars
 		rd_profile _s_profile;
 		std::array<uint8_t, 5> _s_scrollspeeds;
@@ -272,7 +275,7 @@ class mouse_m913 : public rd_mouse{
 		std::array<uint8_t, 5> _s_brightness_levels;
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		std::array<std::array<std::array<uint8_t, 2>, 5>, 5> _s_dpi_levels;
+		std::array<std::array<std::array<uint8_t, 3>, 5>, 5> _s_dpi_levels;
 		std::array<std::array<std::array<uint8_t, 4>, 8>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
