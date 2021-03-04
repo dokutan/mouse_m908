@@ -268,7 +268,7 @@ class mouse_m913 : public rd_mouse{
 		static std::map< int, std::array<uint8_t,3> > _c_dpi_codes;
 		/// Values/keycodes of mouse buttons and special button functions
 		static std::map< std::string, std::array<uint8_t, 4> > _c_keycodes;
-		
+
 		//setting vars
 		rd_profile _s_profile;
 		std::array<uint8_t, 5> _s_scrollspeeds;
@@ -278,7 +278,7 @@ class mouse_m913 : public rd_mouse{
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
 		std::array<std::array<std::array<uint8_t, 3>, 5>, 5> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 12>, 5> _s_keymap_data;
+		std::array<std::array<std::array<uint8_t, 4>, 16>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		

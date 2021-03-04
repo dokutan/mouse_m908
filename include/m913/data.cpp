@@ -33,32 +33,32 @@ std::set< uint16_t > mouse_m913::_c_all_pids = {
 
 // Names of the physical buttons
 std::map< int, std::string > mouse_m913::_c_button_names = {
-	/*{ 0, "button_left" },
-	{ 1, "button_right" },
-	{ 2, "button_middle" },
-	{ 3, "button_fire" },*/
-	//{ 4, "button_dpi_up" }, // not known if remappable
-	//{ 5, "button_dpi_down" }, // not known if remappable
-	{ 0, "button_1" },
-	{ 1, "button_2" },
+	{ 0, "button_1" }, // ok
+	{ 1, "button_2" }, // ok
 	{ 2, "button_3" },
 	{ 3, "button_4" },
 	{ 4, "button_5" },
 	{ 5, "button_6" },
-	{ 6, "button_7" },
-	{ 7, "button_8" },
-	{ 8, "button_9" },
-	{ 9, "button_10" },
-	{ 10, "button_11" },
-	{ 11, "button_12" }
-	//{ 12, "scroll_up" },
-	//{ 13, "scroll_down" }
+	{ 6, "button_right" },
+	{ 7, "button_left" },
+	{ 8, "button_7" },
+	{ 9, "button_8" },
+	{ 10, "button_middle" },
+	{ 11, "button_fire" },
+	{ 12, "button_9" },
+	{ 13, "button_10" },
+	{ 14, "button_11" },
+	{ 15, "button_12" }
 };
 
 std::map< std::string, std::array<uint8_t, 4> > mouse_m913::_c_keycodes = {
-	{ "forward", { 0x01, 0x10, 0x00, 0x44 } },
 	{ "left", { 0x01, 0x01, 0x00, 0x53 } },
-	{ "led_toggle", { 0x08, 0x08, 0x00, 0x00 } },
+	{ "right", { 0x01, 0x02, 0x00, 0x52 } },
+	{ "middle", { 0x01, 0x04, 0x00, 0x50 } },
+	{ "back", { 0x01, 0x08, 0x00, 0x4c } },
+	{ "forward", { 0x01, 0x10, 0x00, 0x44 } },
+	{ "led_toggle", { 0x08, 0x00, 0x00, 0x4d } },
+	{ "polling_rate", { 0x08, 0x00, 0x00, 0x4e } },
 	{ "none", { 0x05, 0x00, 0x00, 0x50 } }
 };
 

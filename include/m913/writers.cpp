@@ -60,9 +60,9 @@ int mouse_m913::write_settings(){
 	buffer[21][9] = _s_dpi_levels[profile_1][4][2];
 
 	// button mapping, two buttons per packet
-	for( int i=0; i<12; i+=2 ){
+	for( int i=0; i<16; i+=2 ){
 		int j = 11+(i/2);
-		
+
 		buffer[j][6] = _s_keymap_data[profile_1][i][0];
 		buffer[j][7] = _s_keymap_data[profile_1][i][1];
 		buffer[j][8] = _s_keymap_data[profile_1][i][2];
