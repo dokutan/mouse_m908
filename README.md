@@ -35,7 +35,7 @@ Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](http
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
 Redragon M990 Legend | experimental | 0x04d9:0xfc0f | See [this issue](https://github.com/dokutan/mouse_m908/issues/5)<br>This mouse uses a different data format, keycodes, etc.
 Redragon M990 Legend (RGB/Chroma) | experimental | 0x04d9:0xfc41 | - Changing the profile works<br>- Reading the settings works partially
-Redragon M913 | experimental | 0x25a7:0xfa07<br>0x25a7:0xfa07 | - Uses a different and unique protocol<br>- Not all features are implemented
+Redragon M913 | experimental | 0x25a7:0xfa07<br>0x25a7:0xfa08 | - Uses a different and unique protocol<br>- Not all features are implemented
 Redragon M719 Invader | generic | 0x04d9:0xfc4f | [please read this](#generic-support)
 Redragon M802 Titanoboa 2 | generic | 0x04d9:0xfc42 | [please read this](#generic-support)
 Redragon 2858 (?) | generic | 0x04d9:0xfc5e | [please read this](#generic-support)
