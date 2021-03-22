@@ -22,6 +22,7 @@
 
 int mouse_m913::write_profile(){
 	// missing data
+	throw std::string( "Profiles are not supported for the M913." );
 	return 0;
 }
 
@@ -75,6 +76,7 @@ int mouse_m913::write_settings(){
 	}
 
 	// TODO! remove, print hexdump of buffer
+	/*
 	for( int i = 0; i < rows; i++ ){
 		std::cout << i << "\t: ";
 		for( int j=0; j < 17; j++ ){
@@ -82,6 +84,7 @@ int mouse_m913::write_settings(){
 		}
 		std::cout << "\n";
 	}
+	*/
 
 	
 	// send data
@@ -98,5 +101,6 @@ int mouse_m913::write_settings(){
 int mouse_m913::write_macro( int macro_number ){
 	// missing data
 	(void)macro_number;
+	throw std::string( "Macros are not supported for the M913." );
 	return 0;
 }
