@@ -186,16 +186,12 @@ class mouse_generic : public rd_mouse{
 		/// Get raw macro bytecode
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
-		/// Get USB vendor id
-		uint16_t get_vid(){
-			return _c_mouse_vid;
-		}
-		/// Get USB product id
-		uint16_t get_pid(){
-			return _c_mouse_pid;
+		/// Checks if the mouse has the given vendor and product id
+		static bool has_vid_pid( uint16_t vid, uint16_t pid ){
+			return _c_all_vids.find(vid) != _c_all_vids.end() && _c_all_pids.find(pid) != _c_all_pids.end();
 		}
 		
-		/// Get USB product id
+		/// Get mouse name
 		static std::string get_name(){
 			return _c_name;
 		}
@@ -266,7 +262,9 @@ class mouse_generic : public rd_mouse{
 		/// The model name
 		static const std::string _c_name;
 
-		//usb device vars
+		// usb ids for all mice with generic support
+		static std::set< uint16_t > _c_all_vids;
+		static std::set< uint16_t > _c_all_pids;
 		/// USB vendor id, needs to be explicitly set
 		uint16_t _c_mouse_vid;
 		/// USB product id, needs to be explicitly set

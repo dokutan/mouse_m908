@@ -181,16 +181,12 @@ class mouse_m711 : public rd_mouse{
 		/// Get raw macro bytecode
 		int get_macro_raw( int number, std::array<uint8_t, 256>& macro );
 		
-		/// Get USB vendor id
-		static uint16_t get_vid(){
-			return _c_mouse_vid;
-		}
-		/// Get USB product id
-		static uint16_t get_pid(){
-			return _c_mouse_pid;
+		/// Checks if the mouse has the given vendor and product id
+		static bool has_vid_pid( uint16_t vid, uint16_t pid ){
+			return vid == _c_mouse_vid && pid == _c_mouse_pid;
 		}
 		
-		/// Get USB product id
+		/// Get mouse name
 		static std::string get_name(){
 			return _c_name;
 		}

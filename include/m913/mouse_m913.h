@@ -17,8 +17,8 @@
  */
 
 //main class
-#ifndef MOUSE_M908
-#define MOUSE_M908
+#ifndef MOUSE_M913
+#define MOUSE_M913
 
 #include <libusb.h>
 #include <map>
@@ -34,7 +34,7 @@
 #include <iomanip>
 
 /**
- * The main class representing the M908 mouse.
+ * The main class representing the M913 mouse.
  * This class has member functions to open, close and apply settings to the mouse.
  * 
  * There are 4 main types of functions:
@@ -54,12 +54,12 @@
  * - \_s\_* for variables that describe the settings on the mouse
  * - \_c\_* for constants like keycodes, USB data, minimum and maximum values, etc. (these are not neccessarily defined as const)
  */
-class mouse_m908 : public rd_mouse{
+class mouse_m913 : public rd_mouse{
 	
 	public:
 		
 		/// The default constructor. Sets the default settings.
-		mouse_m908();
+		mouse_m913();
 		
 		//setter functions
 		/// Set the currently active profile
@@ -113,7 +113,7 @@ class mouse_m908 : public rd_mouse{
 		 * \return 0 if successful, 1 if out of bounds or invalid dpi
 		 */
 		int set_dpi( rd_profile profile, int level, std::string dpi );
-		int set_dpi( rd_profile profile, int level, std::array<uint8_t, 2> dpi );
+		int set_dpi( rd_profile profile, int level, std::array<uint8_t, 3> dpi );
 		
 		/** \brief Set a mapping for a button for the specified profile
 		 * \param mapping 4 bytes for the usb data packets
@@ -144,12 +144,14 @@ class mouse_m908 : public rd_mouse{
 		 */
 		int set_all_macros( std::string file );
 		
-		/// Does nothing, exists only for compatibility
-		void set_vid( uint16_t vid ){ (void)vid; }
-		/// Does nothing, exists only for compatibility
-		void set_pid( uint16_t pid ){ (void)pid; }
-		
-		
+		/// Set USB vendor id, does nothing
+		void set_vid( uint16_t vid ){
+			(void)vid;
+		}
+		/// Set USB product id
+		void set_pid( uint16_t pid ){
+			_c_mouse_pid = pid;
+		}
 		
 		//getter functions
 		/// Get currently active profile
@@ -181,7 +183,7 @@ class mouse_m908 : public rd_mouse{
 		
 		/// Checks if the mouse has the given vendor and product id
 		static bool has_vid_pid( uint16_t vid, uint16_t pid ){
-			return vid == _c_mouse_vid && pid == _c_mouse_pid;
+			return vid == _c_mouse_vid && _c_all_pids.find(pid) != _c_all_pids.end();
 		}
 		
 		/// Get mouse name
@@ -226,19 +228,19 @@ class mouse_m908 : public rd_mouse{
 		/// Print the current configuration in .ini format to output
 		int print_settings( std::ostream& output );
 		
-		
+				
 		
 		//reader functions (get settings from the mouse)
 		/// Read the settings and print the raw data to output
 		int dump_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This does not alter the internal settings of the mouse_m908 class.
+		 * This does not alter the internal settings of the mouse_m913 class.
 		 */
 		int read_and_print_settings( std::ostream& output );
 		/**
 		 * \brief Read the settings and print the configuration in .ini format to output.
-		 * This updates the internal settings of the mouse_m908 class.
+		 * This updates the internal settings of the mouse_m913 class.
 		 */
 		int read_settings();
 		
@@ -246,24 +248,27 @@ class mouse_m908 : public rd_mouse{
 		
 		/// Returns a reference to _c_button_names (physical button names)
 		std::map< int, std::string >& button_names(){ return _c_button_names; }
-
+		
 	private:
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
 		
-		/// Mapping of real DPI values to bytecode
-		static std::map< unsigned int, std::array<uint8_t, 2> > _c_dpi_codes;
-		
 		/// The model name
 		static const std::string _c_name;
 
 		//usb device vars
+		static std::set< uint16_t > _c_all_pids;
 		/// USB vendor id
 		static const uint16_t _c_mouse_vid;
-		/// USB product id
-		static const uint16_t _c_mouse_pid;
-		
+		/// USB product id, needs to be explicitly set
+		uint16_t _c_mouse_pid;
+
+		/// DPI → bytecode
+		static std::map< int, std::array<uint8_t,3> > _c_dpi_codes;
+		/// Values/keycodes of mouse buttons and special button functions
+		static std::map< std::string, std::array<uint8_t, 4> > _c_keycodes;
+
 		//setting vars
 		rd_profile _s_profile;
 		std::array<uint8_t, 5> _s_scrollspeeds;
@@ -272,40 +277,14 @@ class mouse_m908 : public rd_mouse{
 		std::array<uint8_t, 5> _s_brightness_levels;
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		std::array<std::array<std::array<uint8_t, 2>, 5>, 5> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 20>, 5> _s_keymap_data;
+		std::array<std::array<std::array<uint8_t, 3>, 5>, 5> _s_dpi_levels;
+		std::array<std::array<std::array<uint8_t, 4>, 16>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		
 		//usb data packets
-		/// Used for changing the active profile
-		static uint8_t _c_data_s_profile[6][16];
-		/// Used for sending the settings, part 1/3
-		static uint8_t _c_data_settings_1[15][16];
-		/// Used for sending the settings, part 2/3
-		static uint8_t _c_data_settings_2[64];
-		/// Used for sending the settings, part 3/3
-		static uint8_t _c_data_settings_3[140][16];
-		/// Used for sending a macro, part 1/3
-		static uint8_t _c_data_macros_1[16];
-		/// Used for sending a macro, part 2/3
-		static uint8_t _c_data_macros_2[256];
-		/// Used for sending a macro, part 3/3
-		static uint8_t _c_data_macros_3[16];
-		/// Lookup table used when specifying which slot to send a macro to
-		static uint8_t _c_data_macros_codes[15][2];
-		/// Used to read the settings, part 1/3 
-		static uint8_t _c_data_read_1[9][16];
-		/// Used to read the settings, part 2/3 
-		static uint8_t _c_data_read_2[85][64];
-		/// Used to read the settings, part 3/3 
-		static uint8_t _c_data_read_3[101][16];
-		
-		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
-		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
-		 * \return 0 if no error
-		 */
-		static int _i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
+		/// Used for sending the settings
+		static uint8_t _c_data_settings[29][17];
 };
 
 #endif
