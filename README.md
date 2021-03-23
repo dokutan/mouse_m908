@@ -14,6 +14,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
 	- [Other platforms](#other-platforms)
+	- [CMake](#cmake)
 - [Usage](#usage)
 	- [Macros](#macros)
 		- [Macro file](#macro-file)
@@ -150,6 +151,16 @@ make hpkg
 ### Other platforms
 
 Other platforms are not tested, however as long as the dependencies are available there is no special reason they should not be compatible. If you (tried) to compile on a platform that is not listed above, please report your results so this file can be updated (and potential bugs can be fixed).
+
+### CMake
+
+You can also use cmake and ninja to build mouse_m908 with the following commands:
+```
+cmake -Bbuild -GNinja -DCMAKE_INSTALL_PREFIX=~/.local/m908
+cmake --build build
+cmake --install build
+```
+Please note that this is currently experimental and only tested on Linux, however the plan is to eventually transition to cmake for all platforms.
 
 ## Usage
 The settings are stored in a file and applied all at once (except macros, see below). See examples/example_m*.ini and keymap.md
