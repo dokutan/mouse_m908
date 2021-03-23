@@ -154,9 +154,9 @@ Other platforms are not tested, however as long as the dependencies are availabl
 
 ### CMake
 
-You can also use cmake and ninja to build mouse_m908 with the following commands:
+You can also use cmake to build mouse_m908 with the following commands:
 ```
-cmake -Bbuild -GNinja -DCMAKE_INSTALL_PREFIX=~/.local/m908
+cmake -Bbuild
 cmake --build build
 cmake --install build
 ```
