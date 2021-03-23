@@ -1,5 +1,6 @@
 info
 doxygen
+build
 *.o
 *.rpm
 mouse_m908
