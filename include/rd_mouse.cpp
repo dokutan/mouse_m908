@@ -647,7 +647,20 @@ int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::stri
 		output << (int)bytes.at(3);
 		
 		found_name = true;
+
+	// fire button (alternative code)
+	} else if( bytes.at(0) == 0x92 ){
+
+		output << "fire:" << "mouse_left:";
+
+		// repeats
+		output << (int)bytes.at(1) << ":";
 		
+		// delay
+		output << (int)bytes.at(2);
+
+		found_name = true;
+
 	// snipe button
 	} else if( bytes.at(0) == 0x9a && bytes.at(1) == 0x01 ){
 		
