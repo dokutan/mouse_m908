@@ -778,8 +778,16 @@ int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::stri
 
 int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes ){
 	
+	// raw byte values
+	if( std::regex_match( mapping, std::regex("0x[0-9a-fA-F]{8}") ) ){
+
+		bytes[0] = std::stoi( mapping.substr(2, 2) , 0, 16 );
+		bytes[1] = std::stoi( mapping.substr(4, 2) , 0, 16 );
+		bytes[2] = std::stoi( mapping.substr(6, 2) , 0, 16 );
+		bytes[3] = std::stoi( mapping.substr(8, 2) , 0, 16 );
+
 	// is string in _c_keycodes? mousebuttons/special functions and media controls
-	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
+	} else if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
 		
 		bytes[0] = _c_keycodes[mapping][0];
 		bytes[1] = _c_keycodes[mapping][1];

@@ -19,6 +19,8 @@ A button on the mouse can be mapped to one function out of the following categor
 - Media controls (only available for compatibility, use the Media_* keyboard keys if possible)
 	- Example: ``media_play``
 
+Additionally it is possible to specify the raw bytes of the mapping, this is intended for debugging and testing. Example: ``0x11aa22bb``
+
 The following sections list all valid button mappings.
 
 ## Media controls
@@ -61,7 +63,11 @@ left
 right
 middle
 profile_switch
+profile+
+profile-
 led_mode_switch
+dpi_led_toggle
+reset_settings
 none
 
 ## Compatibility functions (these are only handled by the official software and are mostly redundant)
