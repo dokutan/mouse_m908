@@ -43,6 +43,7 @@ class mouse_generic;
 class mouse_m709;
 class mouse_m711;
 class mouse_m715;
+class mouse_m719;
 class mouse_m908;
 class mouse_m913;
 class mouse_m990;
@@ -124,6 +125,7 @@ class rd_mouse{
 			mouse_m709,
 			mouse_m711,
 			mouse_m715,
+			mouse_m719,
 			mouse_m908,
 			mouse_m913,
 			mouse_m990,
@@ -280,6 +282,7 @@ class rd_mouse{
 #include "m709/mouse_m709.h"
 #include "m711/mouse_m711.h"
 #include "m715/mouse_m715.h"
+#include "m719/mouse_m719.h"
 #include "m913/mouse_m913.h"
 #include "m990/mouse_m990.h"
 #include "m990chroma/mouse_m990chroma.h"
