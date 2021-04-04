@@ -228,9 +228,6 @@ int mouse_m719::read_and_print_settings( std::ostream& output ){
 				output << "\n";
 		}
 		
-		output << "\n# Button mapping is not implemented due to a lack of captured data\n";
-		/* Currently not implemented, missing captured data
-		 * 
 		// button mapping
 		output << "\n# Button mapping\n";
 		
@@ -246,8 +243,6 @@ int mouse_m719::read_and_print_settings( std::ostream& output ){
 			_i_decode_button_mapping( bytes, mapping );
 			output << _c_button_names[j] << "=" << mapping << std::endl;
 		}
-		* 
-		*/
 	}
 	
 	// macros
