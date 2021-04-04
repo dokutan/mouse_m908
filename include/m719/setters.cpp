@@ -117,6 +117,19 @@ int mouse_m719::set_dpi( rd_profile profile, int level, std::string dpi ){
 		return 0;
 		
 	}
+
+	// check format: 1234 (real DPI)
+	else if( std::regex_match( dpi, std::regex("[[:digit:]]+") ) ){
+		
+		if( _c_dpi_codes.find( std::stoi(dpi) ) != _c_dpi_codes.end() ){
+			
+			_s_dpi_levels[profile][level][0] = _c_dpi_codes.at( std::stoi(dpi) )[0];
+			_s_dpi_levels[profile][level][1] = _c_dpi_codes.at( std::stoi(dpi) )[1];
+			
+			return 0;
+		}
+		
+	}
 	
 	return 1;
 }
