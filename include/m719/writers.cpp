@@ -48,7 +48,6 @@ int mouse_m719::write_settings(){
 		std::copy(std::begin(_c_data_settings_1[i]), std::end(_c_data_settings_1[i]), std::begin(buffer1[i]));
 	}
 	
-	// Currently no data capture available
 	//prepare data 2
 	uint8_t buffer2[64];
 	std::copy(std::begin(_c_data_settings_2), std::end(_c_data_settings_2), std::begin(buffer2));
@@ -59,17 +58,12 @@ int mouse_m719::write_settings(){
 	for( int i = 0; i < rows3; i++ ){
 		std::copy(std::begin(_c_data_settings_3[i]), std::end(_c_data_settings_3[i]), std::begin(buffer3[i]));
 	}
-	// end
 	
 	//modify buffers to include settings
-	
-	// Currently no data capture available 
 	//scrollspeed
 	for( int i = 0; i < 5; i++ ){
 		buffer2[8+(2*i)] = _s_scrollspeeds[i];
 	}
-	// end
-	
 	//lightmode
 	for( int i = 0; i < 5; i++ ){
 		std::array<uint8_t, 2> lightmode_bytes = {0x01, 0x02}; // default value is lightmode_static, only relevent in case of an error
@@ -91,8 +85,6 @@ int mouse_m719::write_settings(){
 	for( int i = 0; i < 5; i++ ){
 		buffer1[3+(2*i)][12] = _s_speed_levels[i];
 	}
-	
-	// Currently no data capture available 
 	//dpi
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 5; j++ ){
@@ -101,31 +93,27 @@ int mouse_m719::write_settings(){
 			buffer3[7+(5*i)+j][10] = _s_dpi_levels[j][i][1];
 		}
 	}
-	
 	//key mapping
 	for( int i = 0; i < 5; i++ ){
-		for( int j = 0; j < 8; j++ ){
-			buffer3[35+(8*i)+j][8] = _s_keymap_data[i][j][0];
-			buffer3[35+(8*i)+j][9] = _s_keymap_data[i][j][1];
-			buffer3[35+(8*i)+j][10] = _s_keymap_data[i][j][2];
-			buffer3[35+(8*i)+j][11] = _s_keymap_data[i][j][3];
-			//std::cout << (int)_s_keymap_data[i][j][0] << " " << (int)_s_keymap_data[i][j][1] << " " << (int)_s_keymap_data[i][j][2] << " " << (int)_s_keymap_data[i][j][3] << "\n";
+		for( int j = 0; j < 10; j++ ){
+			buffer3[35+(10*i)+j][8] = _s_keymap_data[i][j][0];
+			buffer3[35+(10*i)+j][9] = _s_keymap_data[i][j][1];
+			buffer3[35+(10*i)+j][10] = _s_keymap_data[i][j][2];
+			buffer3[35+(10*i)+j][11] = _s_keymap_data[i][j][3];
 		}
 	}
-	
 	//usb report rate
 	for( int i = 0; i < 3; i++ )
 		buffer1[13][8+(2*i)] = _i_encode_report_rate(_s_report_rates[i]);
 	for( int i = 3; i < 5; i++ )
 		buffer1[14][2+(2*i)] = _i_encode_report_rate(_s_report_rates[i]);
-	// end
 	
+
 	//send data 1
 	for( int i = 0; i < rows1; i++ ){
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
 	}
 	
-	// Currently no data capture available 
 	//send data 2
 	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer2, 64, 1000 );
 	
@@ -133,7 +121,6 @@ int mouse_m719::write_settings(){
 	for( int i = 0; i < rows3; i++ ){
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer3[i], 16, 1000 );
 	}
-	// end
 	
 	return 0;
 }
