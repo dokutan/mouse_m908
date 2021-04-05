@@ -26,7 +26,13 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 All known settings from the official software are implemented for the M908. The other mice have varying levels of support.
 
 ### Supported mice
-If you have a mouse with VID 0x04d9 that is not listed below, there is a good chance that it is easy to add support. Please open an issue for that.
+If you have a mouse with VID 0x04d9 that is not listed below, there is a good chance that it is easy to add support. You can help to improve the support for your mouse by reporting what works and what doesn't, or by capturing the usb communication with the official software. Please open an issue.
+
+The various levels of support mean the following:
+- **generic :** no code specific to the mouse is written, this exists primarily to test whether the mouse uses the same protocol
+- **experimental :** a backend specific to the mouse exists, but is untested or has major problems
+- **partial :** some features work, others might not or are untested, and there are no known problems making the software unusable
+- **complete :** all known features are implemented
 
 Name | Support | VID:PID | Additional notes
 ---|---|---|---
@@ -36,8 +42,8 @@ Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](http
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
 Redragon M990 Legend | experimental | 0x04d9:0xfc0f | See [this issue](https://github.com/dokutan/mouse_m908/issues/5)<br>This mouse uses a different data format, keycodes, etc.
 Redragon M990 Legend (RGB/Chroma) | experimental | 0x04d9:0xfc41 | - Changing the profile works<br>- Reading the settings works partially
-Redragon M913 | experimental | 0x25a7:0xfa07<br>0x25a7:0xfa08 | - Uses a different and unique protocol<br>- Not all features are implemented
-Redragon M719 Invader | experimental | 0x04d9:0xfc4f | 
+Redragon M913 | partial | 0x25a7:0xfa07<br>0x25a7:0xfa08 | See [this issue](https://github.com/dokutan/mouse_m908/issues/15)<br>- Uses a different and unique protocol<br>- Not all features are implemented
+Redragon M719 Invader | partial | 0x04d9:0xfc4f | See [this issue](https://github.com/dokutan/mouse_m908/issues/19)
 Redragon M802 Titanoboa 2 | generic | 0x04d9:0xfc42 | [please read this](#generic-support)
 Redragon 2858 (?) | generic | 0x04d9:0xfc5e | [please read this](#generic-support)
 Redragon 2805 (?) | generic | 0x04d9:0xfc58 | [please read this](#generic-support)
