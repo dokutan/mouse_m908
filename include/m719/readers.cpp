@@ -243,6 +243,7 @@ int mouse_m719::read_and_print_settings( std::ostream& output ){
 			_i_decode_button_mapping( bytes, mapping );
 			output << _c_button_names[j] << "=" << mapping << std::endl;
 		}
+		output << "# reading scroll_up and scroll_down is not supported\n";
 	}
 	
 	// macros
