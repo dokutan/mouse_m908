@@ -127,8 +127,8 @@ int mouse_m719::write_settings(){
 
 int mouse_m719::write_macro( int macro_number ){
 	
-	//check if macro_number is valid
-	if( macro_number < 1 || macro_number > 15 ){
+	//check if macro_number is valid, the M719 only appears to supports a single macro
+	if( macro_number != 1 ){
 		return 1;
 	}
 	

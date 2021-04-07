@@ -275,7 +275,7 @@ int mouse_m719::read_and_print_settings( std::ostream& output ){
 	
 	// decode macros
 	output << "\n# Macros\n";
-	for( int i = 0; i < 15; i++ ){
+	for( int i = 0; i < 1; i++ ){ // the M719 appears to only support a single macro
 		
 		// is macro not defined ?
 		if( macro_bytes[i][0] == 0 && macro_bytes[i][1] == 0 && macro_bytes[i][2] == 0 )
