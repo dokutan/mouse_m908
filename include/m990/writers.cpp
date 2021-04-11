@@ -120,7 +120,7 @@ int mouse_m990::write_settings(){
 	
 	libusb_control_transfer( _i_handle, 0xa1, 0x01, 0x0303, 0x0002, NULL, 0, 1000 );
 	
-	for( int i = 0; i < 5; ){
+	for( int i = 0; i < 5; i++ ){
 		
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0304, 0x0002, buffer2[pos2], 256, 1000 );
 		pos2++;
