@@ -68,7 +68,7 @@ rd_mouse::mouse_variant rd_mouse::detect(){
 	return mouse;
 }
 
-rd_mouse::mouse_variant rd_mouse::detect( std::string mouse_name ){
+rd_mouse::mouse_variant rd_mouse::detect( const std::string& mouse_name ){
 	
 	rd_mouse::mouse_variant mouse = rd_mouse::monostate();
 
@@ -313,7 +313,7 @@ int rd_mouse::_i_close_mouse(){
 }
 
 //decode macro bytecode
-int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset ){
+int rd_mouse::_i_decode_macro( const std::vector< uint8_t >& macro_bytes, std::ostream& output, const std::string& prefix, size_t offset ){
 	
 	// valid offset ?
 	if( offset >= macro_bytes.size() )
@@ -323,7 +323,7 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 		
 		bool unknown_code = false;
 		
-		// failsafe
+		// failsafe, i sometimes gets incremented by >1 which could lead to it being out of bounds
 		if( i >= macro_bytes.size() )
 			break;
 		
@@ -456,7 +456,7 @@ int rd_mouse::_i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream
 	return 0;
 }
 
-int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, size_t offset ){
+int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, const size_t offset ){
 	
 	macro_bytes.fill( 0x00 );
 	
@@ -606,7 +606,7 @@ int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::ist
 	return 0;
 }
 
-int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping ){
+int rd_mouse::_i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping ){
 	
 	std::stringstream output;
 	bool found_name = false;
@@ -776,7 +776,7 @@ int rd_mouse::_i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::stri
 	return return_value;
 }
 
-int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes ){
+int rd_mouse::_i_encode_button_mapping( const std::string& mapping, std::array<uint8_t, 4>& bytes ){
 	
 	// raw byte values
 	if( std::regex_match( mapping, std::regex("0x[0-9a-fA-F]{8}") ) ){
@@ -933,7 +933,7 @@ int rd_mouse::_i_encode_button_mapping( std::string& mapping, std::array<uint8_t
 	return 0;
 }
 
-int rd_mouse::_i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
+int rd_mouse::_i_decode_dpi( const std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string ){
 	
 	std::stringstream conversion_stream;
 	
@@ -946,7 +946,7 @@ int rd_mouse::_i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi
 	return 0;
 }
 
-int rd_mouse::_i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string ){
+int rd_mouse::_i_decode_lightmode( const std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string ){
 	
 	int return_value = 0;
 
@@ -975,7 +975,7 @@ int rd_mouse::_i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std:
 	return return_value;
 }
 
-int rd_mouse::_i_encode_lightmode( rd_mouse::rd_lightmode lightmode, std::array<uint8_t, 2>& lightmode_bytes ){
+int rd_mouse::_i_encode_lightmode( const rd_mouse::rd_lightmode lightmode, std::array<uint8_t, 2>& lightmode_bytes ){
 
 	int return_value = 1;
 
@@ -990,7 +990,7 @@ int rd_mouse::_i_encode_lightmode( rd_mouse::rd_lightmode lightmode, std::array<
 	return return_value;
 }
 
-int rd_mouse::_i_decode_report_rate( uint8_t report_rate_byte, std::string& report_rate_string ){
+int rd_mouse::_i_decode_report_rate( const uint8_t report_rate_byte, std::string& report_rate_string ){
 	
 	int return_value = 0;
 
@@ -1017,7 +1017,7 @@ int rd_mouse::_i_decode_report_rate( uint8_t report_rate_byte, std::string& repo
 	return return_value;
 }
 
-uint8_t rd_mouse::_i_encode_report_rate( rd_mouse::rd_report_rate report_rate ){
+uint8_t rd_mouse::_i_encode_report_rate( const rd_mouse::rd_report_rate report_rate ){
 
 	uint8_t return_value = 0x08; // = 125 Hz, this should be a safe default in case of an error
 

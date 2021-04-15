@@ -266,9 +266,9 @@ class mouse_generic : public rd_mouse{
 		static std::set< uint16_t > _c_all_vids;
 		static std::set< uint16_t > _c_all_pids;
 		/// USB vendor id, needs to be explicitly set
-		uint16_t _c_mouse_vid;
+		uint16_t _c_mouse_vid = 0;
 		/// USB product id, needs to be explicitly set
-		uint16_t _c_mouse_pid;
+		uint16_t _c_mouse_pid = 0;
 		
 		//setting vars
 		rd_profile _s_profile;

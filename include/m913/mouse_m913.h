@@ -262,7 +262,7 @@ class mouse_m913 : public rd_mouse{
 		/// USB vendor id
 		static const uint16_t _c_mouse_vid;
 		/// USB product id, needs to be explicitly set
-		uint16_t _c_mouse_pid;
+		uint16_t _c_mouse_pid = 0;
 
 		/// DPI → bytecode
 		static std::map< int, std::array<uint8_t,3> > _c_dpi_codes;

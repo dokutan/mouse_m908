@@ -361,12 +361,12 @@ int main( int argc, char **argv ){
 				} catch( std::string const &message ){ // close mouse, rethrow
 					
 					m.close_mouse();
-					throw message;
+					throw;
 					
 				} catch( std::exception const &e ){ // close mouse, rethrow
 					
 					m.close_mouse();
-					throw e;
+					throw;
 					
 				}
 				

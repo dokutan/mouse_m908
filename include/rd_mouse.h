@@ -144,7 +144,7 @@ class rd_mouse{
 		 * In the case of multiple connected mice, only the first will be detected
 		 * \return A mouse_variant containing an object corresponding to the detected mouse, or rd_mouse::monostate
 		 */
-		static mouse_variant detect( std::string mouse_name );
+		static mouse_variant detect( const std::string& mouse_name );
 		
 		/// Set whether to try to detach the kernel driver when opening the mouse
 		void set_detach_kernel_driver( bool detach_kernel_driver ){
@@ -188,7 +188,7 @@ class rd_mouse{
 
 		//usb device handling
 		/// libusb device handle
-		libusb_device_handle* _i_handle;
+		libusb_device_handle* _i_handle = nullptr;
 		/// whether to detach kernel driver
 		bool _i_detach_kernel_driver = true;
 		/// set by open_mouse for close_mouse
@@ -222,14 +222,14 @@ class rd_mouse{
 		 * \arg offset start decoding from macro_bytes[offset], set to 0 if offset >= macro_bytes.size()
 		 * \return 0 if no invalid codes were encountered
 		 */
-		static int _i_decode_macro( std::vector< uint8_t >& macro_bytes, std::ostream& output, std::string prefix, size_t offset );
+		static int _i_decode_macro( const std::vector< uint8_t >& macro_bytes, std::ostream& output, const std::string& prefix, size_t offset );
 		
 		/** \brief Encode macro commands to macro bytecode
 		 * \arg macro_bytes holds the result
 		 * \arg input where the macro commands are read from
 		 * \arg offset skips offset bytes at the beginning
 		 */
-		static int _i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, size_t offset );
+		static int _i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::istream& input, const size_t offset );
 		
 		/** \brief Decodes the bytes describing a button mapping
 		 * \arg bytes the 4 bytes descriping the mapping
@@ -237,7 +237,7 @@ class rd_mouse{
 		 * \return 0 if valid button mapping
 		 * \see _i_encode_button_mapping
 		 */
-		static int _i_decode_button_mapping( std::array<uint8_t, 4>& bytes, std::string& mapping );
+		static int _i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping );
 		
 		/** \brief Turns a string describing a button mapping into bytecode
 		 * \arg mapping button mapping
@@ -245,34 +245,34 @@ class rd_mouse{
 		 * \return 0 if valid button mapping
 		 * \see _i_decode_button_mapping
 		 */
-		static int _i_encode_button_mapping( std::string& mapping, std::array<uint8_t, 4>& bytes );
+		static int _i_encode_button_mapping( const std::string& mapping, std::array<uint8_t, 4>& bytes );
 		
 		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
 		 * This implementation always outputs the raw bytes as a hexdump,
 		 * to support actual DPI values this function needs to be overloaded in the model specific classes.
 		 * \return 0 if no error occured
 		 */
-		static int _i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
+		static int _i_decode_dpi( const std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
 		
 		/** Convert the bytecode for a lightmode to a string
 		 * \return 0 if the lightmode is valid
 		 */
-		static int _i_decode_lightmode( std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string );
+		static int _i_decode_lightmode( const std::array<uint8_t, 2>& lightmode_bytes, std::string& lightmode_string );
 
 		/** Convert a lightmode to bytecode
 		 * \return 0 if the lightmode is valid
 		 */
-		static int _i_encode_lightmode( rd_mouse::rd_lightmode lightmode, std::array<uint8_t, 2>& lightmode_bytes );
+		static int _i_encode_lightmode( const rd_mouse::rd_lightmode lightmode, std::array<uint8_t, 2>& lightmode_bytes );
 
 		/** Convert the bytecode for a USB report/poll rate to a string
 		 * \return 0 if the report rate is valid
 		 */
-		static int _i_decode_report_rate( uint8_t report_rate_byte, std::string& report_rate_string );
+		static int _i_decode_report_rate( const uint8_t report_rate_byte, std::string& report_rate_string );
 
 		/** Convert a report rate to bytecode
 		 * \return the byte representing the given report rate
 		 */
-		static uint8_t _i_encode_report_rate( rd_mouse::rd_report_rate report_rate );
+		static uint8_t _i_encode_report_rate( const rd_mouse::rd_report_rate report_rate );
 };
 
 #endif
