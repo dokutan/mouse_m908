@@ -21,19 +21,21 @@
 #define RD_MOUSE
 
 #include <libusb.h>
-#include <map>
-#include <array>
-#include <string>
+
 #include <algorithm>
+#include <array>
 #include <exception>
-#include <regex>
 #include <fstream>
-#include <sstream>
-#include <utility>
-#include <iostream>
 #include <iomanip>
-#include <string>
+#include <iostream>
+#include <iterator>
+#include <map>
+#include <regex>
 #include <set>
+#include <sstream>
+#include <string>
+#include <string>
+#include <utility>
 #include <variant>
 
 /* These declarations exist to make it possible for mouse_variant

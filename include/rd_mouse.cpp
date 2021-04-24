@@ -323,10 +323,6 @@ int rd_mouse::_i_decode_macro( const std::vector< uint8_t >& macro_bytes, std::o
 		
 		bool unknown_code = false;
 		
-		// failsafe, i sometimes gets incremented by >1 which could lead to it being out of bounds
-		if( i >= macro_bytes.size() )
-			break;
-		
 		// mouse buttons ( 0x81 = down, 0x01 = up )
 		if( macro_bytes[i] == 0x81 && macro_bytes[i+1] == 0x01 )
 			output << prefix << "down\tmouse_left\n";

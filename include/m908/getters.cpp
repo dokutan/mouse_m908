@@ -117,7 +117,7 @@ int mouse_m908::get_macro( int number, std::string& macro ){
 		return 0;
 	
 	std::vector< uint8_t > macro_bytes;
-	std::copy( _s_macro_data[number-1].begin(), _s_macro_data[number-1].end(), macro_bytes.begin() );
+	std::copy( _s_macro_data[number-1].begin(), _s_macro_data[number-1].end(), std::back_inserter(macro_bytes) );
 	
 	_i_decode_macro( macro_bytes, output, "", 8 );
 	macro = output.str();
