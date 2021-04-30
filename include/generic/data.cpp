@@ -45,6 +45,7 @@ std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc4f, // M719 Invader
 	0xfc56, // M801 Mammoth (?)
 	0xfc58, // 2805 (?)
+	0xfc5c, // M721-Pro Lonewolf2
 	0xfc5e, // 2858 (?)
 	0xfc5f, // M998-RGB and M808-RGB (?)
 	0xfc61  // 2850 (?)
