@@ -31,7 +31,6 @@ std::set< uint16_t > mouse_generic::_c_all_vids = {
 std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfa56, // M801 Mammoth
 	0xfc0f, // M990 Legend
-	0xfc15, // M702 Phoenix
 	0xfc2a, // M709 Tiger
 	0xfc30, // M711 Cobra (FPS)
 	0xfc38, // M607 Griffin
@@ -43,7 +42,6 @@ std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc49, // M910 Ranger
 	0xfc4d, // M908 Impact
 	0xfc4f, // M719 Invader
-	0xfc56, // M801 Mammoth (?)
 	0xfc58, // 2805 (?)
 	0xfc5c, // M721-Pro Lonewolf2
 	0xfc5e, // 2858 (?)
