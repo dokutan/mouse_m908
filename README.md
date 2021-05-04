@@ -29,7 +29,8 @@ All known settings from the official software are implemented for the M908. The 
 If you have a mouse with VID 0x04d9 that is not listed below, there is a good chance that it is easy to add support. You can help to improve the support for your mouse by reporting what works and what doesn't, or by capturing the usb communication with the official software. Please open an issue.
 
 The various levels of support mean the following:
-- **generic :** no code specific to the mouse is written, this exists primarily to test whether the mouse uses the same protocol
+- **unsupported :** these mice are not compatible, support could be implemented but this will require more information about the protocol
+- **generic :** no code specific to the mouse is written, this exists primarily to test whether the mouse uses a compatible protocol
 - **experimental :** a backend specific to the mouse exists, but is untested or has major problems
 - **partial :** some features work, others might not or are untested, and there are no known problems making the software unusable
 - **complete :** all known features are implemented
@@ -41,6 +42,7 @@ Redragon M719 Invader | complete | 0x04d9:0xfc4f |
 Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested<br>- Macros are untested<br>- Reading the settings is not properly implemented due to a lack of data
 Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
+Redragon M721-Pro Lonewolf2 | experimental | 0x04d9:0xfc5c | See [this issue](https://github.com/dokutan/mouse_m908/issues/22)<br>Nothing is tested
 Redragon M990 Legend | experimental | 0x04d9:0xfc0f | See [this issue](https://github.com/dokutan/mouse_m908/issues/5)<br>This mouse uses a different data format, keycodes, etc.
 Redragon M990 Legend (RGB/Chroma) | experimental | 0x04d9:0xfc41 | - Changing the profile works<br>- Reading the settings works partially
 Redragon M913 | partial | 0x25a7:0xfa07<br>0x25a7:0xfa08 | See [this issue](https://github.com/dokutan/mouse_m908/issues/15)<br>- Uses a different and unique protocol<br>- Not all features are implemented
@@ -49,12 +51,14 @@ Redragon 2858 (?) | generic | 0x04d9:0xfc5e | [please read this](#generic-suppor
 Redragon 2805 (?) | generic | 0x04d9:0xfc58 | [please read this](#generic-support)
 Redragon 2850 (?) | generic | 0x04d9:0xfc61 | [please read this](#generic-support)
 Redragon M901 Perdition (3) | generic | 0x04d9:0xfc40 | [please read this](#generic-support)
-Redragon M801 Mammoth | generic | 0x04d9:0xfa56 | [please read this](#generic-support)<br>See [this issue](https://github.com/dokutan/mouse_m908/issues/10)<br>Uses a different data format
 Redragon M801 Mammoth (RGB?) | generic | 0x04d9:0xfc56 | [please read this](#generic-support)
 Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
 Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read this](#generic-support)
 Redragon M607 Griffin | generic | 0x04d9:0xfc38 | [please read this](#generic-support)
 Redragon (?) | generic | 0x04d9:0xfc3f | [please read this](#generic-support)
+Redragon M702 Phoenix | unsupported | 0x04d9:0xfc15 | See [this issue](https://github.com/dokutan/mouse_m908/issues/21)<br>Uses a different protocol
+Redragon M801 Mammoth | unsupported | 0x04d9:0xfa56 | See [this issue](https://github.com/dokutan/mouse_m908/issues/10)<br>Uses a different protocol
+
 
 If you have a mouse with experimental support, your help is needed to improve this software. Please report your results (working and non-working software).
 
