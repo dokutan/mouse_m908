@@ -29,7 +29,6 @@ std::set< uint16_t > mouse_generic::_c_all_vids = {
 	0x04d9, // all known mice with generic support have the same VID
 };
 std::set< uint16_t > mouse_generic::_c_all_pids = {
-	0xfa56, // M801 Mammoth
 	0xfc0f, // M990 Legend
 	0xfc2a, // M709 Tiger
 	0xfc30, // M711 Cobra (FPS)
@@ -42,6 +41,7 @@ std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc49, // M910 Ranger
 	0xfc4d, // M908 Impact
 	0xfc4f, // M719 Invader
+	0xfc56, // M801 Mammoth (RGB?, there is an incompatible version with PID 0xfa56) 
 	0xfc58, // 2805 (?)
 	0xfc5c, // M721-Pro Lonewolf2
 	0xfc5e, // 2858 (?)
