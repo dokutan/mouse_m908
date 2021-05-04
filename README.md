@@ -23,7 +23,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 - [License](#license)
 
 ## Status
-All known settings from the official software are implemented for the M908. The other mice have varying levels of support.
+All known settings from the official software are implemented for the M908 and M719. The other mice have varying levels of support.
 
 ### Supported mice
 If you have a mouse with VID 0x04d9 that is not listed below, there is a good chance that it is easy to add support. You can help to improve the support for your mouse by reporting what works and what doesn't, or by capturing the usb communication with the official software. Please open an issue.
