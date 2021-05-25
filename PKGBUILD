@@ -1,6 +1,6 @@
 # Maintainer: Esdras Tarsis <esdrastarsis@gmail.com>
 pkgname=mouse_m908
-pkgver=3.1
+pkgver=3.2
 pkgrel=1
 pkgdesc="Control Redragon gaming mice from Linux, BSD and Haiku"
 arch=(x86_64)

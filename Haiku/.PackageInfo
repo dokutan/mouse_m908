@@ -1,5 +1,5 @@
 name		mouse_m908
-version		3.1-1
+version		3.2-1
 architecture	any
 
 summary		"Control Redragon gaming mice"
@@ -15,5 +15,5 @@ urls		"https://github.com/dokutan/mouse_m908"
 source-urls	"https://github.com/dokutan/mouse_m908"
 
 provides {
-	mouse_m908 = 3.1-1
+	mouse_m908 = 3.2-1
 }

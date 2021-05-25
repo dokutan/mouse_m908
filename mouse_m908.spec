@@ -6,7 +6,7 @@
 %define _sourcedir %{getenv:PWD}
 
 Name: mouse_m908
-Version: 3.1
+Version: 3.2
 Release: 1
 Summary: Control Redragon gaming mice from Linux, BSD and Haiku
 

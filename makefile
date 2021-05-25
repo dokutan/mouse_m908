@@ -11,7 +11,7 @@ CC_OPTIONS := -std=c++17 -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
 LIBS != pkg-config --libs libusb-1.0
 
 # version string
-VERSION_STRING = "\"3.1\""
+VERSION_STRING = "\"3.2\""
 
 # compile
 build: m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
