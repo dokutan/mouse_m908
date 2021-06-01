@@ -258,6 +258,9 @@ class mouse_m711 : public rd_mouse{
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
+
+		/// Mapping of real DPI values to bytecode
+		static std::map< unsigned int, std::array<uint8_t, 2> > _c_dpi_codes;
 		
 		/// The model name
 		static const std::string _c_name;
@@ -307,6 +310,12 @@ class mouse_m711 : public rd_mouse{
 		static uint8_t _c_data_read_2[85][64];
 		/// Used to read the settings, part 3/3 
 		static uint8_t _c_data_read_3[46][16];
+
+		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
+		 * \return 0 if no error
+		 */
+		static int _i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
 };
 
 #endif
