@@ -62,6 +62,22 @@ target_sources(mouse_m908
         include/m715/readers.cpp
         include/m715/setters.cpp
         include/m715/writers.cpp
+        include/m719/constructor.cpp
+        include/m719/data.cpp
+        include/m719/getters.cpp
+        include/m719/helpers.cpp
+        include/m719/mouse_m719.h
+        include/m719/readers.cpp
+        include/m719/setters.cpp
+        include/m719/writers.cpp
+        include/m721/constructor.cpp
+        include/m721/data.cpp
+        include/m721/getters.cpp
+        include/m721/helpers.cpp
+        include/m721/mouse_m721.h
+        include/m721/readers.cpp
+        include/m721/setters.cpp
+        include/m721/writers.cpp
         include/m908/constructor.cpp
         include/m908/data.cpp
         include/m908/getters.cpp
