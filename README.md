@@ -39,6 +39,7 @@ Name | Support | VID:PID | Additional notes
 ---|---|---|---
 Redragon M908 Impact | complete | 0x04d9:0xfc4d | 
 Redragon M719 Invader | complete | 0x04d9:0xfc4f | 
+Redragon M607 Griffin | experimental | 0x04d9:0xfc38 | 
 Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested<br>- Macros are untested<br>- Reading the settings is not properly implemented due to a lack of data
 Redragon M711 Cobra (FPS) | experimental | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)<br>- Nothing is tested<br>- Implemented: led color, mode, brightness and speed, changing profiles, macros, reading settings<br>- No usb capture available, therefore missing: button mapping, dpi, scrollspeed, usb poll rate
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
@@ -54,7 +55,6 @@ Redragon M901 Perdition (3) | generic | 0x04d9:0xfc40 | [please read this](#gene
 Redragon M801 Mammoth (RGB?) | generic | 0x04d9:0xfc56 | [please read this](#generic-support)
 Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
 Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read this](#generic-support)
-Redragon M607 Griffin | generic | 0x04d9:0xfc38 | [please read this](#generic-support)
 Redragon (?) | generic | 0x04d9:0xfc3f | [please read this](#generic-support)
 Redragon M702 Phoenix | unsupported | 0x04d9:0xfc15 | See [this issue](https://github.com/dokutan/mouse_m908/issues/21)<br>Uses a different protocol
 Redragon M801 Mammoth | unsupported | 0x04d9:0xfa56 | See [this issue](https://github.com/dokutan/mouse_m908/issues/10)<br>Uses a different protocol

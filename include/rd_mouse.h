@@ -42,6 +42,7 @@
  * to use these classes.
  */
 class mouse_generic;
+class mouse_m607;
 class mouse_m709;
 class mouse_m711;
 class mouse_m715;
@@ -125,6 +126,7 @@ class rd_mouse{
 		/// This variant can hold an object for all available mice
 		typedef std::variant<
 			rd_mouse::monostate,
+			mouse_m607,
 			mouse_m709,
 			mouse_m711,
 			mouse_m715,
@@ -282,12 +284,13 @@ class rd_mouse{
 #endif
 
 // include header files for the individual models
-#include "m908/mouse_m908.h"
+#include "m607/mouse_m607.h"
 #include "m709/mouse_m709.h"
 #include "m711/mouse_m711.h"
 #include "m715/mouse_m715.h"
 #include "m719/mouse_m719.h"
 #include "m721/mouse_m721.h"
+#include "m908/mouse_m908.h"
 #include "m913/mouse_m913.h"
 #include "m990/mouse_m990.h"
 #include "m990chroma/mouse_m990chroma.h"
