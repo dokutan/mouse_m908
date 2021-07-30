@@ -293,7 +293,7 @@ class mouse_m607 : public rd_mouse{
 		/// Used for sending the settings, part 2/3
 		static uint8_t _c_data_settings_2[64];
 		/// Used for sending the settings, part 3/3
-		static uint8_t _c_data_settings_3[90][16];
+		static uint8_t _c_data_settings_3[85][16];
 		/// Used for sending a macro, part 1/3
 		static uint8_t _c_data_macros_1[16];
 		/// Used for sending a macro, part 2/3
