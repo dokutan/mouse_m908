@@ -98,15 +98,7 @@ sudo make uninstall
 ```
 
 ### Arch Linux
-Arch Linux support was added with a pkgbuild file so you can install `mouse_m908` via pacman
-
-- Clone this repo
-- Run:
-```
-makepkg -si
-```
-
-Note that this will currently build the latest release version, to get the latest git version follow the generic instructions for Linux.
+An [AUR package](https://aur.archlinux.org/packages/mouse_m908/) is available for the latest release.
 
 ### Fedora/RHEL
 
