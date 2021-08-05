@@ -35,8 +35,8 @@ std::map< int, std::string > mouse_m607::_c_button_names = {
 	{ 2, "button_middle" },
 	{ 3, "button_forward" },
 	{ 4, "button_backward" },
-	{ 5, "button_lightmode" },
-	{ 6, "button_dpi" },
+	{ 5, "button_dpi" },
+	{ 6, "button_lightmode" },
 	{ 7, "scroll_up" },
 	{ 8, "scroll_down" } };
 
