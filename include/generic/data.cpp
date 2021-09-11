@@ -39,6 +39,7 @@ std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc41, // M990 Legend Chroma/RGB
 	0xfc42, // M802 Titanoboa 2
 	0xfc49, // M910 Ranger
+	0xfc4c, // M909 Emperor
 	0xfc4d, // M908 Impact
 	0xfc4f, // M719 Invader
 	0xfc56, // M801 Mammoth (RGB?, there is an incompatible version with PID 0xfa56) 
