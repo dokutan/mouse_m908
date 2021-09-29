@@ -20,6 +20,11 @@
 
 //helper functions
 
+// Maps rd_profile to m913_profile
+mouse_m913::m913_profile mouse_m913::rd_profile_to_m913_profile( rd_profile profile ){
+	return profile == rd_mouse::rd_profile::profile_1 ? mouse_m913::m913_profile::profile_1 : mouse_m913::m913_profile::profile_2;
+}
+
 //init libusb and open mouse
 int mouse_m913::open_mouse(){
 	

@@ -250,6 +250,14 @@ class mouse_m913 : public rd_mouse{
 		std::map< int, std::string >& button_names(){ return _c_button_names; }
 		
 	private:
+		/// The M913 has only two profiles.
+		enum m913_profile{
+			profile_1 = 0,
+			profile_2 = 1,
+		};
+
+		/// Maps rd_profile to m913_profile
+		m913_profile rd_profile_to_m913_profile( rd_profile profile );
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
@@ -271,15 +279,15 @@ class mouse_m913 : public rd_mouse{
 
 		//setting vars
 		rd_profile _s_profile;
-		std::array<uint8_t, 5> _s_scrollspeeds;
-		std::array<rd_lightmode, 5> _s_lightmodes;
-		std::array<std::array<uint8_t, 3>, 5> _s_colors;
-		std::array<uint8_t, 5> _s_brightness_levels;
-		std::array<uint8_t, 5> _s_speed_levels;
-		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		std::array<std::array<std::array<uint8_t, 3>, 5>, 5> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 16>, 5> _s_keymap_data;
-		std::array<rd_report_rate, 5> _s_report_rates;
+		std::array<uint8_t, 2> _s_scrollspeeds;
+		std::array<rd_lightmode, 2> _s_lightmodes;
+		std::array<std::array<uint8_t, 3>, 2> _s_colors;
+		std::array<uint8_t, 2> _s_brightness_levels;
+		std::array<uint8_t, 2> _s_speed_levels;
+		std::array<std::array<bool, 5>, 2> _s_dpi_enabled;
+		std::array<std::array<std::array<uint8_t, 3>, 5>, 2> _s_dpi_levels;
+		std::array<std::array<std::array<uint8_t, 4>, 16>, 2> _s_keymap_data;
+		std::array<rd_report_rate, 2> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		
 		//usb data packets
