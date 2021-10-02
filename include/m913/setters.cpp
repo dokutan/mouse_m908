@@ -38,7 +38,15 @@ int mouse_m913::set_scrollspeed( rd_profile profile, uint8_t speed ){
 }
 
 int mouse_m913::set_lightmode( rd_profile profile, rd_lightmode lightmode ){
-	_s_lightmodes[rd_profile_to_m913_profile(profile)] = lightmode;
+	mouse_m913::m913_lightmode l = mouse_m913::m913_lightmode::lightmode_static;
+	switch(lightmode){
+		case rd_mouse::rd_lightmode::lightmode_off: l = mouse_m913::m913_lightmode::lightmode_off; break;
+		case rd_mouse::rd_lightmode::lightmode_breathing: l = mouse_m913::m913_lightmode::lightmode_breathing; break;
+		case rd_mouse::rd_lightmode::lightmode_rainbow: l = mouse_m913::m913_lightmode::lightmode_rainbow; break;
+		default: l = mouse_m913::m913_lightmode::lightmode_static; break;
+	}
+
+	_s_lightmodes[rd_profile_to_m913_profile(profile)] = l;
 	return 0;
 }
 

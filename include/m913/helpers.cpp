@@ -188,7 +188,7 @@ int mouse_m913::print_settings( std::ostream& output ){
 	output << "# Configuration created by mouse_m913::print_settings().\n";
 	output << "# Currently active profile: " << _s_profile << "\n";
 	
-	for( int i = 1; i < 6; i++ ){
+	for( int i = 1; i < 3; i++ ){
 		
 		// section header
 		output << "\n[profile" << i << "]\n";
@@ -218,14 +218,6 @@ int mouse_m913::print_settings( std::ostream& output ){
 			output << "rainbow\n";
 		else if( _s_lightmodes[i-1] == lightmode_static )
 			output << "static\n";
-		else if( _s_lightmodes[i-1] == lightmode_wave )
-			output << "wave\n";
-		else if( _s_lightmodes[i-1] == lightmode_alternating )
-			output << "alternating\n";
-		else if( _s_lightmodes[i-1] == lightmode_reactive )
-			output << "reactive\n";
-		else if( _s_lightmodes[i-1] == lightmode_flashing )
-			output << "flashing\n";
 		else{
 			output << "unknown, please report as bug\n";
 		}

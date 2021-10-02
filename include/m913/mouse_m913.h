@@ -256,8 +256,31 @@ class mouse_m913 : public rd_mouse{
 			profile_2 = 1,
 		};
 
+		/// The M913 has different light modes from the other mice
+		enum m913_lightmode{
+			lightmode_off,
+			lightmode_static,
+			lightmode_breathing,
+			lightmode_rainbow
+		};
+
+		uint8_t _c_brightness_min = 0x00;
+		uint8_t _c_brightness_max = 0xff;
+
 		/// Maps rd_profile to m913_profile
 		m913_profile rd_profile_to_m913_profile( rd_profile profile );
+
+		/// Write raw data
+		int write_data(uint8_t data[][17], size_t rows);
+
+		/// Write the button mapping to the mouse
+		int write_button_mapping( m913_profile profile );
+
+		/// Write the DPI settings to the mouse
+		int write_dpi_settings( m913_profile profile );
+
+		/// Write the LED settings to the mouse
+		int write_led_settings( m913_profile profile );
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
@@ -280,7 +303,7 @@ class mouse_m913 : public rd_mouse{
 		//setting vars
 		rd_profile _s_profile;
 		std::array<uint8_t, 2> _s_scrollspeeds;
-		std::array<rd_lightmode, 2> _s_lightmodes;
+		std::array<m913_lightmode, 2> _s_lightmodes;
 		std::array<std::array<uint8_t, 3>, 2> _s_colors;
 		std::array<uint8_t, 2> _s_brightness_levels;
 		std::array<uint8_t, 2> _s_speed_levels;
@@ -291,8 +314,23 @@ class mouse_m913 : public rd_mouse{
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		
 		//usb data packets
-		/// Used for sending the settings
-		static uint8_t _c_data_settings[29][17];
+		/// Unknown function
+		static uint8_t _c_data_unknown_1[11][17];
+		/// button mapping
+		static uint8_t _c_data_button_mapping[8][17];
+		/// DPI values
+		static uint8_t _c_data_dpi[4][17];
+		/// Unknown function
+		static uint8_t _c_data_unknown_2[3][17];
+		/// LED settings
+		static uint8_t _c_data_led_static[3][17];
+		/// LED settings
+		static uint8_t _c_data_led_breathing[3][17];
+		/// LED settings
+		static uint8_t _c_data_led_off[2][17];
+		/// Unknown function
+		static uint8_t _c_data_unknown_3[1][17];
+
 };
 
 #endif
