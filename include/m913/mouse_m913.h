@@ -330,6 +330,8 @@ class mouse_m913 : public rd_mouse{
 		static uint8_t _c_data_led_off[2][17];
 		/// Unknown function
 		static uint8_t _c_data_unknown_3[1][17];
+		/// Used to read the settigs from the mouse
+		static uint8_t _c_data_read[69][17];
 
 };
 
