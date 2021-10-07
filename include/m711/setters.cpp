@@ -101,7 +101,7 @@ int mouse_m711::set_dpi( rd_profile profile, int level, std::string dpi ){
 	if( level < _c_level_min || level > _c_level_max )
 		return 1;
 	
-	// check format: 0xABCD (raw bytes)
+	// check format: 0xABCD (raw bytes, identical value for x and y axis)
 	if( std::regex_match( dpi, std::regex("0x[[:xdigit:]]{4}") ) ){
 
 		uint8_t b0 = (uint8_t)stoi( dpi.substr(2,2), 0, 16 );
@@ -113,18 +113,67 @@ int mouse_m711::set_dpi( rd_profile profile, int level, std::string dpi ){
 
 		_s_dpi_levels[profile][level][0] = b0;
 		_s_dpi_levels[profile][level][1] = b1;
+		_s_dpi_levels[profile][level][2] = b0;
+		_s_dpi_levels[profile][level][3] = b1;
 		
 		return 0;
 		
 	}
 
-	// check format: 1234 (real DPI)
+	// check format: 0xABCD (raw bytes)
+	else if( std::regex_match( dpi, std::regex("0x[[:xdigit:]]{8}") ) ){
+
+		uint8_t b0 = (uint8_t)stoi( dpi.substr(2,2), 0, 16 );
+		uint8_t b1 = (uint8_t)stoi( dpi.substr(4,2), 0, 16 );
+		uint8_t b2 = (uint8_t)stoi( dpi.substr(6,2), 0, 16 );
+		uint8_t b3 = (uint8_t)stoi( dpi.substr(8,2), 0, 16 );
+
+		//check bounds
+		if( b0 < _c_dpi_min || b0 > _c_dpi_max || b1 < _c_dpi_2_min || b1 > _c_dpi_2_max
+		|| b2 < _c_dpi_min || b2 > _c_dpi_max || b3 < _c_dpi_2_min || b3 > _c_dpi_2_max ){
+			return 1;
+		}
+
+		_s_dpi_levels[profile][level][0] = b0;
+		_s_dpi_levels[profile][level][1] = b1;
+		_s_dpi_levels[profile][level][2] = b2;
+		_s_dpi_levels[profile][level][3] = b3;
+		
+		return 0;
+		
+	}
+
+	// check format: 1234 (real DPI, identical value for x and y axis)
 	else if( std::regex_match( dpi, std::regex("[[:digit:]]+") ) ){
 		
 		if( _c_dpi_codes.find( std::stoi(dpi) ) != _c_dpi_codes.end() ){
 			
 			_s_dpi_levels[profile][level][0] = _c_dpi_codes.at( std::stoi(dpi) )[0];
 			_s_dpi_levels[profile][level][1] = _c_dpi_codes.at( std::stoi(dpi) )[1];
+			_s_dpi_levels[profile][level][2] = _c_dpi_codes.at( std::stoi(dpi) )[0];
+			_s_dpi_levels[profile][level][3] = _c_dpi_codes.at( std::stoi(dpi) )[1];
+			
+			return 0;
+		}
+		
+	}
+
+	// check format: 1234 (real DPI)
+	else if( std::regex_match( dpi, std::regex("X[[:digit:]]+Y[[:digit:]]+") ) ){
+		
+		std::string dpi_x = std::regex_replace(dpi, std::regex("Y[[:digit:]]+"), "");
+		dpi_x.erase(0, 1);
+
+		std::string dpi_y = std::regex_replace(dpi, std::regex("X[[:digit:]]+"), "");
+		dpi_x.erase(0, 1);
+
+		if( _c_dpi_codes.find( std::stoi(dpi_x) ) != _c_dpi_codes.end()
+		&& _c_dpi_codes.find( std::stoi(dpi_y) ) != _c_dpi_codes.end() ){
+			
+			_s_dpi_levels[profile][level][0] = _c_dpi_codes.at( std::stoi(dpi_x) )[0];
+			_s_dpi_levels[profile][level][1] = _c_dpi_codes.at( std::stoi(dpi_x) )[1];
+			_s_dpi_levels[profile][level][2] = _c_dpi_codes.at( std::stoi(dpi_y) )[0];
+			_s_dpi_levels[profile][level][3] = _c_dpi_codes.at( std::stoi(dpi_y) )[1];
 			
 			return 0;
 		}

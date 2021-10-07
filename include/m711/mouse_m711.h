@@ -167,7 +167,7 @@ class mouse_m711 : public rd_mouse{
 		/// Get dpi level enabled/disabled status of specified profile
 		bool get_dpi_enable( rd_profile profile, int level );
 		/// Get dpi value of specified level and profile
-		int get_dpi( rd_profile profile, int level, std::array<uint8_t, 2>& dpi );
+		int get_dpi( rd_profile profile, int level, std::array<uint8_t, 4>& dpi );
 		/// Get USB poll rate of specified profile
 		rd_report_rate get_report_rate( rd_profile profile );
 		/// Get macro repeat number of specified profile
@@ -279,7 +279,7 @@ class mouse_m711 : public rd_mouse{
 		std::array<uint8_t, 5> _s_brightness_levels;
 		std::array<uint8_t, 5> _s_speed_levels;
 		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		std::array<std::array<std::array<uint8_t, 2>, 5>, 5> _s_dpi_levels;
+		std::array<std::array<std::array<uint8_t, 4>, 5>, 5> _s_dpi_levels;
 		std::array<std::array<std::array<uint8_t, 4>, 8>, 5> _s_keymap_data;
 		std::array<rd_report_rate, 5> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
@@ -315,7 +315,7 @@ class mouse_m711 : public rd_mouse{
 		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
 		 * \return 0 if no error
 		 */
-		static int _i_decode_dpi( std::array<uint8_t, 2>& dpi_bytes, std::string& dpi_string );
+		static int _i_decode_dpi( std::array<uint8_t, 4>& dpi_bytes, std::string& dpi_string );
 };
 
 #endif
