@@ -281,6 +281,14 @@ class mouse_m913 : public rd_mouse{
 
 		/// Write the LED settings to the mouse
 		int write_led_settings( m913_profile profile );
+
+		/** \brief Decodes the bytes describing a button mapping
+		 * \arg bytes the 4 bytes descriping the mapping
+		 * \arg mapping string to hold the result
+		 * \return 0 if valid button mapping
+		 * \see _i_encode_button_mapping
+		 */
+		static int _i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping );
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;

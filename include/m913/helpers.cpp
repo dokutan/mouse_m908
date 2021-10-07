@@ -295,3 +295,36 @@ int mouse_m913::print_settings( std::ostream& output ){
 	
 	return 0;
 }
+
+// decode the button mapping
+int mouse_m913::_i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping ){
+	int ret = 1;
+	std::stringstream mapping_stream;
+
+	// known keycode ?
+	for( auto keycode : _c_keycodes ){
+		if(
+			bytes.at(0) == keycode.second.at(0) &&
+			bytes.at(1) == keycode.second.at(1) &&
+			bytes.at(2) == keycode.second.at(2) &&
+			bytes.at(3) == keycode.second.at(3)
+		){
+			ret = 0;
+			mapping_stream << keycode.first;
+		}
+	}
+
+	// unknown keycode
+	if( ret != 0 ){
+		mapping_stream
+			<< "unknown, please report as bug: "
+			<< " " << std::hex << (int)bytes.at(0) << " "
+			<< " " << std::hex << (int)bytes.at(1) << " "
+			<< " " << std::hex << (int)bytes.at(2) << " "
+			<< " " << std::hex << (int)bytes.at(3)
+			<< std::dec;
+	}
+
+	mapping = mapping_stream.str();
+	return ret;
+}

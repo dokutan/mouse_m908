@@ -57,12 +57,58 @@ int mouse_m913::read_and_print_settings( std::ostream& output ){
 		<< "# Note: this feature is incomplete for the M913.\n\n";
 	
 	output << "# Currently active DPI level: " << (int)(buffer_in[2][6] + 1) << "\n";
+	
+	output << "# USB polling rate: ";
+	switch(buffer_in[4][6]){
+		case 0x1: output << "1000 Hz\n"; break;
+		case 0x2: output << "500 Hz\n"; break;
+		case 0x4: output << "250 Hz\n"; break;
+		case 0x8: output << "125 Hz\n"; break;
+		default: output << "unknown\n"; break;
+	}
 
+	output << "\n[profile1]\n\n";
+
+	// button mapping
+	std::string mapping = "";
+
+	_i_decode_button_mapping({buffer_in[16][10], buffer_in[16][11], buffer_in[16][12], buffer_in[16][13]}, mapping);
+	output << "button_left=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[16][6], buffer_in[16][7], buffer_in[16][8], buffer_in[16][9]}, mapping);
+	output << "button_right=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[17][12], buffer_in[17][13], buffer_in[17][14], buffer_in[17][15]}, mapping);
+	output << "button_middle=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[18][6], buffer_in[18][7], buffer_in[18][8], buffer_in[18][9]}, mapping);
+	output << "button_fire=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[13][12], buffer_in[13][13], buffer_in[13][14], buffer_in[13][15]}, mapping);
+	output << "button_1=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[14][6], buffer_in[14][7], buffer_in[14][8], buffer_in[14][9]}, mapping);
+	output << "button_2=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[14][10], buffer_in[14][11], buffer_in[14][12], buffer_in[14][13]}, mapping);
+	output << "button_3=" << mapping << "\n";
+	mapping = "not yet implemented";
+	output << "button_4=" << mapping << "\n"; // ?
+	
+	output << "button_5=" << mapping << "\n";
+	
+	output << "button_6=" << mapping << "\n";
+	
+	output << "button_7=" << mapping << "\n";
+	
+	output << "button_8=" << mapping << "\n";
+	
+	output << "button_9=" << mapping << "\n";
+
+	output << "button_10=" << mapping << "\n"; // ?
+	_i_decode_button_mapping({buffer_in[19][8], buffer_in[19][9], buffer_in[19][10], buffer_in[19][11]}, mapping);
+	output << "button_11=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[19][12], buffer_in[19][13], buffer_in[19][14], buffer_in[19][15]}, mapping);
+	output << "button_12=" << mapping << "\n";
 
 	return ret;
 }
 
 int mouse_m913::read_settings(){
-	// missing data
-	return 0;
+	// currently not implemented
+	return 1;
 }
