@@ -97,8 +97,14 @@ int mouse_m711::write_settings(){
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 5; j++ ){
 			buffer3[7+(5*i)+j][8] = _s_dpi_enabled[j][i];
+
+			// TODO! The M711 supports independent DPI values for the x and y axis.
+			// For now the same value is used for both axes.
 			buffer3[7+(5*i)+j][9] = _s_dpi_levels[j][i][0];
 			buffer3[7+(5*i)+j][10] = _s_dpi_levels[j][i][1];
+
+			buffer3[7+(5*i)+j][11] = _s_dpi_levels[j][i][0];
+			buffer3[7+(5*i)+j][12] = _s_dpi_levels[j][i][1];
 		}
 	}
 	
