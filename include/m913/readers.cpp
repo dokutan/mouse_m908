@@ -56,20 +56,37 @@ int mouse_m913::read_and_print_settings( std::ostream& output ){
 		<< "# This configuration can be send to the mouse with mouse_m908 -c.\n"
 		<< "# Note: this feature is incomplete for the M913.\n\n";
 	
-	output << "# Currently active DPI level: " << (int)(buffer_in[2][6] + 1) << "\n";
-	
-	output << "# USB polling rate: ";
+	output
+		<< "# The M913 has two profiles that can be switched using the 'mode switch' button on the bottom of the mouse.\n"
+	 	<< "# Reading the settings can only be done for the active profile, therefore only profile1 is used in this config.\n"
+		<< "[profile1]\n\n";
+
+	output << "report_rate=";
 	switch(buffer_in[4][6]){
-		case 0x1: output << "1000 Hz\n"; break;
-		case 0x2: output << "500 Hz\n"; break;
-		case 0x4: output << "250 Hz\n"; break;
-		case 0x8: output << "125 Hz\n"; break;
+		case 0x1: output << "1000\n"; break;
+		case 0x2: output << "500\n"; break;
+		case 0x4: output << "250\n"; break;
+		case 0x8: output << "125\n"; break;
 		default: output << "unknown\n"; break;
 	}
 
-	output << "\n[profile1]\n\n";
+	// DPI
+	output << "\n# DPI settings\n";
+	output << "# Currently active DPI level: " << (int)(buffer_in[2][6] + 1) << "\n";
+	std::string dpi = "";
+	_i_decode_dpi({buffer_in[5][8], buffer_in[5][9], buffer_in[5][11]}, dpi);
+	output << "dpi1=" << dpi << "\n";
+	_i_decode_dpi({buffer_in[5][12], buffer_in[5][13], buffer_in[5][15]}, dpi);
+	output << "dpi2=" << dpi << "\n";
+	_i_decode_dpi({buffer_in[6][6], buffer_in[6][7], buffer_in[6][9]}, dpi);
+	output << "dpi3=" << dpi << "\n";
+	_i_decode_dpi({buffer_in[6][10], buffer_in[6][11], buffer_in[6][13]}, dpi);
+	output << "dpi4=" << dpi << "\n";
+	_i_decode_dpi({buffer_in[6][14], buffer_in[6][15], buffer_in[7][7]}, dpi);
+	output << "dpi5=" << dpi << "\n";
 
 	// button mapping
+	output << "\n# Button mapping\n";
 	std::string mapping = "";
 
 	_i_decode_button_mapping({buffer_in[16][10], buffer_in[16][11], buffer_in[16][12], buffer_in[16][13]}, mapping);
@@ -86,20 +103,20 @@ int mouse_m913::read_and_print_settings( std::ostream& output ){
 	output << "button_2=" << mapping << "\n";
 	_i_decode_button_mapping({buffer_in[14][10], buffer_in[14][11], buffer_in[14][12], buffer_in[14][13]}, mapping);
 	output << "button_3=" << mapping << "\n";
-	mapping = "not yet implemented";
-	output << "button_4=" << mapping << "\n"; // ?
-	
+	_i_decode_button_mapping({buffer_in[14][14], buffer_in[14][15], buffer_in[15][6], buffer_in[15][7]}, mapping);
+	output << "button_4=" << mapping << "\n";
+	_i_decode_button_mapping({buffer_in[15][8], buffer_in[15][9], buffer_in[15][10], buffer_in[15][11]}, mapping);
 	output << "button_5=" << mapping << "\n";
-	
+	_i_decode_button_mapping({buffer_in[15][12], buffer_in[15][13], buffer_in[15][14], buffer_in[15][15]}, mapping);
 	output << "button_6=" << mapping << "\n";
-	
+	_i_decode_button_mapping({buffer_in[16][14], buffer_in[16][15], buffer_in[17][6], buffer_in[17][7]}, mapping);
 	output << "button_7=" << mapping << "\n";
-	
+	_i_decode_button_mapping({buffer_in[17][8], buffer_in[17][9], buffer_in[17][10], buffer_in[17][11]}, mapping);
 	output << "button_8=" << mapping << "\n";
-	
+	_i_decode_button_mapping({buffer_in[18][10], buffer_in[18][11], buffer_in[18][12], buffer_in[18][13]}, mapping);
 	output << "button_9=" << mapping << "\n";
-
-	output << "button_10=" << mapping << "\n"; // ?
+	_i_decode_button_mapping({buffer_in[18][14], buffer_in[18][15], buffer_in[19][6], buffer_in[19][7]}, mapping);
+	output << "button_10=" << mapping << "\n";
 	_i_decode_button_mapping({buffer_in[19][8], buffer_in[19][9], buffer_in[19][10], buffer_in[19][11]}, mapping);
 	output << "button_11=" << mapping << "\n";
 	_i_decode_button_mapping({buffer_in[19][12], buffer_in[19][13], buffer_in[19][14], buffer_in[19][15]}, mapping);

@@ -289,6 +289,12 @@ class mouse_m913 : public rd_mouse{
 		 * \see _i_encode_button_mapping
 		 */
 		static int _i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping );
+
+		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
+		 * \return 0 if no error
+		 */
+		static int _i_decode_dpi( const std::array<uint8_t, 3>& dpi_bytes, std::string& dpi_string );
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
