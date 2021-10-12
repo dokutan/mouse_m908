@@ -329,7 +329,7 @@ class mouse_m913 : public rd_mouse{
 		
 		//usb data packets
 		/// Unknown function
-		static uint8_t _c_data_unknown_1[11][17];
+		static uint8_t _c_data_unknown_1[9][17];
 		/// button mapping
 		static uint8_t _c_data_button_mapping[8][17];
 		/// DPI values
@@ -342,6 +342,8 @@ class mouse_m913 : public rd_mouse{
 		static uint8_t _c_data_led_breathing[3][17];
 		/// LED settings
 		static uint8_t _c_data_led_off[2][17];
+		/// LED settings
+		static uint8_t _c_data_led_rainbow[3][17];
 		/// Unknown function
 		static uint8_t _c_data_unknown_3[1][17];
 		/// Used to read the settigs from the mouse

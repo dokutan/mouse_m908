@@ -170,6 +170,17 @@ int mouse_m913::write_led_settings( m913_profile profile ){
 
 		ret += write_data(buffer_1, rows_1);
 
+	}else if(_s_lightmodes.at(profile) == mouse_m913::m913_lightmode::lightmode_rainbow){
+
+		// part 1 (LED settings)
+		size_t rows_1 = sizeof(_c_data_led_rainbow) / sizeof(_c_data_led_rainbow[0]);
+		uint8_t buffer_1[rows_1][17];
+		for( size_t i = 0; i < rows_1; i++ ){
+			std::copy(std::begin(_c_data_led_rainbow[i]), std::end(_c_data_led_rainbow[i]), std::begin(buffer_1[i]));
+		}
+
+		ret += write_data(buffer_1, rows_1);
+
 	}else{ // lightmode_static
 
 		// part 1 (LED settings)
