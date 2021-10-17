@@ -22,7 +22,7 @@
 mouse_m913::mouse_m913(){
 	
 	//default settings
-	_s_profile = profile_1;
+	_s_profile = rd_mouse::rd_profile::profile_1;
 	_s_scrollspeeds.fill( 0x01 );
 	_s_lightmodes.fill( lightmode_static );
 	_s_colors.fill( {0xff, 0xff, 0xff} );

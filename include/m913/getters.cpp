@@ -27,7 +27,15 @@ uint8_t mouse_m913::get_scrollspeed( rd_profile profile ){
 }
 
 mouse_m913::rd_lightmode mouse_m913::get_lightmode( rd_profile profile ){
-	return _s_lightmodes[profile];
+	mouse_m913::rd_lightmode l = mouse_m913::rd_lightmode::lightmode_static;
+	switch(_s_lightmodes[profile]){
+		case mouse_m913::m913_lightmode::lightmode_off: l = mouse_m913::rd_lightmode::lightmode_off; break;
+		case mouse_m913::m913_lightmode::lightmode_breathing: l = mouse_m913::rd_lightmode::lightmode_breathing; break;
+		case mouse_m913::m913_lightmode::lightmode_rainbow: l = mouse_m913::rd_lightmode::lightmode_rainbow; break;
+		default: l = mouse_m913::rd_lightmode::lightmode_static; break;
+	}
+	
+	return l;
 }
 
 void mouse_m913::get_color( rd_profile profile, std::array<uint8_t, 3> &color ){

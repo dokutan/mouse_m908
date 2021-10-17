@@ -20,6 +20,11 @@
 
 //helper functions
 
+// Maps rd_profile to m913_profile
+mouse_m913::m913_profile mouse_m913::rd_profile_to_m913_profile( rd_profile profile ){
+	return profile == rd_mouse::rd_profile::profile_1 ? mouse_m913::m913_profile::profile_1 : mouse_m913::m913_profile::profile_2;
+}
+
 //init libusb and open mouse
 int mouse_m913::open_mouse(){
 	
@@ -183,7 +188,7 @@ int mouse_m913::print_settings( std::ostream& output ){
 	output << "# Configuration created by mouse_m913::print_settings().\n";
 	output << "# Currently active profile: " << _s_profile << "\n";
 	
-	for( int i = 1; i < 6; i++ ){
+	for( int i = 1; i < 3; i++ ){
 		
 		// section header
 		output << "\n[profile" << i << "]\n";
@@ -213,14 +218,6 @@ int mouse_m913::print_settings( std::ostream& output ){
 			output << "rainbow\n";
 		else if( _s_lightmodes[i-1] == lightmode_static )
 			output << "static\n";
-		else if( _s_lightmodes[i-1] == lightmode_wave )
-			output << "wave\n";
-		else if( _s_lightmodes[i-1] == lightmode_alternating )
-			output << "alternating\n";
-		else if( _s_lightmodes[i-1] == lightmode_reactive )
-			output << "reactive\n";
-		else if( _s_lightmodes[i-1] == lightmode_flashing )
-			output << "flashing\n";
 		else{
 			output << "unknown, please report as bug\n";
 		}
@@ -252,7 +249,7 @@ int mouse_m913::print_settings( std::ostream& output ){
 				output << "dpi" << j << "_enable=0\n";
 			
 			// DPI value
-			std::array<uint8_t, 2> dpi_bytes = {_s_dpi_levels[i-1][j-1][0], _s_dpi_levels[i-1][j-1][1]};
+			std::array<uint8_t, 3> dpi_bytes = {_s_dpi_levels[i-1][j-1][0], _s_dpi_levels[i-1][j-1][1], _s_dpi_levels[i-1][j-1][2]};
 			std::string dpi_string = "";
 			
 			if( _i_decode_dpi( dpi_bytes, dpi_string ) == 0 )
@@ -295,6 +292,64 @@ int mouse_m913::print_settings( std::ostream& output ){
 		_i_decode_macro( macro_bytes, output, ";# ", 8 );
 		
 	}
+	
+	return 0;
+}
+
+// decode the button mapping
+int mouse_m913::_i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping ){
+	int ret = 1;
+	std::stringstream mapping_stream;
+
+	// known keycode ?
+	for( auto keycode : _c_keycodes ){
+		if(
+			bytes.at(0) == keycode.second.at(0) &&
+			bytes.at(1) == keycode.second.at(1) &&
+			bytes.at(2) == keycode.second.at(2) &&
+			bytes.at(3) == keycode.second.at(3)
+		){
+			ret = 0;
+			mapping_stream << keycode.first;
+		}
+	}
+
+	// unknown keycode
+	if( ret != 0 ){
+		mapping_stream
+			<< "unknown, please report as bug: "
+			<< " " << std::hex << (int)bytes.at(0) << " "
+			<< " " << std::hex << (int)bytes.at(1) << " "
+			<< " " << std::hex << (int)bytes.at(2) << " "
+			<< " " << std::hex << (int)bytes.at(3)
+			<< std::dec;
+	}
+
+	mapping = mapping_stream.str();
+	return ret;
+}
+
+int mouse_m913::_i_decode_dpi( const std::array<uint8_t, 3>& dpi_bytes, std::string& dpi_string ){
+	
+	// is dpi value known?
+	for( auto dpi_value : _c_dpi_codes ){
+		
+		if( dpi_value.second[0] == dpi_bytes[0] && dpi_value.second[1] == dpi_bytes[1] && dpi_value.second[2] == dpi_bytes[2] ){
+			dpi_string = std::to_string( dpi_value.first );
+			return 0;
+		}
+		
+	}
+	
+	// unknown dpi value
+	std::stringstream conversion_stream;
+	
+	conversion_stream << std::setfill('0') << std::hex;
+	conversion_stream << "0x";
+	conversion_stream << std::setw(2) << (int)dpi_bytes[0] << std::setw(2) << (int)dpi_bytes[1] << std::setw(2) << (int)dpi_bytes[2];
+	conversion_stream << std::setfill(' ') << std::setw(0) << std::dec;
+	
+	dpi_string = conversion_stream.str();
 	
 	return 0;
 }

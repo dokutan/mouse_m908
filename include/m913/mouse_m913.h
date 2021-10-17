@@ -250,6 +250,51 @@ class mouse_m913 : public rd_mouse{
 		std::map< int, std::string >& button_names(){ return _c_button_names; }
 		
 	private:
+		/// The M913 has only two profiles.
+		enum m913_profile{
+			profile_1 = 0,
+			profile_2 = 1,
+		};
+
+		/// The M913 has different light modes from the other mice
+		enum m913_lightmode{
+			lightmode_off,
+			lightmode_static,
+			lightmode_breathing,
+			lightmode_rainbow
+		};
+
+		uint8_t _c_brightness_min = 0x00;
+		uint8_t _c_brightness_max = 0xff;
+
+		/// Maps rd_profile to m913_profile
+		m913_profile rd_profile_to_m913_profile( rd_profile profile );
+
+		/// Write raw data
+		int write_data(uint8_t data[][17], size_t rows);
+
+		/// Write the button mapping to the mouse
+		int write_button_mapping( m913_profile profile );
+
+		/// Write the DPI settings to the mouse
+		int write_dpi_settings( m913_profile profile );
+
+		/// Write the LED settings to the mouse
+		int write_led_settings( m913_profile profile );
+
+		/** \brief Decodes the bytes describing a button mapping
+		 * \arg bytes the 4 bytes descriping the mapping
+		 * \arg mapping string to hold the result
+		 * \return 0 if valid button mapping
+		 * \see _i_encode_button_mapping
+		 */
+		static int _i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, std::string& mapping );
+
+		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
+		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
+		 * \return 0 if no error
+		 */
+		static int _i_decode_dpi( const std::array<uint8_t, 3>& dpi_bytes, std::string& dpi_string );
 		
 		/// Names of the physical buttons
 		static std::map< int, std::string > _c_button_names;
@@ -271,20 +316,39 @@ class mouse_m913 : public rd_mouse{
 
 		//setting vars
 		rd_profile _s_profile;
-		std::array<uint8_t, 5> _s_scrollspeeds;
-		std::array<rd_lightmode, 5> _s_lightmodes;
-		std::array<std::array<uint8_t, 3>, 5> _s_colors;
-		std::array<uint8_t, 5> _s_brightness_levels;
-		std::array<uint8_t, 5> _s_speed_levels;
-		std::array<std::array<bool, 5>, 5> _s_dpi_enabled;
-		std::array<std::array<std::array<uint8_t, 3>, 5>, 5> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 16>, 5> _s_keymap_data;
-		std::array<rd_report_rate, 5> _s_report_rates;
+		std::array<uint8_t, 2> _s_scrollspeeds;
+		std::array<m913_lightmode, 2> _s_lightmodes;
+		std::array<std::array<uint8_t, 3>, 2> _s_colors;
+		std::array<uint8_t, 2> _s_brightness_levels;
+		std::array<uint8_t, 2> _s_speed_levels;
+		std::array<std::array<bool, 5>, 2> _s_dpi_enabled;
+		std::array<std::array<std::array<uint8_t, 3>, 5>, 2> _s_dpi_levels;
+		std::array<std::array<std::array<uint8_t, 4>, 16>, 2> _s_keymap_data;
+		std::array<rd_report_rate, 2> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		
 		//usb data packets
-		/// Used for sending the settings
-		static uint8_t _c_data_settings[29][17];
+		/// Unknown function
+		static uint8_t _c_data_unknown_1[9][17];
+		/// button mapping
+		static uint8_t _c_data_button_mapping[8][17];
+		/// DPI values
+		static uint8_t _c_data_dpi[4][17];
+		/// Unknown function
+		static uint8_t _c_data_unknown_2[3][17];
+		/// LED settings
+		static uint8_t _c_data_led_static[3][17];
+		/// LED settings
+		static uint8_t _c_data_led_breathing[3][17];
+		/// LED settings
+		static uint8_t _c_data_led_off[2][17];
+		/// LED settings
+		static uint8_t _c_data_led_rainbow[3][17];
+		/// Unknown function
+		static uint8_t _c_data_unknown_3[1][17];
+		/// Used to read the settigs from the mouse
+		static uint8_t _c_data_read[69][17];
+
 };
 
 #endif

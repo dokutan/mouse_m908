@@ -32,18 +32,26 @@ int mouse_m913::set_scrollspeed( rd_profile profile, uint8_t speed ){
 		return 1;
 	}
 	
-	_s_scrollspeeds[profile] = speed;
+	_s_scrollspeeds[rd_profile_to_m913_profile(profile)] = speed;
 	
 	return 0;
 }
 
 int mouse_m913::set_lightmode( rd_profile profile, rd_lightmode lightmode ){
-	_s_lightmodes[profile] = lightmode;
+	mouse_m913::m913_lightmode l = mouse_m913::m913_lightmode::lightmode_static;
+	switch(lightmode){
+		case rd_mouse::rd_lightmode::lightmode_off: l = mouse_m913::m913_lightmode::lightmode_off; break;
+		case rd_mouse::rd_lightmode::lightmode_breathing: l = mouse_m913::m913_lightmode::lightmode_breathing; break;
+		case rd_mouse::rd_lightmode::lightmode_rainbow: l = mouse_m913::m913_lightmode::lightmode_rainbow; break;
+		default: l = mouse_m913::m913_lightmode::lightmode_static; break;
+	}
+
+	_s_lightmodes[rd_profile_to_m913_profile(profile)] = l;
 	return 0;
 }
 
 int mouse_m913::set_color( rd_profile profile, std::array<uint8_t, 3> color ){
-	_s_colors[profile] = color;
+	_s_colors[rd_profile_to_m913_profile(profile)] = color;
 	return 0;
 }
 
@@ -54,7 +62,7 @@ int mouse_m913::set_brightness( rd_profile profile, uint8_t brightness ){
 		return 1;
 	}
 	
-	_s_brightness_levels[profile] = brightness;
+	_s_brightness_levels[rd_profile_to_m913_profile(profile)] = brightness;
 	return 0;
 }
 
@@ -65,7 +73,7 @@ int mouse_m913::set_speed( rd_profile profile, uint8_t speed ){
 		return 1;
 	}
 	
-	_s_speed_levels[profile] = speed;
+	_s_speed_levels[rd_profile_to_m913_profile(profile)] = speed;
 	return 0;
 }
 
@@ -76,19 +84,19 @@ int mouse_m913::set_dpi_enable( rd_profile profile, int level, bool enabled ){
 		return 1;
 	}
 	
-	_s_dpi_enabled[profile][level] = enabled;
+	_s_dpi_enabled[rd_profile_to_m913_profile(profile)][level] = enabled;
 	
 	// check if at least one level enabled
 	int sum = 0;
 	for( int i = _c_level_min; i <= _c_level_max; i++ ){
-		if( _s_dpi_enabled[profile][i] ){
+		if( _s_dpi_enabled[rd_profile_to_m913_profile(profile)][i] ){
 			sum++;
 		}
 	}
 	
 	// if no level enabled: reenable specified level
 	if( sum == 0 ){
-		_s_dpi_enabled[profile][level] = true;
+		_s_dpi_enabled[rd_profile_to_m913_profile(profile)][level] = true;
 		return 1;
 	}
 	
@@ -102,7 +110,7 @@ int mouse_m913::set_dpi( rd_profile profile, int level, std::string dpi ){
 		return 1;
 	
 	// current assumption: only one profile
-	profile = profile_1;
+	profile = rd_mouse::rd_profile::profile_1;
 	
 	// check format: 0xABCD (raw bytes), TODO! enable or remove
 	/*
@@ -128,7 +136,7 @@ int mouse_m913::set_dpi( rd_profile profile, int level, std::string dpi ){
 		
 		if( _c_dpi_codes.find( std::stoi(dpi) ) != _c_dpi_codes.end() ){
 
-			_s_dpi_levels[profile][level] = _c_dpi_codes.at( std::stoi(dpi) );
+			_s_dpi_levels[rd_profile_to_m913_profile(profile)][level] = _c_dpi_codes.at( std::stoi(dpi) );
 			return 0;
 		}
 	}
@@ -143,17 +151,17 @@ int mouse_m913::set_dpi( rd_profile profile, int level, std::array<uint8_t, 3> d
 		return 1;
 	
 	// current assumption: only one profile
-	profile = profile_1;
+	profile = rd_mouse::rd_profile::profile_1;
 
-	_s_dpi_levels[profile][level] = dpi;
+	_s_dpi_levels[rd_profile_to_m913_profile(profile)][level] = dpi;
 	return 0;
 }
 
 int mouse_m913::set_key_mapping( rd_profile profile, int key, std::array<uint8_t, 4> mapping ){
-	_s_keymap_data[profile][key][0] = mapping[0];
-	_s_keymap_data[profile][key][1] = mapping[1];
-	_s_keymap_data[profile][key][2] = mapping[2];
-	_s_keymap_data[profile][key][3] = mapping[3];
+	_s_keymap_data[rd_profile_to_m913_profile(profile)][key][0] = mapping[0];
+	_s_keymap_data[rd_profile_to_m913_profile(profile)][key][1] = mapping[1];
+	_s_keymap_data[rd_profile_to_m913_profile(profile)][key][2] = mapping[2];
+	_s_keymap_data[rd_profile_to_m913_profile(profile)][key][3] = mapping[3];
 	return 0;
 }
 
@@ -164,18 +172,18 @@ int mouse_m913::set_key_mapping( rd_profile profile, int key, std::string mappin
 		return 1;
 	
 	// current assumption: only one profile
-	profile = profile_1;
+	profile = rd_mouse::rd_profile::profile_1;
 
 	// the M913 uses different keycodes, therefore the decoding is done here
 	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
-		_s_keymap_data[profile][key] = _c_keycodes[mapping];
+		_s_keymap_data[rd_profile_to_m913_profile(profile)][key] = _c_keycodes[mapping];
 	}
 	
 	return 0;
 }
 
 int mouse_m913::set_report_rate( rd_profile profile, rd_report_rate report_rate ){
-	_s_report_rates[profile] = report_rate;
+	_s_report_rates[rd_profile_to_m913_profile(profile)] = report_rate;
 	return 0;
 }
 
