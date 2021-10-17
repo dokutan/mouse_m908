@@ -219,8 +219,8 @@ int mouse_m711::read_and_print_settings( std::ostream& output ){
 			// DPI enable
 			output << "dpi" << j << "_enable=" << (int)buffer_in2[i-1][4+(6*j)] << "\n";
 			
-			// DPI value
-			std::array<uint8_t, 2> dpi_bytes = {buffer_in2[i-1][5+(6*j)], buffer_in2[i-1][6+(6*j)]};
+			// DPI value TODO! find the location of last two bytes
+			std::array<uint8_t, 4> dpi_bytes = {buffer_in2[i-1][5+(6*j)], buffer_in2[i-1][6+(6*j)], 0, 0};
 			std::string dpi_string = "";
 			
 			if( _i_decode_dpi( dpi_bytes, dpi_string ) == 0 )
