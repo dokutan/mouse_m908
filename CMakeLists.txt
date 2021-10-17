@@ -46,6 +46,14 @@ target_sources(mouse_m908
         include/m607/readers.cpp
         include/m607/setters.cpp
         include/m607/writers.cpp
+        include/m686/constructor.cpp
+        include/m686/data.cpp
+        include/m686/getters.cpp
+        include/m686/helpers.cpp
+        include/m686/mouse_m686.h
+        include/m686/readers.cpp
+        include/m686/setters.cpp
+        include/m686/writers.cpp
         include/m709/constructor.cpp
         include/m709/data.cpp
         include/m709/getters.cpp

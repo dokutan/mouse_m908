@@ -14,7 +14,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"3.2\""
 
 # compile
-build: m607 m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
+build: m607 m686 m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -75,6 +75,8 @@ hpkg:
 # targets for the different mice
 m607: constructor_m607.o data_m607.o getters_m607.o helpers_m607.o setters_m607.o writers_m607.o readers_m607.o
 
+m686: constructor_m686.o data_m686.o getters_m686.o helpers_m686.o setters_m686.o writers_m686.o readers_m686.o
+
 m908: constructor_m908.o data_m908.o getters_m908.o helpers_m908.o setters_m908.o writers_m908.o readers_m908.o
 
 m709: constructor_m709.o data_m709.o getters_m709.o helpers_m709.o setters_m709.o writers_m709.o readers_m709.o
@@ -128,6 +130,27 @@ writers_m607.o:
 
 readers_m607.o:
 	$(CC) -c include/m607/readers.cpp $(CC_OPTIONS) -o readers_m607.o
+
+constructor_m686.o:
+	$(CC) -c include/m686/constructor.cpp $(CC_OPTIONS) -o constructor_m686.o
+
+data_m686.o:
+	$(CC) -c include/m686/data.cpp $(CC_OPTIONS) -o data_m686.o
+
+getters_m686.o:
+	$(CC) -c include/m686/getters.cpp $(CC_OPTIONS) -o getters_m686.o
+
+helpers_m686.o:
+	$(CC) -c include/m686/helpers.cpp $(CC_OPTIONS) -o helpers_m686.o
+
+setters_m686.o:
+	$(CC) -c include/m686/setters.cpp $(CC_OPTIONS) -o setters_m686.o
+
+writers_m686.o:
+	$(CC) -c include/m686/writers.cpp $(CC_OPTIONS) -o writers_m686.o
+
+readers_m686.o:
+	$(CC) -c include/m686/readers.cpp $(CC_OPTIONS) -o readers_m686.o
 
 constructor_m908.o:
 	$(CC) -c include/m908/constructor.cpp $(CC_OPTIONS) -o constructor_m908.o
