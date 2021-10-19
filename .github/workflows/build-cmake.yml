@@ -1,0 +1,21 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  fedora-cmake-build:
+    runs-on: ubuntu-latest
+    container: fedora:34
+    steps:
+      - uses: actions/checkout@v2
+      - name: install tools and dependencies
+        run: |
+          dnf install -y cmake rpm-build findutils clang-tools-extra 'dnf-command(builddep)'
+          dnf builddep -y mouse_m908.spec
+      - name: build mouse_m908 with cmake
+        run: |
+          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -Bbuild
+          cmake --build build

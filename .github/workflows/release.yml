@@ -1,0 +1,62 @@
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  fedora-release-rpm:
+    runs-on: ubuntu-latest
+    container: fedora:34
+    steps:
+      - name: get version from tag
+        run: |
+          echo "RELEASE_VER=${GITHUB_REF#*/*/v}" >> ${GITHUB_ENV}
+      - uses: actions/checkout@v2
+      - name: install tools and dependencies
+        run: |
+          dnf install -y rpm-build findutils clang-tools-extra 'dnf-command(builddep)'
+          dnf builddep -y mouse_m908.spec
+      - name: build mouse_m908 rpm package
+        run: |
+          make -j4 rpm
+          make -j4 src-rpm
+      - name: upload rpm package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mouse_m908-${{ github.run_id }}-1.x86_64.rpm
+          path: mouse_m908-${{ env.RELEASE_VER }}-1.x86_64.rpm
+      - name: upload src rpm package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: mouse_m908-${{ github.run_id }}.src.rpm
+          path: mouse_m908-${{ env.RELEASE_VER }}-1.src.rpm
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: upload rpm package to release page
+        id: upload-release-rpm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./mouse_m908-${{ env.RELEASE_VER }}-1.x86_64.rpm
+          asset_name: mouse_m908-${{ env.RELEASE_VER }}-1.x86_64.rpm
+          asset_content_type: application/octet-stream
+      - name: upload src rpm package to release page
+        id: upload-release-srpm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./mouse_m908-${{ env.RELEASE_VER }}-1.src.rpm
+          asset_name: mouse_m908-${{ env.RELEASE_VER }}-1.src.rpm
+          asset_content_type: application/octet-stream
