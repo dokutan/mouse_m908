@@ -1,0 +1,155 @@
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  create-gh-release:
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - name: create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: put upload_url in artifact
+        run: |
+          echo '${{ steps.create_release.outputs.upload_url }}' > release-upload-url
+      - name: upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-upload-url
+          path: release-upload-url
+
+  fedora-release-rpm:
+    runs-on: ubuntu-latest
+    container: fedora:34
+    steps:
+      - uses: actions/checkout@v2
+      - name: get version details
+        run: |
+          echo "RELEASE_VER=${GITHUB_REF#*/*/v}" >> ${GITHUB_ENV}
+          echo "DIST_TAG=$(rpm --eval '%dist')" >> ${GITHUB_ENV}
+          echo "RPM_RELEASE=$(awk '/Release:/{$0 = $2; FS="%"; $0=$0; print $1}' mouse_m908.spec)" >> ${GITHUB_ENV}
+      - name: set output variables
+        run: |
+          echo "RPM_NAME=mouse_m908-${RELEASE_VER}-${RPM_RELEASE}${DIST_TAG}.x86_64.rpm" >> ${GITHUB_ENV}
+          echo "SRPM_NAME=mouse_m908-${RELEASE_VER}-${RPM_RELEASE}${DIST_TAG}.src.rpm" >> ${GITHUB_ENV}
+      - name: install tools and dependencies
+        run: |
+          dnf install -y rpm-build findutils clang-tools-extra 'dnf-command(builddep)'
+          dnf builddep -y mouse_m908.spec
+      - name: build mouse_m908 rpm package
+        run: |
+          make -j4 rpm
+          make -j4 src-rpm
+
+      - name: upload rpm package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.RPM_NAME }}
+          path: ${{ env.RPM_NAME }}
+      - name: upload src rpm package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.SRPM_NAME }}
+          path: ${{ env.SRPM_NAME }}
+
+      - name: download release-upload-url artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: release-upload-url
+          path: release-upload-url
+      - name: set upload url environment var
+        run: |
+          echo "UPLOAD_URL=$(cat release-upload-url/release-upload-url)" >> ${GITHUB_ENV} 
+      - name: upload rpm package to release page
+        id: upload-release-rpm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ./${{ env.RPM_NAME }}
+          asset_name: ${{ env.RPM_NAME }}
+          asset_content_type: application/octet-stream
+      - name: upload src rpm package to release page
+        id: upload-release-srpm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ./${{ env.SRPM_NAME }}
+          asset_name: ${{ env.SRPM_NAME }}
+          asset_content_type: application/octet-stream
+
+  centos-release-rpm:
+    runs-on: ubuntu-latest
+    container: centos:8
+    steps:
+      - uses: actions/checkout@v2
+      - name: get version details
+        run: |
+          echo "RELEASE_VER=${GITHUB_REF#*/*/v}" >> ${GITHUB_ENV}
+          echo "DIST_TAG=$(rpm --eval '%dist')" >> ${GITHUB_ENV}
+          echo "RPM_RELEASE=$(awk '/Release:/{$0 = $2; FS="%"; $0=$0; print $1}' mouse_m908.spec)" >> ${GITHUB_ENV}
+      - name: set output variables
+        run: |
+          echo "RPM_NAME=mouse_m908-${RELEASE_VER}-${RPM_RELEASE}${DIST_TAG}.x86_64.rpm" >> ${GITHUB_ENV}
+          echo "SRPM_NAME=mouse_m908-${RELEASE_VER}-${RPM_RELEASE}${DIST_TAG}.src.rpm" >> ${GITHUB_ENV}
+      - name: install tools and dependencies
+        run: |
+          dnf install -y rpm-build findutils clang-tools-extra 'dnf-command(builddep)' 'dnf-command(config-manager)'
+          dnf config-manager --set-enabled powertools
+          dnf builddep -y mouse_m908.spec
+      - name: build mouse_m908 rpm package
+        run: |
+          make -j4 rpm
+          make -j4 src-rpm
+
+      - name: upload rpm package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.RPM_NAME }}
+          path: ${{ env.RPM_NAME }}
+      - name: upload src rpm package artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.SRPM_NAME }}
+          path: ${{ env.SRPM_NAME }}
+
+      - name: download release-upload-url artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: release-upload-url
+          path: release-upload-url
+      - name: set upload url environment var
+        run: |
+          echo "UPLOAD_URL=$(cat release-upload-url/release-upload-url)" >> ${GITHUB_ENV} 
+      - name: upload rpm package to release page
+        id: upload-release-rpm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ./${{ env.RPM_NAME }}
+          asset_name: ${{ env.RPM_NAME }}
+          asset_content_type: application/octet-stream
+      - name: upload src rpm package to release page
+        id: upload-release-srpm
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ env.UPLOAD_URL }}
+          asset_path: ./${{ env.SRPM_NAME }}
+          asset_name: ${{ env.SRPM_NAME }}
+          asset_content_type: application/octet-stream
