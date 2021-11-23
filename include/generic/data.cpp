@@ -29,6 +29,7 @@ std::set< uint16_t > mouse_generic::_c_all_vids = {
 	0x04d9, // all known mice with generic support have the same VID
 };
 std::set< uint16_t > mouse_generic::_c_all_pids = {
+	0xfc02, // M901 Perdition
 	0xfc0f, // M990 Legend
 	0xfc2a, // M709 Tiger
 	0xfc30, // M711 Cobra (FPS)

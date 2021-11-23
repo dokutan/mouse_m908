@@ -53,6 +53,7 @@ Redragon M802 Titanoboa 2 | generic | 0x04d9:0xfc42 | [please read this](#generi
 Redragon 2858 (?) | generic | 0x04d9:0xfc5e | [please read this](#generic-support)
 Redragon 2805 (?) | generic | 0x04d9:0xfc58 | [please read this](#generic-support)
 Redragon 2850 (?) | generic | 0x04d9:0xfc61 | [please read this](#generic-support)
+Redragon M901 Perdition | generic | 0x04d9:0xfc02 | [please read this](#generic-support)
 Redragon M901 Perdition (3) | generic | 0x04d9:0xfc40 | [please read this](#generic-support)
 Redragon M801 Mammoth (RGB?) | generic | 0x04d9:0xfc56 | [please read this](#generic-support)
 Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
