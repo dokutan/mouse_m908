@@ -56,6 +56,13 @@ int mouse_m686::read_and_print_settings( std::ostream& output ){
 		<< "# This configuration can be send to the mouse with mouse_m908 -c.\n"
 		<< "# Note: this feature is incomplete for the m686.\n\n";
 	
+	// battery level
+	output << "# Battery level: ";
+	if(buffer_in[68][6] <= 10)
+		output << (int)(buffer_in[68][6] * 10) << " %\n\n";
+	else
+		output << "unkown, please report as a bug (" << (int)buffer_in[68][6] << ")\n\n";
+
 	output
 		<< "# The m686 has two profiles that can be switched using the 'mode switch' button on the bottom of the mouse.\n"
 	 	<< "# Reading the settings can only be done for the active profile, therefore only profile1 is used in this config.\n"
