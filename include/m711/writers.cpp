@@ -62,8 +62,7 @@ int mouse_m711::write_settings(){
 	// end
 	
 	//modify buffers to include settings
-	
-	// Currently no data capture available 
+
 	//scrollspeed
 	for( int i = 0; i < 5; i++ ){
 		buffer2[8+(2*i)] = _s_scrollspeeds[i];
@@ -92,7 +91,6 @@ int mouse_m711::write_settings(){
 		buffer1[3+(2*i)][12] = _s_speed_levels[i];
 	}
 	
-	// Currently no data capture available 
 	//dpi
 	for( int i = 0; i < 5; i++ ){
 		for( int j = 0; j < 5; j++ ){
@@ -109,12 +107,11 @@ int mouse_m711::write_settings(){
 	
 	//key mapping
 	for( int i = 0; i < 5; i++ ){
-		for( int j = 0; j < 8; j++ ){
-			buffer3[35+(8*i)+j][8] = _s_keymap_data[i][j][0];
-			buffer3[35+(8*i)+j][9] = _s_keymap_data[i][j][1];
-			buffer3[35+(8*i)+j][10] = _s_keymap_data[i][j][2];
-			buffer3[35+(8*i)+j][11] = _s_keymap_data[i][j][3];
-			//std::cout << (int)_s_keymap_data[i][j][0] << " " << (int)_s_keymap_data[i][j][1] << " " << (int)_s_keymap_data[i][j][2] << " " << (int)_s_keymap_data[i][j][3] << "\n";
+		for( int j = 0; j < 10; j++ ){
+			buffer3[35+(10*i)+j][8] = _s_keymap_data[i][j][0];
+			buffer3[35+(10*i)+j][9] = _s_keymap_data[i][j][1];
+			buffer3[35+(10*i)+j][10] = _s_keymap_data[i][j][2];
+			buffer3[35+(10*i)+j][11] = _s_keymap_data[i][j][3];
 		}
 	}
 	
@@ -130,7 +127,6 @@ int mouse_m711::write_settings(){
 		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer1[i], 16, 1000 );
 	}
 	
-	// Currently no data capture available 
 	//send data 2
 	libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer2, 64, 1000 );
 	
