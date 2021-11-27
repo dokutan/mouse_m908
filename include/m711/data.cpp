@@ -48,14 +48,14 @@ std::map< unsigned int, std::array<uint8_t, 2> > mouse_m711::_c_dpi_codes = {
 	{ 300, {0x6, 0x00} },
 	{ 400, {0x9, 0x00} },
 	{ 500, {0xb, 0x00} },
-	
-	// copied from the M908
-	/* 
 	{ 600, {0xd, 0x00} },
 	{ 700, {0xf, 0x00} },
 	{ 800, {0x12, 0x00} },
 	{ 900, {0x14, 0x00} },
 	{ 1000, {0x16, 0x00} },
+
+	// copied from the M908
+	/*
 	{ 1100, {0x18, 0x00} },
 	{ 1200, {0x1b, 0x00} },
 	{ 1300, {0x1d, 0x00} },
