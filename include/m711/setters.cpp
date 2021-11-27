@@ -165,7 +165,7 @@ int mouse_m711::set_dpi( rd_profile profile, int level, std::string dpi ){
 		dpi_x.erase(0, 1);
 
 		std::string dpi_y = std::regex_replace(dpi, std::regex("X[[:digit:]]+"), "");
-		dpi_x.erase(0, 1);
+		dpi_y.erase(0, 1);
 
 		if( _c_dpi_codes.find( std::stoi(dpi_x) ) != _c_dpi_codes.end()
 		&& _c_dpi_codes.find( std::stoi(dpi_y) ) != _c_dpi_codes.end() ){
