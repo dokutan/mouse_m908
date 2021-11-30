@@ -437,8 +437,6 @@ int mouse_m711::read_settings(){
 			
 		}
 		
-		/* Currently not implemented, missing captured data
-		 * 
 		// button mapping
 		for( int j = 0; j < 8; j++ ){
 			
@@ -448,8 +446,6 @@ int mouse_m711::read_settings(){
 			_s_keymap_data[i-1][j][3] = buffer_in3[j+(8*(i-1))][11];
 			
 		}
-		* 
-		*/
 	}
 	
 	// macros
