@@ -33,6 +33,20 @@ std::set< uint16_t > mouse_m686::_c_all_pids = {
 
 // Names of the physical buttons
 std::map< int, std::string > mouse_m686::_c_button_names = {
+	{ 0, "button_left" },
+	{ 1, "button_right" },
+	{ 2, "button_middle" },
+	{ 3, "ignore" },
+	{ 4, "button_side_1" },
+	{ 5, "button_side_3" },
+	{ 6, "ignore" },
+	{ 7, "ignore" },
+	{ 8, "button_side_2" },
+	{ 9, "ignore" },
+	{ 10, "button_dpi_up" },
+	{ 11, "button_dpi_down" },
+	
+	/* first (wrong) attempt:
 	{ 0, "button_1" },
 	{ 1, "button_2" },
 	{ 2, "button_3" },
@@ -49,6 +63,7 @@ std::map< int, std::string > mouse_m686::_c_button_names = {
 	{ 13, "button_10" },
 	{ 14, "button_11" },
 	{ 15, "button_12" }
+	*/
 };
 
 std::map< std::string, std::array<uint8_t, 4> > mouse_m686::_c_keycodes = {

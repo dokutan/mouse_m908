@@ -59,7 +59,7 @@ int mouse_m686::write_button_mapping( m686_profile profile ){
 	}
 
 	// two buttons per packet
-	for( int i=0; i<16; i+=2 ){
+	for( int i=0; i<12; i+=2 ){
 		int j = i/2;
 
 		buffer_2[j][6] = _s_keymap_data[profile][i][0];

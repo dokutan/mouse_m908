@@ -323,7 +323,7 @@ class mouse_m686 : public rd_mouse{
 		std::array<uint8_t, 2> _s_speed_levels;
 		std::array<std::array<bool, 5>, 2> _s_dpi_enabled;
 		std::array<std::array<std::array<uint8_t, 3>, 5>, 2> _s_dpi_levels;
-		std::array<std::array<std::array<uint8_t, 4>, 16>, 2> _s_keymap_data;
+		std::array<std::array<std::array<uint8_t, 4>, 12>, 2> _s_keymap_data;
 		std::array<rd_report_rate, 2> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		
