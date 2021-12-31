@@ -1,0 +1,19 @@
+How to map a button on the M913 (M686) as a keyboard key:
+
+1.  set the button mapping to 'default' (0x05, 0x00, 0x00, 0x50)
+    this will only mark the button as being used as a keyboard key
+
+2.  to set the keyboard key modify _c_data_unknown_1: (1 packet per button)
+
+    examples:
+    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16
+
+    08 07 00 01 a0 08 02 81 04 00 41 04 00 89 00 00 47      button 6 → a
+    08 07 00 02 00 08 02 81 04 00 41 04 00 89 00 00 e7      button 7 → a
+    08 07 00 01 a0 0a 04 80 02 00 81 04 00 40 02 00 4e      button 6 → A
+    08 07 00 01 a0 08 02 81 05 00 41 05 00 87 00 00 48      button 6 → b
+
+    3, 4        = physical button
+    5, 6, 7, 8  = modifiers
+    8, 11       = keyboard key
+    13, 14      = checksum? if this value is incorrect the mapping will fail
