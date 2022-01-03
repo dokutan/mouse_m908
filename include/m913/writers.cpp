@@ -43,13 +43,10 @@ int mouse_m913::write_data(uint8_t data[][17], size_t rows){
 int mouse_m913::write_button_mapping( m913_profile profile ){
 	int ret = 0;
 
-	// part 1 (unknown function)
-	size_t rows_1 = sizeof(_c_data_unknown_1) / sizeof(_c_data_unknown_1[0]);
-	uint8_t buffer_1[rows_1][17];
-	for( size_t i = 0; i < rows_1; i++ ){
-		std::copy(std::begin(_c_data_unknown_1[i]), std::end(_c_data_unknown_1[i]), std::begin(buffer_1[i]));
+	// part 1 (buttons mapped as keyboard keys)
+	for(size_t i = 0; i < _s_keyboard_key_packets.size(); i++){
+		ret += write_data((uint8_t (*)[17])_s_keyboard_key_packets[i].data(), 1);
 	}
-	ret += write_data(buffer_1, rows_1);
 
 	// part 2 (button mapping)
 	size_t rows_2 = sizeof(_c_data_button_mapping) / sizeof(_c_data_button_mapping[0]);

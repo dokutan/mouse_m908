@@ -98,7 +98,7 @@ rd_mouse::mouse_variant rd_mouse::detect( const std::string& mouse_name ){
 
 			if( m.has_vid_pid(vid, pid) && mouse_name == m.get_name() ){
 
-				// setting the vid/pid is required for mice woth multiple ids and is ignored by all other backends
+				// setting the vid/pid is required for mice with multiple ids and is ignored by all other backends
 				m.set_vid(vid);
 				m.set_pid(pid);
 

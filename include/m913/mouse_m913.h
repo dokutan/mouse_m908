@@ -313,6 +313,8 @@ class mouse_m913 : public rd_mouse{
 		static std::map< int, std::array<uint8_t,3> > _c_dpi_codes;
 		/// Values/keycodes of mouse buttons and special button functions
 		static std::map< std::string, std::array<uint8_t, 4> > _c_keycodes;
+		/// Used to identify buttons when mapping buttons to keyboard keys
+		static std::map< int, std::array<uint8_t, 3> > _c_keyboard_key_buttons;
 
 		//setting vars
 		rd_profile _s_profile;
@@ -326,9 +328,12 @@ class mouse_m913 : public rd_mouse{
 		std::array<std::array<std::array<uint8_t, 4>, 16>, 2> _s_keymap_data;
 		std::array<rd_report_rate, 2> _s_report_rates;
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
+		std::vector<std::array<uint8_t, 17>> _s_keyboard_key_packets;
 		
 		//usb data packets
-		/// Unknown function
+		/// Packets to map buttons to keyboard keys
+		static std::map< std::string, std::array<uint8_t, 17> > _c_keyboard_key_packets;
+		/// mapping buttons to keyboard keys TODO!: replace and remove
 		static uint8_t _c_data_unknown_1[9][17];
 		/// button mapping
 		static uint8_t _c_data_button_mapping[8][17];
