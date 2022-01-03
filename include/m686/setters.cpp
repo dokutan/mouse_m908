@@ -174,9 +174,22 @@ int mouse_m686::set_key_mapping( rd_profile profile, int key, std::string mappin
 	// current assumption: only one profile
 	profile = rd_mouse::rd_profile::profile_1;
 
-	// the m686 uses different keycodes, therefore the decoding is done here
-	if( _c_keycodes.find(mapping) != _c_keycodes.end() ){
+	// the M686 uses different keycodes, therefore the decoding is done here
+	if( _c_keyboard_key_packets.find(mapping) != _c_keyboard_key_packets.end() ){ // keyboard key
+
+		// the button gets mapped as "default"
+		_s_keymap_data[rd_profile_to_m686_profile(profile)][key] = _c_keycodes["default"];
+		
+		// and additional packets are sent
+		_s_keyboard_key_packets.push_back(_c_keyboard_key_packets[mapping]);
+		_s_keyboard_key_packets.back()[3] = _c_keyboard_key_buttons[key][0];
+		_s_keyboard_key_packets.back()[4] = _c_keyboard_key_buttons[key][1];
+		_s_keyboard_key_packets.back()[16] = _c_keyboard_key_buttons[key][2];
+
+	}else if( _c_keycodes.find(mapping) != _c_keycodes.end() ){ // mouse buttons, special functions, ...
+
 		_s_keymap_data[rd_profile_to_m686_profile(profile)][key] = _c_keycodes[mapping];
+
 	}
 	
 	return 0;
