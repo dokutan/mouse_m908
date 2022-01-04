@@ -178,7 +178,7 @@ int mouse_m686::set_key_mapping( rd_profile profile, int key, std::string mappin
 	if( _c_keyboard_key_values.find(mapping) != _c_keyboard_key_values.end() ){ // keyboard key
 
 		// the button gets mapped as "default"
-		_s_keymap_data[rd_profile_to_m686_profile(profile)][key] = rd_mouse_wireless::_c_keycodes["default"];
+		_s_keymap_data[rd_profile_to_m686_profile(profile)][key] = rd_mouse_wireless::_c_keycodes["keyboard_key"];
 		
 		// and additional packets are sent
 		_s_keyboard_key_packets.push_back(_c_data_button_as_keyboard_key);
