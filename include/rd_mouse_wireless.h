@@ -34,6 +34,12 @@ class rd_mouse_wireless{
 		/// Values/keycodes of mouse buttons and special button functions
 		static std::map< std::string, std::array<uint8_t, 4> > _c_keycodes;
 
+		/// Computes the checksum used when mapping a button as a keyboard key
+		static uint8_t _i_keyboard_key_checksum(uint8_t scancode);
+
+		/// Used to map a button as a keyboard key
+		static std::array<uint8_t, 17> _c_data_button_as_keyboard_key;
+
 };
 
 #endif

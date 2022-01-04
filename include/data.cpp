@@ -163,7 +163,6 @@ std::map< std::string, uint8_t > rd_mouse::_c_keyboard_key_values = {
 	{ "Shift_r", 0xe5 },
 	{ "Return", 0x28 },
 	{ "Backspace", 0x2a },
-	{ "Caps_Lock", 0x39 },
 	//special characters
 	{ "Space", 0x2c },
 	{ "Tilde", 0x35 },

@@ -331,10 +331,6 @@ class mouse_m913 : public rd_mouse, protected rd_mouse_wireless {
 		std::vector<std::array<uint8_t, 17>> _s_keyboard_key_packets;
 		
 		//usb data packets
-		/// Packets to map buttons to keyboard keys
-		static std::map< std::string, std::array<uint8_t, 17> > _c_keyboard_key_packets;
-		/// mapping buttons to keyboard keys TODO!: replace and remove
-		static uint8_t _c_data_unknown_1[9][17];
 		/// button mapping
 		static uint8_t _c_data_button_mapping[8][17];
 		/// DPI values
