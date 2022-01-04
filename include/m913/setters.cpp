@@ -178,7 +178,7 @@ int mouse_m913::set_key_mapping( rd_profile profile, int key, std::string mappin
 	if( _c_keyboard_key_packets.find(mapping) != _c_keyboard_key_packets.end() ){ // keyboard key
 
 		// the button gets mapped as "default"
-		_s_keymap_data[rd_profile_to_m913_profile(profile)][key] = _c_keycodes["default"];
+		_s_keymap_data[rd_profile_to_m913_profile(profile)][key] = rd_mouse_wireless::_c_keycodes["default"];
 		
 		// and additional packets are sent
 		_s_keyboard_key_packets.push_back(_c_keyboard_key_packets[mapping]);
@@ -186,9 +186,9 @@ int mouse_m913::set_key_mapping( rd_profile profile, int key, std::string mappin
 		_s_keyboard_key_packets.back()[4] = _c_keyboard_key_buttons[key][1];
 		_s_keyboard_key_packets.back()[16] = _c_keyboard_key_buttons[key][2];
 
-	}else if( _c_keycodes.find(mapping) != _c_keycodes.end() ){ // mouse buttons, special functions, ...
+	}else if( rd_mouse_wireless::_c_keycodes.find(mapping) != rd_mouse_wireless::_c_keycodes.end() ){ // mouse buttons, special functions, ...
 
-		_s_keymap_data[rd_profile_to_m913_profile(profile)][key] = _c_keycodes[mapping];
+		_s_keymap_data[rd_profile_to_m913_profile(profile)][key] = rd_mouse_wireless::_c_keycodes[mapping];
 
 	}
 	

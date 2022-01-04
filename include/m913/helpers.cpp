@@ -302,7 +302,7 @@ int mouse_m913::_i_decode_button_mapping( const std::array<uint8_t, 4>& bytes, s
 	std::stringstream mapping_stream;
 
 	// known keycode ?
-	for( auto keycode : _c_keycodes ){
+	for( auto keycode : rd_mouse_wireless::_c_keycodes ){
 		if(
 			bytes.at(0) == keycode.second.at(0) &&
 			bytes.at(1) == keycode.second.at(1) &&

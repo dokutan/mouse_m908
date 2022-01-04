@@ -30,6 +30,8 @@ target_sources(mouse_m908
         include/load_config.h
         include/rd_mouse.cpp
         include/rd_mouse.h
+        include/rd_mouse_wireless.cpp
+        include/rd_mouse_wireless.h
         include/generic/constructor.cpp
         include/generic/data.cpp
         include/generic/getters.cpp

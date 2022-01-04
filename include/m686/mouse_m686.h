@@ -20,6 +20,8 @@
 #ifndef MOUSE_M686
 #define MOUSE_M686
 
+#include "../rd_mouse_wireless.h"
+
 #include <libusb.h>
 #include <map>
 #include <array>
@@ -54,7 +56,7 @@
  * - \_s\_* for variables that describe the settings on the mouse
  * - \_c\_* for constants like keycodes, USB data, minimum and maximum values, etc. (these are not neccessarily defined as const)
  */
-class mouse_m686 : public rd_mouse{
+class mouse_m686 : public rd_mouse, protected rd_mouse_wireless {
 	
 	public:
 		
@@ -311,8 +313,6 @@ class mouse_m686 : public rd_mouse{
 
 		/// DPI → bytecode
 		static std::map< int, std::array<uint8_t,3> > _c_dpi_codes;
-		/// Values/keycodes of mouse buttons and special button functions
-		static std::map< std::string, std::array<uint8_t, 4> > _c_keycodes;
 		/// Used to identify buttons when mapping buttons to keyboard keys
 		static std::map< int, std::array<uint8_t, 3> > _c_keyboard_key_buttons;
 

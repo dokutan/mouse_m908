@@ -14,7 +14,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"3.2\""
 
 # compile
-build: m607 m686 m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o load_config.o mouse_m908.o
+build: m607 m686 m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o rd_mouse_wireless.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -109,6 +109,9 @@ data_rd.o:
 
 rd_mouse.o:
 	$(CC) -c include/rd_mouse.cpp $(CC_OPTIONS)
+
+rd_mouse_wireless.o:
+	$(CC) -c include/rd_mouse_wireless.cpp $(CC_OPTIONS)
 
 constructor_m607.o:
 	$(CC) -c include/m607/constructor.cpp $(CC_OPTIONS) -o constructor_m607.o
