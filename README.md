@@ -39,7 +39,7 @@ Name | Support | VID:PID | Additional notes
 ---|---|---|---
 Redragon M908 Impact | complete | 0x04d9:0xfc4d | 
 Redragon M719 Invader | complete | 0x04d9:0xfc4f | 
-Redragon M607 Griffin | complete | 0x04d9:0xfc38 | 
+Redragon M607 Griffin | partial | 0x04d9:0xfc38 | At least reading the  settings is not working correctly
 Redragon M711 Cobra | partial | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)
 Redragon M711 Cobra FPS | partial | 0x04d9:0xfc30 | DPI values above 10000 are not supported
 Redragon M913 | partial | 0x25a7:0xfa07<br>0x25a7:0xfa08 | See [this issue](https://github.com/dokutan/mouse_m908/issues/15)<br>- Uses a different and unique protocol<br>- Not all features are implemented
