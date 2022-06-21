@@ -28,7 +28,7 @@ const std::string mouse_m990chroma::_c_name = "990chroma";
 const uint16_t mouse_m990chroma::_c_mouse_vid = 0x04d9;
 const uint16_t mouse_m990chroma::_c_mouse_pid = 0xfc41;
 
-// Names of the physical buttons
+// Names of the physical buttons TODO! are these correct?
 std::map< int, std::string > mouse_m990chroma::_c_button_names = {
 	{ 0, "button_left" },
 	{ 1, "button_right" },

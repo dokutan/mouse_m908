@@ -95,7 +95,7 @@ int mouse_m990chroma::write_settings(){
 	}
 	//key mapping
 	for( int i = 0; i < 5; i++ ){
-		for( int j = 0; j < 8; j++ ){
+		for( int j = 0; j < 26; j++ ){ // TODO! is 25 correct?
 			buffer3[35+(8*i)+j][8] = _s_keymap_data[i][j][0];
 			buffer3[35+(8*i)+j][9] = _s_keymap_data[i][j][1];
 			buffer3[35+(8*i)+j][10] = _s_keymap_data[i][j][2];
