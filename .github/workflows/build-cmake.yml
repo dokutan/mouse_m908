@@ -8,7 +8,7 @@ on:
 jobs:
   fedora-cmake-build:
     runs-on: ubuntu-latest
-    container: fedora:34
+    container: fedora:latest
     steps:
       - uses: actions/checkout@v2
       - name: install tools and dependencies
