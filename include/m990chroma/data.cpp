@@ -28,7 +28,7 @@ const std::string mouse_m990chroma::_c_name = "990chroma";
 const uint16_t mouse_m990chroma::_c_mouse_vid = 0x04d9;
 const uint16_t mouse_m990chroma::_c_mouse_pid = 0xfc41;
 
-// Names of the physical buttons TODO! are these correct?
+// Names of the physical buttons
 std::map< int, std::string > mouse_m990chroma::_c_button_names = {
 	{ 0, "button_left" },
 	{ 1, "button_right" },
@@ -37,25 +37,24 @@ std::map< int, std::string > mouse_m990chroma::_c_button_names = {
 	{ 4, "button_dpi_up" },
 	{ 5, "button_dpi_down" },
 	{ 6, "button_mode" },
-	{ 7, "button_profile" },
-	{ 8, "button_1" },
-	{ 9, "button_2" },
-	{ 10, "button_3" },
-	{ 11, "button_4" },
-	{ 12, "button_5" },
-	{ 13, "button_6" },
-	{ 14, "button_7" },
-	{ 15, "button_8" },
-	{ 16, "button_9" },
-	{ 17, "button_10" },
-	{ 18, "button_11" },
-	{ 19, "button_12" },
-	{ 20, "button_13" },
-	{ 21, "button_14" },
-	{ 22, "button_15" },
-	{ 23, "button_16" },
-	{ 24, "scroll_up" },
-	{ 25, "scroll_down" }
+	{ 7, "button_1" },
+	{ 8, "button_2" },
+	{ 9, "button_3" },
+	{ 10, "button_4" },
+	{ 11, "button_5" },
+	{ 12, "button_6" },
+	{ 13, "button_7" },
+	{ 14, "button_8" },
+	{ 15, "button_9" },
+	{ 16, "button_10" },
+	{ 17, "button_11" },
+	{ 18, "button_12" },
+	{ 19, "button_13" },
+	{ 20, "button_14" },
+	{ 21, "button_15" },
+	{ 22, "button_16" },
+	{ 23, "scroll_up" },
+	{ 24, "scroll_down" }
 };
 
 //usb data packets
