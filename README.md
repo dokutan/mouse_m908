@@ -42,7 +42,7 @@ Redragon M719 Invader | complete | 0x04d9:0xfc4f |
 Redragon M607 Griffin | partial | 0x04d9:0xfc38 | At least reading the  settings is not working correctly
 Redragon M711 Cobra | partial | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)
 Redragon M711 Cobra FPS | partial | 0x04d9:0xfc30 | DPI values above 10000 are not supported
-Redragon M913 | partial | 0x25a7:0xfa07<br>0x25a7:0xfa08 | See [this issue](https://github.com/dokutan/mouse_m908/issues/15)<br>- Uses a different and unique protocol<br>- Not all features are implemented
+Redragon M913<br>UtechSmart Venus Pro RGB | partial | 0x25a7:0xfa07<br>0x25a7:0xfa08 | See [this issue](https://github.com/dokutan/mouse_m908/issues/15)<br>- Uses a different and unique protocol<br>- Not all features are implemented
 Redragon M686 | experimental | 0x25a7:0xfa34<br>0x25a7:0xfa35 | See [this issue](https://github.com/dokutan/mouse_m908/issues/29)
 Redragon M709 Tiger | experimental | 0x04d9:0xfc2a | See [this issue](https://github.com/dokutan/mouse_m908/issues/1)<br>- Changing the profile works<br>- Changing the settings is untested<br>- Macros are untested<br>- Reading the settings is not properly implemented due to a lack of data
 Redragon M715 Dagger | experimental | 0x04d9:0xfc39 | Nothing is tested<br>- The device specific code is copied from the M711 and mostly unmodified
