@@ -32,6 +32,7 @@ std::map< std::string, std::array<uint8_t, 4> > rd_mouse_wireless::_c_keycodes =
 	{ "keyboard_key", { 0x05, 0x00, 0x00, 0x50 } },
 	{ "none", { 0x00, 0x00, 0x00, 0x55 } },
 	{ "profile_switch", { 0x09, 0x00, 0x00, 0x4c } },
+	{ "fire", { 0x04, 0x14, 0x03, 0x3a } },
 };
 
 uint8_t rd_mouse_wireless::_i_keyboard_key_checksum(uint8_t scancode){
