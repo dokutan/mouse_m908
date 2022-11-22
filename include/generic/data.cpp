@@ -27,6 +27,7 @@ const std::string mouse_generic::_c_name = "generic";
 // usb ids for all mice with generic support
 std::set< uint16_t > mouse_generic::_c_all_vids = {
 	0x04d9, // all known mice with generic support have the same VID
+	0x062a, // except for the M601
 };
 std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc02, // M901 Perdition
@@ -48,7 +49,8 @@ std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc5c, // M721-Pro Lonewolf2
 	0xfc5e, // 2858 (?)
 	0xfc5f, // M998-RGB and M808-RGB (?)
-	0xfc61  // 2850 (?)
+	0xfc61, // 2850 (?)
+	0x5918, // M601
 };
 
 // Names of the physical buttons
