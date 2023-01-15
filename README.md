@@ -37,7 +37,7 @@ The various levels of support mean the following:
 
 Name | Support | VID:PID | Additional notes
 ---|---|---|---
-Redragon M908 Impact | complete | 0x04d9:0xfc4d | 
+Redragon M908 Impact<br>Pusat V8 | complete | 0x04d9:0xfc4d | 
 Redragon M719 Invader | complete | 0x04d9:0xfc4f | 
 Redragon M607 Griffin | partial | 0x04d9:0xfc38 | At least reading the  settings is not working correctly
 Redragon M711 Cobra | partial | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)
