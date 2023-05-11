@@ -17,6 +17,7 @@
  */
 
 #include "rd_mouse_wireless.h"
+#include <cstdint>
 
 std::map< std::string, std::array<uint8_t, 4> > rd_mouse_wireless::_c_keycodes = {
 	{ "left", { 0x01, 0x01, 0x00, 0x53 } },
