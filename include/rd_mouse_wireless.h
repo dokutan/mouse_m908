@@ -23,6 +23,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <cstdint>
 
 /**
  * This class holds data that is shared between the wireless mice.
