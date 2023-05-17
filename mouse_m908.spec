@@ -12,7 +12,7 @@ Summary: Control Redragon gaming mice from Linux, BSD and Haiku
 
 License: GPL v3
 URL:     https://github.com/dokutan/mouse_m908
-BuildRequires: gcc-c++ libusb libusb-devel make
+BuildRequires: gcc-c++ libusb1 libusb1-devel make
 Requires: libusb
 ExclusiveArch: x86_64
 
