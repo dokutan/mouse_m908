@@ -3,6 +3,8 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 
 **Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
+**This software can make your mouse unusable, read the [safety](#safety) section before using this software.**
+
 - [Status](#status)
 	- [Supported mice](#supported-mice)
 	- [Generic support](#generic-support)
@@ -70,17 +72,19 @@ If you have a mouse with experimental support, your help is needed to improve th
 If your mouse is listed as having generic support:
 - Nothing is known about this mouse, no specific code has been written
 - Please expect nothing beyond changing the active profile (other features might work if you are lucky)
+- There will be bugs, potentially preventing the mouse from working correctly
 - **Please open an issue to add complete support**
 
 ### Safety
-As the question of safety has been asked before and there is no simple answer, i have added this section, which lists known things that can make your mouse unusable and ways to fix them. You can then decide if you consider this software to be safe enough. Please read the disclaimer at the top of this document.
-- M602A-RGB
+This software can make your mouse unusable. While this is very unlikely in the case of mice with complete support, all other mice are at a higher risk.
+This section lists known problems and ways to fix them.
+- **M602A-RGB, M910-K**
   - Issue: changing the the settings on the prevents moving the mouse in the vertical direction
   - Potential solution: use the official software to restore the settings
-- Old versions of this software (fixed in newer versions)
+- **Old versions of this software (fixed in newer versions)**
   - Issue: disabling all DPI levels makes the mouse completely unresponsive
   - Solution: use the official software to restore the settings and use a recent version of this software to prevent this from happening
-- Mice with generic and untested experimental support
+- **Mice with generic or untested experimental support**
   - Issue: Changing the settings has an increased risk of similar problems as described above
   - Potential solution: have a second mouse and the official software available to restore the settings in case of an issue
 
