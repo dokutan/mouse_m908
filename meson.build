@@ -35,15 +35,13 @@ foreach device : devices
   )
 endforeach
 
-udev_dep = dependency('udev')
-udev_rules_dir = udev_dep.get_variable(pkgconfig:'udevdir')
-
-
 executable('mouse_m908', sources,
   dependencies: [libusb_dep],
   install: true,
 )
 if host_machine.system() == 'linux'
+  udev_dep = dependency('udev')
+  udev_rules_dir = udev_dep.get_variable(pkgconfig:'udevdir')
   install_data('mouse_m908.rules',
       install_dir: join_paths(udev_rules_dir, 'rules.d')
   )
