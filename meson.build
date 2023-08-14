@@ -2,7 +2,7 @@ project('mouse_m908', ['cpp', 'c'],
           version: '3.3',
     meson_version: '>= 0.59.0',
   default_options: [ 'warning_level=2',
-                     'cpp_std=gnu++2a',
+                     'cpp_std=c++17',
                    ],
 )
 
