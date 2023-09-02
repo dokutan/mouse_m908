@@ -18,3 +18,14 @@ jobs:
       - name: build mouse_m908 rpm package
         run: |
           make -j4 rpm
+
+  copr-build:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    container: ghcr.io/akdev1l/copr-build:latest
+    steps:
+      - uses: akdev1l/copr-build@v1.0.2
+        env:
+          COPR_API_TOKEN_CONFIG: ${{ secrets.COPR_API_TOKEN_CONFIG }}
+        with:
+          owner: akdev
