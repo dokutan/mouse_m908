@@ -1,9 +1,5 @@
 # Don't put rpm package in subdir see: https://stackoverflow.com/questions/2565509/rpmbuild-generates-rpm-in-which-subdirectory
 %define _build_name_fmt %{NAME}-%{VERSION}-%{RELEASE}.%{ARCH}.rpm
-# Drop the RPM in PWD
-%define _rpmdir %{getenv:PWD}
-%define _srcrpmdir %{getenv:PWD}
-%define _sourcedir %{getenv:PWD}
 
 Name: mouse_m908
 Version: 3.3
@@ -28,7 +24,7 @@ mkdir -p %{buildroot}%{_docdir}
 mkdir -p %{buildroot}%{_mandir}/man1
 mkdir -p %{buildroot}%{_sysconfdir}/udev/rules.d
 
-make -C %{_sourcedir}\
+make \
      PREFIX=%{buildroot} \
      BIN_DIR=%{buildroot}/%{_bindir} \
      ETC_DIR=%{buildroot}/etc \
@@ -49,6 +45,4 @@ rm -rf %{buildroot}
 %{_sysconfdir}/udev/rules.d/%{name}.rules
 
 %changelog
-* Sat Feb 06 2021 Alex - 3.1-1
-- first RPM release
-
+%autochangelog
