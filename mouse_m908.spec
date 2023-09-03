@@ -16,7 +16,7 @@ ExclusiveArch: x86_64
 Control Redragon gaming mice from Linux, BSD and Haiku
 
 %build
-make -C %{_sourcedir}
+make
 
 %install
 mkdir -p %{buildroot}%{_bindir}
