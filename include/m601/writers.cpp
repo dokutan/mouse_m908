@@ -23,24 +23,25 @@
 int mouse_m601::write_profile(){
 	
 	//prepare data
-	uint8_t buffer[6][16];
-	for( int i = 0; i < 6; i++ ){
-		std::copy(std::begin(_c_data_s_profile[i]), std::end(_c_data_s_profile[i]), std::begin(buffer[i]));
+	uint8_t buffer[6] = {0x05, 0x02, 0x01, 0x00, 0x00, 0x00};
+
+	//modify buffer to include specified profile
+	if( _s_profile == profile_1 ){
+		buffer[2] = 0x01;
+	}else if( _s_profile == profile_2 ){
+		buffer[2] = 0x02;
 	}
-	
-	//modify buffer from default to include specified profile
-	buffer[0][8] = _s_profile;
 	
 	//send data
 	for( int i = 0; i < 6; i++ ){
-		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0302, 0x0002, buffer[i], 16, 1000 );
+		libusb_control_transfer( _i_handle, 0x21, 0x09, 0x0305, 0x0001, buffer, 6, 1000 );
 	}
 	
 	return 0;
 }
 
 int mouse_m601::write_settings(){
-	
+	// TODO implement
 	return 0;
 }
 

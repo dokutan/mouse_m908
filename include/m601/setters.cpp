@@ -21,8 +21,13 @@
 //setter functions
 
 int mouse_m601::set_profile( rd_profile profile ){
-	_s_profile = profile;
-	return 0;
+	if( profile == profile_1 || profile == profile_2 ){
+		_s_profile = profile;
+		return 0;
+	}else{
+		// The M601 has only two profiles
+		return 1;
+	}
 }
 
 // These setters do nothing and exist only for compatibility. Use load_settings() instead.

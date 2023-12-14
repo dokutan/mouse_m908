@@ -192,9 +192,7 @@ class mouse_m601 : public rd_mouse{
 		std::array<std::array<uint8_t, 256>, 15> _s_macro_data;
 		std::array<uint8_t, 15> _s_macro_repeat;
 		
-		//usb data packets
-		/// Used for changing the active profile
-		static uint8_t _c_data_s_profile[6][16];
+		//usb data packets, TODO
 
 		/** Convert raw dpi bytes to a string representation (doesn't validate dpi value)
 		 * This function overloads the implementation from rd_mouse and supports actual DPI values.
