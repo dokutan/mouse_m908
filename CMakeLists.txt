@@ -44,7 +44,7 @@ target_sources(mouse_m908
         include/m601/data.cpp
         include/m601/getters.cpp
         include/m601/helpers.cpp
-        include/m601/mouse_m607.h
+        include/m601/mouse_m601.h
         include/m601/readers.cpp
         include/m601/setters.cpp
         include/m601/writers.cpp
