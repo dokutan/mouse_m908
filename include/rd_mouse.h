@@ -42,6 +42,7 @@
  * to use these classes.
  */
 class mouse_generic;
+class mouse_m601;
 class mouse_m607;
 class mouse_m686;
 class mouse_m709;
@@ -127,6 +128,7 @@ class rd_mouse{
 		/// This variant can hold an object for all available mice
 		typedef std::variant<
 			rd_mouse::monostate,
+			mouse_m601,
 			mouse_m607,
 			mouse_m686,
 			mouse_m709,
@@ -165,6 +167,12 @@ class rd_mouse{
 		std::map< rd_mouse::rd_lightmode, std::string >& lightmode_strings(){ return _c_lightmode_strings; }
 		/// Returns a reference to _c_report_rate_strings (report rate names)
 		std::map< rd_mouse::rd_report_rate, std::string >& report_rate_strings(){ return _c_report_rate_strings; }
+
+		/// Does nothing, exists for compatibility with the M601
+		int load_settings( std::string& config_path ){
+			(void)config_path;
+			return 1;
+		}
 
 	protected:
 		
@@ -286,6 +294,7 @@ class rd_mouse{
 #endif
 
 // include header files for the individual models
+#include "m601/mouse_m601.h"
 #include "m607/mouse_m607.h"
 #include "m686/mouse_m686.h"
 #include "m709/mouse_m709.h"

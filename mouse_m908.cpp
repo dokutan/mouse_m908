@@ -234,7 +234,12 @@ int main( int argc, char **argv ){
 					}
 					
 					// load and write config
-					if( flag_config ){
+					if( flag_config && m.get_name() == "601" ){
+						// The M601 has different features, therefore reading the config file is done in a separate method
+						std::cerr << "M601 succesfully opened, but writing a config is currently not implemented.\n";
+						m.load_settings( string_config );
+						//m.write_settings();
+					}else if( flag_config ){
 						
 						simple_ini_parser pt;
 						if( pt.read_ini( string_config ) != 0 )
