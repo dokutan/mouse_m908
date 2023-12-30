@@ -13,8 +13,3 @@ This document contains a list of thing that need to be changed or added when add
 - documentation:
 	- README (supported models)
 	- create new config in examples/
-
-## Adding support for mice with a different protocol
-In addition to the steps mentioned above:
-- Implement the open/close mouse methods in helpers.cpp
-- Optionally implement load_settings() and update the main function

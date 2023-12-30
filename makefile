@@ -14,7 +14,7 @@ LIBS != pkg-config --libs libusb-1.0
 VERSION_STRING = "\"3.3\""
 
 # compile
-build: m601 m607 m686 m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o rd_mouse_wireless.o load_config.o mouse_m908.o
+build: m607 m686 m908 m709 m711 m715 m719 m721 m913 m990 m990chroma generic data_rd.o rd_mouse.o rd_mouse_wireless.o load_config.o mouse_m908.o
 	$(CC) *.o -o mouse_m908 $(LIBS) $(CC_OPTIONS)
 
 # copy all files to their correct location
@@ -73,8 +73,6 @@ hpkg:
 	package add mouse_m908.hpkg bin documentation
 
 # targets for the different mice
-m601: constructor_m601.o data_m601.o getters_m601.o helpers_m601.o setters_m601.o writers_m601.o readers_m601.o
-
 m607: constructor_m607.o data_m607.o getters_m607.o helpers_m607.o setters_m607.o writers_m607.o readers_m607.o
 
 m686: constructor_m686.o data_m686.o getters_m686.o helpers_m686.o setters_m686.o writers_m686.o readers_m686.o
@@ -114,27 +112,6 @@ rd_mouse.o:
 
 rd_mouse_wireless.o:
 	$(CC) -c include/rd_mouse_wireless.cpp $(CC_OPTIONS)
-
-constructor_m601.o:
-	$(CC) -c include/m601/constructor.cpp $(CC_OPTIONS) -o constructor_m601.o
-
-data_m601.o:
-	$(CC) -c include/m601/data.cpp $(CC_OPTIONS) -o data_m601.o
-
-getters_m601.o:
-	$(CC) -c include/m601/getters.cpp $(CC_OPTIONS) -o getters_m601.o
-
-helpers_m601.o:
-	$(CC) -c include/m601/helpers.cpp $(CC_OPTIONS) -o helpers_m601.o
-
-setters_m601.o:
-	$(CC) -c include/m601/setters.cpp $(CC_OPTIONS) -o setters_m601.o
-
-writers_m601.o:
-	$(CC) -c include/m601/writers.cpp $(CC_OPTIONS) -o writers_m601.o
-
-readers_m601.o:
-	$(CC) -c include/m601/readers.cpp $(CC_OPTIONS) -o readers_m601.o
 
 constructor_m607.o:
 	$(CC) -c include/m607/constructor.cpp $(CC_OPTIONS) -o constructor_m607.o
