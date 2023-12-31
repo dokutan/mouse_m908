@@ -64,7 +64,7 @@ Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read 
 Redragon (?) | generic | 0x04d9:0xfc3f | [please read this](#generic-support)
 Redragon M702 Phoenix | unsupported | 0x04d9:0xfc15 | See [this issue](https://github.com/dokutan/mouse_m908/issues/21)<br>Uses a different protocol
 Redragon M801 Mammoth | unsupported | 0x04d9:0xfa56 | See [this issue](https://github.com/dokutan/mouse_m908/issues/10)<br>Uses a different protocol
-
+Redragon M601-RGB | unsupported | 0x258a:0x1007 | Use https://github.com/so1der/m601 instead of this project<br>Uses a different and unique(?) protocol
 
 If you have a mouse with experimental support, your help is needed to improve this software. Please report your results (working and non-working software).
 
