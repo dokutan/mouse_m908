@@ -94,7 +94,8 @@ This section lists known problems and ways to fix them.
 
 ### Linux
 - Install the dependencies:
-  - libusb (On some distributions (e.g. Ubuntu) a dev package is required)
+  - g++ (`sudo apt install g++`) 
+  - libusb (On some distributions (e.g. Ubuntu) a dev package is required: `sudo apt install libusb-1.0-0-dev`)
 - Clone this repo or download a release and run
 ```
 make
