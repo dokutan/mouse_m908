@@ -35,6 +35,7 @@ std::set< uint16_t > mouse_generic::_c_all_pids = {
 	0xfc30, // M711 Cobra (FPS)
 	0xfc38, // M607 Griffin
 	0xfc39, // M715 Dagger
+	0xfc2f, // M702-2 Phoenix 2
 	0xfc3f, // (?)
 	0xfc40, // M901 Perdition (3)
 	0xfc41, // M990 Legend Chroma/RGB
