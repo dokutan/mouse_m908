@@ -63,6 +63,7 @@ Redragon M801 Mammoth (RGB?) | generic | 0x04d9:0xfc56 | [please read this](#gen
 Redragon M910 Ranger | generic | 0x04d9:0xfc49 | [please read this](#generic-support)
 Redragon M998-RGB<br>Redragon M808-RGB | generic | 0x04d9:0xfc5f | [please read this](#generic-support)
 Redragon (?) | generic | 0x04d9:0xfc3f | [please read this](#generic-support)
+Redragon M902 Samsara | unsupported | 0x04d9:0xfc01 | See [this issue](https://github.com/dokutan/mouse_m908/issues/72)
 Redragon M801 Sniper Pro | unsupported | 0x25a7:0xfa0a | Likely to share a protocol with the M913 and M686 which is not fully reverse engineered
 Redragon M702 Phoenix | unsupported | 0x04d9:0xfc15 | See [this issue](https://github.com/dokutan/mouse_m908/issues/21)<br>Uses a different protocol
 Redragon M801 Mammoth | unsupported | 0x04d9:0xfa56 | See [this issue](https://github.com/dokutan/mouse_m908/issues/10)<br>Uses a different protocol
