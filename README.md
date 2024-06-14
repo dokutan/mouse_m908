@@ -1,12 +1,19 @@
 # mouse_m908
 Control Redragon gaming mice from Linux, BSD and Haiku
 
-**Disclaimer: This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
+> [!IMPORTANT]
+> **This software is not supported by the manufacturer of the hardware in any way, and relies completely on information from reverse-engineering. There is no warranty, especially in case of damage to the hardware.**
 
-**This software can make your mouse unusable, read the [safety](#safety) section before using this software.**
+> [!CAUTION]
+> **This software can make your mouse unusable, read the [safety](#safety) section before using this software.**
 
-- [Status](#status)
-	- [Supported mice](#supported-mice)
+> [!NOTE]
+> This software is no longer actively developed:
+> - Pull requests are welcome and will be merged
+> - I will not implement new features/support new mice
+> - I will try to reply to issues
+
+- [Supported mice](#supported-mice)
 	- [Generic support](#generic-support)
 	- [Safety](#safety)
 - [Installing](#installing)
@@ -24,10 +31,9 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [--kernel-driver option](#--kernel-driver-option)
 - [License](#license)
 
-## Status
+## Supported mice
 All known settings from the official software are implemented for the M908 and M719. The other mice have varying levels of support.
 
-### Supported mice
 If you have a mouse with VID 0x04d9 that is not listed below, there is a good chance that it is easy to add support. You can help to improve the support for your mouse by reporting what works and what doesn't, or by capturing the usb communication with the official software. Please open an issue.
 
 The various levels of support mean the following:
