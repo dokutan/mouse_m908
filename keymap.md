@@ -107,25 +107,13 @@ until: macro is repeated until button is pressed again
 
 ### examples
 ```
-;## macro1:while
-;# down	mouse_left
-;# delay	1
-;# up	mouse_left
-;# delay	1
+somerandombutton=macro1:while
 ```
 ```
-;## macro1:until
-;# down	mouse_left
-;# delay	1
-;# up	mouse_left
-;# delay	1
+somerandombutton=macro1:until
 ```
 ```
-;## macro1:50
-;# down	mouse_left
-;# delay	1
-;# up	mouse_left
-;# delay	1
+somerandombutton=macro1:25
 ```
 
 
