@@ -105,6 +105,30 @@ macro⟨N⟩:until
 while: macro is repeated while button is pressed 
 until: macro is repeated until button is pressed again
 
+### examples
+```
+;## macro1:while
+;# down	mouse_left
+;# delay	1
+;# up	mouse_left
+;# delay	1
+```
+```
+;## macro1:until
+;# down	mouse_left
+;# delay	1
+;# up	mouse_left
+;# delay	1
+```
+```
+;## macro1:50
+;# down	mouse_left
+;# delay	1
+;# up	mouse_left
+;# delay	1
+```
+
+
 ## Keyboard keys
 ### Modifers
 ctrl_l+
