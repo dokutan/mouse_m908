@@ -104,8 +104,9 @@ macro⟨N⟩:until
 ⟨repeats⟩ can be 1-255
 while: macro is repeated while button is pressed 
 until: macro is repeated until button is pressed again
-```
+
 ### examples
+```
 ;## macro1:while
 ;# down	mouse_left
 ;# delay	1
