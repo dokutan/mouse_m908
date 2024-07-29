@@ -20,6 +20,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [Linux](#linux)
 	- [Arch Linux](#arch-linux)
 	- [Fedora/RHEL](#fedorarhel)
+	- [NixOS](#nixos)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
 	- [Other platforms](#other-platforms)
@@ -131,6 +132,21 @@ make rpm
 - Install the resulting package by running:
 ```
 sudo dnf install ./mouse_m908*.rpm
+```
+
+### NixOS
+A [package](https://search.nixos.org/packages?channel=unstable&show=mouse_m908&from=0&size=50&sort=relevance&type=packages&query=mouse_m908) is avaliable in nixpkgs. You can add it to your config 
+- Add `mouse_m908` to your system packages
+```nix
+environment.systemPackages = with pkgs; [
+	mouse_m908 
+];
+```
+- You will also need to add it under udev packages to apply the udev rules
+```nix
+services.udev.packages = with pkgs; [ 
+    mouse_m908
+];
 ```
 
 ### OpenBSD and FreeBSD
