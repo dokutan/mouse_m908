@@ -424,7 +424,8 @@ int rd_mouse::_i_decode_macro( const std::vector< uint8_t >& macro_bytes, std::o
 				unknown_code = true;
 			
 		}
-		
+
+		// ff ff 00 has no effect but appears in default macros
 		else if( macro_bytes[i] == 0xff && macro_bytes[i+1] == 0xff && macro_bytes[i+2] == 0x00 ){
 		}
 		
