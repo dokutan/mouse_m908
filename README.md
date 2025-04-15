@@ -46,8 +46,8 @@ The various levels of support mean the following:
 
 Name | Support | VID:PID | Additional notes
 ---|---|---|---
-Redragon M908 Impact<br>Pusat V8 | complete | 0x04d9:0xfc4d | 
-Redragon M719 Invader | complete | 0x04d9:0xfc4f | 
+Redragon M908 Impact<br>Pusat V8 | complete | 0x04d9:0xfc4d |
+Redragon M719 Invader | complete | 0x04d9:0xfc4f |
 Redragon M607 Griffin | partial | 0x04d9:0xfc38 | At least reading the  settings is not working correctly
 Redragon M711 Cobra | partial | 0x04d9:0xfc30 | See [this issue](https://github.com/dokutan/mouse_m908/issues/2)
 Redragon M711 Cobra FPS | partial | 0x04d9:0xfc30 | DPI values above 10000 are not supported
@@ -135,16 +135,16 @@ sudo dnf install ./mouse_m908*.rpm
 ```
 
 ### NixOS
-A [package](https://search.nixos.org/packages?channel=unstable&show=mouse_m908&from=0&size=50&sort=relevance&type=packages&query=mouse_m908) is avaliable in nixpkgs. You can add it to your config 
+A [package](https://search.nixos.org/packages?channel=unstable&show=mouse_m908&from=0&size=50&sort=relevance&type=packages&query=mouse_m908) is avaliable in nixpkgs. You can add it to your config
 - Add `mouse_m908` to your system packages
 ```nix
 environment.systemPackages = with pkgs; [
-	mouse_m908 
+	mouse_m908
 ];
 ```
 - You will also need to add it under udev packages to apply the udev rules
 ```nix
-services.udev.packages = with pkgs; [ 
+services.udev.packages = with pkgs; [
     mouse_m908
 ];
 ```
@@ -200,9 +200,17 @@ Please note that this is currently experimental and only tested on Linux, howeve
 ## Usage
 The settings are stored in a file and applied all at once (except macros, see below). See examples/example_m*.ini and keymap.md
 
-- Apply the example configuration:
+- Apply the example configuration, except macros:
 ``
 mouse_m908 -c examples/example_m908.ini
+``
+- Send all macros from example_m908.ini:
+``
+mouse_m908 -m examples/example_m908.ini
+``
+- Send macro example.macro to slot 1:
+``
+mouse_m908 -m examples/example.macro -n 1
 ``
 - To explicitly state which mouse to open, use the ``--model`` option, e.g. for the M709
 ``
@@ -219,14 +227,6 @@ mouse_m908 -p 3
 - Get usage info:
 ``
 mouse_m908 -h
-``
-- Send macro example.macro to slot 1:
-``
-mouse_m908 -m examples/example.macro -n 1
-``
-- Send all macros from example_m908.ini:
-``
-mouse_m908 -m examples/example_m908.ini
 ``
 
 ### Macros
