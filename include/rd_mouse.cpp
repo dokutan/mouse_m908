@@ -425,8 +425,9 @@ int rd_mouse::_i_decode_macro( const std::vector< uint8_t >& macro_bytes, std::o
 			
 		}
 
-		// ff ff 00 has no effect but appears in default macros
-		else if( macro_bytes[i] == 0xff && macro_bytes[i+1] == 0xff && macro_bytes[i+2] == 0x00 ){
+		// repeat
+		else if( macro_bytes[i] == 0xff ){
+			output << prefix << "repeat\t" << (int)macro_bytes[i+1] + (int)macro_bytes[i+2]*256 << "\n";
 		}
 		
 		// padding (increment by one until a code appears)
@@ -599,6 +600,15 @@ int rd_mouse::_i_encode_macro( std::array< uint8_t, 256 >& macro_bytes, std::ist
 				data_offset += 3;
 			}
 			
+		// repeat
+		} else if( value1 == "repeat" ){
+			int count = (uint16_t)stoi( value2, 0, 10);
+			if( count >= 1 && count <= 65535 ){
+				macro_bytes[data_offset] = 0xff;
+				macro_bytes[data_offset+1] = count % 256;
+				macro_bytes[data_offset+2] = count / 256;
+				data_offset += 3;
+			}
 		}
 		
 	}
