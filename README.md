@@ -123,7 +123,7 @@ An [AUR package](https://aur.archlinux.org/packages/mouse_m908/) is available fo
 RPM Package support was added so you can install `mouse_m908` via your package manager.
 
 - Clone this repo
-- Install build dependencies: `dnf builddep mouse_m908.spec`
+- Install build dependencies: `dnf builddep mouse_m908.spec` and `dnf install -y rpkg`
 - run:
 ```
 make
