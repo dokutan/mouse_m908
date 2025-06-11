@@ -23,6 +23,7 @@ Control Redragon gaming mice from Linux, BSD and Haiku
 	- [NixOS](#nixos)
 	- [OpenBSD and FreeBSD](#openbsd-and-freebsd)
 	- [Haiku](#haiku)
+	- [macOS](#macOS)
 	- [Other platforms](#other-platforms)
 	- [CMake](#cmake)
 - [Usage](#usage)
@@ -182,6 +183,28 @@ make hpkg
 ```
 - This should create a file named mouse_m908.hpkg in the Haiku directory. The .hpkg package can be installed with HaikuDepot.
 - The --kernel-driver option is required
+
+### macOS
+
+- Install dependencies with [brew](https://brew.sh/)
+
+```
+brew install libusb cmake
+```
+
+- Compile with CMake
+
+```
+cmake -Bbuild
+cmake --build build
+```
+
+- Run mouse_m908
+- Running as root is required
+
+```
+sudo ./build/mouse_m908
+```
 
 ### Other platforms
 
