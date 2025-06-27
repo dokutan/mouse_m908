@@ -7,7 +7,7 @@ ETC_DIR = /etc
 
 # compiler options
 CC = c++
-CC_OPTIONS := -std=c++17 -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0`
+CC_OPTIONS := -std=c++17 -Wall -Wextra -O2 `pkg-config --cflags libusb-1.0` $(CXXFLAGS)
 LIBS != pkg-config --libs libusb-1.0
 
 # version string
@@ -52,7 +52,7 @@ upgrade: install
 
 # this builds a .rpm for Fedora/RHEL systems
 rpm:
-	+rpmbuild --buildroot $(PWD)/rpmbuild/BUILDROOT --define "_topdir $(PWD)/rpmbuild" -bb mouse_m908.spec
+	rpkg local
 
 # this builds .src.rpm for Fedora/RHEL systems
 src-rpm:
