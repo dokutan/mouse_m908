@@ -294,9 +294,23 @@ With these options the USB bus id and device number can be specified. This is us
 On some systems libusb might not be able to detect or detach kernel drivers, this results in a failure because the mouse can not be opened. This options skips this step.
 
 ## GUIs
-This program does not have any official or builtin graphical interface, however third-party GUIs do exist:
+Included in this repository is a feature-rich PyQt6 GUI Control Studio (`redragon_gui.py`):
+- **Sensitivity & DPI**: Adjust 5 DPI levels (100–10,000 DPI) per profile and USB polling rates.
+- **RGB Lighting**: Full color picker dialog, RGB preset buttons, animation speed, and brightness controls.
+- **Button Mapping**: Map all 10 physical mouse buttons to custom key combos, macros, or system functions.
+- **Interactive Macro Recorder**: Record live keyboard keypresses and timing delays into named macro slots (1–15).
+- **App-Specific Auto Switcher**: Automatically switch mouse hardware profiles based on the active focused application (e.g. Discord, VS Code, Chrome).
+- **Lightweight Window Switcher**: Includes a simple, zero-animation window switcher popup (`simple_switcher.py`).
+
+Launch with:
+```bash
+./launch_gui.sh
+```
+
+Other third-party GUIs:
 - https://github.com/Tayvall/m908-gui
 - https://github.com/robinsiebler/mouse-config-gui
 
 ## License
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+
