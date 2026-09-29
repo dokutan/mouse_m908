@@ -35,11 +35,11 @@ mouse_m711::mouse_m711(){
 	
 	// button mapping
 	for( int i = 0; i < 5; i++ ){
-		for( int j = 0; j < 8; j++ ){
-			_s_keymap_data[i][j][0] = _c_data_settings_3[35+(8*i)+j][8];
-			_s_keymap_data[i][j][1] = _c_data_settings_3[35+(8*i)+j][9];
-			_s_keymap_data[i][j][2] = _c_data_settings_3[35+(8*i)+j][10];
-			_s_keymap_data[i][j][3] = _c_data_settings_3[35+(8*i)+j][11];
+		for( int j = 0; j < 10; j++ ){
+			_s_keymap_data[i][j][0] = _c_data_settings_3[35+(10*i)+j][8];
+			_s_keymap_data[i][j][1] = _c_data_settings_3[35+(10*i)+j][9];
+			_s_keymap_data[i][j][2] = _c_data_settings_3[35+(10*i)+j][10];
+			_s_keymap_data[i][j][3] = _c_data_settings_3[35+(10*i)+j][11];
 		}
 	}
 	_s_report_rates.fill( r_125Hz );

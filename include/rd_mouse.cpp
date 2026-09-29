@@ -927,12 +927,13 @@ int rd_mouse::_i_encode_button_mapping( const std::string& mapping, std::array<u
 		// get key value and store everything
 		try{
 			
-			std::regex modifier_regex ("[a-z_]*\\+");
+			std::regex modifier_regex ("([a-z_]+\\+)+");
+			std::string key_part = std::regex_replace( mapping, modifier_regex, "" );
 			
 			// store values
 			bytes[0] = first_value;
 			bytes[1] = modifier_value;
-			bytes[2] = _c_keyboard_key_values[std::regex_replace( mapping, modifier_regex, "" )];
+			bytes[2] = _c_keyboard_key_values.at(key_part);
 			bytes[3] = 0x00;
 			
 		} catch( std::exception& f ){
